@@ -1,8 +1,7 @@
-package com.vinibank.backend.model
+package com.vinibank.backend.sdui.model
 
 
 import com.google.gson.annotations.SerializedName
-import kotlinx.serialization.Serializable
 
 data class ComponentModel(
     @SerializedName("staticProperty")

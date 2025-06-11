@@ -17,18 +17,16 @@ class Password : SdUiScreen {
             ComponentModel(
                 type = "topAppBar",
                 dynamicProperty = listOf(
-                    PropertyModel(name = "text", value = "Criar Senha")
-                ),
-                staticProperty = mapOf(
-                    "horizontalFillType" to "Max",
-                    "paddingHorizontal" to "20",
-                    "textAlign" to "Center",
+                    PropertyModel(name = "text", value = "Criar Senha"),
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
+                    PropertyModel(name = "textAlign", value = "Center"),
                 )
             ),
             ComponentModel(
                 type = "spacer",
-                staticProperty = mapOf(
-                    "size" to "20"
+                dynamicProperty = listOf(
+                    PropertyModel(name = "size", value = "20")
                 )
             ),
             ComponentModel(
@@ -44,20 +42,19 @@ class Password : SdUiScreen {
                         value = "",
                         id = "SignUp.PasswordScreen.passwordInput"
                     ),
-                ),
-                staticProperty = mapOf(
-                    "horizontalFillType" to "Max",
-                    "paddingHorizontal" to "20",
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
                 )
             ),
             ComponentModel(
                 type = "column",
-                staticProperty = mapOf(
-                    "horizontalAlignment" to "Center",
-                    "paddingHorizontal" to "20",
-                    "horizontalFillType" to "Max",
-                    "weight" to "1",
-                    "verticalArrangement" to "Bottom",
+                dynamicProperty = listOf(
+                    PropertyModel(name = "horizontalAlignment", value = "Center"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "verticalFillType", value = "Max"),
+                    PropertyModel(name = "weight", value = "1"),
+                    PropertyModel(name = "verticalArrangement", value = "Bottom"),
                 ),
                 components = listOf(
                     ComponentModel(
@@ -69,9 +66,7 @@ class Password : SdUiScreen {
                                 value = "false",
                                 id = "SignUp.PasswordScreen.isPasswordValid"
                             ),
-                        ),
-                        staticProperty = mapOf(
-                            "horizontalFillType" to "Max"
+                            PropertyModel(name = "horizontalFillType", value = "Max")
                         ),
                         action = ActionModel(
                             type = "continue",
@@ -85,12 +80,10 @@ class Password : SdUiScreen {
                         )
                     ),
                     ComponentModel(
-                        type = "button",
+                        type = "outlinedButton",
                         dynamicProperty = listOf(
-                            PropertyModel(name = "text", value = "Voltar")
-                        ),
-                        staticProperty = mapOf(
-                            "horizontalFillType" to "Max"
+                            PropertyModel(name = "text", value = "Voltar"),
+                            PropertyModel(name = "horizontalFillType", value = "Max")
                         ),
                         action = ActionModel(
                             type = "back"
@@ -100,8 +93,8 @@ class Password : SdUiScreen {
             ),
             ComponentModel(
                 type = "spacer",
-                staticProperty = mapOf(
-                    "size" to "20"
+                dynamicProperty = listOf(
+                    PropertyModel(name = "size", value = "20")
                 )
             )
         )

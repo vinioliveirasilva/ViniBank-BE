@@ -18,29 +18,25 @@ class PersonalInfo : SdUiScreen {
             ComponentModel(
                 type = "topAppBar",
                 dynamicProperty = listOf(
-                    PropertyModel(name = "text", value = "Informações Pessoais")
-                ),
-                staticProperty = mapOf(
-                    "horizontalFillType" to "Max",
-                    "paddingHorizontal" to "20",
-                    "textAlign" to "Center",
+                    PropertyModel(name = "text", value = "Informações Pessoais"),
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
+                    PropertyModel(name = "textAlign", value = "Center")
                 )
             ),
             ComponentModel(
                 type = "spacer",
-                staticProperty = mapOf(
-                    "size" to "20"
+                dynamicProperty = listOf(
+                    PropertyModel(name = "size", value = "20")
                 )
             ),
             ComponentModel(
-                type = "textInput",
+                type = "outlinedTextInput",
                 dynamicProperty = listOf(
-                    PropertyModel(name = "text", value = "", id = "SignUp.PersonalInfo.nameInput")
-                ),
-                staticProperty = mapOf(
-                    "horizontalFillType" to "Max",
-                    "paddingHorizontal" to "20",
-                    "label" to "Nome completo",
+                    PropertyModel(name = "text", value = "", id = "SignUp.PersonalInfo.nameInput"),
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
+                    PropertyModel(name = "label", value = "Nome completo")
                 ),
                 validators = listOf(
                     ValidatorModel(
@@ -55,20 +51,18 @@ class PersonalInfo : SdUiScreen {
             ),
             ComponentModel(
                 type = "spacer",
-                staticProperty = mapOf(
-                    "size" to "20"
+                dynamicProperty = listOf(
+                    PropertyModel(name = "size", value = "20")
                 )
             ),
             ComponentModel(
-                type = "textInput",
+                type = "outlinedTextInput",
                 dynamicProperty = listOf(
-                    PropertyModel(name = "text", value = "", id = "SignUp.PersonalInfo.documentInput")
-                ),
-                staticProperty = mapOf(
-                    "horizontalFillType" to "Max",
-                    "paddingHorizontal" to "20",
-                    "label" to "CPF",
-                    "textFormatter" to "Documento.CPF"
+                    PropertyModel(name = "text", value = "", id = "SignUp.PersonalInfo.documentInput"),
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
+                    PropertyModel(name = "label", value = "CPF"),
+                    PropertyModel(name = "textFormatter", value = "Documento.CPF")
                 ),
                 validators = listOf(
                     ValidatorModel(
@@ -83,20 +77,18 @@ class PersonalInfo : SdUiScreen {
             ),
             ComponentModel(
                 type = "spacer",
-                staticProperty = mapOf(
-                    "size" to "20"
+                dynamicProperty = listOf(
+                    PropertyModel(name = "size", value = "20")
                 )
             ),
             ComponentModel(
-                type = "textInput",
+                type = "outlinedTextInput",
                 dynamicProperty = listOf(
-                    PropertyModel(name = "text", value = "", id = "SignUp.PersonalInfo.phoneInput")
-                ),
-                staticProperty = mapOf(
-                    "horizontalFillType" to "Max",
-                    "paddingHorizontal" to "20",
-                    "label" to "Telefone",
-                    "textFormatter" to "Telefone",
+                    PropertyModel(name = "text", value = "", id = "SignUp.PersonalInfo.phoneInput"),
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
+                    PropertyModel(name = "label", value = "Telefone"),
+                    PropertyModel(name = "textFormatter", value = "Telefone")
                 ),
                 validators = listOf(
                     ValidatorModel(
@@ -111,12 +103,13 @@ class PersonalInfo : SdUiScreen {
             ),
             ComponentModel(
                 type = "column",
-                staticProperty = mapOf(
-                    "horizontalAlignment" to "Center",
-                    "paddingHorizontal" to "20",
-                    "horizontalFillType" to "Max",
-                    "weight" to "1",
-                    "verticalArrangement" to "Bottom",
+                dynamicProperty = listOf(
+                    PropertyModel(name = "horizontalAlignment", value = "Center"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "verticalFillType", value = "Max"),
+                    PropertyModel(name = "weight", value = "1"),
+                    PropertyModel(name = "verticalArrangement", value = "Bottom")
                 ),
                 components = listOf(
                     ComponentModel(
@@ -128,9 +121,7 @@ class PersonalInfo : SdUiScreen {
                                 value = "false",
                                 id = "SignUp.PersonalInfo.continueButton"
                             ),
-                        ),
-                        staticProperty = mapOf(
-                            "horizontalFillType" to "Max"
+                            PropertyModel(name = "horizontalFillType", value = "Max")
                         ),
                         action = ActionModel(
                             type = "continue",
@@ -159,12 +150,10 @@ class PersonalInfo : SdUiScreen {
                         )
                     ),
                     ComponentModel(
-                        type = "button",
+                        type = "outlinedButton",
                         dynamicProperty = listOf(
-                            PropertyModel(name = "text", value = "Voltar")
-                        ),
-                        staticProperty = mapOf(
-                            "horizontalFillType" to "Max"
+                            PropertyModel(name = "text", value = "Voltar"),
+                            PropertyModel(name = "horizontalFillType", value = "Max")
                         ),
                         action = ActionModel(
                             type = "back",
@@ -175,8 +164,8 @@ class PersonalInfo : SdUiScreen {
             ),
             ComponentModel(
                 type = "spacer",
-                staticProperty = mapOf(
-                    "size" to "20"
+                dynamicProperty = listOf(
+                    PropertyModel(name = "size", value = "20")
                 )
             )
         )

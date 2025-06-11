@@ -1,11 +1,7 @@
 package com.vinibank.backend.sdui.flow.signup.screens
 
 import com.vinibank.backend.sdui.SdUiScreen
-import com.vinibank.backend.sdui.model.ActionModel
-import com.vinibank.backend.sdui.model.ComponentModel
-import com.vinibank.backend.sdui.model.PropertyModel
-import com.vinibank.backend.sdui.model.ScreenModel
-import com.vinibank.backend.sdui.model.ValidatorModel
+import com.vinibank.backend.sdui.model.*
 
 class Email(val isError: Boolean = false) : SdUiScreen {
     override fun getScreenModel(screenData: String): ScreenModel = ScreenModel(
@@ -18,35 +14,28 @@ class Email(val isError: Boolean = false) : SdUiScreen {
             ComponentModel(
                 type = "topAppBar",
                 dynamicProperty = listOf(
-                    PropertyModel(name = "text", value = "Email")
-                ),
-                staticProperty = mapOf(
-                    "horizontalFillType" to "Max",
-                    "paddingHorizontal" to "20",
-                    "textAlign" to "Center",
+                    PropertyModel(name = "text", value = "Email"),
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
+                    PropertyModel(name = "textAlign", value = "Center")
                 )
             ),
             ComponentModel(
                 type = "spacer",
-                staticProperty = mapOf(
-                    "size" to "20"
+                dynamicProperty = listOf(
+                    PropertyModel(name = "size", value = "20")
                 )
             ),
             ComponentModel(
-                type = "textInput",
-                dynamicProperty = listOf(
+                type = "outlinedTextInput",
+                dynamicProperty = mutableListOf(
                     PropertyModel(name = "text", value = "", id = "SignUp.Email.emailInput"),
+                    PropertyModel(name = "isError", value = "$isError"),
+                    PropertyModel(name = "errorMessage", value = "Email já cadastrado"),
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
+                    PropertyModel(name = "label", value = "Digite seu email")
                 ),
-                staticProperty = mutableMapOf(
-                    "horizontalFillType" to "Max",
-                    "paddingHorizontal" to "20",
-                    "label" to "Digite seu email",
-                ).apply {
-                    if(isError) {
-                        this["isError"] = "true"
-                        this["errorMessage"] = "Email já cadastrado"
-                    }
-                },
                 validators = listOf(
                     ValidatorModel(
                         type = "emailValid",
@@ -59,12 +48,13 @@ class Email(val isError: Boolean = false) : SdUiScreen {
             ),
             ComponentModel(
                 type = "column",
-                staticProperty = mapOf(
-                    "horizontalAlignment" to "Center",
-                    "paddingHorizontal" to "20",
-                    "horizontalFillType" to "Max",
-                    "weight" to "1",
-                    "verticalArrangement" to "Bottom",
+                dynamicProperty = listOf(
+                    PropertyModel(name = "weight", value = "1"),
+                    PropertyModel(name = "horizontalAlignment", value = "Center"),
+                    PropertyModel(name = "paddingHorizontal", value = "20"),
+                    PropertyModel(name = "horizontalFillType", value = "Max"),
+                    PropertyModel(name = "verticalFillType", value = "Max"),
+                    PropertyModel(name = "verticalArrangement", value = "Bottom")
                 ),
                 components = listOf(
                     ComponentModel(
@@ -76,9 +66,7 @@ class Email(val isError: Boolean = false) : SdUiScreen {
                                 value = "false",
                                 id = "SignUp.Email.isEmailValid"
                             ),
-                        ),
-                        staticProperty = mapOf(
-                            "horizontalFillType" to "Max"
+                            PropertyModel(name = "horizontalFillType", value = "Max")
                         ),
                         action = ActionModel(
                             type = "continue",
@@ -92,12 +80,10 @@ class Email(val isError: Boolean = false) : SdUiScreen {
                         )
                     ),
                     ComponentModel(
-                        type = "button",
+                        type = "outlinedButton",
                         dynamicProperty = listOf(
-                            PropertyModel(name = "text", value = "Fechar")
-                        ),
-                        staticProperty = mapOf(
-                            "horizontalFillType" to "Max"
+                            PropertyModel(name = "text", value = "Fechar"),
+                            PropertyModel(name = "horizontalFillType", value = "Max")
                         ),
                         action = ActionModel(
                             type = "close"
@@ -107,8 +93,8 @@ class Email(val isError: Boolean = false) : SdUiScreen {
             ),
             ComponentModel(
                 type = "spacer",
-                staticProperty = mapOf(
-                    "size" to "20"
+                dynamicProperty = listOf(
+                    PropertyModel(name = "size", value = "20")
                 )
             )
         )

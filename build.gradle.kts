@@ -27,6 +27,7 @@ dependencies {
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2") // Or the latest version
 	implementation("com.google.code.gson:gson:2.10.1")
+	implementation("org.json:json:20250517")
 }
 
 tasks.withType<KotlinCompile> {

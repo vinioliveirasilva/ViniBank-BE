@@ -8,5 +8,5 @@ data class SdUiError(
     @SerializedName("code")
     val code: Int,
     @SerializedName("screen")
-    val screen: ScreenModel,
+    val screen: String,
 )

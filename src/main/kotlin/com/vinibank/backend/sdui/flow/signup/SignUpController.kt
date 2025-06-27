@@ -4,13 +4,13 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import com.vinibank.backend.db.userDatabaseInstance
 import com.vinibank.backend.sdui.flow.signup.model.CreateAccountModel
-import com.vinibank.backend.sdui.flow.signup.screens.Email
-import com.vinibank.backend.sdui.flow.signup.screens.Password
-import com.vinibank.backend.sdui.flow.signup.screens.PersonalInfo
-import com.vinibank.backend.sdui.flow.signup.screens.Success
-import com.vinibank.backend.sdui.model.ScreenModel
+import com.vinibank.backend.sdui.flow.signup.screens.EmailScreen
+import com.vinibank.backend.sdui.flow.signup.screens.PasswordScreen
+import com.vinibank.backend.sdui.flow.signup.screens.PersonalInfoScreen
+import com.vinibank.backend.sdui.flow.signup.screens.SuccessScreen
 import com.vinibank.backend.sdui.model.SdUiError
 import com.vinibank.backend.sdui.model.SdUiRequest
+import org.json.JSONObject
 import org.springframework.http.ResponseEntity
 
 class SignUpController {
@@ -27,7 +27,7 @@ class SignUpController {
     ) = getScreen(request)
 
 
-    private fun getScreen(request: SdUiRequest): Pair<ScreenModel, ResponseEntity<String>?> {
+    private fun getScreen(request: SdUiRequest): Pair<JSONObject, ResponseEntity<String>?> {
         if (request.currentStage.isBlank())
             return Pair(signUpScreens(request), null)
 
@@ -42,7 +42,7 @@ class SignUpController {
         else -> noRule(request)
     }
 
-    private fun emailRule(request: SdUiRequest): Pair<ScreenModel, ResponseEntity<String>?> {
+    private fun emailRule(request: SdUiRequest): Pair<JSONObject, ResponseEntity<String>?> {
 
         data class EmailModel(
             @SerializedName("email") val email: String,
@@ -51,12 +51,12 @@ class SignUpController {
         val model = createModel<EmailModel>(request.flowData)
 
         if (db.users.any { it.key == model.email }) {
-            val response = Email(isError = true).getScreenModel(request.flowData)
+            val response = EmailScreen(isError = true).getScreenModel(request.flowData)
             return Pair(
                 response,
                 ResponseEntity.badRequest().body(
                     gson.toJson(
-                        SdUiError("Email ja cadastrado", 400, response),
+                        SdUiError("Email ja cadastrado", 400, response.toString()),
                         SdUiError::class.java
                     )
                 )
@@ -66,22 +66,22 @@ class SignUpController {
         return Pair(signUpScreens(request), null)
     }
 
-    private fun passwordRule(request: SdUiRequest): Pair<ScreenModel, ResponseEntity<String>?> {
+    private fun passwordRule(request: SdUiRequest): Pair<JSONObject, ResponseEntity<String>?> {
         val model = createModel<CreateAccountModel>(request.flowData)
         db.addUser(model.name, model.email, model.password)
         return Pair(signUpScreens(request), null)
     }
 
-    private fun noRule(request: SdUiRequest): Pair<ScreenModel, ResponseEntity<String>?> {
+    private fun noRule(request: SdUiRequest): Pair<JSONObject, ResponseEntity<String>?> {
         return Pair(signUpScreens(request), null)
     }
 
     private fun signUpScreens(request: SdUiRequest) = when (request.nextStage) {
-        "Email" -> Email().getScreenModel(request.flowData)
-        "PersonalInfo" -> PersonalInfo().getScreenModel(request.flowData)
-        "Password" -> Password().getScreenModel(request.flowData)
-        "Success" -> Success().getScreenModel(request.flowData)
-        else -> Email().getScreenModel(request.flowData)
+        "Email" -> EmailScreen().getScreenModel(request.flowData)
+        "PersonalInfo" -> PersonalInfoScreen().getScreenModel(request.flowData)
+        "Password" -> PasswordScreen().getScreenModel(request.flowData)
+        "Success" -> SuccessScreen().getScreenModel(request.flowData)
+        else -> EmailScreen().getScreenModel(request.flowData)
     }
 
 

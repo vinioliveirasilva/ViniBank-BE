@@ -1,7 +1,7 @@
 package com.vinibank.backend.sdui
 
-import com.vinibank.backend.sdui.model.ScreenModel
+import org.json.JSONObject
 
 interface SdUiScreen {
-    fun getScreenModel(screenData: String): ScreenModel
+    fun getScreenModel(screenData: String): JSONObject
 }

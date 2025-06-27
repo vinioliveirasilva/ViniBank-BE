@@ -3,8 +3,8 @@ package com.vinibank.backend
 import com.google.gson.Gson
 import com.vinibank.backend.db.sessionDatabaseInstance
 import com.vinibank.backend.db.userDatabaseInstance
+import com.vinibank.backend.sdui.flow.home.HomeController
 import com.vinibank.backend.sdui.flow.signup.SignUpController
-import com.vinibank.backend.sdui.model.ScreenModel
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -165,6 +165,7 @@ class Application {
 
             val response = when (output.currentFlow) {
                 SignUpController.IDENTIFIER -> signUpController.getSdUiScreen(output)
+                HomeController.IDENTIFIER -> HomeController.getSdUiScreen(output)
                 else -> throw IllegalArgumentException()
             }
 
@@ -172,7 +173,7 @@ class Application {
                 Pair("", response.second)
             } else {
                 Pair(
-                    gson.toJson(response.first, ScreenModel::class.java),
+                    response.first.toString(),
                     null
                 )
             }

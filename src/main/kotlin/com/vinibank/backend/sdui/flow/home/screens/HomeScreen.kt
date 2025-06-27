@@ -140,6 +140,40 @@ object HomeScreen : SdUiScreen {
                             )
                         )
                     )
+                ),
+                "actionIcons" to listOf(
+                    mapOf(
+                        "type" to "iconButton",
+                        "properties" to listOf<String>(),
+                        "action" to mapOf(
+                            "type" to "continue",
+                            "data" to mapOf(
+                                "flowId" to "Home",
+                                "nextScreenId" to "UserDetail",
+                                "currentScreenId" to "Home"
+                            )
+                        ),
+                        "components" to listOf(
+                            mapOf(
+                                "type" to "icon",
+                                "properties" to listOf(
+                                    mapOf("name" to "icon", "value" to "User"),
+                                )
+                            )
+                        )
+                    ),
+                    mapOf(
+                        "type" to "iconButton",
+                        "properties" to listOf<String>(),
+                        "components" to listOf(
+                            mapOf(
+                                "type" to "icon",
+                                "properties" to listOf(
+                                    mapOf("name" to "icon", "value" to "Logout"),
+                                )
+                            )
+                        )
+                    )
                 )
             )
         )
@@ -197,12 +231,11 @@ object HomeScreen : SdUiScreen {
 
         val screen = JSONObject(
             mapOf(
-                "type" to "column",
-                "properties" to listOf(
-                    mapOf("name" to "horizontalFillType", "value" to "Max"),
-                    mapOf("name" to "verticalFillType", "value" to "Max"),
-                    mapOf("name" to "verticalArrangement", "value" to "SpaceBetween")
-                ),
+                "flow" to "Home",
+                "stage" to "Home",
+                "version" to "1",
+                "template" to "",
+                "shouldCache" to false,
                 "components" to listOf(
                     topBar,
                     content,

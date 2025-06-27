@@ -5,6 +5,7 @@ import com.vinibank.backend.sdui.flow.home.screens.CardsContent
 import com.vinibank.backend.sdui.flow.home.screens.CheckingAccountContent
 import com.vinibank.backend.sdui.flow.home.screens.HomeScreen
 import com.vinibank.backend.sdui.flow.home.screens.InvestmentsContent
+import com.vinibank.backend.sdui.flow.home.screens.UserDetailScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.json.JSONObject
 import org.springframework.http.ResponseEntity
@@ -26,8 +27,6 @@ object HomeController {
     }
 
     private fun getRule(request: SdUiRequest) = when (request.currentStage) {
-        "Home" -> noRule(request)
-        "ContaCorrente" -> noRule(request)
         else -> noRule(request)
     }
 
@@ -36,7 +35,7 @@ object HomeController {
     }
 
     private fun getInternalScreen(request: SdUiRequest) = when (request.nextStage) {
-        "Home" -> HomeScreen.getScreenModel(request.flowData)
+        "UserDetail" -> UserDetailScreen.getScreenModel(request.flowData)
         "ContaCorrente" -> CheckingAccountContent.getScreenModel(request.flowData)
         "Cartoes" -> CardsContent.getScreenModel(request.flowData)
         "Investimentos" -> InvestmentsContent.getScreenModel(request.flowData)

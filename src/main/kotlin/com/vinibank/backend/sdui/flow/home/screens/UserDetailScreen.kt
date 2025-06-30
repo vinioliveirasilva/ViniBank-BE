@@ -38,53 +38,84 @@ object UserDetailScreen : SdUiScreen {
             )
         )
 
-        val content = JSONObject(
+        fun menuItem(name: String, icon: String? = null) = JSONObject(
             mapOf(
-                "type" to "sdui",
+                "type" to "column",
                 "properties" to listOf(
-                    mapOf("name" to "flow", "value" to "Home"),
-                    mapOf(
-                        "name" to "stage",
-                        "value" to "ContaCorrente",
-                        "id" to "bottomNavigation.selectedDestinationContent"
-                    ),
                     mapOf("name" to "horizontalFillType", "value" to "Max"),
-                    mapOf("name" to "horizontalAlignment", "value" to "Center"),
-                    mapOf("name" to "weight", "value" to "1"),
+                    mapOf("name" to "paddingHorizontal", "value" to "20"),
                 ),
                 "components" to listOf(
                     mapOf(
-                        "type" to "text",
+                        "type" to "row",
                         "properties" to listOf(
+                            mapOf("name" to "horizontalFillType", "value" to "Max"),
+                            mapOf("name" to "paddingVertical", "value" to "10"),
+                            mapOf("name" to "horizontalArrangement", "value" to "SpaceBetween"),
+                        ),
+                        "components" to listOf(
                             mapOf(
-                                "name" to "text",
-                                "value" to "Salve",
-                                "id" to "bottomNavigation.selectedDestinationString"
+                                "type" to "row",
+                                "properties" to listOf<String>(),
+                                "components" to listOf(
+                                    icon?.let {
+                                        mapOf(
+                                            "type" to "icon",
+                                            "properties" to listOf(
+                                                mapOf("name" to "icon", "value" to it),
+                                                mapOf("name" to "paddingHorizontal", "value" to "10"),
+                                            )
+                                        )
+                                    },
+                                    mapOf(
+                                        "type" to "text",
+                                        "properties" to listOf(
+                                            mapOf("name" to "text", "value" to name),
+                                        )
+                                    ),
+                                    mapOf(
+                                        "type" to "spacer",
+                                        "properties" to listOf(
+                                            mapOf("name" to "size", "value" to "50")
+                                        ),
+                                    ),
+                                )
+                            ),
+                            mapOf(
+                                "type" to "icon",
+                                "properties" to listOf(
+                                    mapOf("name" to "icon", "value" to "RightArrow"),
+                                    mapOf("name" to "paddingHorizontal", "value" to "10"),
+                                )
                             )
                         )
-                    )
-                ),
-                "validators" to listOf(
-                    mapOf(
-                        "type" to "intToString",
-                        "id" to "bottomNavigation.selectedDestinationContent",
-                        "data" to mapOf(
-                            "0" to "ContaCorrente",
-                            "1" to "Cartoes",
-                            "2" to "Investimentos",
-                        ),
-                        "required" to listOf("bottomNavigation.selectedDestination")
                     ),
                     mapOf(
-                        "type" to "intToString",
-                        "id" to "bottomNavigation.selectedDestinationTitle",
-                        "data" to mapOf(
-                            "0" to "Home",
-                            "1" to "Card",
-                            "2" to "Investment",
-                        ),
-                        "required" to listOf("bottomNavigation.selectedDestination")
+                        "type" to "horizontalDivider",
+                        "properties" to listOf<String>()
                     )
+                ),
+                "action" to mapOf(
+                    "type" to "continue",
+                    "data" to mapOf(
+                        "flowId" to "Home",
+                        "nextScreenId" to "Home",
+                        "currentScreenId" to "UserDetail"
+                    )
+                ),
+            )
+        )
+
+        val content = JSONObject(
+            mapOf(
+                "type" to "lazyColumn",
+                "properties" to listOf(
+                    mapOf("name" to "horizontalFillType", "value" to "Max"),
+                    mapOf("name" to "weight", "value" to "1"),
+                ),
+                "components" to listOf(
+                    menuItem("teste1", "User"),
+                    menuItem("teste2", "Logout"),
                 )
             )
         )
@@ -98,7 +129,7 @@ object UserDetailScreen : SdUiScreen {
                 "shouldCache" to false,
                 "components" to listOf(
                     topBar,
-                    //content,
+                    content,
                 )
             )
         )

@@ -7,7 +7,7 @@ object HomeScreen : SdUiScreen {
     override fun getScreenModel(screenData: String): JSONObject {
         val bottomNavigation = JSONObject(
             mapOf(
-                "type" to "bottomNavigation",
+                "type" to "navigationBar",
                 "properties" to listOf(
                     mapOf(
                         "name" to "selectedDestination",

@@ -1,15 +1,22 @@
 package com.vinibank.backend.sdui.flow.signup.screens
 
+import com.google.gson.annotations.SerializedName
 import com.vinibank.backend.sdui.SdUiScreen
 import org.json.JSONObject
 
 
-class EmailScreen(val isError: Boolean = false) : SdUiScreen {
+class EmailScreen(val model: EmailStateModel = EmailStateModel()) : SdUiScreen {
+
+    data class EmailStateModel(
+        @SerializedName("email") val email: String = "",
+        @Transient val isError: Boolean = false
+    )
+
     override fun getScreenModel(screenData: String) = JSONObject(
         mapOf(
             "flow" to "SignUp",
             "stage" to "Email",
-            "version"  to "1",
+            "version" to "1",
             "template" to "",
             "shouldCache" to false,
             "components" to listOf(
@@ -34,6 +41,7 @@ class EmailScreen(val isError: Boolean = false) : SdUiScreen {
                     "properties" to listOf(
                         mapOf("name" to "verticalArrangement", "value" to "SpaceBetween"),
                         mapOf("name" to "weight", "value" to "1"),
+                        //mapOf("name" to "verticalFillType", "value" to "Max"),
                         mapOf("name" to "paddingVertical", "value" to "20"),
                     ),
                     "components" to listOf(
@@ -42,10 +50,14 @@ class EmailScreen(val isError: Boolean = false) : SdUiScreen {
                             "properties" to mutableListOf(
                                 mapOf(
                                     "name" to "text",
-                                    "value" to "",
+                                    "value" to model.email,
                                     "id" to "SignUp.Email.emailInput"
                                 ),
-                                mapOf("name" to "isError", "value" to "$isError"),
+                                mapOf(
+                                    "name" to "isError",
+                                    "value" to "${model.isError}",
+                                    "id" to "SignUp.Email.emailInput.isError"
+                                ),
                                 mapOf("name" to "errorMessage", "value" to "Email já cadastrado"),
                                 mapOf("name" to "horizontalFillType", "value" to "Max"),
                                 mapOf("name" to "paddingHorizontal", "value" to "20"),
@@ -67,7 +79,6 @@ class EmailScreen(val isError: Boolean = false) : SdUiScreen {
                                 mapOf("name" to "horizontalAlignment", "value" to "Center"),
                                 mapOf("name" to "paddingHorizontal", "value" to "20"),
                                 mapOf("name" to "horizontalFillType", "value" to "Max"),
-                                mapOf("name" to "verticalFillType", "value" to "Max"),
                             ),
                             "components" to listOf(
                                 mapOf(

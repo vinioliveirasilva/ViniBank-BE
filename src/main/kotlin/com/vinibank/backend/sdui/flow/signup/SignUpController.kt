@@ -43,15 +43,10 @@ class SignUpController {
     }
 
     private fun emailRule(request: SdUiRequest): Pair<JSONObject, ResponseEntity<String>?> {
-
-        data class EmailModel(
-            @SerializedName("email") val email: String,
-        )
-
-        val model = createModel<EmailModel>(request.flowData)
+        val model = createModel<EmailScreen.EmailStateModel>(request.flowData)
 
         if (db.users.any { it.key == model.email }) {
-            val response = EmailScreen(isError = true).getScreenModel(request.flowData)
+            val response = EmailScreen(model.copy(isError = true)).getScreenModel(request.flowData)
             return Pair(
                 response,
                 ResponseEntity.badRequest().body(

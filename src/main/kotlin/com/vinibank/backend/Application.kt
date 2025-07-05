@@ -3,6 +3,7 @@ package com.vinibank.backend
 import com.google.gson.Gson
 import com.vinibank.backend.db.sessionDatabaseInstance
 import com.vinibank.backend.db.userDatabaseInstance
+import com.vinibank.backend.sdui.flow.UndefinedController
 import com.vinibank.backend.sdui.flow.home.HomeController
 import com.vinibank.backend.sdui.flow.signup.SignUpController
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -166,7 +167,7 @@ class Application {
             val response = when (output.currentFlow) {
                 SignUpController.IDENTIFIER -> signUpController.getSdUiScreen(output)
                 HomeController.IDENTIFIER -> HomeController.getSdUiScreen(output)
-                else -> throw IllegalArgumentException()
+                else -> UndefinedController.getSdUiScreen(output)
             }
 
             if (response.second != null) {

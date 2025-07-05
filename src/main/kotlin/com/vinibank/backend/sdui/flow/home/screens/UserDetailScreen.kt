@@ -44,6 +44,7 @@ object UserDetailScreen : SdUiScreen {
                 "properties" to listOf(
                     mapOf("name" to "horizontalFillType", "value" to "Max"),
                     mapOf("name" to "paddingHorizontal", "value" to "20"),
+                    mapOf("name" to "verticalArrangement", "value" to "Center"),
                 ),
                 "components" to listOf(
                     mapOf(
@@ -52,18 +53,25 @@ object UserDetailScreen : SdUiScreen {
                             mapOf("name" to "horizontalFillType", "value" to "Max"),
                             mapOf("name" to "paddingVertical", "value" to "10"),
                             mapOf("name" to "horizontalArrangement", "value" to "SpaceBetween"),
+                            mapOf("name" to "verticalAlignment", "value" to "Center"),
                         ),
                         "components" to listOf(
                             mapOf(
                                 "type" to "row",
-                                "properties" to listOf<String>(),
-                                "components" to listOf(
+                                "properties" to listOf(
+                                    mapOf("name" to "verticalAlignment", "value" to "Center"),
+                                ),
+                                "components" to listOfNotNull(
                                     icon?.let {
                                         mapOf(
                                             "type" to "icon",
                                             "properties" to listOf(
                                                 mapOf("name" to "icon", "value" to it),
-                                                mapOf("name" to "paddingHorizontal", "value" to "10"),
+                                                mapOf(
+                                                    "name" to "paddingHorizontal",
+                                                    "value" to "10"
+                                                ),
+                                                mapOf("name" to "size", "value" to "48"),
                                             )
                                         )
                                     },
@@ -72,12 +80,6 @@ object UserDetailScreen : SdUiScreen {
                                         "properties" to listOf(
                                             mapOf("name" to "text", "value" to name),
                                         )
-                                    ),
-                                    mapOf(
-                                        "type" to "spacer",
-                                        "properties" to listOf(
-                                            mapOf("name" to "size", "value" to "50")
-                                        ),
                                     ),
                                 )
                             ),
@@ -98,8 +100,8 @@ object UserDetailScreen : SdUiScreen {
                 "action" to mapOf(
                     "type" to "continue",
                     "data" to mapOf(
-                        "flowId" to "Home",
-                        "nextScreenId" to "Home",
+                        "flowId" to "TODO",
+                        "nextScreenId" to "TODO",
                         "currentScreenId" to "UserDetail"
                     )
                 ),
@@ -114,8 +116,62 @@ object UserDetailScreen : SdUiScreen {
                     mapOf("name" to "weight", "value" to "1"),
                 ),
                 "components" to listOf(
-                    menuItem("teste1", "User"),
-                    menuItem("teste2", "Logout"),
+                    mapOf(
+                        "type" to "card",
+                        "properties" to listOf(
+                            mapOf("name" to "paddingHorizontal", "value" to "20"),
+                            mapOf("name" to "paddingVertical", "value" to "10"),
+                            mapOf("name" to "horizontalFillType", "value" to "Max"),
+                        ),
+                        "components" to listOf(
+                            mapOf(
+                                "type" to "column",
+                                "properties" to listOf(
+                                    mapOf("name" to "paddingVertical", "value" to "20"),
+                                    mapOf("name" to "horizontalAlignment", "value" to "Center"),
+                                    mapOf("name" to "horizontalFillType", "value" to "Max"),
+                                ),
+                                "components" to listOf(
+                                    mapOf(
+                                        "type" to "icon",
+                                        "properties" to listOf(
+                                            mapOf("name" to "icon", "value" to "User"),
+                                            mapOf(
+                                                "name" to "paddingVertical",
+                                                "value" to "20"
+                                            ),
+                                            mapOf("name" to "size", "value" to "96"),
+                                        )
+                                    ),
+                                    mapOf(
+                                        "type" to "text",
+                                        "properties" to listOf(
+                                            mapOf("name" to "text", "value" to "Vinicius Oliveira"),
+                                            mapOf("name" to "paddingHorizontal", "value" to "20"),
+                                        )
+                                    ),
+                                    mapOf(
+                                        "type" to "text",
+                                        "properties" to listOf(
+                                            mapOf("name" to "text", "value" to "vinioliveirasilva@hotmail.com"),
+                                            mapOf("name" to "paddingHorizontal", "value" to "20"),
+                                        )
+                                    ),
+                                    mapOf(
+                                        "type" to "text",
+                                        "properties" to listOf(
+                                            mapOf("name" to "text", "value" to "+55 11 9 77801285"),
+                                            mapOf("name" to "paddingHorizontal", "value" to "20"),
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    menuItem("Dados Pessoais", "PersonSearch"),
+                    menuItem("Privacidade de dados", "Lock"),
+                    menuItem("Tema", "Theme"),
+                    menuItem("Sair do App", "Logout"),
                 )
             )
         )

@@ -162,18 +162,6 @@ object HomeScreen : SdUiScreen {
                             )
                         )
                     ),
-                    mapOf(
-                        "type" to "iconButton",
-                        "properties" to listOf<String>(),
-                        "components" to listOf(
-                            mapOf(
-                                "type" to "icon",
-                                "properties" to listOf(
-                                    mapOf("name" to "icon", "value" to "Logout"),
-                                )
-                            )
-                        )
-                    )
                 )
             )
         )

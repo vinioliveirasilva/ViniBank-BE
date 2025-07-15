@@ -1,106 +1,95 @@
 package com.vinibank.backend.sdui.flow.signup.screens
 
 import com.vinibank.backend.sdui.SdUiScreen
-import org.json.JSONObject
+import com.vinibank.backend.sdui.flow.ScreenUtil.screen
+import com.vinibank.backend.sdui.flow.ScreenUtil.property
+import com.vinibank.backend.sdui.flow.ScreenUtil.component
+import com.vinibank.backend.sdui.flow.ScreenUtil.action
+import com.vinibank.backend.sdui.flow.ScreenUtil.jsonObject
+import kotlinx.serialization.json.JsonObject
 
 class PasswordScreen : SdUiScreen {
-    override fun getScreenModel(screenData: String) = JSONObject(
-        mapOf(
-            "flow" to "SignUp",
-            "stage" to "Password",
-            "version" to "1",
-            "template" to "",
-            "shouldCache" to true,
-            "components" to listOf(
-                mapOf(
-                    "type" to "topAppBar",
-                    "properties" to listOf(
-                        mapOf("name" to "horizontalFillType", "value" to "Max"),
-                        mapOf("name" to "paddingHorizontal", "value" to "20"),
-                        mapOf("name" to "textAlign", "value" to "Center"),
-                    ),
-                    "components" to listOf(
-                        mapOf(
-                            "type" to "text",
-                            "properties" to listOf(
-                                mapOf("name" to "text", "value" to "Criar Senha"),
-                            ),
+    override fun getScreenModel(screenData: JsonObject?): JsonObject = screen(
+        flow = "SignUp",
+        stage = "Password",
+        version = "1",
+        template = "",
+        shouldCache = false,
+        components = listOf(
+            component(
+                type = "topAppBar",
+                properties = listOf(
+                    property("horizontalFillType", "Max"),
+                    property("paddingHorizontal", "20"),
+                    property("textAlign", "Center")
+                ),
+                components = listOf(
+                    component(
+                        type = "text",
+                        properties = listOf(
+                            property("text", "Criar Senha")
                         )
                     )
+                )
+            ),
+            component(
+                type = "spacer",
+                properties = listOf(
+                    property("size", "20")
+                )
+            ),
+            component(
+                type = "createPassword",
+                properties = listOf(
+                    property("isPasswordValid", "false", "SignUp.PasswordScreen.isPasswordValid"),
+                    property("text", "", "SignUp.PasswordScreen.passwordInput"),
+                    property("horizontalFillType", "Max"),
+                    property("paddingHorizontal", "20")
+                )
+            ),
+            component(
+                type = "column",
+                properties = listOf(
+                    property("horizontalAlignment", "Center"),
+                    property("paddingHorizontal", "20"),
+                    property("horizontalFillType", "Max"),
+                    property("verticalFillType", "Max"),
+                    property("weight", "1"),
+                    property("verticalArrangement", "Bottom")
                 ),
-                mapOf(
-                    "type" to "spacer",
-                    "properties" to listOf(
-                        mapOf("name" to "size", "value" to "20")
-                    )
-                ),
-                mapOf(
-                    "type" to "createPassword",
-                    "properties" to listOf(
-                        mapOf(
-                            "name" to "isPasswordValid",
-                            "value" to "false",
-                            "id" to "SignUp.PasswordScreen.isPasswordValid"
+                components = listOf(
+                    component(
+                        type = "button",
+                        properties = listOf(
+                            property("text", "Continuar"),
+                            property("enabled", "false", "SignUp.PasswordScreen.isPasswordValid"),
+                            property("horizontalFillType", "Max")
                         ),
-                        mapOf(
-                            "name" to "text",
-                            "value" to "",
-                            "id" to "SignUp.PasswordScreen.passwordInput"
-                        ),
-                        mapOf("name" to "horizontalFillType", "value" to "Max"),
-                        mapOf("name" to "paddingHorizontal", "value" to "20"),
-                    )
-                ),
-                mapOf(
-                    "type" to "column",
-                    "properties" to listOf(
-                        mapOf("name" to "horizontalAlignment", "value" to "Center"),
-                        mapOf("name" to "paddingHorizontal", "value" to "20"),
-                        mapOf("name" to "horizontalFillType", "value" to "Max"),
-                        mapOf("name" to "verticalFillType", "value" to "Max"),
-                        mapOf("name" to "weight", "value" to "1"),
-                        mapOf("name" to "verticalArrangement", "value" to "Bottom"),
-                    ),
-                    "components" to listOf(
-                        mapOf(
-                            "type" to "button",
-                            "properties" to listOf(
-                                mapOf("name" to "text", "value" to "Continuar"),
-                                mapOf(
-                                    "name" to "enabled",
-                                    "value" to "false",
-                                    "id" to "SignUp.PasswordScreen.isPasswordValid"
-                                ),
-                                mapOf("name" to "horizontalFillType", "value" to "Max")
+                        action = action(
+                            type = "continue",
+                            data = jsonObject(
+                                "flowId" to "SignUp",
+                                "nextScreenId" to "Success",
+                                "currentScreenId" to "Password",
+                                "screenRequestData" to jsonObject("SignUp.PasswordScreen.passwordInput" to "password"),
+                                "screenData" to screenData,
                             ),
-                            "action" to mapOf(
-                                "type" to "continue",
-                                "data" to mapOf(
-                                    "flowId" to "SignUp",
-                                    "nextScreenId" to "Success",
-                                    "currentScreenId" to "Password",
-                                    "screenRequestData" to """{ "SignUp.PasswordScreen.passwordInput" : "password" }""",
-                                    "screenData" to screenData
-                                ),
-                            )
-                        ),
-                        mapOf(
-                            "type" to "outlinedButton",
-                            "properties" to listOf(
-                                mapOf("name" to "text", "value" to "Voltar"),
-                                mapOf("name" to "horizontalFillType", "value" to "Max")
-                            ),
-                            "action" to mapOf(
-                                "type" to "back"
-                            )
                         )
+                    ),
+                    component(
+                        type = "outlinedButton",
+                        properties = listOf(
+                            property("text", "Voltar"),
+                            property("horizontalFillType", "Max")
+                        ),
+                        action = action("back")
                     )
-                ),
-                mapOf(
-                    "type" to "spacer",
-                    "properties" to listOf(
-                        mapOf("name" to "size", "value" to "20")
-                    )
+                )
+            ),
+            component(
+                type = "spacer",
+                properties = listOf(
+                    property("size", "20")
                 )
             )
         )

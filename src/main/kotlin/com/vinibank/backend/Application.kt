@@ -1,13 +1,15 @@
 package com.vinibank.backend
 
-import com.google.gson.Gson
 import com.vinibank.backend.db.sessionDatabaseInstance
 import com.vinibank.backend.db.userDatabaseInstance
+import com.vinibank.backend.sdui.flow.ExampleController
 import com.vinibank.backend.sdui.flow.UndefinedController
 import com.vinibank.backend.sdui.flow.home.HomeController
+import com.vinibank.backend.sdui.flow.newcard.NewCardController
 import com.vinibank.backend.sdui.flow.signup.SignUpController
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.lang.Thread.sleep
-import java.util.*
+import java.util.Base64
 
 @Serializable
 data class User(
@@ -45,8 +47,6 @@ class Application {
     val keyAgreementGenerator = DHExchangePartner()
     val userDb = userDatabaseInstance
     val sessionDb = sessionDatabaseInstance
-    val signUpController = SignUpController()
-    val gson = Gson()
 
     private inline fun <reified T> facade(
         data: String,
@@ -66,7 +66,7 @@ class Application {
                 val input = decrypt(decoded, secret, decodedIv, sessionId).decodeToString()
 
                 val decodedObject = try {
-                    gson.fromJson(input, T::class.java)
+                    Json.decodeFromString<T>(input)
                 } catch (_: Exception) {
                     input as T
                 }
@@ -163,10 +163,12 @@ class Application {
         @RequestBody request: String
     ): ResponseEntity<String> {
         return facade<SdUiRequest>(request, iv, sessionId) { output ->
-
-            val response = when (output.currentFlow) {
-                SignUpController.IDENTIFIER -> signUpController.getSdUiScreen(output)
-                HomeController.IDENTIFIER -> HomeController.getSdUiScreen(output)
+            sleep(1000)
+            val response = when (output.flow) {
+                SignUpController.IDENTIFIER -> SignUpController.getSdUiScreen(output)
+                HomeController.IDENTIFIER -> HomeController.getSdUiScreen(output, "123@123.com")
+                NewCardController.IDENTIFIER -> NewCardController.getSdUiScreen(output)
+                ExampleController.IDENTIFIER -> ExampleController.getSdUiScreen(output)
                 else -> UndefinedController.getSdUiScreen(output)
             }
 
@@ -174,7 +176,7 @@ class Application {
                 Pair("", response.second)
             } else {
                 Pair(
-                    response.first.toString(),
+                    Json.encodeToString(response.first),
                     null
                 )
             }

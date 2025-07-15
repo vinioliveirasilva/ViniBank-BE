@@ -1,31 +1,32 @@
 package com.vinibank.backend.sdui.flow.home.screens
 
 import com.vinibank.backend.sdui.SdUiScreen
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonObject
+import com.vinibank.backend.sdui.flow.ScreenUtil.screen
+import com.vinibank.backend.sdui.flow.ScreenUtil.component
+import com.vinibank.backend.sdui.flow.ScreenUtil.property
 
 object InvestmentsContent : SdUiScreen {
-    override fun getScreenModel(screenData: String) = JSONObject(
-        mapOf(
-            "flow" to "Home",
-            "stage" to "Investimentos",
-            "version" to "1",
-            "template" to "",
-            "shouldCache" to false,
-            "components" to listOf(
-                mapOf(
-                    "type" to "lazyColumn",
-                    "properties" to listOf(
-                        mapOf("name" to "weight", "value" to "1"),
-                        mapOf("name" to "horizontalFillType", "value" to "Max"),
-                        mapOf("name" to "verticalArrangement", "value" to "Center"),
-                        mapOf("name" to "horizontalAlignment", "value" to "Center"),
-                    ),
-                    "components" to listOf(
-                        mapOf(
-                            "type" to "text",
-                            "properties" to listOf(
-                                mapOf("name" to "text", "value" to "Conteudo de investimentos")
-                            )
+    override fun getScreenModel(screenData: JsonObject?): JsonObject = screen(
+        flow = "Home",
+        stage = "Investimentos",
+        version = "1",
+        template = "",
+        shouldCache = false,
+        components = listOf(
+            component(
+                type = "lazyColumn",
+                properties = listOf(
+                    property(name = "weight", value = "1"),
+                    property(name = "horizontalFillType", value = "Max"),
+                    property(name = "verticalArrangement", value = "Center"),
+                    property(name = "horizontalAlignment", value = "Center"),
+                ),
+                components = listOf(
+                    component(
+                        type = "text",
+                        properties = listOf(
+                            property(name = "text", value = "Conteudo de investimentos")
                         )
                     )
                 )

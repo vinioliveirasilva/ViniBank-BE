@@ -1,192 +1,159 @@
 package com.vinibank.backend.sdui.flow.home.screens
 
 import com.vinibank.backend.sdui.SdUiScreen
-import org.json.JSONObject
+import com.vinibank.backend.sdui.components.topBarWithBackAction
+import com.vinibank.backend.sdui.flow.ScreenUtil.action
+import com.vinibank.backend.sdui.flow.ScreenUtil.component
+import com.vinibank.backend.sdui.flow.ScreenUtil.jsonObject
+import com.vinibank.backend.sdui.flow.ScreenUtil.property
+import com.vinibank.backend.sdui.flow.ScreenUtil.screen
+import kotlinx.serialization.json.JsonObject
 
 object UserDetailScreen : SdUiScreen {
-    override fun getScreenModel(screenData: String): JSONObject {
-        val topBar = JSONObject(
-            mapOf(
-                "type" to "topAppBar",
-                "properties" to listOf<String>(),
-                "components" to listOf(
-                    mapOf(
-                        "type" to "text",
-                        "properties" to listOf(
-                            mapOf(
-                                "name" to "text",
-                                "value" to "User Detail"
-                            )
-                        )
-                    )
-                ),
-                "navigationIcons" to listOf(
-                    mapOf(
-                        "type" to "iconButton",
-                        "properties" to listOf<String>(),
-                        "action" to mapOf("type" to "back"),
-                        "components" to listOf(
-                            mapOf(
-                                "type" to "icon",
-                                "properties" to listOf(
-                                    mapOf("name" to "icon", "value" to "LeftArrow"),
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        )
-
-        fun menuItem(name: String, icon: String? = null) = JSONObject(
-            mapOf(
-                "type" to "column",
-                "properties" to listOf(
-                    mapOf("name" to "horizontalFillType", "value" to "Max"),
-                    mapOf("name" to "paddingHorizontal", "value" to "20"),
-                    mapOf("name" to "verticalArrangement", "value" to "Center"),
-                ),
-                "components" to listOf(
-                    mapOf(
-                        "type" to "row",
-                        "properties" to listOf(
-                            mapOf("name" to "horizontalFillType", "value" to "Max"),
-                            mapOf("name" to "paddingVertical", "value" to "10"),
-                            mapOf("name" to "horizontalArrangement", "value" to "SpaceBetween"),
-                            mapOf("name" to "verticalAlignment", "value" to "Center"),
-                        ),
-                        "components" to listOf(
-                            mapOf(
-                                "type" to "row",
-                                "properties" to listOf(
-                                    mapOf("name" to "verticalAlignment", "value" to "Center"),
-                                ),
-                                "components" to listOfNotNull(
-                                    icon?.let {
-                                        mapOf(
-                                            "type" to "icon",
-                                            "properties" to listOf(
-                                                mapOf("name" to "icon", "value" to it),
-                                                mapOf(
-                                                    "name" to "paddingHorizontal",
-                                                    "value" to "10"
-                                                ),
-                                                mapOf("name" to "size", "value" to "48"),
-                                            )
-                                        )
-                                    },
-                                    mapOf(
-                                        "type" to "text",
-                                        "properties" to listOf(
-                                            mapOf("name" to "text", "value" to name),
-                                        )
-                                    ),
-                                )
-                            ),
-                            mapOf(
-                                "type" to "icon",
-                                "properties" to listOf(
-                                    mapOf("name" to "icon", "value" to "RightArrow"),
-                                    mapOf("name" to "paddingHorizontal", "value" to "10"),
-                                )
-                            )
-                        )
+    override fun getScreenModel(screenData: JsonObject?): JsonObject {
+        fun menuItem(name: String, icon: String? = null) = component(
+            type = "column",
+            properties = listOf(
+                property("horizontalFillType", "Max"),
+                property("paddingHorizontal", "20"),
+                property("verticalArrangement", "Center"),
+            ),
+            components = listOf(
+                component(
+                    type = "row",
+                    properties = listOf(
+                        property("horizontalFillType", "Max"),
+                        property("paddingVertical", "10"),
+                        property("horizontalArrangement", "SpaceBetween"),
+                        property("verticalAlignment", "Center"),
                     ),
-                    mapOf(
-                        "type" to "horizontalDivider",
-                        "properties" to listOf<String>()
+                    components = listOf(
+                        component(
+                            type = "row",
+                            properties = listOf(
+                                property("verticalAlignment", "Center"),
+                            ),
+                            components = listOfNotNull(
+                                icon?.let {
+                                    component(
+                                        type = "icon",
+                                        properties = listOf(
+                                            property("icon", it),
+                                            property(
+                                                "paddingHorizontal",
+                                                "10"
+                                            ),
+                                            property("size", "48"),
+                                        )
+                                    )
+                                },
+                                component(
+                                    type = "text",
+                                    properties = listOf(
+                                        property("text", name),
+                                    )
+                                ),
+                            )
+                        ),
+                        component(
+                            type = "icon",
+                            properties = listOf(
+                                property("icon", "RightArrow"),
+                                property("paddingHorizontal", "10"),
+                            )
+                        )
                     )
                 ),
-                "action" to mapOf(
-                    "type" to "continue",
-                    "data" to mapOf(
-                        "flowId" to "TODO",
-                        "nextScreenId" to "TODO",
-                        "currentScreenId" to "UserDetail"
-                    )
-                ),
-            )
+                component(
+                    type = "horizontalDivider",
+                    properties = listOf()
+                )
+            ),
+            action = action(
+                "continue",
+                jsonObject(
+                    "flowId" to "TODO",
+                    "nextScreenId" to "TODO",
+                    "currentScreenId" to "UserDetail"
+                )
+            ),
         )
 
-        val content = JSONObject(
-            mapOf(
-                "type" to "lazyColumn",
-                "properties" to listOf(
-                    mapOf("name" to "horizontalFillType", "value" to "Max"),
-                    mapOf("name" to "weight", "value" to "1"),
-                ),
-                "components" to listOf(
-                    mapOf(
-                        "type" to "card",
-                        "properties" to listOf(
-                            mapOf("name" to "paddingHorizontal", "value" to "20"),
-                            mapOf("name" to "paddingVertical", "value" to "10"),
-                            mapOf("name" to "horizontalFillType", "value" to "Max"),
-                        ),
-                        "components" to listOf(
-                            mapOf(
-                                "type" to "column",
-                                "properties" to listOf(
-                                    mapOf("name" to "paddingVertical", "value" to "20"),
-                                    mapOf("name" to "horizontalAlignment", "value" to "Center"),
-                                    mapOf("name" to "horizontalFillType", "value" to "Max"),
+        val content = component(
+            type = "lazyColumn",
+            properties = listOf(
+                property("horizontalFillType", "Max"),
+                property("weight", "1"),
+            ),
+            components = listOf(
+                component(
+                    type = "card",
+                    properties = listOf(
+                        property("paddingHorizontal", "20"),
+                        property("paddingVertical", "10"),
+                        property("horizontalFillType", "Max"),
+                    ),
+                    components = listOf(
+                        component(
+                            type = "column",
+                            properties = listOf(
+                                property("paddingVertical", "20"),
+                                property("horizontalAlignment", "Center"),
+                                property("horizontalFillType", "Max"),
+                            ),
+                            components = listOf(
+                                component(
+                                    type = "icon",
+                                    properties = listOf(
+                                        property("icon", "User"),
+                                        property(
+                                            "paddingVertical",
+                                            "20"
+                                        ),
+                                        property("size", "96"),
+                                    )
                                 ),
-                                "components" to listOf(
-                                    mapOf(
-                                        "type" to "icon",
-                                        "properties" to listOf(
-                                            mapOf("name" to "icon", "value" to "User"),
-                                            mapOf(
-                                                "name" to "paddingVertical",
-                                                "value" to "20"
-                                            ),
-                                            mapOf("name" to "size", "value" to "96"),
-                                        )
-                                    ),
-                                    mapOf(
-                                        "type" to "text",
-                                        "properties" to listOf(
-                                            mapOf("name" to "text", "value" to "Vinicius Oliveira"),
-                                            mapOf("name" to "paddingHorizontal", "value" to "20"),
-                                        )
-                                    ),
-                                    mapOf(
-                                        "type" to "text",
-                                        "properties" to listOf(
-                                            mapOf("name" to "text", "value" to "vinioliveirasilva@hotmail.com"),
-                                            mapOf("name" to "paddingHorizontal", "value" to "20"),
-                                        )
-                                    ),
-                                    mapOf(
-                                        "type" to "text",
-                                        "properties" to listOf(
-                                            mapOf("name" to "text", "value" to "+55 11 9 77801285"),
-                                            mapOf("name" to "paddingHorizontal", "value" to "20"),
-                                        )
+                                component(
+                                    type = "text",
+                                    properties = listOf(
+                                        property("text", "Vinicius Oliveira"),
+                                        property("paddingHorizontal", "20"),
+                                    )
+                                ),
+                                component(
+                                    type = "text",
+                                    properties = listOf(
+                                        property("text", "vinioliveirasilva@hotmail.com"),
+                                        property("paddingHorizontal", "20"),
+                                    )
+                                ),
+                                component(
+                                    type = "text",
+                                    properties = listOf(
+                                        property("text", "+55 11 9 77801285"),
+                                        property("paddingHorizontal", "20"),
                                     )
                                 )
                             )
                         )
-                    ),
-                    menuItem("Dados Pessoais", "PersonSearch"),
-                    menuItem("Privacidade de dados", "Lock"),
-                    menuItem("Tema", "Theme"),
-                    menuItem("Sair do App", "Logout"),
-                )
+                    )
+                ),
+                menuItem("Dados Pessoais", "PersonSearch"),
+                menuItem("Privacidade de dados", "Lock"),
+                menuItem("Tema", "Theme"),
+                menuItem("Sair do App", "Logout"),
             )
         )
 
-        val screen = JSONObject(
-            mapOf(
-                "flow" to "Home",
-                "stage" to "UserDetail",
-                "version" to "1",
-                "template" to "",
-                "shouldCache" to false,
-                "components" to listOf(
-                    topBar,
-                    content,
-                )
+        val screen = screen(
+            flow = "Home",
+            stage = "UserDetail",
+            version = "1",
+            template = "",
+            shouldCache = false,
+            components = listOf(
+                topBarWithBackAction("User Detail"),
+                content,
             )
         )
         return screen

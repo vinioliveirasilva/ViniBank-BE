@@ -1,12 +1,15 @@
 package com.vinibank.backend.sdui.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
 
+@Serializable
 data class SdUiError(
-    @SerializedName("message")
+    @SerialName("message")
     val message: String,
-    @SerializedName("code")
+    @SerialName("code")
     val code: Int,
-    @SerializedName("screen")
-    val screen: String,
+    @SerialName("screen")
+    val screen: JsonObject,
 )

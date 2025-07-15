@@ -1,49 +1,54 @@
 package com.vinibank.backend.sdui.flow.home
 
-import com.google.gson.Gson
-import com.vinibank.backend.sdui.flow.home.screens.CardsContent
+import com.vinibank.backend.sdui.flow.carddetail.CardsController
 import com.vinibank.backend.sdui.flow.home.screens.CheckingAccountContent
 import com.vinibank.backend.sdui.flow.home.screens.HomeScreen
 import com.vinibank.backend.sdui.flow.home.screens.InvestmentsContent
 import com.vinibank.backend.sdui.flow.home.screens.UserDetailScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonObject
 import org.springframework.http.ResponseEntity
 
 object HomeController {
     const val IDENTIFIER = "Home"
-    private val gson = Gson()
+    private lateinit var cardsController: CardsController
 
     fun getSdUiScreen(
-        request: SdUiRequest
-    ) = getScreen(request)
+        request: SdUiRequest,
+        email: String,
+    ) = getScreen(request, email)
 
 
-    private fun getScreen(request: SdUiRequest): Pair<JSONObject, ResponseEntity<String>?> {
-        if (request.currentStage.isBlank())
+    private fun getScreen(
+        request: SdUiRequest,
+        email: String,
+    ): Pair<JsonObject, ResponseEntity<String>?> {
+        if (request.toScreen.contains("Cartoes")) {
+            if (!::cardsController.isInitialized) {
+                cardsController = CardsController(email)
+            }
+            return cardsController.getSdUiScreen(request)
+        }
+
+        if (request.fromScreen.isBlank()) {
             return Pair(getInternalScreen(request), null)
-
+        }
         return getRule(request)
     }
 
-    private fun getRule(request: SdUiRequest) = when (request.currentStage) {
+    private fun getRule(request: SdUiRequest) = when (request.fromScreen) {
         else -> noRule(request)
     }
 
-    private fun noRule(request: SdUiRequest): Pair<JSONObject, ResponseEntity<String>?> {
+    private fun noRule(request: SdUiRequest): Pair<JsonObject, ResponseEntity<String>?> {
         return Pair(getInternalScreen(request), null)
     }
 
-    private fun getInternalScreen(request: SdUiRequest) = when (request.nextStage) {
-        "UserDetail" -> UserDetailScreen.getScreenModel(request.flowData)
-        "ContaCorrente" -> CheckingAccountContent.getScreenModel(request.flowData)
-        "Cartoes" -> CardsContent.getScreenModel(request.flowData)
-        "Investimentos" -> InvestmentsContent.getScreenModel(request.flowData)
-        else -> HomeScreen.getScreenModel(request.flowData)
-    }
-
-
-    private inline fun <reified T> createModel(model: String): T {
-        return gson.fromJson<T>(model, T::class.java)
+    private fun getInternalScreen(request: SdUiRequest) = when (request.toScreen) {
+        "UserDetail" -> UserDetailScreen.getScreenModel(request.screenData)
+        "ContaCorrente" -> CheckingAccountContent.getScreenModel(request.screenData)
+        "Home" -> HomeScreen.getScreenModel(request.screenData)
+        "Investimentos" -> InvestmentsContent.getScreenModel(request.screenData)
+        else -> HomeScreen.getScreenModel(request.screenData)
     }
 }

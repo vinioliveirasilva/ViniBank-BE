@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -5,7 +6,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.4"
 	kotlin("jvm") version "1.9.23"
 	kotlin("plugin.spring") version "1.9.23"
-	kotlin("plugin.serialization") version "2.1.0" // Or the latest version
+	kotlin("plugin.serialization") version "2.1.20" // Or the latest version
 }
 
 group = "com.vinibank.backend"
@@ -16,6 +17,7 @@ java {
 }
 
 repositories {
+	mavenLocal()
 	mavenCentral()
 }
 
@@ -25,15 +27,15 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2") // Or the latest version
-	implementation("com.google.code.gson:gson:2.10.1")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // Or the latest version
 	implementation("org.json:json:20250517")
+	//implementation("com.vini:designsystemsdui:0.0.1")TODO
 }
 
 tasks.withType<KotlinCompile> {
-	kotlinOptions {
-		freeCompilerArgs += "-Xjsr305=strict"
-		jvmTarget = "17"
+	compilerOptions {
+		freeCompilerArgs.add("-Xjsr305=strict")
+        jvmTarget.set(JvmTarget.JVM_17)
 	}
 }
 

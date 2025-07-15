@@ -1,7 +1,7 @@
 package com.vinibank.backend.sdui
 
-import org.json.JSONObject
+import kotlinx.serialization.json.JsonObject
 
 interface SdUiScreen {
-    fun getScreenModel(screenData: String): JSONObject
+    fun getScreenModel(screenData: JsonObject?): JsonObject
 }

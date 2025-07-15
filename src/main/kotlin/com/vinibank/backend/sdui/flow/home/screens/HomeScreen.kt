@@ -1,122 +1,128 @@
 package com.vinibank.backend.sdui.flow.home.screens
 
 import com.vinibank.backend.sdui.SdUiScreen
-import org.json.JSONObject
+import com.vinibank.backend.sdui.flow.ScreenUtil.action
+import com.vinibank.backend.sdui.flow.ScreenUtil.component
+import com.vinibank.backend.sdui.flow.ScreenUtil.jsonObject
+import com.vinibank.backend.sdui.flow.ScreenUtil.property
+import com.vinibank.backend.sdui.flow.ScreenUtil.screen
+import com.vinibank.backend.sdui.flow.ScreenUtil.validator
+import kotlinx.serialization.json.JsonObject
 
 object HomeScreen : SdUiScreen {
-    override fun getScreenModel(screenData: String): JSONObject {
-        val bottomNavigation = JSONObject(
-            mapOf(
-                "type" to "navigationBar",
-                "properties" to listOf(
-                    mapOf(
-                        "name" to "selectedDestination",
-                        "value" to "0",
-                        "id" to "bottomNavigation.selectedDestination"
+    override fun getScreenModel(screenData: JsonObject?): JsonObject {
+        val bottomNavigation = component(
+            "navigationBar",
+            properties = listOf(
+                property("selectedDestination", "0", id = "bottomNavigation.selectedDestination"),
+            ),
+            components = listOf(
+                component(
+                    "navigationBarItem",
+                    properties = listOf(
+                        property("index", "0"),
+                        property(
+                            "selectedDestination",
+                            "0",
+                            id = "bottomNavigation.selectedDestination"
+                        ),
                     ),
+                    components = listOf(
+                        component(
+                            "text",
+                            properties = listOf(
+                                property("text", "Home")
+                            )
+                        )
+                    ),
+                    customComponents = arrayOf(
+                        "selectedIcon" to listOf(
+                            component(
+                                "icon",
+                                properties = listOf(
+                                    property("icon", "Home")
+                                )
+                            )
+                        ),
+                        "unselectedIcon" to listOf(
+                            component(
+                                "icon",
+                                properties = listOf(
+                                    property("icon", "HomeOutline")
+                                )
+                            )
+                        )
+                    )
                 ),
-                "components" to listOf(
-                    mapOf(
-                        "type" to "navigationBarItem",
-                        "properties" to listOf(
-                            mapOf("name" to "index", "value" to "0"),
-                            mapOf(
-                                "name" to "selectedDestination",
-                                "value" to "0",
-                                "id" to "bottomNavigation.selectedDestination"
-                            ),
+                component(
+                    "navigationBarItem",
+                    properties = listOf(
+                        property("index", "1"),
+                        property(
+                            "selectedDestination",
+                            "1",
+                            id = "bottomNavigation.selectedDestination"
                         ),
-                        "components" to listOf(
-                            mapOf(
-                                "type" to "text",
-                                "properties" to listOf(
-                                    mapOf("name" to "text", "value" to "Home")
-                                )
-                            ),
-                        ),
-                        "selectedIcon" to listOf(
-                            mapOf(
-                                "type" to "icon",
-                                "properties" to listOf(
-                                    mapOf("name" to "icon", "value" to "Home"),
-                                )
-                            )
-                        ),
-                        "unselectedIcon" to listOf(
-                            mapOf(
-                                "type" to "icon",
-                                "properties" to listOf(
-                                    mapOf("name" to "icon", "value" to "HomeOutline"),
-                                )
+                    ),
+                    components = listOf(
+                        component(
+                            "text",
+                            properties = listOf(
+                                property("text", "Card")
                             )
                         )
                     ),
-                    mapOf(
-                        "type" to "navigationBarItem",
-                        "properties" to listOf(
-                            mapOf("name" to "index", "value" to "1"),
-                            mapOf(
-                                "name" to "selectedDestination",
-                                "value" to "1",
-                                "id" to "bottomNavigation.selectedDestination"
-                            ),
-                        ),
-                        "components" to listOf(
-                            mapOf(
-                                "type" to "text",
-                                "properties" to listOf(
-                                    mapOf("name" to "text", "value" to "Card")
-                                )
-                            )
-                        ),
+                    customComponents = arrayOf(
                         "selectedIcon" to listOf(
-                            mapOf(
-                                "type" to "icon",
-                                "properties" to listOf(
-                                    mapOf("name" to "icon", "value" to "Payment")
+                            component(
+                                "icon",
+                                properties = listOf(
+                                    property("icon", "Payment")
                                 )
                             )
                         ),
                         "unselectedIcon" to listOf(
-                            mapOf(
-                                "type" to "icon",
-                                "properties" to listOf(
-                                    mapOf("name" to "icon", "value" to "PaymentOutline")
+                            component(
+                                "icon",
+                                properties = listOf(
+                                    property("icon", "PaymentOutline")
                                 )
                             )
                         )
+                    )
+                ),
+                component(
+                    "navigationBarItem",
+                    properties = listOf(
+                        property("index", "2"),
+                        property(
+                            "selectedDestination",
+                            "2",
+                            id = "bottomNavigation.selectedDestination"
+                        ),
                     ),
-                    mapOf(
-                        "type" to "navigationBarItem",
-                        "properties" to listOf(
-                            mapOf("name" to "index", "value" to "2"),
-                            mapOf(
-                                "name" to "selectedDestination",
-                                "value" to "2",
-                                "id" to "bottomNavigation.selectedDestination"
-                            ),
-                        ),
-                        "components" to listOf(
-                            mapOf(
-                                "type" to "text",
-                                "properties" to listOf(
-                                    mapOf("name" to "text", "value" to "Investment")
-                                )
+                    components = listOf(
+                        component(
+                            "text",
+                            properties = listOf(
+                                property("text", "Investment")
                             )
-                        ),
+                        )
+                    ),
+                    customComponents = arrayOf(
                         "selectedIcon" to listOf(
-                            mapOf(
-                                "type" to "icon",
-                                "properties" to listOf(
-                                    mapOf("name" to "icon", "value" to "Investment")
+                            component(
+                                "icon",
+                                properties = listOf(
+                                    property("icon", "Investment")
                                 )
                             )
                         ),
                         "unselectedIcon" to listOf(
-                            mapOf(
-                                "type" to "icon",
-                                "properties" to listOf(
-                                    mapOf("name" to "icon", "value" to "InvestmentOutline")
+                            component(
+                                "icon",
+                                properties = listOf(
+                                    property("icon", "InvestmentOutline")
                                 )
                             )
                         )
@@ -125,39 +131,35 @@ object HomeScreen : SdUiScreen {
             )
         )
 
-        val topBar = JSONObject(
-            mapOf(
-                "type" to "topAppBar",
-                "properties" to listOf<String>(),
-                "components" to listOf(
-                    mapOf(
-                        "type" to "text",
-                        "properties" to listOf(
-                            mapOf(
-                                "name" to "text",
-                                "value" to "Home",
-                                "id" to "bottomNavigation.selectedDestinationTitle"
-                            )
-                        )
+        val topBar = component(
+            "topAppBar",
+            properties = emptyList(),
+            components = listOf(
+                component(
+                    "text",
+                    properties = listOf(
+                        property("text", "Home", id = "bottomNavigation.selectedDestinationTitle")
                     )
-                ),
+                )
+            ),
+            customComponents = arrayOf(
                 "actionIcons" to listOf(
-                    mapOf(
-                        "type" to "iconButton",
-                        "properties" to listOf<String>(),
-                        "action" to mapOf(
-                            "type" to "continue",
-                            "data" to mapOf(
+                    component(
+                        "iconButton",
+                        properties = emptyList(),
+                        action = action(
+                            "continue",
+                            jsonObject(
                                 "flowId" to "Home",
                                 "nextScreenId" to "UserDetail",
                                 "currentScreenId" to "Home"
                             )
                         ),
-                        "components" to listOf(
-                            mapOf(
-                                "type" to "icon",
-                                "properties" to listOf(
-                                    mapOf("name" to "icon", "value" to "User"),
+                        components = listOf(
+                            component(
+                                "icon",
+                                properties = listOf(
+                                    property("icon", "User")
                                 )
                             )
                         )
@@ -166,71 +168,63 @@ object HomeScreen : SdUiScreen {
             )
         )
 
-        val content = JSONObject(
-            mapOf(
-                "type" to "sdui",
-                "properties" to listOf(
-                    mapOf("name" to "flow", "value" to "Home"),
-                    mapOf(
-                        "name" to "stage",
-                        "value" to "ContaCorrente",
-                        "id" to "bottomNavigation.selectedDestinationContent"
-                    ),
-                    mapOf("name" to "horizontalFillType", "value" to "Max"),
-                    mapOf("name" to "horizontalAlignment", "value" to "Center"),
-                    mapOf("name" to "weight", "value" to "1"),
+        val content = component(
+            "sdui",
+            properties = listOf(
+                property("flow", "Home"),
+                property(
+                    "stage",
+                    "ContaCorrente",
+                    id = "bottomNavigation.selectedDestinationContent"
                 ),
-                "components" to listOf(
-                    mapOf(
-                        "type" to "text",
-                        "properties" to listOf(
-                            mapOf(
-                                "name" to "text",
-                                "value" to "Salve",
-                                "id" to "bottomNavigation.selectedDestinationString"
-                            )
-                        )
+                property("horizontalFillType", "Max"),
+                property("horizontalAlignment", "Center"),
+                property("weight", "1"),
+            ),
+            components = listOf(
+                component(
+                    "text",
+                    properties = listOf(
+                        property("text", "Salve", id = "bottomNavigation.selectedDestinationString")
                     )
-                ),
-                "validators" to listOf(
-                    mapOf(
-                        "type" to "intToString",
-                        "id" to "bottomNavigation.selectedDestinationContent",
-                        "data" to mapOf(
-                            "0" to "ContaCorrente",
-                            "1" to "Cartoes",
-                            "2" to "Investimentos",
-                        ),
-                        "required" to listOf("bottomNavigation.selectedDestination")
+                )
+            ),
+            validators = listOf(
+                validator(
+                    type = "intToString",
+                    id = "bottomNavigation.selectedDestinationContent",
+                    data = jsonObject(
+                        "0" to "ContaCorrente",
+                        "1" to "Cartoes",
+                        "2" to "Investimentos"
                     ),
-                    mapOf(
-                        "type" to "intToString",
-                        "id" to "bottomNavigation.selectedDestinationTitle",
-                        "data" to mapOf(
-                            "0" to "Home",
-                            "1" to "Card",
-                            "2" to "Investment",
-                        ),
-                        "required" to listOf("bottomNavigation.selectedDestination")
-                    )
+                    required = listOf("bottomNavigation.selectedDestination")
+                ),
+                validator(
+                    type = "intToString",
+                    id = "bottomNavigation.selectedDestinationTitle",
+                    data = jsonObject(
+                        "0" to "Home",
+                        "1" to "Card",
+                        "2" to "Investment"
+                    ),
+                    required = listOf("bottomNavigation.selectedDestination")
                 )
             )
         )
 
-        val screen = JSONObject(
-            mapOf(
-                "flow" to "Home",
-                "stage" to "Home",
-                "version" to "1",
-                "template" to "",
-                "shouldCache" to false,
-                "components" to listOf(
-                    topBar,
-                    content,
-                    bottomNavigation
-                )
+        val screenObj = screen(
+            flow = "Home",
+            stage = "Home",
+            version = "1",
+            template = "",
+            shouldCache = false,
+            components = listOf(
+                topBar,
+                content,
+                bottomNavigation
             )
         )
-        return screen
+        return screenObj
     }
 }

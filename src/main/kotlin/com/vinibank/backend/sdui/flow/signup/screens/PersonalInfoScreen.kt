@@ -1,188 +1,167 @@
 package com.vinibank.backend.sdui.flow.signup.screens
 
 import com.vinibank.backend.sdui.SdUiScreen
-import org.json.JSONObject
+import com.vinibank.backend.sdui.flow.ScreenUtil.action
+import com.vinibank.backend.sdui.flow.ScreenUtil.component
+import com.vinibank.backend.sdui.flow.ScreenUtil.jsonObject
+import com.vinibank.backend.sdui.flow.ScreenUtil.property
+import com.vinibank.backend.sdui.flow.ScreenUtil.screen
+import com.vinibank.backend.sdui.flow.ScreenUtil.validator
+import kotlinx.serialization.json.JsonObject
 
 class PersonalInfoScreen : SdUiScreen {
-    override fun getScreenModel(screenData: String) = JSONObject(
-        mapOf(
-            "flow" to "SignUp",
-            "stage" to "PersonalInfo",
-            "version" to "1",
-            "template" to "",
-            "shouldCache" to false,
-            "components" to listOf(
-                mapOf(
-                    "type" to "topAppBar",
-                    "properties" to listOf(
-                        mapOf("name" to "horizontalFillType", "value" to "Max"),
-                        mapOf("name" to "paddingHorizontal", "value" to "20"),
-                        mapOf("name" to "textAlign", "value" to "Center")
-                    ),
-                    "components" to listOf(
-                        mapOf(
-                            "type" to "text",
-                            "properties" to listOf(
-                                mapOf("name" to "text", "value" to "Informações Pessoais"),
-                            )
+    override fun getScreenModel(screenData: JsonObject?): JsonObject = screen(
+        flow = "SignUp",
+        stage = "PersonalInfo",
+        version = "1",
+        template = "",
+        shouldCache = false,
+        components = listOf(
+            component(
+                type = "topAppBar",
+                properties = listOf(
+                    property("horizontalFillType", "Max"),
+                    property("paddingHorizontal", "20"),
+                    property("textAlign", "Center")
+                ),
+                components = listOf(
+                    component(
+                        type = "text",
+                        properties = listOf(
+                            property("text", "Informações Pessoais"),
                         )
                     )
+                )
+            ),
+            component(
+                type = "spacer",
+                properties = listOf(
+                    property("size", "20")
+                )
+            ),
+            component(
+                type = "outlinedTextInput",
+                properties = listOf(
+                    property("text", "", "SignUp.PersonalInfo.nameInput"),
+                    property("horizontalFillType", "Max"),
+                    property("paddingHorizontal", "20"),
+                    property("label", "Nome completo")
                 ),
-                mapOf(
-                    "type" to "spacer",
-                    "properties" to listOf(
-                        mapOf("name" to "size", "value" to "20")
+                validators = listOf(
+                    validator(
+                        type = "minLength",
+                        id = "SignUp.PersonalInfo.isNameFilled",
+                        required = listOf("SignUp.PersonalInfo.nameInput"),
+                        data = jsonObject("length" to "3")
                     )
+                )
+            ),
+            component(
+                type = "spacer",
+                properties = listOf(
+                    property("size", "20")
+                )
+            ),
+            component(
+                type = "outlinedTextInput",
+                properties = listOf(
+                    property("text", "", "SignUp.PersonalInfo.documentInput"),
+                    property("horizontalFillType", "Max"),
+                    property("paddingHorizontal", "20"),
+                    property("label", "CPF"),
+                    property("textFormatter", "Documento.CPF")
                 ),
-                mapOf(
-                    "type" to "outlinedTextInput",
-                    "properties" to listOf(
-                        mapOf(
-                            "name" to "text",
-                            "value" to "",
-                            "id" to "SignUp.PersonalInfo.nameInput"
+                validators = listOf(
+                    validator(
+                        type = "minLength",
+                        id = "SignUp.PersonalInfo.isCpfValid",
+                        required = listOf("SignUp.PersonalInfo.documentInput"),
+                        data = jsonObject("length" to "11")
+                    )
+                )
+            ),
+            component(
+                type = "spacer",
+                properties = listOf(
+                    property("size", "20")
+                )
+            ),
+            component(
+                type = "outlinedTextInput",
+                properties = listOf(
+                    property("text", "", "SignUp.PersonalInfo.phoneInput"),
+                    property("horizontalFillType", "Max"),
+                    property("paddingHorizontal", "20"),
+                    property("label", "Telefone"),
+                    property("textFormatter", "Telefone")
+                ),
+                validators = listOf(
+                    validator(
+                        type = "minLength",
+                        id = "SignUp.PersonalInfo.isPhoneFilled",
+                        required = listOf("SignUp.PersonalInfo.phoneInput"),
+                        data = jsonObject("length" to "11")
+                    )
+                )
+            ),
+            component(
+                type = "column",
+                properties = listOf(
+                    property("horizontalAlignment", "Center"),
+                    property("paddingHorizontal", "20"),
+                    property("horizontalFillType", "Max"),
+                    property("verticalFillType", "Max"),
+                    property("weight", "1"),
+                    property("verticalArrangement", "Bottom")
+                ),
+                components = listOf(
+                    component(
+                        type = "button",
+                        properties = listOf(
+                            property("text", "Continuar"),
+                            property("enabled", "false", "SignUp.PersonalInfo.continueButton"),
+                            property("horizontalFillType", "Max")
                         ),
-                        mapOf("name" to "horizontalFillType", "value" to "Max"),
-                        mapOf("name" to "paddingHorizontal", "value" to "20"),
-                        mapOf("name" to "label", "value" to "Nome completo")
-                    ),
-                    "validators" to listOf(
-                        mapOf(
-                            "type" to "minLength",
-                            "data" to mapOf("length" to "3"),
-                            "id" to "SignUp.PersonalInfo.isNameFilled",
-                            "required" to listOf(
-                                "SignUp.PersonalInfo.nameInput",
-                            )
-                        )
-                    )
-                ),
-                mapOf(
-                    "type" to "spacer",
-                    "properties" to listOf(
-                        mapOf("name" to "size", "value" to "20")
-                    )
-                ),
-                mapOf(
-                    "type" to "outlinedTextInput",
-                    "properties" to listOf(
-                        mapOf(
-                            "name" to "text",
-                            "value" to "",
-                            "id" to "SignUp.PersonalInfo.documentInput"
-                        ),
-                        mapOf("name" to "horizontalFillType", "value" to "Max"),
-                        mapOf("name" to "paddingHorizontal", "value" to "20"),
-                        mapOf("name" to "label", "value" to "CPF"),
-                        mapOf("name" to "textFormatter", "value" to "Documento.CPF")
-                    ),
-                    "validators" to listOf(
-                        mapOf(
-                            "type" to "minLength",
-                            "data" to mapOf("length" to "11"),
-                            "id" to "SignUp.PersonalInfo.isCpfValid",
-                            "required" to listOf(
-                                "SignUp.PersonalInfo.documentInput",
-                            )
-                        )
-                    )
-                ),
-                mapOf(
-                    "type" to "spacer",
-                    "properties" to listOf(
-                        mapOf("name" to "size", "value" to "20")
-                    )
-                ),
-                mapOf(
-                    "type" to "outlinedTextInput",
-                    "properties" to listOf(
-                        mapOf(
-                            "name" to "text",
-                            "value" to "",
-                            "id" to "SignUp.PersonalInfo.phoneInput"
-                        ),
-                        mapOf("name" to "horizontalFillType", "value" to "Max"),
-                        mapOf("name" to "paddingHorizontal", "value" to "20"),
-                        mapOf("name" to "label", "value" to "Telefone"),
-                        mapOf("name" to "textFormatter", "value" to "Telefone")
-                    ),
-                    "validators" to listOf(
-                        mapOf(
-                            "type" to "minLength",
-                            "data" to mapOf("length" to "11"),
-                            "id" to "SignUp.PersonalInfo.isPhoneFilled",
-                            "required" to listOf(
-                                "SignUp.PersonalInfo.phoneInput",
-                            )
-                        )
-                    )
-                ),
-                mapOf(
-                    "type" to "column",
-                    "properties" to listOf(
-                        mapOf("name" to "horizontalAlignment", "value" to "Center"),
-                        mapOf("name" to "paddingHorizontal", "value" to "20"),
-                        mapOf("name" to "horizontalFillType", "value" to "Max"),
-                        mapOf("name" to "verticalFillType", "value" to "Max"),
-                        mapOf("name" to "weight", "value" to "1"),
-                        mapOf("name" to "verticalArrangement", "value" to "Bottom")
-                    ),
-                    "components" to listOf(
-                        mapOf(
-                            "type" to "button",
-                            "properties" to listOf(
-                                mapOf("name" to "text", "value" to "Continuar"),
-                                mapOf(
-                                    "name" to "enabled",
-                                    "value" to "false",
-                                    "id" to "SignUp.PersonalInfo.continueButton"
+                        action = action(
+                            type = "continue",
+                            data = jsonObject(
+                                "flowId" to "SignUp",
+                                "nextScreenId" to "Password",
+                                "currentScreenId" to "PersonalInfo",
+                                "screenRequestData" to jsonObject(
+                                    "SignUp.PersonalInfo.nameInput" to "name",
+                                    "SignUp.PersonalInfo.documentInput" to "document",
+                                    "SignUp.PersonalInfo.phoneInput" to "phone"
                                 ),
-                                mapOf("name" to "horizontalFillType", "value" to "Max")
-                            ),
-                            "action" to mapOf(
-                                "type" to "continue",
-                                "data" to mapOf(
-                                    "flowId" to "SignUp",
-                                    "nextScreenId" to "Password",
-                                    "currentScreenId" to "PersonalInfo",
-                                    "screenRequestData" to """{ 
-                                    "SignUp.PersonalInfo.nameInput" : "name",
-                                    "SignUp.PersonalInfo.documentInput" : "document", 
-                                    "SignUp.PersonalInfo.phoneInput" : "phone" 
-                                }""".trimMargin(),
-                                    "screenData" to screenData
-                                ),
-                            ),
-                            "validators" to listOf(
-                                mapOf(
-                                    "type" to "allTrue",
-                                    "id" to "SignUp.PersonalInfo.continueButton",
-                                    "required" to listOf(
-                                        "SignUp.PersonalInfo.isNameFilled",
-                                        "SignUp.PersonalInfo.isCpfValid",
-                                        "SignUp.PersonalInfo.isPhoneFilled",
-                                    )
+                                "screenData" to screenData,
+                            )
+                        ),
+                        validators = listOf(
+                            validator(
+                                type = "allTrue",
+                                id = "SignUp.PersonalInfo.continueButton",
+                                required = listOf(
+                                    "SignUp.PersonalInfo.isNameFilled",
+                                    "SignUp.PersonalInfo.isCpfValid",
+                                    "SignUp.PersonalInfo.isPhoneFilled"
                                 )
                             )
-                        ),
-                        mapOf(
-                            "type" to "outlinedButton",
-                            "properties" to listOf(
-                                mapOf("name" to "text", "value" to "Voltar"),
-                                mapOf("name" to "horizontalFillType", "value" to "Max")
-                            ),
-                            "action" to mapOf(
-                                "type" to "back",
-                                "data" to mapOf<String, String>()
-                            )
                         )
+                    ),
+                    component(
+                        type = "outlinedButton",
+                        properties = listOf(
+                            property("text", "Voltar"),
+                            property("horizontalFillType", "Max")
+                        ),
+                        action = action(type = "back")
                     )
-                ),
-                mapOf(
-                    "type" to "spacer",
-                    "properties" to listOf(
-                        mapOf("name" to "size", "value" to "20")
-                    )
+                )
+            ),
+            component(
+                type = "spacer",
+                properties = listOf(
+                    property("size", "20")
                 )
             )
         )

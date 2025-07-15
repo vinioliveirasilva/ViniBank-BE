@@ -1,19 +1,19 @@
 package com.vinibank.backend.db
 
-import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.io.InputStream
 
+@Serializable
 data class User(
-    @SerializedName("name") val name: String,
-    @SerializedName("email") val email: String,
-    @SerializedName("password") val password: String,
+    @SerialName("name") val name: String,
+    @SerialName("email") val email: String,
+    @SerialName("password") val password: String,
 )
 
 class UserDatabase {
-
-    val gson = Gson()
-
     val users: MutableMap<String, User> = mutableMapOf()
 
     init {
@@ -28,7 +28,7 @@ class UserDatabase {
                     val email = parts.first().trim()
                     val model = parts.last().trim()
 
-                    users[email] = gson.fromJson(model, User::class.java)
+                    users[email] = Json.decodeFromString(model)
                 }
             }
         }
@@ -36,7 +36,7 @@ class UserDatabase {
 
     private fun loadUsersFromResource() {
         val inputStream = javaClass.getResourceAsStream("/userDb.csv")
-        inputStream?.run {  loadUsersFromCsv(this) }
+        inputStream?.run { loadUsersFromCsv(this) }
     }
 
     private fun saveUserToCsv(user: User, filePath: String = "src/main/resources/userDb.csv") {
@@ -47,7 +47,7 @@ class UserDatabase {
                 if (writeHeader) {
                     append("email,model\n")
                 }
-                append("${user.email} -> ${gson.toJson(user)}\n")
+                append("${user.email} -> ${Json.encodeToString(user)}\n")
             }
         )
     }

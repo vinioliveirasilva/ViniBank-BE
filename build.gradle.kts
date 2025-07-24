@@ -28,7 +28,6 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3") // Or the latest version
-	implementation("org.json:json:20250517")
 	//implementation("com.vini:designsystemsdui:0.0.1")TODO
 }
 

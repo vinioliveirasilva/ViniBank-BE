@@ -65,15 +65,17 @@ class PasswordScreen : SdUiScreen {
                             property("enabled", "false", "SignUp.PasswordScreen.isPasswordValid"),
                             property("horizontalFillType", "Max")
                         ),
-                        action = action(
-                            type = "continue",
-                            data = jsonObject(
-                                "flowId" to "SignUp",
-                                "nextScreenId" to "Success",
-                                "currentScreenId" to "Password",
-                                "screenRequestData" to jsonObject("SignUp.PasswordScreen.passwordInput" to "password"),
-                                "screenData" to screenData,
-                            ),
+                        actions = listOf(
+                            action(
+                                type = "continue",
+                                data = jsonObject(
+                                    "flowId" to "SignUp",
+                                    "nextScreenId" to "Success",
+                                    "currentScreenId" to "Password",
+                                    "screenRequestData" to jsonObject("SignUp.PasswordScreen.passwordInput" to "password"),
+                                    "screenData" to screenData,
+                                ),
+                            )
                         )
                     ),
                     component(
@@ -82,7 +84,9 @@ class PasswordScreen : SdUiScreen {
                             property("text", "Voltar"),
                             property("horizontalFillType", "Max")
                         ),
-                        action = action("back")
+                        actions = listOf(
+                            action("back")
+                        )
                     )
                 )
             ),

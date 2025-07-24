@@ -83,11 +83,13 @@ object IntroScreen : SdUiScreen {
                 ),
             )
         ),
-        action = action(
-            "toInt",
-            data = jsonObject(
-                "id" to "CardsContent.SelectedCardIndex",
-                "value" to index.toString(),
+        actions = listOf(
+            action(
+                "toInt",
+                data = jsonObject(
+                    "id" to "CardsContent.SelectedCardIndex",
+                    "value" to index.toString(),
+                )
             )
         )
     )

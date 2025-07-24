@@ -13,7 +13,7 @@ import kotlinx.serialization.Transient
 import kotlinx.serialization.json.JsonObject
 
 
-class EmailScreen(val model: EmailStateModel = EmailStateModel("")) : SdUiScreen {
+class EmailScreen(val model: EmailStateModel = EmailStateModel("123@123.ggh")) : SdUiScreen {
 
     @Serializable
     data class EmailStateModel(
@@ -89,14 +89,16 @@ class EmailScreen(val model: EmailStateModel = EmailStateModel("")) : SdUiScreen
                                     property("enabled", "false", "SignUp.Email.isEmailValid"),
                                     property("horizontalFillType", "Max")
                                 ),
-                                action = action(
-                                    type = "continue",
-                                    data = jsonObject(
-                                        "flowId" to "SignUp",
-                                        "nextScreenId" to "PersonalInfo",
-                                        "currentScreenId" to "Email",
-                                        "screenRequestData" to jsonObject("SignUp.Email.emailInput" to "email"),
-                                        "screenData" to screenData,
+                                actions = listOf(
+                                    action(
+                                        type = "continue",
+                                        data = jsonObject(
+                                            "flowId" to "SignUp",
+                                            "nextScreenId" to "PersonalInfo",
+                                            "currentScreenId" to "Email",
+                                            "screenRequestData" to jsonObject("SignUp.Email.emailInput" to "email"),
+                                            "screenData" to screenData,
+                                        )
                                     )
                                 )
                             ),
@@ -106,7 +108,9 @@ class EmailScreen(val model: EmailStateModel = EmailStateModel("")) : SdUiScreen
                                     property("text", "Fechar"),
                                     property("horizontalFillType", "Max")
                                 ),
-                                action = action("close")
+                                actions = listOf(
+                                    action("close")
+                                )
                             )
                         )
                     )

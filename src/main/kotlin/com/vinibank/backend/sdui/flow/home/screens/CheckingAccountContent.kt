@@ -29,11 +29,13 @@ object CheckingAccountContent : SdUiScreen {
                         )
                     )
                 ),
-                action(
-                    "toBoolean",
-                    jsonObject(
-                        "id" to "123123",
-                        "value" to "true",
+                actions = listOf(
+                    action(
+                        "toBoolean",
+                        jsonObject(
+                            "id" to "123123",
+                            "value" to "true",
+                        )
                     )
                 )
             ),
@@ -134,11 +136,13 @@ object CheckingAccountContent : SdUiScreen {
                         listOf(
                             property("text", "Balance"),
                         ),
-                        action = action(
-                            "toBoolean",
-                            jsonObject(
-                                "id" to "123abc",
-                                "value" to "true"
+                        actions = listOf(
+                            action(
+                                "toBoolean",
+                                jsonObject(
+                                    "id" to "123abc",
+                                    "value" to "true"
+                                )
                             )
                         )
                     ),
@@ -236,11 +240,13 @@ object CheckingAccountContent : SdUiScreen {
                                                         )
                                                     )
                                                 ),
-                                                action(
-                                                    "toBoolean",
-                                                    jsonObject(
-                                                        "id" to "123abc",
-                                                        "value" to "true",
+                                                listOf(
+                                                    action(
+                                                        "toBoolean",
+                                                        jsonObject(
+                                                            "id" to "123abc",
+                                                            "value" to "true",
+                                                        )
                                                     )
                                                 )
                                             ),
@@ -275,11 +281,13 @@ object CheckingAccountContent : SdUiScreen {
                                                         )
                                                     )
                                                 ),
-                                                action(
-                                                    "toBoolean",
-                                                    jsonObject(
-                                                        "id" to "123abc1",
-                                                        "value" to "true",
+                                                listOf(
+                                                    action(
+                                                        "toBoolean",
+                                                        jsonObject(
+                                                            "id" to "123abc1",
+                                                            "value" to "true",
+                                                        )
                                                     )
                                                 )
                                             ),

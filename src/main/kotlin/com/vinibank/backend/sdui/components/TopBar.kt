@@ -24,7 +24,9 @@ private fun topBarWithAction(title: String, action: String, actionIcon: String) 
         "navigationIcons" to listOf(
             component(
                 "iconButton",
-                action = action(action),
+                actions = listOf(
+                    action(action)
+                ),
                 components = listOf(
                     component(
                         "icon",

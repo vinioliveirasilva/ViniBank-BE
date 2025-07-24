@@ -68,12 +68,14 @@ object Billing : SdUiScreen {
                 )
             )
         ),
-        action = action(
-            type = "continue",
-            jsonObject(
-                "flowId" to "Home",
-                "nextScreenId" to "Cartoes/card2/billing/1",
-                "currentScreenId" to "Cartoes/card2/billing"
+        actions = listOf(
+            action(
+                type = "continue",
+                jsonObject(
+                    "flowId" to "Home",
+                    "nextScreenId" to "Cartoes/card2/billing/1",
+                    "currentScreenId" to "Cartoes/card2/billing"
+                )
             )
         )
     )

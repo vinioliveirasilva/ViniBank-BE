@@ -69,7 +69,8 @@ class PersonalInfoScreen : SdUiScreen {
                     property("horizontalFillType", "Max"),
                     property("paddingHorizontal", "20"),
                     property("label", "CPF"),
-                    property("textFormatter", "Documento.CPF")
+                    property("visualTransformation", "Documento.CPF"),
+                    property("keyboardOptions", "Documento.CPF")
                 ),
                 validators = listOf(
                     validator(
@@ -93,7 +94,8 @@ class PersonalInfoScreen : SdUiScreen {
                     property("horizontalFillType", "Max"),
                     property("paddingHorizontal", "20"),
                     property("label", "Telefone"),
-                    property("textFormatter", "Telefone")
+                    property("visualTransformation", "Telefone"),
+                    property("keyboardOptions", "Telefone")
                 ),
                 validators = listOf(
                     validator(
@@ -119,21 +121,23 @@ class PersonalInfoScreen : SdUiScreen {
                         type = "button",
                         properties = listOf(
                             property("text", "Continuar"),
-                            property("enabled", "false", "SignUp.PersonalInfo.continueButton"),
+                            property("enabled", "true", "SignUp.PersonalInfo.continueButton1"),
                             property("horizontalFillType", "Max")
                         ),
-                        action = action(
-                            type = "continue",
-                            data = jsonObject(
-                                "flowId" to "SignUp",
-                                "nextScreenId" to "Password",
-                                "currentScreenId" to "PersonalInfo",
-                                "screenRequestData" to jsonObject(
-                                    "SignUp.PersonalInfo.nameInput" to "name",
-                                    "SignUp.PersonalInfo.documentInput" to "document",
-                                    "SignUp.PersonalInfo.phoneInput" to "phone"
-                                ),
-                                "screenData" to screenData,
+                        actions = listOf(
+                            action(
+                                type = "continue",
+                                data = jsonObject(
+                                    "flowId" to "SignUp",
+                                    "nextScreenId" to "Password",
+                                    "currentScreenId" to "PersonalInfo",
+                                    "screenRequestData" to jsonObject(
+                                        "SignUp.PersonalInfo.nameInput" to "name",
+                                        "SignUp.PersonalInfo.documentInput" to "document",
+                                        "SignUp.PersonalInfo.phoneInput" to "phone"
+                                    ),
+                                    "screenData" to screenData,
+                                )
                             )
                         ),
                         validators = listOf(
@@ -154,7 +158,9 @@ class PersonalInfoScreen : SdUiScreen {
                             property("text", "Voltar"),
                             property("horizontalFillType", "Max")
                         ),
-                        action = action(type = "back")
+                        actions = listOf(
+                            action(type = "back")
+                        )
                     )
                 )
             ),

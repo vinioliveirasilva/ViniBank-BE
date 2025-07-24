@@ -27,7 +27,9 @@ object BillingItem : SdUiScreen {
                             )
                         )
                     ),
-                    action = action("back"),
+                    actions = listOf(
+                        action("back")
+                    ),
                 ),
             )
         )

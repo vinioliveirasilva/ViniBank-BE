@@ -5,6 +5,7 @@ import com.vinibank.backend.db.userDatabaseInstance
 import com.vinibank.backend.sdui.flow.ExampleController
 import com.vinibank.backend.sdui.flow.UndefinedController
 import com.vinibank.backend.sdui.flow.home.HomeController
+import com.vinibank.backend.sdui.flow.login.LoginController
 import com.vinibank.backend.sdui.flow.newcard.NewCardController
 import com.vinibank.backend.sdui.flow.signup.SignUpController
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -44,7 +45,7 @@ data class Error(
 @RestController
 @SpringBootApplication
 class Application {
-    val keyAgreementGenerator = DHExchangePartner()
+    val keyAgreementGenerator = FastKeyExchangeManager()
     val userDb = userDatabaseInstance
     val sessionDb = sessionDatabaseInstance
 
@@ -52,21 +53,22 @@ class Application {
         data: String,
         iv: String,
         sessionId: String,
-        action: (T) -> Pair<String, ResponseEntity<String>?>
+        action: (T) -> Pair<String, ResponseEntity<String>?>,
     ): ResponseEntity<String> {
         val decodedIv = Base64.getDecoder().decode(iv)
         val decoded = Base64.getDecoder().decode(data)
 
-        CryptoManager().run {
+        keyAgreementGenerator.run {
             sessionDb.sessions[sessionId].run {
                 if (this == null) return ResponseEntity.badRequest()
                     .body(createError("Session not found", 400))
 
-                val secret = this
-                val input = decrypt(decoded, secret, decodedIv, sessionId).decodeToString()
+                println(decodedIv)
+                val (input, decryptIv) = decrypt(decoded, decodedIv, this)
+                println(decryptIv)
 
                 val decodedObject = try {
-                    Json.decodeFromString<T>(input)
+                    Json.decodeFromString<T>(input.decodeToString())
                 } catch (_: Exception) {
                     input as T
                 }
@@ -79,9 +81,11 @@ class Application {
 
                 val (result, newIv) = encrypt(
                     toEncrypt,
-                    secret,
-                    sessionId
+                    decryptIv,
+                    this
                 )
+                println(newIv)
+                println("---")
 
                 return ResponseEntity
                     .ok()
@@ -111,7 +115,7 @@ class Application {
     fun authenticate(
         @RequestHeader(value = "iv") iv: String,
         @RequestHeader(value = "sessionId") sessionId: String,
-        @RequestBody data: String
+        @RequestBody data: String,
     ): ResponseEntity<String> {
         sleep(2000)
         return facade<User>(data, iv, sessionId) { output ->
@@ -137,16 +141,29 @@ class Application {
 
     @RequestMapping("/initialize")
     fun startHandShake(@RequestHeader(value = "publicKey") publicKey: String): ResponseEntity<String> {
-        val newSessionId = (sessionDb.sessions.keys.lastOrNull() ?: "0").toInt().inc()
-        val result = keyAgreementGenerator.let {
-            val alicePubKeyForBob =
-                it.createPublicKeyFromEncodedMaterial(Base64.getDecoder().decode(publicKey))
-            val bobKpair = it.createPersonalDHKeypairAndInitAgreement(alicePubKeyForBob)
-            it.phaseOne(alicePubKeyForBob)
+        val newSessionId = (sessionDb.sessions.keys.lastOrNull() ?: "0").toInt().inc().toString()
+        val result = if (false) {
+            keyAgreementGenerator.let {
+                //val alicePubKeyForBob = it.createPublicKeyFromEncodedMaterial(Base64.getDecoder().decode(publicKey))
+                //val bobKpair = it.createPersonalDHKeypairAndInitAgreement(alicePubKeyForBob)
+                //it.phaseOne(alicePubKeyForBob)
 
-            sessionDb.addSession(newSessionId.toString(), it.generateSharedSecret().asHex())
+                //sessionDb.addSession(newSessionId.toString(), it.generateSharedSecret())
 
-            Base64.getEncoder().encodeToString(bobKpair.public.encoded)
+                //Base64.getEncoder().encodeToString(bobKpair.public.encoded)
+                ""
+            }
+        } else {
+            keyAgreementGenerator.let {
+                sessionDb.addSession(
+                    newSessionId,
+                    it.createPublicKeyAndRunPhaseOne(
+                        Base64.getDecoder().decode(publicKey),
+                        newSessionId
+                    )
+                )
+                it.generateSecret()
+            }
         }
 
         return ResponseEntity
@@ -160,12 +177,13 @@ class Application {
     fun getSdUiScreen(
         @RequestHeader(value = "iv") iv: String,
         @RequestHeader(value = "sessionId") sessionId: String,
-        @RequestBody request: String
+        @RequestBody request: String,
     ): ResponseEntity<String> {
         return facade<SdUiRequest>(request, iv, sessionId) { output ->
             sleep(1000)
             val response = when (output.flow) {
                 SignUpController.IDENTIFIER -> SignUpController.getSdUiScreen(output)
+                LoginController.IDENTIFIER -> LoginController.getSdUiScreen(output)
                 HomeController.IDENTIFIER -> HomeController.getSdUiScreen(output, "123@123.com")
                 NewCardController.IDENTIFIER -> NewCardController.getSdUiScreen(output)
                 ExampleController.IDENTIFIER -> ExampleController.getSdUiScreen(output)

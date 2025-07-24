@@ -69,12 +69,14 @@ object UserDetailScreen : SdUiScreen {
                     properties = listOf()
                 )
             ),
-            action = action(
-                "continue",
-                jsonObject(
-                    "flowId" to "TODO",
-                    "nextScreenId" to "TODO",
-                    "currentScreenId" to "UserDetail"
+            actions = listOf(
+                action(
+                    "continue",
+                    jsonObject(
+                        "flowId" to "TODO",
+                        "nextScreenId" to "TODO",
+                        "currentScreenId" to "UserDetail"
+                    )
                 )
             ),
         )

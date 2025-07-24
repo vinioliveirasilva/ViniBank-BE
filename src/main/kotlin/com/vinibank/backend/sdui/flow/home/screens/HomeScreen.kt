@@ -147,12 +147,14 @@ object HomeScreen : SdUiScreen {
                     component(
                         "iconButton",
                         properties = emptyList(),
-                        action = action(
-                            "continue",
-                            jsonObject(
-                                "flowId" to "Home",
-                                "nextScreenId" to "UserDetail",
-                                "currentScreenId" to "Home"
+                        actions = listOf(
+                            action(
+                                "continue",
+                                jsonObject(
+                                    "flowId" to "Home",
+                                    "nextScreenId" to "UserDetail",
+                                    "currentScreenId" to "Home"
+                                )
                             )
                         ),
                         components = listOf(

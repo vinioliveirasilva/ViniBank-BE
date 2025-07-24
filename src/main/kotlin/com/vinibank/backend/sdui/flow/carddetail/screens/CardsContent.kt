@@ -50,10 +50,12 @@ class CardsContent(private val cards: List<Card>) : SdUiScreen {
                 ),
             )
         ),
-        action = action(
-            "navigate",
-            jsonObject(
-                "flow" to "NewCard"
+        actions = listOf(
+            action(
+                "navigate",
+                jsonObject(
+                    "flow" to "NewCard"
+                )
             )
         )
     )
@@ -128,11 +130,13 @@ class CardsContent(private val cards: List<Card>) : SdUiScreen {
                 ),
             )
         ),
-        action = action(
-            "toInt",
-            data = jsonObject(
-                "id" to "CardsContent.SelectedCardIndex",
-                "value" to index.toString(),
+        actions = listOf(
+            action(
+                "toInt",
+                data = jsonObject(
+                    "id" to "CardsContent.SelectedCardIndex",
+                    "value" to index.toString(),
+                )
             )
         )
     )

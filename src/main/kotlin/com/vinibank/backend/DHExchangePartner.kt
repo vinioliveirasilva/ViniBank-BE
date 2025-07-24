@@ -6,7 +6,6 @@ import java.security.KeyPairGenerator
 import java.security.spec.X509EncodedKeySpec
 import javax.crypto.KeyAgreement
 import javax.crypto.interfaces.DHPublicKey
-import javax.crypto.spec.DHParameterSpec
 
 class DHExchangePartner() {
 
@@ -38,7 +37,7 @@ class DHExchangePartner() {
         keyAgreement.doPhase(partnerPublicKey, true)
     }
 
-    fun generateSharedSecret(): ByteArray = keyAgreement.generateSecret()
+    fun generateSharedSecret(): String = keyAgreement.generateSecret().asHex()
 
     companion object {
         const val ALGORITHM = "DH"

@@ -71,12 +71,14 @@ object GoldCardDetails : SdUiScreen {
                 )
             )
         ),
-        action = action(
-            "continue",
-            jsonObject(
-                "flowId" to "Home",
-                "nextScreenId" to "Cartoes/card2/billing",
-                "currentScreenId" to "Cartoes/card2",
+        actions = listOf(
+            action(
+                "continue",
+                jsonObject(
+                    "flowId" to "Home",
+                    "nextScreenId" to "Cartoes/card2/billing",
+                    "currentScreenId" to "Cartoes/card2",
+                )
             )
         )
     )

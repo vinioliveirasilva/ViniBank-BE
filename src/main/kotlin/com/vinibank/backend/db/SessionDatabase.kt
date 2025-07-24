@@ -2,10 +2,11 @@ package com.vinibank.backend.db
 
 import java.io.File
 import java.io.InputStream
+import java.util.Base64
 
 class SessionDatabase {
 
-    val sessions = mutableMapOf<String, String>()
+    val sessions = mutableMapOf<String, ByteArray>()
 
     init {
         loadUsersFromResource()
@@ -19,7 +20,7 @@ class SessionDatabase {
                     val sessionId = parts.first().trim()
                     val secret = parts.last().trim()
 
-                    sessions[sessionId] = secret
+                    sessions[sessionId] = Base64.getDecoder().decode(secret)
                 }
             }
         }
@@ -30,7 +31,7 @@ class SessionDatabase {
         inputStream?.run {  loadUsersFromCsv(this) }
     }
 
-    private fun saveUserToCsv(sessionId: String, secret: String) {
+    private fun saveUserToCsv(sessionId: String, secret: ByteArray) {
         val file = File("src/main/resources/sessionDb.csv")
         val writeHeader = !file.exists()
         file.appendText(
@@ -38,12 +39,12 @@ class SessionDatabase {
                 if (writeHeader) {
                     append("session,secret\n")
                 }
-                append("${sessionId} -> ${secret}\n")
+                append("$sessionId -> ${Base64.getEncoder().encodeToString(secret)}\n")
             }
         )
     }
 
-    fun addSession(sessionId: String, secret: String) {
+    fun addSession(sessionId: String, secret: ByteArray) {
         saveUserToCsv(sessionId, secret)
         sessions[sessionId] = secret
     }

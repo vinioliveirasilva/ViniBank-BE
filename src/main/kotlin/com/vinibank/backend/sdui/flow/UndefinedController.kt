@@ -16,7 +16,7 @@ object UndefinedController {
 
 
     private fun getScreen(request: SdUiRequest): Pair<JsonObject, ResponseEntity<String>?> {
-        return Pair(undefinedScreen.getScreenModel(JsonObject(emptyMap())), null)
+        return Pair(undefinedScreen.getScreenModel(null), null)
     }
 
     val undefinedScreen = object : SdUiScreen {

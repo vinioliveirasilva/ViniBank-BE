@@ -181,14 +181,7 @@ class Application {
     ): ResponseEntity<String> {
         return facade<SdUiRequest>(request, iv, sessionId) { output ->
             sleep(1000)
-            val response = when (output.flow) {
-                SignUpController.IDENTIFIER -> SignUpController.getSdUiScreen(output)
-                LoginController.IDENTIFIER -> LoginController.getSdUiScreen(output)
-                HomeController.IDENTIFIER -> HomeController.getSdUiScreen(output, "123@123.com")
-                NewCardController.IDENTIFIER -> NewCardController.getSdUiScreen(output)
-                ExampleController.IDENTIFIER -> ExampleController.getSdUiScreen(output)
-                else -> UndefinedController.getSdUiScreen(output)
-            }
+            val response = internalRouting(output)
 
             if (response.second != null) {
                 Pair("", response.second)
@@ -199,6 +192,15 @@ class Application {
                 )
             }
         }
+    }
+
+    private fun internalRouting(sdUiRequest: SdUiRequest) = when (sdUiRequest.flow) {
+        SignUpController.IDENTIFIER -> SignUpController.getSdUiScreen(sdUiRequest)
+        LoginController.IDENTIFIER -> LoginController.getSdUiScreen(sdUiRequest)
+        HomeController.IDENTIFIER -> HomeController.getSdUiScreen(sdUiRequest, "123@123.com")
+        NewCardController.IDENTIFIER -> NewCardController.getSdUiScreen(sdUiRequest)
+        ExampleController.IDENTIFIER -> ExampleController.getSdUiScreen(sdUiRequest)
+        else -> UndefinedController.getSdUiScreen(sdUiRequest)
     }
 
     fun createError(errorMessage: String, code: Int): String {

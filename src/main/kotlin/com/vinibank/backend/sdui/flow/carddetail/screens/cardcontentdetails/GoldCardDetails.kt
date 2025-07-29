@@ -209,7 +209,7 @@ object GoldCardDetails : SdUiScreen {
         "",
         "",
         true,
-        listOf(
+        components = listOf(
             component(
                 "column",
                 listOf(

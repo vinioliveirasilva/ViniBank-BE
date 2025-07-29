@@ -14,16 +14,16 @@ object HomeScreen : SdUiScreen {
         val bottomNavigation = component(
             "navigationBar",
             properties = listOf(
-                property("selectedDestination", "0", id = "bottomNavigation.selectedDestination"),
+                property("selectedDestination", 0, id = "bottomNavigation.selectedDestination"),
             ),
             components = listOf(
                 component(
                     "navigationBarItem",
                     properties = listOf(
-                        property("index", "0"),
+                        property("index", 0),
                         property(
                             "selectedDestination",
-                            "0",
+                            0,
                             id = "bottomNavigation.selectedDestination"
                         ),
                     ),
@@ -57,10 +57,10 @@ object HomeScreen : SdUiScreen {
                 component(
                     "navigationBarItem",
                     properties = listOf(
-                        property("index", "1"),
+                        property("index", 1),
                         property(
                             "selectedDestination",
-                            "1",
+                            1,
                             id = "bottomNavigation.selectedDestination"
                         ),
                     ),
@@ -94,10 +94,10 @@ object HomeScreen : SdUiScreen {
                 component(
                     "navigationBarItem",
                     properties = listOf(
-                        property("index", "2"),
+                        property("index", 2),
                         property(
                             "selectedDestination",
-                            "2",
+                            2,
                             id = "bottomNavigation.selectedDestination"
                         ),
                     ),
@@ -126,7 +126,7 @@ object HomeScreen : SdUiScreen {
                                 )
                             )
                         )
-                    )
+                    ),
                 )
             )
         )
@@ -181,15 +181,8 @@ object HomeScreen : SdUiScreen {
                 ),
                 property("horizontalFillType", "Max"),
                 property("horizontalAlignment", "Center"),
-                property("weight", "1"),
-            ),
-            components = listOf(
-                component(
-                    "text",
-                    properties = listOf(
-                        property("text", "Salve", id = "bottomNavigation.selectedDestinationString")
-                    )
-                )
+                property("weight", 1),
+                property("requestUpdate", false, "requestUpdate"),
             ),
             validators = listOf(
                 validator(
@@ -220,7 +213,7 @@ object HomeScreen : SdUiScreen {
             stage = "Home",
             version = "1",
             template = "",
-            shouldCache = false,
+            shouldCache = true,
             components = listOf(
                 topBar,
                 content,

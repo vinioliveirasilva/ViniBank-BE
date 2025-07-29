@@ -86,7 +86,7 @@ object Billing : SdUiScreen {
         "",
         "",
         false,
-        listOf(
+        components = listOf(
             component(
                 "lazyColumn",
                 listOf(

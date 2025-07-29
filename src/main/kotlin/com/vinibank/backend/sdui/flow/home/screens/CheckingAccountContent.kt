@@ -1,14 +1,15 @@
 package com.vinibank.backend.sdui.flow.home.screens
 
-import com.vinibank.backend.sdui.SdUiScreen
+import com.vinibank.backend.sdui.SdUiScreen2
 import com.vinibank.backend.sdui.flow.ScreenUtil.action
 import com.vinibank.backend.sdui.flow.ScreenUtil.component
 import com.vinibank.backend.sdui.flow.ScreenUtil.jsonObject
 import com.vinibank.backend.sdui.flow.ScreenUtil.property
 import com.vinibank.backend.sdui.flow.ScreenUtil.screen
+import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.json.JsonObject
 
-object CheckingAccountContent : SdUiScreen {
+object CheckingAccountContent : SdUiScreen2 {
     fun actionIcon(name: String, icon: String) = component(
         "column",
         listOf(
@@ -112,13 +113,13 @@ object CheckingAccountContent : SdUiScreen {
         )
     )
 
-    override fun getScreenModel(screenData: JsonObject?): JsonObject = screen(
+    override fun getScreenModel(screenData: JsonObject?, internal: (SdUiRequest) -> List<JsonObject>): JsonObject = screen(
         "Home",
         "ContaCorrente",
         "1",
         "",
         false,
-        listOf(
+        components = listOf(
             component(
                 "dialog",
                 listOf(
@@ -179,35 +180,27 @@ object CheckingAccountContent : SdUiScreen {
                                 "card",
                                 listOf(
                                     property("paddingVertical", "10"),
+                                    property("height", "90"),
                                 ),
                                 listOf(
                                     component(
                                         "column",
                                         listOf(
-                                            property("paddingHorizontal", "10"),
-                                            property("paddingVertical", "10"),
                                             property("horizontalAlignment", "Center"),
-                                            property("horizontalFillType", "Max"),
+                                            property("verticalArrangement", "Center"),
+                                            property("verticalFillType", "Max"),
                                         ),
                                         listOf(
                                             component(
-                                                "text",
-                                                listOf(
-                                                    property("text", "Balance"),
-                                                )
+                                                "sdui",
+                                                properties = listOf(
+                                                    property("flow", "Home"),
+                                                    property("stage", "Balance"),
+                                                    property("requestUpdate", false, "requestUpdate1"),
+                                                    property("horizontalFillType", "Max"),
+                                                ),
+                                                components = internal(SdUiRequest("Home", "ContaCorrente", "Balance", screenData)),
                                             ),
-                                            component(
-                                                "text",
-                                                listOf(
-                                                    property("text", "R$ 100,00"),
-                                                )
-                                            ),
-                                            component(
-                                                "text",
-                                                listOf(
-                                                    property("text", "updated 10 min ago"),
-                                                )
-                                            )
                                         )
                                     )
                                 )

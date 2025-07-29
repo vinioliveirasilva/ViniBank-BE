@@ -13,7 +13,7 @@ import kotlinx.serialization.Transient
 import kotlinx.serialization.json.JsonObject
 
 
-class EmailScreen(val model: EmailStateModel = EmailStateModel("123@123.ggh")) : SdUiScreen {
+class EmailScreen(val model: EmailStateModel = EmailStateModel("0@gmail.com")) : SdUiScreen {
 
     @Serializable
     data class EmailStateModel(
@@ -86,7 +86,7 @@ class EmailScreen(val model: EmailStateModel = EmailStateModel("123@123.ggh")) :
                                 type = "button",
                                 properties = listOf(
                                     property("text", "Continuar"),
-                                    property("enabled", "false", "SignUp.Email.isEmailValid"),
+                                    property("enabled", false, "SignUp.Email.isEmailValid"),
                                     property("horizontalFillType", "Max")
                                 ),
                                 actions = listOf(

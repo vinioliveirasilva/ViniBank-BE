@@ -1,12 +1,15 @@
 package com.vinibank.backend.sdui.flow.home
 
 import com.vinibank.backend.sdui.flow.carddetail.CardsController
+import com.vinibank.backend.sdui.flow.home.screens.BalanceScreen
 import com.vinibank.backend.sdui.flow.home.screens.CheckingAccountContent
 import com.vinibank.backend.sdui.flow.home.screens.HomeScreen
 import com.vinibank.backend.sdui.flow.home.screens.InvestmentsContent
 import com.vinibank.backend.sdui.flow.home.screens.UserDetailScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
 import org.springframework.http.ResponseEntity
 
 object HomeController {
@@ -46,9 +49,15 @@ object HomeController {
 
     private fun getInternalScreen(request: SdUiRequest) = when (request.toScreen) {
         "UserDetail" -> UserDetailScreen.getScreenModel(request.screenData)
-        "ContaCorrente" -> CheckingAccountContent.getScreenModel(request.screenData)
+        "ContaCorrente" -> CheckingAccountContent.getScreenModel(request.screenData) { request -> routeInternalScreen(request) }
         "Home" -> HomeScreen.getScreenModel(request.screenData)
         "Investimentos" -> InvestmentsContent.getScreenModel(request.screenData)
+        "Balance" -> BalanceScreen.getScreenModel(request.screenData)
         else -> HomeScreen.getScreenModel(request.screenData)
     }
+
+    private fun routeInternalScreen(request: SdUiRequest) = when (request.toScreen) {
+        "Balance" -> BalanceScreen.getScreenModel(request.screenData)
+        else -> JsonObject(emptyMap())
+    }.getValue("components").jsonArray.map { it.jsonObject }
 }

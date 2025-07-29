@@ -197,7 +197,7 @@ object CardDetails : SdUiScreen {
         "",
         "",
         true,
-        listOf(
+        components = listOf(
             component(
                 "column",
                 listOf(

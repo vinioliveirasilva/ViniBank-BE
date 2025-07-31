@@ -1,40 +1,12 @@
 package com.vinibank.backend
 
-import com.vinibank.backend.db.sessionDatabaseInstance
-import com.vinibank.backend.db.userDatabaseInstance
-import com.vinibank.backend.sdui.flow.ExampleController
-import com.vinibank.backend.sdui.flow.UndefinedController
-import com.vinibank.backend.sdui.flow.home.HomeController
-import com.vinibank.backend.sdui.flow.login.LoginController
-import com.vinibank.backend.sdui.flow.newcard.NewCardController
-import com.vinibank.backend.sdui.flow.signup.SignUpController
-import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.serializer
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.lang.Thread.sleep
-import java.util.Base64
-
-@Serializable
-data class User(
-    val email: String,
-    val password: String,
-)
-
-@Serializable
-data class UserAuthenticated(
-    val email: String,
-    val name: String,
-    val docNumber: String,
-)
 
 @Serializable
 data class Error(
@@ -44,170 +16,19 @@ data class Error(
 
 @RestController
 @SpringBootApplication
-class Application {
-    val keyAgreementGenerator = FastKeyExchangeManager()
-    val userDb = userDatabaseInstance
-    val sessionDb = sessionDatabaseInstance
-
-    private inline fun <reified T> facade(
-        data: String,
-        iv: String,
-        sessionId: String,
-        action: (T) -> Pair<String, ResponseEntity<String>?>,
-    ): ResponseEntity<String> {
-        val decodedIv = Base64.getDecoder().decode(iv)
-        val decoded = Base64.getDecoder().decode(data)
-
-        keyAgreementGenerator.run {
-            sessionDb.sessions[sessionId].run {
-                if (this == null) return ResponseEntity.badRequest()
-                    .body(createError("Session not found", 400))
-
-                println(decodedIv)
-                val (input, decryptIv) = decrypt(decoded, decodedIv, this)
-                println(decryptIv)
-
-                val decodedObject = try {
-                    Json.decodeFromString<T>(input.decodeToString())
-                } catch (_: Exception) {
-                    input as T
-                }
-
-                val (toEncrypt, error) = action(decodedObject)
-
-                error?.run {
-                    return error
-                }
-
-                val (result, newIv) = encrypt(
-                    toEncrypt,
-                    decryptIv,
-                    this
-                )
-                println(newIv)
-                println("---")
-
-                return ResponseEntity
-                    .ok()
-                    .header("Content-Type", "text/plain")
-                    .header("iv", Base64.getEncoder().encodeToString(newIv))
-                    .body(Base64.getEncoder().encodeToString(result))
-            }
-        }
-    }
-
-    @RequestMapping("/logout")
-    fun doLogout(
-        @RequestHeader(value = "iv") iv: String,
-        @RequestHeader(value = "sessionId") sessionId: String,
-    ): ResponseEntity<String> {
-        return facade<Any>("", iv, sessionId) { output ->
-            val hasSession = true//session.remove(sessionId) != null
-            if (hasSession) {
-                Pair("{}", null)
-            } else {
-                Pair("", ResponseEntity.badRequest().body(createError("Invalid credentials", 401)))
-            }
-        }
-    }
-
-    @RequestMapping("/authenticate")
-    fun authenticate(
-        @RequestHeader(value = "iv") iv: String,
-        @RequestHeader(value = "sessionId") sessionId: String,
-        @RequestBody data: String,
-    ): ResponseEntity<String> {
-        sleep(2000)
-        return facade<User>(data, iv, sessionId) { output ->
-            val prefetchUser = userDb.users[output.email]
-            val user = prefetchUser?.takeIf { it.password == output.password }
-
-            if (user == null) {
-                Pair("", ResponseEntity.badRequest().body(createError("Invalid credentials", 401)))
-            } else {
-                val successBody = UserAuthenticated(
-                    email = user.email,
-                    name = user.name,
-                    docNumber = "???"
-                )
-
-                val serializer = serializer(UserAuthenticated::class.java)
-                val toEncrypt = Json.encodeToString(serializer, successBody)
-
-                Pair(toEncrypt, null)
-            }
-        }
-    }
-
+class Application(
+    private val cryptoFilter: CryptographicFilter
+) {
     @RequestMapping("/initialize")
-    fun startHandShake(@RequestHeader(value = "publicKey") publicKey: String): ResponseEntity<String> {
-        val newSessionId = (sessionDb.sessions.keys.lastOrNull() ?: "0").toInt().inc().toString()
-        val result = if (false) {
-            keyAgreementGenerator.let {
-                //val alicePubKeyForBob = it.createPublicKeyFromEncodedMaterial(Base64.getDecoder().decode(publicKey))
-                //val bobKpair = it.createPersonalDHKeypairAndInitAgreement(alicePubKeyForBob)
-                //it.phaseOne(alicePubKeyForBob)
-
-                //sessionDb.addSession(newSessionId.toString(), it.generateSharedSecret())
-
-                //Base64.getEncoder().encodeToString(bobKpair.public.encoded)
-                ""
-            }
-        } else {
-            keyAgreementGenerator.let {
-                sessionDb.addSession(
-                    newSessionId,
-                    it.createPublicKeyAndRunPhaseOne(
-                        Base64.getDecoder().decode(publicKey),
-                        newSessionId
-                    )
-                )
-                it.generateSecret()
-            }
-        }
+    fun handShake(@RequestHeader(value = "publicKey") publicKey: String): ResponseEntity<String> {
+        val (newSessionId, result) = cryptoFilter.startFilter(publicKey)
 
         return ResponseEntity
             .ok()
             .header("Content-Type", "text/plain")
-            .header("sessionId", newSessionId.toString())
+            .header("sessionId", newSessionId)
             .body(result)
     }
-
-    @RequestMapping("/sdui_screens")
-    fun getSdUiScreen(
-        @RequestHeader(value = "iv") iv: String,
-        @RequestHeader(value = "sessionId") sessionId: String,
-        @RequestBody request: String,
-    ): ResponseEntity<String> {
-        return facade<SdUiRequest>(request, iv, sessionId) { output ->
-            sleep(1000)
-            val response = internalRouting(output)
-
-            if (response.second != null) {
-                Pair("", response.second)
-            } else {
-                Pair(
-                    Json.encodeToString(response.first),
-                    null
-                )
-            }
-        }
-    }
-
-    private fun internalRouting(sdUiRequest: SdUiRequest) = when (sdUiRequest.flow) {
-        SignUpController.IDENTIFIER -> SignUpController.getSdUiScreen(sdUiRequest)
-        LoginController.IDENTIFIER -> LoginController.getSdUiScreen(sdUiRequest)
-        HomeController.IDENTIFIER -> HomeController.getSdUiScreen(sdUiRequest, "123@123.com")
-        NewCardController.IDENTIFIER -> NewCardController.getSdUiScreen(sdUiRequest)
-        ExampleController.IDENTIFIER -> ExampleController.getSdUiScreen(sdUiRequest)
-        else -> UndefinedController.getSdUiScreen(sdUiRequest)
-    }
-
-    fun createError(errorMessage: String, code: Int): String {
-        val serializer = serializer(Error::class.java)
-        return Json.encodeToString(serializer, Error(errorMessage, code))
-    }
-
 }
 
 fun main(args: Array<String>) {

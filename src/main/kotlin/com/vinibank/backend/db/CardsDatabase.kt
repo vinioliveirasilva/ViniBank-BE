@@ -1,10 +1,13 @@
 package com.vinibank.backend.db
 
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.springframework.stereotype.Service
 import java.io.File
 import java.io.InputStream
 
+@Serializable
 data class Card(
     val identifier: String,     //unique id
     val name: String,           // Platinum card
@@ -14,10 +17,11 @@ data class Card(
     val cvv: String,            //432
 )
 
+@Service
 class CardsDatabase {
 
     private companion object {
-        const val RESOURCE_NAME = "/cards.json"
+        const val RESOURCE_NAME = "/cards.csv"
         const val RESOURCE_LOCATION = "src/main/resources$RESOURCE_NAME"
     }
 
@@ -52,20 +56,17 @@ class CardsDatabase {
                 if (writeHeader) {
                     appendLine("email -> models")
                 }
-                appendLine("$email -> ${Json.encodeToString(cards)}\n")
+                appendLine("$email -> ${Json.encodeToString(cards)}\n")//TODO override
             }
         )
     }
 
     fun add(email: String, card: Card) {
-        val cards = cache[email]?.toMutableList()?.apply {
-            add(card)
-        } ?: listOf(card)
-        saveToCsv(email, cards)
-        cache[email] = cards
+        val currentCards = cache[email] ?: emptyList()
+        val updatedCards = currentCards + card
+        cache[email] = updatedCards
+        saveToCsv(email, updatedCards)
     }
 
     fun getCards(email: String) = cache[email] ?: emptyList()
 }
-
-val cardsDatabaseInstance = CardsDatabase()

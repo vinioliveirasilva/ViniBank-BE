@@ -1,8 +1,8 @@
 package com.vinibank.backend.sdui.components
 
-import com.vinibank.backend.sdui.flow.ScreenUtil.action
-import com.vinibank.backend.sdui.flow.ScreenUtil.component
-import com.vinibank.backend.sdui.flow.ScreenUtil.property
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.action
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.component
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.property
 
 fun topBarWithBackAction(title: String) = topBarWithAction(title, "back", "LeftArrow")
 

@@ -7,9 +7,9 @@ import kotlinx.serialization.json.JsonObject
 @Serializable
 data class SdUiError(
     @SerialName("message")
-    val message: String,
+    override val message: String,
     @SerialName("code")
     val code: Int,
     @SerialName("screen")
     val screen: JsonObject,
-)
+) : Exception(message)

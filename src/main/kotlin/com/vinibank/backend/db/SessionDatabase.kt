@@ -1,9 +1,11 @@
 package com.vinibank.backend.db
 
+import org.springframework.stereotype.Service
 import java.io.File
 import java.io.InputStream
 import java.util.Base64
 
+@Service
 class SessionDatabase {
 
     val sessions = mutableMapOf<String, ByteArray>()
@@ -49,5 +51,3 @@ class SessionDatabase {
         sessions[sessionId] = secret
     }
 }
-
-val sessionDatabaseInstance = SessionDatabase()

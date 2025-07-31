@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.springframework.stereotype.Service
 import java.io.InputStream
 
 @Serializable
@@ -13,6 +14,7 @@ data class User(
     @SerialName("password") val password: String,
 )
 
+@Service
 class UserDatabase {
     val users: MutableMap<String, User> = mutableMapOf()
 
@@ -58,5 +60,3 @@ class UserDatabase {
         users[user.email] = user
     }
 }
-
-val userDatabaseInstance = UserDatabase()

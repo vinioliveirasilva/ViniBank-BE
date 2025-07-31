@@ -1,7 +1,6 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
 import com.vinibank.backend.db.UserDatabase
-import com.vinibank.backend.db.userDatabaseInstance
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
 import com.vinibank.backend.sdui.oldflow.ScreenUtil
 import com.vinibank.backend.sdui.model.SdUiRequest

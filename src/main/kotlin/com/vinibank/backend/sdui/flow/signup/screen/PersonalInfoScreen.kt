@@ -76,8 +76,8 @@ class PersonalInfoScreen : SignUpScreen {
                         property("horizontalFillType", "Max"),
                         property("paddingHorizontal", "20"),
                         property("label", "CPF"),
-                        property("visualTransformation", "Documento.CPF"),
-                        property("keyboardOptions", "Documento.CPF")
+                        property("visualTransformation", "CpfDocument"),
+                        property("keyboardOptions", "Number")
                     ),
                     validators = listOf(
                         validator(
@@ -101,8 +101,8 @@ class PersonalInfoScreen : SignUpScreen {
                         property("horizontalFillType", "Max"),
                         property("paddingHorizontal", "20"),
                         property("label", "Telefone"),
-                        property("visualTransformation", "Telefone"),
-                        property("keyboardOptions", "Telefone")
+                        property("visualTransformation", "Phone"),
+                        property("keyboardOptions", "Phone")
                     ),
                     validators = listOf(
                         validator(

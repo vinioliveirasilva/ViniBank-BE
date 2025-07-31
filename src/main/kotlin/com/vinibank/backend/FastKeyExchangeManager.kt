@@ -28,13 +28,14 @@ class FastKeyExchangeManager(
 
 
     private fun decrypt(data: ByteArray, privateKey: PrivateKey): ByteArray {
+        val cipher: Cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding")
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
         val decodedData = cipher.doFinal(data)
         return decodedData
     }
 
-    fun createPublicKeyAndRunPhaseOne(encoded: ByteArray): ByteArray {
-        val decryptedAes = decrypt(encoded, privateKey)
+    fun createPublicKeyAndRunPhaseOne(decoded: ByteArray): ByteArray {
+        val decryptedAes = decrypt(decoded, privateKey)
         return encoderProvider.decode(decryptedAes)
     }
 

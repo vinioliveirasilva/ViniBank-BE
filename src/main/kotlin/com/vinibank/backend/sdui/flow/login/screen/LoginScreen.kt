@@ -1,9 +1,43 @@
 package com.vinibank.backend.sdui.flow.login.screen
 
+import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.action.multipleActions
+import com.vini.designsystemsdui.action.navigateAction
+import com.vini.designsystemsdui.action.toBooleanAction
+import com.vini.designsystemsdui.action.toStringAction
+import com.vini.designsystemsdui.component.button
+import com.vini.designsystemsdui.component.column
+import com.vini.designsystemsdui.component.elevatedButton
+import com.vini.designsystemsdui.component.icon
+import com.vini.designsystemsdui.component.iconButton
+import com.vini.designsystemsdui.component.lazyColumn
+import com.vini.designsystemsdui.component.outlinedTextInput
+import com.vini.designsystemsdui.component.spacer
+import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.property.HeightProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.IconNameProperty
+import com.vini.designsystemsdui.property.IsEnabledProperty
+import com.vini.designsystemsdui.property.KeyboardOptionsProperty
+import com.vini.designsystemsdui.property.LabelProperty
+import com.vini.designsystemsdui.property.PaddingHorizontalProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.VisibilityProperty
+import com.vini.designsystemsdui.property.VisualTransformationProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.KeyboardOptionsOption
+import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.property.options.VisualTransformationOption
+import com.vini.designsystemsdui.validator.allTrueValidator
+import com.vini.designsystemsdui.validator.emailValidator
+import com.vini.designsystemsdui.validator.minLengthValidator
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.login.LoginScreen
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
 import com.vinibank.backend.sdui.model.SdUiRequest
+import com.vinibank.backend.sdui.oldflow.ScreenUtil
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -11,7 +45,7 @@ import org.springframework.stereotype.Component
 
 @Component()
 class LoginScreen(
-    private val userDb: UserDatabase
+    private val userDb: UserDatabase,
 ) : LoginScreen {
     override val screenId: String
         get() = "InformationInput"
@@ -25,273 +59,170 @@ class LoginScreen(
             template = "",
             shouldCache = false,
             components = listOf(
-                ScreenUtil.component(
-                    type = "lazyColumn",
-                    properties = listOf(
-                        ScreenUtil.property("horizontalFillType", "Max"),
-                        ScreenUtil.property("verticalArrangement", "SpaceBetween"),
-                        ScreenUtil.property("paddingHorizontal", "30"),
-                        ScreenUtil.property("weight", 1)
-                    ),
+                lazyColumn(
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
+                    paddingHorizontal = PaddingHorizontalProperty(30),
+                    weight = WeightProperty(1),
                     components = listOf(
-                        ScreenUtil.component(
-                            type = "column",
-                            properties = listOf(),
+                        column(
                             components = listOf(
-                                ScreenUtil.component(
-                                    type = "topAppBar",
-                                    properties = listOf(),
-                                    components = listOf(
-                                        ScreenUtil.component(
-                                            type = "text",
-                                            properties = listOf(
-                                                ScreenUtil.property("text", "Login")
-                                            ),
-                                        ),
-                                    )
-                                ),
-                                ScreenUtil.component(
-                                    type = "spacer",
-                                    properties = listOf(
-                                        ScreenUtil.property("height", 20),
+                                topBar(components = listOf(text(TextProperty("Login")))),
+                                spacer(heightProperty = HeightProperty(20)),
+                                outlinedTextInput(
+                                    horizontalFillType = HorizontalFillTypeProperty(
+                                        HorizontalFillTypeOption.Max
                                     ),
-                                ),
-                                ScreenUtil.component(
-                                    type = "outlinedTextInput",
-                                    properties = listOf(
-                                        ScreenUtil.property("horizontalFillType", "Max"),
-                                        ScreenUtil.property("label", "Email"),
-                                        ScreenUtil.property(
-                                            "text",
-                                            "123@123.com",
-                                            "$screenFlowId.Email"
-                                        ),
-                                    ),
+                                    label = LabelProperty("Email"),
+                                    text = TextProperty("123@123.com", "$screenFlowId.Email"),
                                     validators = listOf(
-                                        ScreenUtil.validator(
-                                            type = "emailValid",
+                                        emailValidator(
                                             id = "$screenFlowId.Email.EmailValid",
-                                            required = listOf("$screenFlowId.Email")
-                                        )
+                                            emails = listOf("$screenFlowId.Email")
+                                        ),
                                     )
                                 ),
-                                ScreenUtil.component(
-                                    type = "outlinedTextInput",
-                                    properties = listOf(
-                                        ScreenUtil.property("horizontalFillType", "Max"),
-                                        ScreenUtil.property("label", "Senha"),
-                                        ScreenUtil.property("keyboardOptions", "Password"),
-                                        ScreenUtil.property(
-                                            "text",
-                                            "123@123A",
-                                            "$screenFlowId.Password"
-                                        ),
-                                        ScreenUtil.property(
-                                            "visualTransformation",
-                                            "Password",
-                                            "$screenFlowId.Password.VisualTransformation"
-                                        ),
+                                outlinedTextInput(
+                                    horizontalFillType = HorizontalFillTypeProperty(
+                                        HorizontalFillTypeOption.Max
+                                    ),
+                                    label = LabelProperty("Senha"),
+                                    text = TextProperty("123@123A", "$screenFlowId.Password"),
+                                    keyboardOptions = KeyboardOptionsProperty(KeyboardOptionsOption.Password),
+                                    visualTransformation = VisualTransformationProperty(
+                                        VisualTransformationOption.Password,
+                                        "$screenFlowId.Password.VisualTransformation"
                                     ),
                                     validators = listOf(
-                                        ScreenUtil.validator(
-                                            type = "minLength",
+                                        minLengthValidator(
                                             id = "$screenFlowId.Password.MinLength",
-                                            required = listOf("$screenFlowId.Password"),
-                                            data = ScreenUtil.jsonObject(
-                                                "length" to 8
-                                            )
-                                        )
+                                            idsToValidate = listOf("$screenFlowId.Password"),
+                                            length = 8
+                                        ),
                                     ),
-                                    customComponents = arrayOf(
-                                        "trailingIcon" to listOf(
-                                            ScreenUtil.component(
-                                                type = "iconButton",
-                                                properties = listOf(
-                                                    ScreenUtil.property(
-                                                        "isVisible",
-                                                        true,
-                                                        "$screenFlowId.PasswordIsVisible"
-                                                    ),
-                                                ),
-                                                components = listOf(
-                                                    ScreenUtil.component(
-                                                        type = "icon",
-                                                        properties = listOf(
-                                                            ScreenUtil.property(
-                                                                "icon",
-                                                                "Visibility"
-                                                            ),
+                                    trailingIcon = listOf(
+                                        iconButton(
+                                            visibility = VisibilityProperty(
+                                                true,
+                                                "$screenFlowId.PasswordIsVisible"
+                                            ),
+                                            components = listOf(
+                                                icon(iconName = IconNameProperty("Visibility"))
+                                            ),
+                                            actions = listOf(
+                                                multipleActions(
+                                                    listOf(
+                                                        toStringAction(
+                                                            "$screenFlowId.Password.VisualTransformation",
+                                                            "None"
                                                         ),
-                                                    ),
-                                                ),
-                                                actions = listOf(
-                                                    ScreenUtil.multipleActions(
-                                                        listOf(
-                                                            ScreenUtil.action(
-                                                                type = "toString",
-                                                                data = ScreenUtil.jsonObject(
-                                                                    "id" to "$screenFlowId.Password.VisualTransformation",
-                                                                    "value" to "None"
-                                                                ),
-                                                            ),
-                                                            ScreenUtil.action(
-                                                                type = "toBoolean",
-                                                                data = ScreenUtil.jsonObject(
-                                                                    "id" to "$screenFlowId.PasswordIsNotVisible",
-                                                                    "value" to true
-                                                                ),
-                                                            ),
-                                                            ScreenUtil.action(
-                                                                type = "toBoolean",
-                                                                data = ScreenUtil.jsonObject(
-                                                                    "id" to "$screenFlowId.PasswordIsVisible",
-                                                                    "value" to false
-                                                                ),
-                                                            ),
-                                                        )
+                                                        toBooleanAction(
+                                                            "$screenFlowId.PasswordIsNotVisible",
+                                                            true
+                                                        ),
+                                                        toBooleanAction(
+                                                            "$screenFlowId.PasswordIsVisible",
+                                                            false
+                                                        ),
                                                     )
                                                 )
+                                            )
+                                        ),
+                                        iconButton(
+                                            visibility = VisibilityProperty(
+                                                false,
+                                                "$screenFlowId.PasswordIsNotVisible"
                                             ),
-                                            ScreenUtil.component(
-                                                type = "iconButton",
-                                                properties = listOf(
-                                                    ScreenUtil.property(
-                                                        "isVisible",
-                                                        false,
-                                                        "$screenFlowId.PasswordIsNotVisible"
-                                                    ),
-                                                ),
-                                                components = listOf(
-                                                    ScreenUtil.component(
-                                                        type = "icon",
-                                                        properties = listOf(
-                                                            ScreenUtil.property(
-                                                                "icon",
-                                                                "VisibilityOff"
-                                                            ),
+                                            components = listOf(icon(iconName = IconNameProperty("VisibilityOff"))),
+                                            actions = listOf(
+                                                multipleActions(
+                                                    listOf(
+                                                        toStringAction(
+                                                            "$screenFlowId.Password.VisualTransformation",
+                                                            "Password"
                                                         ),
-                                                    ),
-                                                ),
-                                                actions = listOf(
-                                                    ScreenUtil.multipleActions(
-                                                        listOf(
-                                                            ScreenUtil.action(
-                                                                type = "toString",
-                                                                data = ScreenUtil.jsonObject(
-                                                                    "id" to "$screenFlowId.Password.VisualTransformation",
-                                                                    "value" to "Password"
-                                                                ),
-                                                            ),
-
-                                                            ScreenUtil.action(
-                                                                type = "toBoolean",
-                                                                data = ScreenUtil.jsonObject(
-                                                                    "id" to "$screenFlowId.PasswordIsVisible",
-                                                                    "value" to true
-                                                                ),
-                                                            ),
-                                                            ScreenUtil.action(
-                                                                type = "toBoolean",
-                                                                data = ScreenUtil.jsonObject(
-                                                                    "id" to "$screenFlowId.PasswordIsNotVisible",
-                                                                    "value" to false
-                                                                ),
-                                                            ),
-                                                        )
+                                                        toBooleanAction(
+                                                            "$screenFlowId.PasswordIsVisible",
+                                                            true
+                                                        ),
+                                                        toBooleanAction(
+                                                            "$screenFlowId.PasswordIsNotVisible",
+                                                            false
+                                                        ),
                                                     )
                                                 )
-                                            ),
-                                        )
+                                            )
+                                        ),
                                     )
                                 ),
                             )
                         ),
-                        ScreenUtil.component(
-                            type = "column",
-                            properties = listOf(),
+                        column(
                             components = listOf(
-                                ScreenUtil.component(
-                                    type = "button",
-                                    properties = listOf(
-                                        ScreenUtil.property("text", "Fazer Login"),
-                                        ScreenUtil.property("horizontalFillType", "Max"),
-                                        ScreenUtil.property(
-                                            "enabled",
-                                            "false",
-                                            id = "$screenFlowId.LoginButton.Enabled"
-                                        )
+                                button(
+                                    text = TextProperty("Fazer Login"),
+                                    horizontalFillType = HorizontalFillTypeProperty(
+                                        HorizontalFillTypeOption.Max
+                                    ),
+                                    isEnabled = IsEnabledProperty(
+                                        false,
+                                        "$screenFlowId.LoginButton.Enabled"
                                     ),
                                     validators = listOf(
-                                        ScreenUtil.validator(
-                                            type = "allTrue",
+                                        allTrueValidator(
                                             id = "$screenFlowId.LoginButton.Enabled",
-                                            required = listOf(
+                                            toValidate = listOf(
                                                 "$screenFlowId.Email.EmailValid",
                                                 "$screenFlowId.Password.MinLength"
                                             )
-                                        )
+                                        ),
                                     ),
                                     actions = listOf(
-                                        ScreenUtil.action(
-                                            type = "continue",
-                                            name = "OnClick",
+                                        continueAction(
                                             id = "$screenFlowId.LoginButton",
-                                            data = ScreenUtil.jsonObject(
-                                                "flowId" to request.flow,
-                                                "nextScreenId" to "Success",
-                                                "currentScreenId" to screenId,
-                                                "screenRequestData" to ScreenUtil.jsonObject(
-                                                    "$screenFlowId.Email" to "email",
-                                                    "$screenFlowId.Password" to "password"
-                                                ),
-                                                "screenData" to request.screenData,
-                                            )
-                                        )
+                                            flowId = request.flow,
+                                            nextScreenId = "Success",
+                                            currentScreenId = screenId,
+                                            screenRequestData = listOf(
+                                                "$screenFlowId.Email" to "email",
+                                                "$screenFlowId.Password" to "password"
+                                            ),
+                                            screenData = request.screenData
+                                        ),
                                     )
+
                                 ),
-                                ScreenUtil.component(
-                                    type = "spacer",
-                                    properties = listOf(
-                                        ScreenUtil.property("height", 10),
-                                    ),
-                                ),
-                                ScreenUtil.component(
-                                    type = "elevatedButton",
-                                    properties = listOf(
-                                        ScreenUtil.property("text", "Fazer Cadastro"),
-                                        ScreenUtil.property("horizontalFillType", "Max"),
+                                spacer(heightProperty = HeightProperty(10)),
+                                elevatedButton(
+                                    text = TextProperty("Fazer Cadastro"),
+                                    horizontalFillType = HorizontalFillTypeProperty(
+                                        HorizontalFillTypeOption.Max
                                     ),
                                     actions = listOf(
-                                        ScreenUtil.action(
-                                            type = "navigate",
-                                            data = ScreenUtil.jsonObject(
-                                                "flow" to "SignUp",
-                                                "screenData" to request.screenData,
-                                                "screenRequestData" to ScreenUtil.jsonObject(
-                                                    "$screenFlowId.Email" to "email",
-                                                    "$screenFlowId.Password" to "password"
-                                                ),
-                                                "actionId" to "$screenFlowId.LoginButton",
+                                        navigateAction(
+                                            flow = "SignUp",
+                                            actionId = "$screenFlowId.LoginButton",
+                                            screenData = request.screenData,
+                                            screenRequestData = listOf(
+                                                "$screenFlowId.Email" to "email",
+                                                "$screenFlowId.Password" to "password"
                                             )
-                                        )
+                                        ),
                                     )
                                 ),
-                                ScreenUtil.component(
-                                    type = "spacer",
-                                    properties = listOf(
-                                        ScreenUtil.property("height", 20),
-                                    ),
-                                ),
+                                spacer(heightProperty = HeightProperty(20))
                             )
                         )
                     )
-                )
+                ),
             )
         )
     }
 
     override fun getRule(request: SdUiRequest): JsonObject? {
-        val model = Json.Default.decodeFromJsonElement<LoginScreenState>(request.screenData ?: throw IllegalArgumentException("LoginScreen Model is null"))
+        val model = Json.Default.decodeFromJsonElement<LoginScreenState>(
+            request.screenData ?: throw IllegalArgumentException("LoginScreen Model is null")
+        )
 
         val prefetchUser = userDb.users[model.email]
         val user = prefetchUser?.takeIf { it.password == model.password }

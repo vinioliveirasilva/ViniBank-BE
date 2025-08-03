@@ -1,9 +1,32 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
+import com.vini.designsystemsdui.action.backAction
+import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.component.button
+import com.vini.designsystemsdui.component.column
+import com.vini.designsystemsdui.component.createPassword
+import com.vini.designsystemsdui.component.outlinedButton
+import com.vini.designsystemsdui.component.spacer
+import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.IsEnabledProperty
+import com.vini.designsystemsdui.property.PaddingHorizontalProperty
+import com.vini.designsystemsdui.property.SizeProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.ValidPasswordProperty
+import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.VerticalFillTypeProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
 import com.vinibank.backend.sdui.model.SdUiRequest
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -26,101 +49,63 @@ class PasswordScreen(
     override fun getScreen(request: SdUiRequest): JsonObject? {
         val screenFlowId = "${request.flow}.${screenId}"
 
-        return ScreenUtil.screen(
+        return screen(
             flow = request.flow,
             stage = screenId,
             version = "1",
             template = "",
             shouldCache = false,
             components = listOf(
-                ScreenUtil.component(
-                    type = "topAppBar",
-                    properties = listOf(
-                        ScreenUtil.property("horizontalFillType", "Max"),
-                        ScreenUtil.property("paddingHorizontal", "20"),
-                        ScreenUtil.property("textAlign", "Center")
-                    ),
+                topBar(
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    paddingHorizontal = PaddingHorizontalProperty(20),
                     components = listOf(
-                        ScreenUtil.component(
-                            type = "text",
-                            properties = listOf(
-                                ScreenUtil.property("text", "Criar Senha")
-                            )
-                        )
+                        text(textProperty = TextProperty("Criar Senha"))
                     )
                 ),
-                ScreenUtil.component(
-                    type = "spacer",
-                    properties = listOf(
-                        ScreenUtil.property("size", "20")
-                    )
+                spacer(
+                    size = SizeProperty(20)
                 ),
-                ScreenUtil.component(
-                    type = "createPassword",
-                    properties = listOf(
-                        ScreenUtil.property(
-                            "isPasswordValid",
-                            "false",
-                            "$screenFlowId.isPasswordValid"
-                        ),
-                        ScreenUtil.property("text", "", "$screenFlowId.passwordInput"),
-                        ScreenUtil.property("horizontalFillType", "Max"),
-                        ScreenUtil.property("paddingHorizontal", "20")
-                    )
+                createPassword(
+                    text = TextProperty("", "$screenFlowId.passwordInput"),
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    paddingHorizontal = PaddingHorizontalProperty(20),
+                    validPassword = ValidPasswordProperty(false, "$screenFlowId.isPasswordValid")
                 ),
-                ScreenUtil.component(
-                    type = "column",
-                    properties = listOf(
-                        ScreenUtil.property("horizontalAlignment", "Center"),
-                        ScreenUtil.property("paddingHorizontal", "20"),
-                        ScreenUtil.property("horizontalFillType", "Max"),
-                        ScreenUtil.property("verticalFillType", "Max"),
-                        ScreenUtil.property("weight", "1"),
-                        ScreenUtil.property("verticalArrangement", "Bottom")
-                    ),
+                column(
+                    horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+                    paddingHorizontal = PaddingHorizontalProperty(20),
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                    weight = WeightProperty(1),
+                    verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
                     components = listOf(
-                        ScreenUtil.component(
-                            type = "button",
-                            properties = listOf(
-                                ScreenUtil.property("text", "Continuar"),
-                                ScreenUtil.property(
-                                    "enabled",
-                                    "false",
-                                    "$screenFlowId.isPasswordValid"
+                        button(
+                            text = TextProperty("Continuar"),
+                            isEnabled = IsEnabledProperty(false, "$screenFlowId.isPasswordValid"),
+                            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                            actions = listOf(
+                                continueAction(
+                                    flowId = request.flow,
+                                    currentScreenId = screenId,
+                                    nextScreenId = "Success",
+                                    screenData = request.screenData,
+                                    screenRequestData = listOf(
+                                        "$screenFlowId.passwordInput" to "password"
+                                    )
                                 ),
-                                ScreenUtil.property("horizontalFillType", "Max")
-                            ),
-                            actions = listOf(
-                                ScreenUtil.action(
-                                    type = "continue",
-                                    data = ScreenUtil.jsonObject(
-                                        "flowId" to request.flow,
-                                        "nextScreenId" to "Success",
-                                        "currentScreenId" to screenId,
-                                        "screenRequestData" to ScreenUtil.jsonObject("$screenFlowId.passwordInput" to "password"),
-                                        "screenData" to request.screenData,
-                                    ),
-                                )
                             )
                         ),
-                        ScreenUtil.component(
-                            type = "outlinedButton",
-                            properties = listOf(
-                                ScreenUtil.property("text", "Voltar"),
-                                ScreenUtil.property("horizontalFillType", "Max")
-                            ),
+                        outlinedButton(
+                            text = TextProperty("Voltar"),
+                            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             actions = listOf(
-                                ScreenUtil.action("back")
+                                backAction()
                             )
-                        )
+                        ),
                     )
                 ),
-                ScreenUtil.component(
-                    type = "spacer",
-                    properties = listOf(
-                        ScreenUtil.property("size", "20")
-                    )
-                )
+                spacer(size = SizeProperty(20)),
             )
         )
     }

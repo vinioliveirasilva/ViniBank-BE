@@ -1,8 +1,10 @@
 package com.vinibank.backend.sdui.flow.login.screen
 
+import com.vini.designsystemsdui.action.businessSuccessAction
+import com.vini.designsystemsdui.component.blank
 import com.vinibank.backend.sdui.flow.login.LoginScreen
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
 import com.vinibank.backend.sdui.model.SdUiRequest
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 
@@ -12,22 +14,17 @@ class SuccessLoginScreen() : LoginScreen {
         get() = "Success"
 
     override fun getScreen(request: SdUiRequest): JsonObject? {
-        return ScreenUtil.screen(
+        return screen(
             flow = request.flow,
             stage = request.fromScreen,
             version = "1",
             template = "",
             shouldCache = false,
             components = listOf(
-                ScreenUtil.component(
-                    type = "blank",
-                    properties = listOf(),
+                blank(
                     actions = listOf(
-                        ScreenUtil.action(
-                            type = "businessSuccess",
-                            data = ScreenUtil.jsonObject(
-                                "screenData" to request.screenData
-                            )
+                        businessSuccessAction(
+                            screenData = request.screenData
                         )
                     )
                 )

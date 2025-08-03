@@ -22,7 +22,7 @@ import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 
@@ -31,7 +31,7 @@ class BalanceContent : HomeScreen {
     override val screenId: String = "Balance"
 
     override fun getScreen(request: SdUiRequest): JsonObject? {
-        val screenObj = ScreenUtil.screen(
+        val screenObj = screen(
             flow = "Home",
             stage = "Balance",
             version = "1",

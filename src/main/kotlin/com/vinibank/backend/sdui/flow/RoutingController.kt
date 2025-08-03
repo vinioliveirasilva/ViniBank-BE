@@ -1,6 +1,5 @@
 package com.vinibank.backend.sdui.flow
 
-import com.vinibank.backend.sdui.flow.UndefinedController
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject

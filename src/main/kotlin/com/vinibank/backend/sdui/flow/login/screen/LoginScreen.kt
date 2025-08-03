@@ -37,7 +37,7 @@ import com.vini.designsystemsdui.validator.minLengthValidator
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.login.LoginScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -52,7 +52,7 @@ class LoginScreen(
 
     override fun getScreen(request: SdUiRequest): JsonObject? {
         val screenFlowId = "${request.flow}.${screenId}"
-        return ScreenUtil.screen(
+        return screen(
             flow = request.flow,
             stage = screenId,
             version = "1",

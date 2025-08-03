@@ -1,9 +1,33 @@
 package com.vinibank.backend.sdui.flow.home.screen
 
+import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.component.card
+import com.vini.designsystemsdui.component.column
+import com.vini.designsystemsdui.component.horizontalDivider
+import com.vini.designsystemsdui.component.icon
+import com.vini.designsystemsdui.component.lazyColumn
+import com.vini.designsystemsdui.component.row
+import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
+import com.vini.designsystemsdui.property.HorizontalArrangementProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.IconNameProperty
+import com.vini.designsystemsdui.property.PaddingHorizontalProperty
+import com.vini.designsystemsdui.property.PaddingVerticalProperty
+import com.vini.designsystemsdui.property.SizeProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.VerticalAlignmentProperty
+import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
+import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
+import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vinibank.backend.sdui.flow.home.HomeScreen
-import com.vinibank.backend.sdui.components.topBarWithBackAction
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
 import com.vinibank.backend.sdui.model.SdUiRequest
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 
@@ -13,134 +37,85 @@ class UserDetailScreen : HomeScreen {
         get() = "UserDetail"
 
     override fun getScreen(request: SdUiRequest): JsonObject? {
-        fun menuItem(name: String, icon: String? = null) = ScreenUtil.component(
-            type = "column",
-            properties = listOf(
-                ScreenUtil.property("horizontalFillType", "Max"),
-                ScreenUtil.property("paddingHorizontal", "20"),
-                ScreenUtil.property("verticalArrangement", "Center"),
-            ),
+        fun menuItem(name: String, icon: String? = null) = column(
+            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+            paddingHorizontal = PaddingHorizontalProperty(20),
+            verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Center),
             components = listOf(
-                ScreenUtil.component(
-                    type = "row",
-                    properties = listOf(
-                        ScreenUtil.property("horizontalFillType", "Max"),
-                        ScreenUtil.property("paddingVertical", "10"),
-                        ScreenUtil.property("horizontalArrangement", "SpaceBetween"),
-                        ScreenUtil.property("verticalAlignment", "Center"),
+                row(
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    paddingVertical = PaddingVerticalProperty(10),
+                    horizontalArrangement = HorizontalArrangementProperty(
+                        HorizontalArrangementOption.SpaceBetween
                     ),
+                    verticalAlignment = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
                     components = listOf(
-                        ScreenUtil.component(
-                            type = "row",
-                            properties = listOf(
-                                ScreenUtil.property("verticalAlignment", "Center"),
-                            ),
+                        row(
+                            verticalAlignment = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
                             components = listOfNotNull(
                                 icon?.let {
-                                    ScreenUtil.component(
-                                        type = "icon",
-                                        properties = listOf(
-                                            ScreenUtil.property("icon", it),
-                                            ScreenUtil.property(
-                                                "paddingHorizontal",
-                                                "10"
-                                            ),
-                                            ScreenUtil.property("size", "48"),
-                                        )
+                                    icon(
+                                        iconName = IconNameProperty(it),
+                                        paddingHorizontal = PaddingHorizontalProperty(10),
+                                        size = SizeProperty(48),
                                     )
                                 },
-                                ScreenUtil.component(
-                                    type = "text",
-                                    properties = listOf(
-                                        ScreenUtil.property("text", name),
-                                    )
-                                ),
+                                text(textProperty = TextProperty(name))
                             )
                         ),
-                        ScreenUtil.component(
-                            type = "icon",
-                            properties = listOf(
-                                ScreenUtil.property("icon", "RightArrow"),
-                                ScreenUtil.property("paddingHorizontal", "10"),
-                            )
-                        )
+                        icon(
+                            iconName = IconNameProperty("RightArrow"),
+                            paddingHorizontal = PaddingHorizontalProperty(10),
+                        ),
                     )
                 ),
-                ScreenUtil.component(
-                    type = "horizontalDivider",
-                    properties = listOf()
-                )
+                horizontalDivider(),
             ),
             actions = listOf(
-                ScreenUtil.action(
-                    "continue",
-                    ScreenUtil.jsonObject(
-                        "flowId" to "TODO",
-                        "nextScreenId" to "TODO",
-                        "currentScreenId" to "UserDetail"
-                    )
-                )
+                continueAction(
+                    flowId = "TODO",
+                    currentScreenId = "UserDetail",
+                    nextScreenId = "TODO",
+                    screenData = request.screenData
+                ),
             ),
         )
 
-        val content = ScreenUtil.component(
-            type = "lazyColumn",
-            properties = listOf(
-                ScreenUtil.property("horizontalFillType", "Max"),
-                ScreenUtil.property("weight", "1"),
-            ),
+        val content = lazyColumn(
+            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+            weight = WeightProperty(1),
             components = listOf(
-                ScreenUtil.component(
-                    type = "card",
-                    properties = listOf(
-                        ScreenUtil.property("paddingHorizontal", "20"),
-                        ScreenUtil.property("paddingVertical", "10"),
-                        ScreenUtil.property("horizontalFillType", "Max"),
-                    ),
+                card(
+                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                    paddingVerticalProperty = PaddingVerticalProperty(10),
+                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     components = listOf(
-                        ScreenUtil.component(
-                            type = "column",
-                            properties = listOf(
-                                ScreenUtil.property("paddingVertical", "20"),
-                                ScreenUtil.property("horizontalAlignment", "Center"),
-                                ScreenUtil.property("horizontalFillType", "Max"),
+                        column(
+                            paddingVertical = PaddingVerticalProperty(20),
+                            horizontalAlignment = HorizontalAlignmentProperty(
+                                HorizontalAlignmentOption.Center
+                            ),
+                            horizontalFillType = HorizontalFillTypeProperty(
+                                HorizontalFillTypeOption.Max
                             ),
                             components = listOf(
-                                ScreenUtil.component(
-                                    type = "icon",
-                                    properties = listOf(
-                                        ScreenUtil.property("icon", "User"),
-                                        ScreenUtil.property(
-                                            "paddingVertical",
-                                            "20"
-                                        ),
-                                        ScreenUtil.property("size", "96"),
-                                    )
+                                icon(
+                                    iconName = IconNameProperty("User"),
+                                    paddingHorizontal = PaddingHorizontalProperty(20),
+                                    size = SizeProperty(96),
                                 ),
-                                ScreenUtil.component(
-                                    type = "text",
-                                    properties = listOf(
-                                        ScreenUtil.property("text", "Vinicius Oliveira"),
-                                        ScreenUtil.property("paddingHorizontal", "20"),
-                                    )
+                                text(
+                                    textProperty = TextProperty("Vinicius Oliveira"),
+                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
-                                ScreenUtil.component(
-                                    type = "text",
-                                    properties = listOf(
-                                        ScreenUtil.property(
-                                            "text",
-                                            "vinioliveirasilva@hotmail.com"
-                                        ),
-                                        ScreenUtil.property("paddingHorizontal", "20"),
-                                    )
+                                text(
+                                    textProperty = TextProperty("vinioliveirasilva@hotmail.com"),
+                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
-                                ScreenUtil.component(
-                                    type = "text",
-                                    properties = listOf(
-                                        ScreenUtil.property("text", "+55 11 9 77801285"),
-                                        ScreenUtil.property("paddingHorizontal", "20"),
-                                    )
-                                )
+                                text(
+                                    textProperty = TextProperty("+55 11 9 77801285"),
+                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                                ),
                             )
                         )
                     )
@@ -152,14 +127,18 @@ class UserDetailScreen : HomeScreen {
             )
         )
 
-        val screen = ScreenUtil.screen(
+        val screen = screen(
             flow = "Home",
             stage = "UserDetail",
             version = "1",
             template = "",
             shouldCache = false,
             components = listOf(
-                topBarWithBackAction("User Detail"),
+                topBar(
+                    components = listOf(
+                        text(textProperty = TextProperty("User Detail"))
+                    )
+                ),
                 content,
             )
         )

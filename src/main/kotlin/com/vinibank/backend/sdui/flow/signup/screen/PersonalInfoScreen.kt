@@ -1,13 +1,37 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
+import com.vini.designsystemsdui.action.backAction
+import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.component.button
+import com.vini.designsystemsdui.component.column
+import com.vini.designsystemsdui.component.outlinedButton
+import com.vini.designsystemsdui.component.outlinedTextInput
+import com.vini.designsystemsdui.component.spacer
+import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.IsEnabledProperty
+import com.vini.designsystemsdui.property.KeyboardOptionsProperty
+import com.vini.designsystemsdui.property.LabelProperty
+import com.vini.designsystemsdui.property.PaddingHorizontalProperty
+import com.vini.designsystemsdui.property.SizeProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.VerticalFillTypeProperty
+import com.vini.designsystemsdui.property.VisualTransformationProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.KeyboardOptionsOption
+import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
+import com.vini.designsystemsdui.property.options.VisualTransformationOption
+import com.vini.designsystemsdui.validator.allTrueValidator
+import com.vini.designsystemsdui.validator.minLengthValidator
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.action
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.component
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.jsonObject
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.property
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.validator
 import com.vinibank.backend.sdui.model.SdUiRequest
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 
@@ -24,134 +48,89 @@ class PersonalInfoScreen : SignUpScreen {
             template = "",
             shouldCache = false,
             components = listOf(
-                component(
-                    type = "topAppBar",
-                    properties = listOf(
-                        property("horizontalFillType", "Max"),
-                        property("paddingHorizontal", "20"),
-                        property("textAlign", "Center")
-                    ),
+                topBar(
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    paddingHorizontal = PaddingHorizontalProperty(20),
                     components = listOf(
-                        component(
-                            type = "text",
-                            properties = listOf(
-                                property("text", "Informações Pessoais"),
-                            )
-                        )
+                        text(textProperty = TextProperty("Informações Pessoais"))
                     )
                 ),
-                component(
-                    type = "spacer",
-                    properties = listOf(
-                        property("size", "20")
-                    )
-                ),
-                component(
-                    type = "outlinedTextInput",
-                    properties = listOf(
-                        property("text", "", "$screenFlowId.nameInput"),
-                        property("horizontalFillType", "Max"),
-                        property("paddingHorizontal", "20"),
-                        property("label", "Nome completo")
-                    ),
+                spacer(size = SizeProperty(20)),
+                outlinedTextInput(
+                    text = TextProperty("", "$screenFlowId.nameInput"),
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    paddingHorizontal = PaddingHorizontalProperty(20),
+                    label = LabelProperty("Nome completo"),
                     validators = listOf(
-                        validator(
-                            type = "minLength",
+                        minLengthValidator(
                             id = "$screenFlowId.isNameFilled",
-                            required = listOf("$screenFlowId.nameInput"),
-                            data = jsonObject("length" to "3")
+                            idsToValidate = listOf("$screenFlowId.nameInput"),
+                            length = 3
                         )
                     )
                 ),
-                component(
-                    type = "spacer",
-                    properties = listOf(
-                        property("size", "20")
-                    )
-                ),
-                component(
-                    type = "outlinedTextInput",
-                    properties = listOf(
-                        property("text", "", "$screenFlowId.documentInput"),
-                        property("horizontalFillType", "Max"),
-                        property("paddingHorizontal", "20"),
-                        property("label", "CPF"),
-                        property("visualTransformation", "CpfDocument"),
-                        property("keyboardOptions", "Number")
-                    ),
+                spacer(size = SizeProperty(20)),
+                outlinedTextInput(
+                    text = TextProperty("", "$screenFlowId.documentInput"),
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    paddingHorizontal = PaddingHorizontalProperty(20),
+                    label = LabelProperty("CPF"),
+                    visualTransformation = VisualTransformationProperty(VisualTransformationOption.CpfDocument),
+                    keyboardOptions = KeyboardOptionsProperty(KeyboardOptionsOption.Number),
                     validators = listOf(
-                        validator(
-                            type = "minLength",
+                        minLengthValidator(
                             id = "$screenFlowId.isCpfValid",
-                            required = listOf("$screenFlowId.documentInput"),
-                            data = jsonObject("length" to "11")
+                            idsToValidate = listOf("$screenFlowId.documentInput"),
+                            length = 11
                         )
                     )
+
                 ),
-                component(
-                    type = "spacer",
-                    properties = listOf(
-                        property("size", "20")
-                    )
-                ),
-                component(
-                    type = "outlinedTextInput",
-                    properties = listOf(
-                        property("text", "", "$screenFlowId.phoneInput"),
-                        property("horizontalFillType", "Max"),
-                        property("paddingHorizontal", "20"),
-                        property("label", "Telefone"),
-                        property("visualTransformation", "Phone"),
-                        property("keyboardOptions", "Phone")
-                    ),
+                spacer(size = SizeProperty(20)),
+                outlinedTextInput(
+                    text = TextProperty("", "$screenFlowId.phoneInput"),
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    paddingHorizontal = PaddingHorizontalProperty(20),
+                    label = LabelProperty("Telefone"),
+                    visualTransformation = VisualTransformationProperty(VisualTransformationOption.Phone),
+                    keyboardOptions = KeyboardOptionsProperty(KeyboardOptionsOption.Phone),
                     validators = listOf(
-                        validator(
-                            type = "minLength",
+                        minLengthValidator(
                             id = "$screenFlowId.isPhoneFilled",
-                            required = listOf("$screenFlowId.phoneInput"),
-                            data = jsonObject("length" to "11")
+                            idsToValidate = listOf("$screenFlowId.phoneInput"),
+                            length = 11
                         )
                     )
                 ),
-                component(
-                    type = "column",
-                    properties = listOf(
-                        property("horizontalAlignment", "Center"),
-                        property("paddingHorizontal", "20"),
-                        property("horizontalFillType", "Max"),
-                        property("verticalFillType", "Max"),
-                        property("weight", "1"),
-                        property("verticalArrangement", "Bottom")
-                    ),
+                column(
+                    horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+                    paddingHorizontal = PaddingHorizontalProperty(20),
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                    weight = WeightProperty(1),
+                    verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
                     components = listOf(
-                        component(
-                            type = "button",
-                            properties = listOf(
-                                property("text", "Continuar"),
-                                property("enabled", "true", "$screenFlowId.continueButton1"),
-                                property("horizontalFillType", "Max")
-                            ),
+                        button(
+                            text = TextProperty("Continuar"),
+                            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                            isEnabled = IsEnabledProperty(false, "$screenFlowId.continueButton"),
                             actions = listOf(
-                                action(
-                                    type = "continue",
-                                    data = jsonObject(
-                                        "flowId" to request.flow,
-                                        "nextScreenId" to "Password",
-                                        "currentScreenId" to screenId,
-                                        "screenRequestData" to jsonObject(
-                                            "$screenFlowId.nameInput" to "name",
-                                            "$screenFlowId.documentInput" to "document",
-                                            "$screenFlowId.phoneInput" to "phone"
-                                        ),
-                                        "screenData" to request.screenData,
+                                continueAction(
+                                    flowId = request.flow,
+                                    currentScreenId = screenId,
+                                    nextScreenId = "Password",
+                                    screenData = request.screenData,
+                                    screenRequestData = listOf(
+                                        "$screenFlowId.nameInput" to "name",
+                                        "$screenFlowId.documentInput" to "document",
+                                        "$screenFlowId.phoneInput" to "phone"
                                     )
                                 )
                             ),
                             validators = listOf(
-                                validator(
-                                    type = "allTrue",
+                                allTrueValidator(
                                     id = "$screenFlowId.continueButton",
-                                    required = listOf(
+                                    toValidate = listOf(
                                         "$screenFlowId.isNameFilled",
                                         "$screenFlowId.isCpfValid",
                                         "$screenFlowId.isPhoneFilled"
@@ -159,24 +138,16 @@ class PersonalInfoScreen : SignUpScreen {
                                 )
                             )
                         ),
-                        component(
-                            type = "outlinedButton",
-                            properties = listOf(
-                                property("text", "Voltar"),
-                                property("horizontalFillType", "Max")
-                            ),
+                        outlinedButton(
+                            text = TextProperty("Voltar"),
+                            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             actions = listOf(
-                                action(type = "back")
+                                backAction()
                             )
-                        )
+                        ),
                     )
                 ),
-                component(
-                    type = "spacer",
-                    properties = listOf(
-                        property("size", "20")
-                    )
-                )
+                spacer(size = SizeProperty(20)),
             )
         )
     }

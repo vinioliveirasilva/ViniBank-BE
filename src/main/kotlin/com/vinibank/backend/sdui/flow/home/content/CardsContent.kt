@@ -1,12 +1,18 @@
 package com.vinibank.backend.sdui.flow.home.content
 
+import com.vini.designsystemsdui.component.sdUi
+import com.vini.designsystemsdui.property.CurrentScreenProperty
+import com.vini.designsystemsdui.property.FlowIdentifierProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.StageIdentifierProperty
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vinibank.backend.sdui.flow.RoutingController
 import com.vinibank.backend.sdui.flow.home.HomeScreen
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
 import com.vinibank.backend.sdui.model.SdUiRequest
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.JsonObject
-import org.springframework.stereotype.Component
 import org.springframework.context.annotation.Lazy
+import org.springframework.stereotype.Component
 
 @Component
 class CardsContent(
@@ -14,24 +20,18 @@ class CardsContent(
 ) : HomeScreen {
     override val screenId: String = "Cartoes"
 
-    override fun getScreen(request: SdUiRequest): JsonObject? = ScreenUtil.screen(
+    override fun getScreen(request: SdUiRequest): JsonObject? = screen(
         flow = "Home",
         stage = "Cartoes",
         version = "1",
         template = "",
         shouldCache = false,
         components = listOf(
-            ScreenUtil.component(
-                "sdui",
-                properties = listOf(
-                    ScreenUtil.property("flow", "Card"),
-                    ScreenUtil.property("stage", ""),
-                    ScreenUtil.property("currentScreen", screenId),
-                    ScreenUtil.property(
-                        "horizontalFillType",
-                        "Max"
-                    ),
-                ),
+            sdUi(
+                flow = FlowIdentifierProperty("Card"),
+                stage = StageIdentifierProperty(""),
+                currentScreen = CurrentScreenProperty(screenId),
+                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 components = routingController.getSdUiComponents(
                     SdUiRequest(
                         "Card",
@@ -39,7 +39,7 @@ class CardsContent(
                         "",
                         request.screenData
                     )
-                ),
+                )
             ),
         )
     )

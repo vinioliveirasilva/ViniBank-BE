@@ -1,8 +1,18 @@
 package com.vinibank.backend.sdui.flow.home.content
 
+import com.vini.designsystemsdui.component.lazyColumn
+import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vinibank.backend.sdui.flow.home.HomeScreen
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
 import com.vinibank.backend.sdui.model.SdUiRequest
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 
@@ -11,30 +21,22 @@ class InvestmentsContent : HomeScreen {
     override val screenId: String
         get() = "Investimentos"
 
-    override fun getScreen(request: SdUiRequest): JsonObject? = ScreenUtil.screen(
+    override fun getScreen(request: SdUiRequest): JsonObject? = screen(
         flow = "Home",
         stage = "Investimentos",
         version = "1",
         template = "",
         shouldCache = false,
         components = listOf(
-            ScreenUtil.component(
-                type = "lazyColumn",
-                properties = listOf(
-                    ScreenUtil.property(name = "weight", value = "1"),
-                    ScreenUtil.property(name = "horizontalFillType", value = "Max"),
-                    ScreenUtil.property(name = "verticalArrangement", value = "Center"),
-                    ScreenUtil.property(name = "horizontalAlignment", value = "Center"),
-                ),
+            lazyColumn(
+                weight = WeightProperty(1),
+                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Center),
+                horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
                 components = listOf(
-                    ScreenUtil.component(
-                        type = "text",
-                        properties = listOf(
-                            ScreenUtil.property(name = "text", value = "Conteudo de investimentos")
-                        )
-                    )
+                    text(TextProperty("Conteudo de investimentos"))
                 )
-            )
+            ),
         )
     )
 }

@@ -1,8 +1,31 @@
 package com.vinibank.backend.sdui.flow.home.screen
 
+import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.component.icon
+import com.vini.designsystemsdui.component.iconButton
+import com.vini.designsystemsdui.component.navigationBar
+import com.vini.designsystemsdui.component.navigationBarItem
+import com.vini.designsystemsdui.component.sdUi
+import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.property.CurrentScreenProperty
+import com.vini.designsystemsdui.property.DestinationIndexProperty
+import com.vini.designsystemsdui.property.FlowIdentifierProperty
+import com.vini.designsystemsdui.property.FontSizeProperty
+import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.IconNameProperty
+import com.vini.designsystemsdui.property.RequestUpdateProperty
+import com.vini.designsystemsdui.property.SelectedNavigationDestinationIndexProperty
+import com.vini.designsystemsdui.property.StageIdentifierProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.validator.intToStringValidator
 import com.vinibank.backend.sdui.flow.home.HomeScreen
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
 import com.vinibank.backend.sdui.model.SdUiRequest
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 
@@ -12,214 +35,111 @@ class HomeScreen : HomeScreen {
         get() = "Home"
 
     override fun getScreen(request: SdUiRequest): JsonObject? {
-        val bottomNavigation = ScreenUtil.component(
-            "navigationBar",
-            properties = listOf(
-                ScreenUtil.property(
-                    "selectedDestination",
-                    0,
-                    id = "bottomNavigation.selectedDestination"
-                ),
-            ),
+        val bottomNavigation = navigationBar(
+            selectedDestinationIndex = SelectedNavigationDestinationIndexProperty(0, "bottomNavigation.selectedDestination"),
             components = listOf(
-                ScreenUtil.component(
-                    "navigationBarItem",
-                    properties = listOf(
-                        ScreenUtil.property("index", 0),
-                        ScreenUtil.property(
-                            "selectedDestination",
-                            0,
-                            id = "bottomNavigation.selectedDestination"
-                        ),
-                    ),
+                navigationBarItem(
+                    destinationIndex = DestinationIndexProperty(0),
+                    selectedDestinationIndex = SelectedNavigationDestinationIndexProperty(0, "bottomNavigation.selectedDestination"),
                     components = listOf(
-                        ScreenUtil.component(
-                            "text",
-                            properties = listOf(
-                                ScreenUtil.property("text", "Home")
-                            )
-                        )
+                        text(textProperty = TextProperty("Home"))
                     ),
-                    customComponents = arrayOf(
-                        "selectedIcon" to listOf(
-                            ScreenUtil.component(
-                                "icon",
-                                properties = listOf(
-                                    ScreenUtil.property("icon", "Home")
-                                )
-                            )
-                        ),
-                        "unselectedIcon" to listOf(
-                            ScreenUtil.component(
-                                "icon",
-                                properties = listOf(
-                                    ScreenUtil.property("icon", "HomeOutline")
-                                )
-                            )
-                        )
+                    selectedIcon = listOf(
+                        icon(iconName = IconNameProperty("Home"))
+                    ),
+                    unselectedIcon = listOf(
+                        icon(iconName = IconNameProperty("HomeOutline"))
                     )
                 ),
-                ScreenUtil.component(
-                    "navigationBarItem",
-                    properties = listOf(
-                        ScreenUtil.property("index", 1),
-                        ScreenUtil.property(
-                            "selectedDestination",
-                            1,
-                            id = "bottomNavigation.selectedDestination"
-                        ),
-                    ),
+                navigationBarItem(
+                    destinationIndex = DestinationIndexProperty(1),
+                    selectedDestinationIndex = SelectedNavigationDestinationIndexProperty(1, "bottomNavigation.selectedDestination"),
                     components = listOf(
-                        ScreenUtil.component(
-                            "text",
-                            properties = listOf(
-                                ScreenUtil.property("text", "Card")
-                            )
-                        )
+                        text(textProperty = TextProperty("Card"))
                     ),
-                    customComponents = arrayOf(
-                        "selectedIcon" to listOf(
-                            ScreenUtil.component(
-                                "icon",
-                                properties = listOf(
-                                    ScreenUtil.property("icon", "Payment")
-                                )
-                            )
-                        ),
-                        "unselectedIcon" to listOf(
-                            ScreenUtil.component(
-                                "icon",
-                                properties = listOf(
-                                    ScreenUtil.property("icon", "PaymentOutline")
-                                )
-                            )
-                        )
+                    selectedIcon = listOf(
+                        icon(iconName = IconNameProperty("Payment"))
+                    ),
+                    unselectedIcon = listOf(
+                        icon(iconName = IconNameProperty("PaymentOutline"))
                     )
                 ),
-                ScreenUtil.component(
-                    "navigationBarItem",
-                    properties = listOf(
-                        ScreenUtil.property("index", 2),
-                        ScreenUtil.property(
-                            "selectedDestination",
-                            2,
-                            id = "bottomNavigation.selectedDestination"
-                        ),
-                    ),
+                navigationBarItem(
+                    destinationIndex = DestinationIndexProperty(2),
+                    selectedDestinationIndex = SelectedNavigationDestinationIndexProperty(2, "bottomNavigation.selectedDestination"),
                     components = listOf(
-                        ScreenUtil.component(
-                            "text",
-                            properties = listOf(
-                                ScreenUtil.property("text", "Investment")
-                            )
-                        )
+                        text(textProperty = TextProperty("Investimentos"))
                     ),
-                    customComponents = arrayOf(
-                        "selectedIcon" to listOf(
-                            ScreenUtil.component(
-                                "icon",
-                                properties = listOf(
-                                    ScreenUtil.property("icon", "Investment")
-                                )
-                            )
-                        ),
-                        "unselectedIcon" to listOf(
-                            ScreenUtil.component(
-                                "icon",
-                                properties = listOf(
-                                    ScreenUtil.property("icon", "InvestmentOutline")
-                                )
-                            )
-                        )
+                    selectedIcon = listOf(
+                        icon(iconName = IconNameProperty("Investment"))
                     ),
-                )
+                    unselectedIcon = listOf(
+                        icon(iconName = IconNameProperty("InvestmentOutline"))
+                    )
+                ),
             )
         )
 
-        val topBar = ScreenUtil.component(
-            "topAppBar",
-            properties = emptyList(),
+        val topBar = topBar(
             components = listOf(
-                ScreenUtil.component(
-                    "text",
-                    properties = listOf(
-                        ScreenUtil.property(
-                            "text",
-                            "Home",
-                            id = "bottomNavigation.selectedDestinationTitle"
-                        ),
-                        ScreenUtil.property("fontSize", 18f),
-                    )
-                )
+                text(
+                    textProperty = TextProperty("Home", id = "bottomNavigation.selectedDestinationTitle"),
+                    fontSizeProperty = FontSizeProperty(18)
+                ),
             ),
-            customComponents = arrayOf(
-                "actionIcons" to listOf(
-                    ScreenUtil.component(
-                        "iconButton",
-                        properties = emptyList(),
-                        actions = listOf(
-                            ScreenUtil.action(
-                                "continue",
-                                ScreenUtil.jsonObject(
-                                    "flowId" to "Home",
-                                    "nextScreenId" to "UserDetail",
-                                    "currentScreenId" to "Home"
-                                )
-                            )
+            actionIcons = listOf(
+                iconButton(
+                    actions = listOf(
+                        continueAction(
+                            flowId = request.flow,
+                            currentScreenId = screenId,
+                            nextScreenId = "UserDetail",
+                            screenData = request.screenData
                         ),
-                        components = listOf(
-                            ScreenUtil.component(
-                                "icon",
-                                properties = listOf(
-                                    ScreenUtil.property("icon", "User")
-                                )
-                            )
-                        )
                     ),
-                )
+                    components = listOf(
+                        icon(
+                            iconName = IconNameProperty("User")
+                        )
+                    )
+                ),
             )
         )
 
-        val content = ScreenUtil.component(
-            "sdui",
-            properties = listOf(
-                ScreenUtil.property("flow", "Home"),
-                ScreenUtil.property("currentScreen", "Home"),
-                ScreenUtil.property(
-                    "stage",
-                    "ContaCorrente",
-                    id = "bottomNavigation.selectedDestinationContent"
-                ),
-                ScreenUtil.property("horizontalFillType", "Max"),
-                ScreenUtil.property("horizontalAlignment", "Center"),
-                ScreenUtil.property("weight", 1),
-                ScreenUtil.property("requestUpdate", false, "requestUpdate"),
+        val content = sdUi(
+            flow = FlowIdentifierProperty("Home"),
+            stage = StageIdentifierProperty(
+                "ContaCorrente",
+                "bottomNavigation.selectedDestinationContent"
             ),
+            currentScreen = CurrentScreenProperty("Home"),
+            requestUpdate = RequestUpdateProperty(false, "requestUpdate"),
+            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+            horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+            weight = WeightProperty(1),
             validators = listOf(
-                ScreenUtil.validator(
-                    type = "intToString",
+                intToStringValidator(
                     id = "bottomNavigation.selectedDestinationContent",
-                    data = ScreenUtil.jsonObject(
-                        "0" to "ContaCorrente",
-                        "1" to "Cartoes",
-                        "2" to "Investimentos"
+                    intToString = listOf(
+                        0 to "ContaCorrente",
+                        1 to "Cartoes",
+                        2 to "Investimentos"
                     ),
                     required = listOf("bottomNavigation.selectedDestination")
                 ),
-                ScreenUtil.validator(
-                    type = "intToString",
+                intToStringValidator(
                     id = "bottomNavigation.selectedDestinationTitle",
-                    data = ScreenUtil.jsonObject(
-                        "0" to "Home",
-                        "1" to "Card",
-                        "2" to "Investment"
+                    intToString = listOf(
+                        0 to "Home",
+                        1 to "Card",
+                        2 to "Investment"
                     ),
                     required = listOf("bottomNavigation.selectedDestination")
-                )
+                ),
             )
         )
 
-        val screenObj = ScreenUtil.screen(
+        val screenObj = screen(
             flow = "Home",
             stage = "Home",
             version = "1",

@@ -1,10 +1,34 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
+import com.vini.designsystemsdui.action.closeAction
+import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.component.button
+import com.vini.designsystemsdui.component.column
+import com.vini.designsystemsdui.component.lazyColumn
+import com.vini.designsystemsdui.component.outlinedButton
+import com.vini.designsystemsdui.component.outlinedTextInput
+import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.property.ErrorMessageProperty
+import com.vini.designsystemsdui.property.ErrorProperty
+import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.IsEnabledProperty
+import com.vini.designsystemsdui.property.LabelProperty
+import com.vini.designsystemsdui.property.PaddingHorizontalProperty
+import com.vini.designsystemsdui.property.PaddingVerticalProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.validator.emailValidator
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
 import com.vinibank.backend.sdui.model.SdUiError
 import com.vinibank.backend.sdui.model.SdUiRequest
+import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -21,9 +45,11 @@ class EmailScreen(
     }
 
     override fun getRule(request: SdUiRequest): JsonObject? {
-        if(request.fromScreen.isBlank()) return null
+        if (request.fromScreen.isBlank()) return null
 
-        val model = Json.decodeFromJsonElement<EmailScreenState>(request.screenData ?: JsonObject(emptyMap()))
+        val model = Json.decodeFromJsonElement<EmailScreenState>(
+            request.screenData ?: JsonObject(emptyMap())
+        )
 
         if (userDb.users.any { it.key == model.email }) {
             val response = getInternalScreen(request, model.copy(isError = true))
@@ -33,100 +59,74 @@ class EmailScreen(
         return null
     }
 
-
-    private fun getInternalScreen(request: SdUiRequest, state: EmailScreenState = EmailScreenState()) = ScreenUtil.screen(
+    private fun getInternalScreen(
+        request: SdUiRequest,
+        state: EmailScreenState = EmailScreenState(),
+    ) = screen(
         flow = "SignUp",
         stage = "Email",
         version = "1",
         template = "",
         shouldCache = false,
         components = listOf(
-            ScreenUtil.component(
-                type = "topAppBar",
-                properties = listOf(
-                    ScreenUtil.property("horizontalFillType", "Max"),
-                    ScreenUtil.property("paddingHorizontal", "20"),
-                    ScreenUtil.property("textAlign", "Center")
-                ),
+            topBar(
+                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                paddingHorizontal = PaddingHorizontalProperty(20),
                 components = listOf(
-                    ScreenUtil.component(
-                        type = "text",
-                        properties = listOf(
-                            ScreenUtil.property("text", "Email"),
-                        )
+                    text(
+                        textProperty = TextProperty("Email"),
                     )
                 )
             ),
-            ScreenUtil.component(
-                type = "lazyColumn",
-                properties = listOf(
-                    ScreenUtil.property("verticalArrangement", "SpaceBetween"),
-                    ScreenUtil.property("weight", "1"),
-                    ScreenUtil.property("paddingVertical", "20"),
-                ),
+            lazyColumn(
+                verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
+                weight = WeightProperty(1),
+                paddingVertical = PaddingVerticalProperty(20),
                 components = listOf(
-                    ScreenUtil.component(
-                        type = "outlinedTextInput",
-                        properties = listOf(
-                            ScreenUtil.property("text", state.email, "SignUp.Email.emailInput"),
-                            ScreenUtil.property(
-                                "isError",
-                                "${state.isError}",
-                                "SignUp.Email.emailInput.isError"
-                            ),
-                            ScreenUtil.property("errorMessage", "Email já cadastrado"),
-                            ScreenUtil.property("horizontalFillType", "Max"),
-                            ScreenUtil.property("paddingHorizontal", "20"),
-                            ScreenUtil.property("label", "Digite seu email")
-                        ),
+                    outlinedTextInput(
+                        text = TextProperty(state.email, "SignUp.Email.emailInput"),
+                        error = ErrorProperty(state.isError, "SignUp.Email.emailInput.isError"),
+                        errorMessage = ErrorMessageProperty("Email já cadastrado"),
+                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        paddingHorizontal = PaddingHorizontalProperty(20),
+                        label = LabelProperty("Digite seu email"),
                         validators = listOf(
-                            ScreenUtil.validator(
-                                "emailValid",
-                                "SignUp.Email.isEmailValid",
-                                listOf("SignUp.Email.emailInput")
-                            )
+                            emailValidator(
+                                id = "SignUp.Email.isEmailValid",
+                                emails = listOf("SignUp.Email.emailInput"),
+                            ),
                         )
                     ),
-                    ScreenUtil.component(
-                        type = "column",
-                        properties = listOf(
-                            ScreenUtil.property("horizontalAlignment", "Center"),
-                            ScreenUtil.property("paddingHorizontal", "20"),
-                            ScreenUtil.property("horizontalFillType", "Max"),
-                        ),
+                    column(
+                        horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+                        paddingHorizontal = PaddingHorizontalProperty(20),
+                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                         components = listOf(
-                            ScreenUtil.component(
-                                type = "button",
-                                properties = listOf(
-                                    ScreenUtil.property("text", "Continuar"),
-                                    ScreenUtil.property(
-                                        "enabled",
-                                        false,
-                                        "SignUp.Email.isEmailValid"
-                                    ),
-                                    ScreenUtil.property("horizontalFillType", "Max")
+                            button(
+                                text = TextProperty("Continuar"),
+                                isEnabled = IsEnabledProperty(false, "SignUp.Email.isEmailValid"),
+                                horizontalFillType = HorizontalFillTypeProperty(
+                                    HorizontalFillTypeOption.Max
                                 ),
                                 actions = listOf(
-                                    ScreenUtil.action(
-                                        type = "continue",
-                                        data = ScreenUtil.jsonObject(
-                                            "flowId" to "SignUp",
-                                            "nextScreenId" to "PersonalInfo",
-                                            "currentScreenId" to "Email",
-                                            "screenRequestData" to ScreenUtil.jsonObject("SignUp.Email.emailInput" to "email"),
-                                            "screenData" to request.screenData,
-                                        )
-                                    )
+                                    continueAction(
+                                        flowId = "SignUp",
+                                        nextScreenId = "PersonalInfo",
+                                        currentScreenId = "Email",
+                                        screenRequestData = listOf(
+                                            "SignUp.Email.emailInput" to "email"
+                                        ),
+                                        screenData = request.screenData,
+                                    ),
                                 )
                             ),
-                            ScreenUtil.component(
-                                type = "outlinedButton",
-                                properties = listOf(
-                                    ScreenUtil.property("text", "Fechar"),
-                                    ScreenUtil.property("horizontalFillType", "Max")
+                            outlinedButton(
+                                text = TextProperty("Fechar"),
+                                horizontalFillType = HorizontalFillTypeProperty(
+                                    HorizontalFillTypeOption.Max
                                 ),
                                 actions = listOf(
-                                    ScreenUtil.action("close")
+                                    closeAction()
                                 )
                             )
                         )

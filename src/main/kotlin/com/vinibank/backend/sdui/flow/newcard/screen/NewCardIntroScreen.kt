@@ -1,13 +1,33 @@
 package com.vinibank.backend.sdui.flow.newcard.screen
 
+import com.vini.designsystemsdui.action.toIntAction
+import com.vini.designsystemsdui.component.card
+import com.vini.designsystemsdui.component.column
+import com.vini.designsystemsdui.component.image
+import com.vini.designsystemsdui.component.lazyColumn
+import com.vini.designsystemsdui.component.row
+import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.property.DrawableNameProperty
+import com.vini.designsystemsdui.property.HeightProperty
+import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
+import com.vini.designsystemsdui.property.HorizontalArrangementProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.PaddingHorizontalProperty
+import com.vini.designsystemsdui.property.PaddingVerticalProperty
+import com.vini.designsystemsdui.property.SizeProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.VerticalFillTypeProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
+import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vinibank.backend.db.Card
-import com.vinibank.backend.sdui.components.topBarWithCloseAction
 import com.vinibank.backend.sdui.flow.newcard.NewCardScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.action
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.component
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.jsonObject
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.property
 import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
@@ -17,85 +37,43 @@ class NewCardIntroScreen : NewCardScreen {
 
     override val screenId: String = "newCard"
 
-    private fun getCard(card: Card, index: Int) = component(
-        "card",
-        listOf(
-            property("paddingHorizontal", "30"),
-            property("paddingVertical", "10"),
-            property("horizontalFillType", "Max"),
-            property("height", "180"),
-        ),
-        listOf(
-            component(
-                "column",
-                listOf(
-                    property("paddingHorizontal", "20"),
-                    property("paddingVertical", "20"),
-                    property("verticalFillType", "Max"),
-                ),
-                listOf(
-                    component(
-                        "row",
-                        listOf(
-                            property("horizontalFillType", "Max"),
-                            property(
-                                "horizontalArrangement",
-                                "SpaceBetween"
+    private fun getCard(card: Card, index: Int) = card(
+        paddingHorizontalProperty = PaddingHorizontalProperty(30),
+        paddingVerticalProperty = PaddingVerticalProperty(10),
+        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+        heightProperty = HeightProperty(180),
+        components = listOf(
+            column(
+                paddingHorizontal = PaddingHorizontalProperty(20),
+                paddingVertical = PaddingVerticalProperty(20),
+                verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                components = listOf(
+                    row(
+                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        horizontalArrangement = HorizontalArrangementProperty(HorizontalArrangementOption.SpaceBetween),
+                        components = listOf(
+                            text(TextProperty(card.name)),
+                            text(TextProperty("final ".plus(card.number.split(" ").last())))
+                        )
+                    ),
+                    text(TextProperty(card.type)),
+                    column(
+                        verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.End),
+                        verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
+                        components = listOf(
+                            image(
+                                drawableName = DrawableNameProperty("Visa"),
+                                size = SizeProperty(30)
                             )
-                        ),
-                        listOf(
-                            component(
-                                "text",
-                                listOf(
-                                    property("text", card.name),
-                                )
-                            ),
-                            component(
-                                "text",
-                                listOf(
-                                    property(
-                                        "text",
-                                        "final ".plus(card.number.split(" ").last())
-                                    ),
-                                )
-                            ),
                         )
                     ),
-                    component(
-                        "text",
-                        listOf(
-                            property("text", card.type),
-                        )
-                    ),
-                    component(
-                        "column",
-                        listOf(
-                            property("verticalFillType", "Max"),
-                            property("horizontalFillType", "Max"),
-                            property("horizontalAlignment", "End"),
-                            property("verticalArrangement", "Bottom"),
-                        ),
-                        listOf(
-                            component(
-                                "image",
-                                listOf(
-                                    property("iconDrawable", "Visa"),
-                                    property("size", "30"),
-                                )
-                            ),
-                        )
-                    )
-                ),
-            )
+                )
+            ),
         ),
         actions = listOf(
-            action(
-                "toInt",
-                data = jsonObject(
-                    "id" to "CardsContent.SelectedCardIndex",
-                    "value" to index.toString(),
-                )
-            )
+            toIntAction("CardsContent.SelectedCardIndex", index)
         )
     )
 
@@ -107,13 +85,12 @@ class NewCardIntroScreen : NewCardScreen {
             template = "",
             shouldCache = false,
             components = listOf(
-                topBarWithCloseAction("Select your card"),
-                component(
-                    type = "lazyColumn",
-                    properties = listOf(
-                        property("horizontalFillType", "Max"),
-                        property("weight", "1")
-                    ),
+                topBar(
+                    components = listOf(text(TextProperty("Select your card")))
+                ),
+                lazyColumn(
+                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    weight = WeightProperty(1),
                     components = listOf(
                         getCard(
                             card = Card(
@@ -149,7 +126,7 @@ class NewCardIntroScreen : NewCardScreen {
                             index = 0
                         ),
                     )
-                )
+                ),
             )
         )
     }

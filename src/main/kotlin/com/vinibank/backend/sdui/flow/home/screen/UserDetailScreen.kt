@@ -1,10 +1,12 @@
 package com.vinibank.backend.sdui.flow.home.screen
 
+import com.vini.designsystemsdui.action.backAction
 import com.vini.designsystemsdui.action.continueAction
 import com.vini.designsystemsdui.component.card
 import com.vini.designsystemsdui.component.column
 import com.vini.designsystemsdui.component.horizontalDivider
 import com.vini.designsystemsdui.component.icon
+import com.vini.designsystemsdui.component.iconButton
 import com.vini.designsystemsdui.component.lazyColumn
 import com.vini.designsystemsdui.component.row
 import com.vini.designsystemsdui.component.text
@@ -137,6 +139,16 @@ class UserDetailScreen : HomeScreen {
                 topBar(
                     components = listOf(
                         text(textProperty = TextProperty("User Detail"))
+                    ),
+                    navigationIcons = listOf(
+                        iconButton(
+                            components = listOf(
+                                icon(iconName = IconNameProperty("LeftArrow"))
+                            ),
+                            actions = listOf(
+                                backAction()
+                            )
+                        )
                     )
                 ),
                 content,

@@ -1,78 +1,81 @@
 package com.vinibank.backend.sdui.flow.card.content
 
+import com.vini.designsystemsdui.action.toIntAction
+import com.vini.designsystemsdui.component.card
+import com.vini.designsystemsdui.component.column
+import com.vini.designsystemsdui.component.horizontalPager
+import com.vini.designsystemsdui.component.image
+import com.vini.designsystemsdui.component.lazyColumn
+import com.vini.designsystemsdui.component.row
+import com.vini.designsystemsdui.component.sdUi
+import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.property.ContentPaddingProperty
+import com.vini.designsystemsdui.property.CurrentPageProperty
+import com.vini.designsystemsdui.property.CurrentScreenProperty
+import com.vini.designsystemsdui.property.DrawableNameProperty
+import com.vini.designsystemsdui.property.FlowIdentifierProperty
+import com.vini.designsystemsdui.property.HeightProperty
+import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
+import com.vini.designsystemsdui.property.HorizontalArrangementProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.PaddingHorizontalProperty
+import com.vini.designsystemsdui.property.PaddingVerticalProperty
+import com.vini.designsystemsdui.property.SizeProperty
+import com.vini.designsystemsdui.property.StageIdentifierProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.VerticalFillTypeProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
+import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
+import com.vini.designsystemsdui.validator.intToStringValidator
 import com.vinibank.backend.db.Card
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.action
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.component
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.jsonObject
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.property
 import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.validator
 
 class CardDetailContent {
-    private fun getCard(card: Card, index: Int) = component(
-        type = "card",
-        properties = listOf(
-            property("paddingHorizontal", "10"),
-            property("horizontalFillType", "Max"),
-            property("height", "180"),
-        ),
+    private fun getCard(card: Card, index: Int) = card(
+        paddingHorizontalProperty = PaddingHorizontalProperty(10),
+        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+        heightProperty = HeightProperty(180),
         components = listOf(
-            component(
-                type = "column",
-                properties = listOf(
-                    property("paddingHorizontal", "20"),
-                    property("paddingVertical", "20"),
-                    property("verticalFillType", "Max"),
-                ),
+            column(
+                paddingHorizontal = PaddingHorizontalProperty(20),
+                paddingVertical = PaddingVerticalProperty(20),
+                verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                 components = listOf(
-                    component(
-                        type = "row",
-                        properties = listOf(
-                            property("horizontalFillType", "Max"),
-                            property(
-                                "horizontalArrangement",
-                                "SpaceBetween"
-                            )
+                    row(
+                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        horizontalArrangement = HorizontalArrangementProperty(
+                            HorizontalArrangementOption.SpaceBetween
                         ),
                         components = listOf(
-                            component(
-                                type = "text",
-                                properties = listOf(
-                                    property("text", card.name),
-                                )
+                            text(
+                                textProperty = TextProperty(card.name),
                             ),
-                            component(
-                                type = "text",
-                                properties = listOf(
-                                    property(
-                                        "text",
-                                        "final ".plus(card.number.split(" ").last())
-                                    ),
-                                )
+                            text(
+                                textProperty = TextProperty(
+                                    "final ".plus(
+                                        card.number.split(" ").last()
+                                    )
+                                ),
                             ),
                         )
                     ),
-                    component(
-                        type = "text",
-                        properties = listOf(
-                            property("text", card.type),
-                        )
+                    text(
+                        textProperty = TextProperty(card.type),
                     ),
-                    component(
-                        type = "column",
-                        properties = listOf(
-                            property("verticalFillType", "Max"),
-                            property("horizontalFillType", "Max"),
-                            property("horizontalAlignment", "End"),
-                            property("verticalArrangement", "Bottom"),
-                        ),
+                    column(
+                        verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.End),
+                        verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
                         components = listOf(
-                            component(
-                                type = "image",
-                                properties = listOf(
-                                    property("iconDrawable", "Visa"),
-                                    property("size", "30"),
-                                )
+                            image(
+                                drawableName = DrawableNameProperty("Visa"),
+                                size = SizeProperty(30),
                             ),
                         )
                     )
@@ -80,13 +83,10 @@ class CardDetailContent {
             )
         ),
         actions = listOf(
-            action(
-                "toInt",
-                data = jsonObject(
-                    "id" to "CardsContent.SelectedCardIndex",
-                    "value" to index.toString(),
-                )
-            )
+            toIntAction(
+                idToChange = "CardsContent.SelectedCardIndex",
+                newValue = index
+            ),
         )
     )
 
@@ -97,62 +97,37 @@ class CardDetailContent {
         template = "",
         shouldCache = false,
         components = listOf(
-            component(
-                type = "lazyColumn",
-                properties = listOf(
-                    property("paddingHorizontal", "10"),
-                    property("weight", "1"),
-                    property("horizontalFillType", "Max"),
-                    property("horizontalAlignment", "Center"),
-                ),
+            lazyColumn(
+                paddingHorizontal = PaddingHorizontalProperty(10),
+                weight = WeightProperty(1),
+                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
                 components = listOf(
-                    component(
-                        type = "horizontalPager",
-                        properties = listOf(
-                            property("contentPadding", "20"),
-                            property(
-                                "currentPage",
-                                "0",
-                                "CardsContent.SelectedCardIndex"
-                            ),
-                        ),
-                        components = cards.mapIndexed { index, card ->
-                            getCard(card, index)
-                        }
+                    horizontalPager(
+                        contentPadding = ContentPaddingProperty(20),
+                        currentPage = CurrentPageProperty(0, "CardsContent.SelectedCardIndex"),
+                        components = cards.mapIndexed { index, card -> getCard(card, index) }
                     ),
-                    component(
-                        type = "sdui",
-                        properties = listOf(
-                            property("flow", "Card"),
-                            property("currentScreen", "Detail"),
-                            property(
-                                "stage",
-                                "Detail",
-                                "CardsContent.SelectedCardId"
-                            ),
-                            property("horizontalFillType", "Max"),
-                            property("verticalFillType", "Max"),
-                            property("horizontalAlignment", "Center"),
-                            property("weight", "1"),
-                        ),
+                    sdUi(
+                        flow = FlowIdentifierProperty("Card"),
+                        currentScreen = CurrentScreenProperty("Detail"),
+                        stage = StageIdentifierProperty("Detail", "CardsContent.SelectedCardId"),
+                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                        horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+                        weight = WeightProperty(1),
                         validators = listOf(
-                            validator(
-                                type = "intToString",
-                                id = "CardsContent.SelectedCardId",
-                                data = jsonObject(
-                                    *(cards.mapIndexed { index, card -> index.toString() to "Cartoes/${card.identifier}" }).toTypedArray()
-                                ),
+                            intToStringValidator(
+                                id = "CardsContent.SelectedCardIndex",
+                                intToString = cards.mapIndexed { index, card -> index to "Cartoes/${card.identifier}" },
                                 required = listOf("CardsContent.SelectedCardIndex")
-                            )
+                            ),
                         )
                     ),
-                    component(
-                        type = "column",
-                        properties = listOf(
-                            property("paddingVertical", "10"),
-                            property("paddingHorizontal", "25"),
-                            property("horizontalFillType", "Max"),
-                        ),
+                    column(
+                        paddingVertical = PaddingVerticalProperty(10),
+                        paddingHorizontal = PaddingHorizontalProperty(25),
+                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     ),
                 )
             )

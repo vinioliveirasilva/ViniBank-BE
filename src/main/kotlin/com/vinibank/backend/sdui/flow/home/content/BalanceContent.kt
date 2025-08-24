@@ -52,7 +52,7 @@ class BalanceContent : HomeScreen {
                                 HorizontalAlignmentOption.Center),
                             components = listOf(
                                 text(textProperty = TextProperty("Balance")),
-                                text(textProperty = TextProperty("R$ 100,00")),
+                                text(textProperty = TextProperty("R$ 1000,00")),
                                 text(textProperty = TextProperty("updated 10 min ago")),
                             )
                         ),

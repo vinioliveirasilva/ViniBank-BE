@@ -42,7 +42,6 @@ class UndefinedController {
                             backAction()
                         )
                     ),
-
                 )
             ),
             text(

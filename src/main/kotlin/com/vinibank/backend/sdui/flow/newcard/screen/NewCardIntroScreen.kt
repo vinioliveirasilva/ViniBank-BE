@@ -1,8 +1,11 @@
 package com.vinibank.backend.sdui.flow.newcard.screen
 
+import com.vini.designsystemsdui.action.closeAction
 import com.vini.designsystemsdui.action.toIntAction
 import com.vini.designsystemsdui.component.card
 import com.vini.designsystemsdui.component.column
+import com.vini.designsystemsdui.component.icon
+import com.vini.designsystemsdui.component.iconButton
 import com.vini.designsystemsdui.component.image
 import com.vini.designsystemsdui.component.lazyColumn
 import com.vini.designsystemsdui.component.row
@@ -13,6 +16,7 @@ import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.SizeProperty
@@ -86,7 +90,17 @@ class NewCardIntroScreen : NewCardScreen {
             shouldCache = false,
             components = listOf(
                 topBar(
-                    components = listOf(text(TextProperty("Select your card")))
+                    components = listOf(text(TextProperty("Select your card"))),
+                    navigationIcons = listOf(
+                        iconButton(
+                            components = listOf(
+                                icon(
+                                    iconName = IconNameProperty("LeftArrow"),
+                                )
+                            ),
+                            actions = listOf(closeAction())
+                        )
+                    )
                 ),
                 lazyColumn(
                     horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),

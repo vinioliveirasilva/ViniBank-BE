@@ -1,6 +1,7 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
 import com.vini.designsystemsdui.action.businessSuccessAction
+import com.vini.designsystemsdui.component.button
 import com.vini.designsystemsdui.component.column
 import com.vini.designsystemsdui.component.lottieAnimation
 import com.vini.designsystemsdui.component.text
@@ -51,6 +52,14 @@ class SuccessScreen : SignUpScreen {
                             )
                         )
                     ),
+                    button(
+                        text = TextProperty("Corrigir animação - clicar para continuar"),
+                        actions = listOf(
+                            businessSuccessAction(
+                                screenData = request.screenData
+                            )
+                        )
+                    )
                 )
             ),
         )

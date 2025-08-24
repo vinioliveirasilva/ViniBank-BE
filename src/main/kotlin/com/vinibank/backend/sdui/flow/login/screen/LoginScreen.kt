@@ -62,7 +62,6 @@ class LoginScreen(
                 lazyColumn(
                     horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
-                    paddingHorizontal = PaddingHorizontalProperty(30),
                     weight = WeightProperty(1),
                     components = listOf(
                         column(
@@ -70,6 +69,7 @@ class LoginScreen(
                                 topBar(components = listOf(text(TextProperty("Login")))),
                                 spacer(heightProperty = HeightProperty(20)),
                                 outlinedTextInput(
+                                    paddingHorizontal = PaddingHorizontalProperty(30),
                                     horizontalFillType = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
@@ -83,6 +83,7 @@ class LoginScreen(
                                     )
                                 ),
                                 outlinedTextInput(
+                                    paddingHorizontal = PaddingHorizontalProperty(30),
                                     horizontalFillType = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
@@ -158,6 +159,7 @@ class LoginScreen(
                             )
                         ),
                         column(
+                            paddingHorizontal = PaddingHorizontalProperty(30),
                             components = listOf(
                                 button(
                                     text = TextProperty("Fazer Login"),

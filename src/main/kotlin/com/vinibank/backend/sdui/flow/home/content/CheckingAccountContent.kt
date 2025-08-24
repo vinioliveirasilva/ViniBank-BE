@@ -11,6 +11,7 @@ import com.vini.designsystemsdui.component.lazyColumn
 import com.vini.designsystemsdui.component.row
 import com.vini.designsystemsdui.component.sdUi
 import com.vini.designsystemsdui.component.snackBar
+import com.vini.designsystemsdui.component.spacer
 import com.vini.designsystemsdui.component.text
 import com.vini.designsystemsdui.property.CurrentScreenProperty
 import com.vini.designsystemsdui.property.DrawableNameProperty
@@ -158,7 +159,6 @@ class CheckingAccountContent(
             lazyColumn(
                 weight = WeightProperty(1),
                 horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                paddingVertical = PaddingVerticalProperty(10),
                 paddingHorizontal = PaddingHorizontalProperty(10),
                 horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
                 components = listOf(
@@ -167,7 +167,6 @@ class CheckingAccountContent(
                         height = HeightProperty(110),
                         components = listOf(
                             card(
-                                paddingVerticalProperty = PaddingVerticalProperty(10),
                                 heightProperty = HeightProperty(110),
                                 components = listOf(
                                     column(
@@ -204,7 +203,8 @@ class CheckingAccountContent(
                                         )
                                     ),
                                 )
-                            )
+                            ),
+                            spacer(size = SizeProperty(10))
                         )
                     ),
                     row(

@@ -11,7 +11,7 @@ import com.vini.designsystemsdui.component.text
 import com.vini.designsystemsdui.component.topBar
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.IsEnabledProperty
+import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.KeyboardOptionsProperty
 import com.vini.designsystemsdui.property.LabelProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
@@ -107,13 +107,13 @@ class PersonalInfoScreen : SignUpScreen {
                     paddingHorizontal = PaddingHorizontalProperty(20),
                     horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                    weight = WeightProperty(1),
+                    weight = WeightProperty(1f),
                     verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
                     components = listOf(
                         button(
                             text = TextProperty("Continuar"),
                             horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            isEnabled = IsEnabledProperty(false, "$screenFlowId.continueButton"),
+                            isEnabled = EnabledProperty(false, "$screenFlowId.continueButton"),
                             actions = listOf(
                                 continueAction(
                                     flowId = request.flow,

@@ -18,7 +18,7 @@ import com.vini.designsystemsdui.component.topBar
 import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.IsEnabledProperty
+import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.KeyboardOptionsProperty
 import com.vini.designsystemsdui.property.LabelProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
@@ -44,7 +44,7 @@ import kotlinx.serialization.json.decodeFromJsonElement
 import org.springframework.stereotype.Component
 
 @Component()
-class LoginScreen(
+class MainLoginScreen(
     private val userDb: UserDatabase,
 ) : LoginScreen {
     override val screenId: String
@@ -62,7 +62,7 @@ class LoginScreen(
                 lazyColumn(
                     horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
-                    weight = WeightProperty(1),
+                    weight = WeightProperty(1f),
                     components = listOf(
                         column(
                             components = listOf(
@@ -166,7 +166,7 @@ class LoginScreen(
                                     horizontalFillType = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
-                                    isEnabled = IsEnabledProperty(
+                                    isEnabled = EnabledProperty(
                                         false,
                                         "$screenFlowId.LoginButton.Enabled"
                                     ),

@@ -11,4 +11,4 @@ interface SignUpScreen : SdUiScreen
 class SignUpController(
     screens: List<SignUpScreen>,
     defaultScreen: EmailScreen,
-) : BaseFlowController(screens, defaultScreen, "SignUp")
+) : BaseFlowController<SignUpScreen>(screens, defaultScreen, "SignUp")

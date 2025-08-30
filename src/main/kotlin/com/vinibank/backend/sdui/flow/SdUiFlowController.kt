@@ -9,9 +9,9 @@ interface SdUiFlowController {
     fun getScreen(request: SdUiRequest): JsonObject?
 }
 
-open class BaseFlowController(
-    private val screens: List<SdUiScreen>,
-    private val defaultScreen: SdUiScreen,
+open class BaseFlowController <T : SdUiScreen>(
+    private val screens: List<T>,
+    private val defaultScreen: T,
     override val flowId: String,
 ) : SdUiFlowController {
 
@@ -27,5 +27,5 @@ open class BaseFlowController(
         screens.firstOrNull { it.screenId == request.fromScreen }?.getRule(request)
 
     private fun executeScreen(request: SdUiRequest) =
-        screens.firstOrNull { it.screenId == request.toScreen }?.getScreen(request) ?: defaultScreen.getScreen(request)
+        screens.firstOrNull { it.screenId == request.toScreen }?.getScreen(request) ?: getUndefinedScreen(request)
 }

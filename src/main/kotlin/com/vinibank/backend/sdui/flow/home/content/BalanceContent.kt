@@ -43,9 +43,9 @@ class BalanceContent : HomeScreen {
                     verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                     verticalAlignment = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
                     components = listOf(
-                        spacer(weight = WeightProperty(1)),
+                        spacer(weight = WeightProperty(1f)),
                         column(
-                            weight = WeightProperty(10),
+                            weight = WeightProperty(10f),
                             paddingHorizontal = PaddingHorizontalProperty(10),
                             paddingVertical = PaddingVerticalProperty(10),
                             horizontalAlignment = HorizontalAlignmentProperty(
@@ -57,7 +57,7 @@ class BalanceContent : HomeScreen {
                             )
                         ),
                         iconButton(
-                            weight = WeightProperty(1),
+                            weight = WeightProperty(1f),
                             components = listOf(
                                 icon(
                                     iconName = IconNameProperty("Autorenew")

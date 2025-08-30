@@ -85,7 +85,7 @@ class UserDetailScreen : HomeScreen {
 
         val content = lazyColumn(
             horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-            weight = WeightProperty(1),
+            weight = WeightProperty(1f),
             components = listOf(
                 card(
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),

@@ -11,7 +11,7 @@ import com.vini.designsystemsdui.component.text
 import com.vini.designsystemsdui.component.topBar
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.IsEnabledProperty
+import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextProperty
@@ -77,12 +77,12 @@ class PasswordScreen(
                     paddingHorizontal = PaddingHorizontalProperty(20),
                     horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                    weight = WeightProperty(1),
+                    weight = WeightProperty(1f),
                     verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
                     components = listOf(
                         button(
                             text = TextProperty("Continuar"),
-                            isEnabled = IsEnabledProperty(false, "$screenFlowId.isPasswordValid"),
+                            isEnabled = EnabledProperty(false, "$screenFlowId.isPasswordValid"),
                             horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             actions = listOf(
                                 continueAction(

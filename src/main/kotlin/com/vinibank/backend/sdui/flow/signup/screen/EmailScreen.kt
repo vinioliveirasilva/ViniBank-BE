@@ -13,7 +13,7 @@ import com.vini.designsystemsdui.property.ErrorMessageProperty
 import com.vini.designsystemsdui.property.ErrorProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.IsEnabledProperty
+import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.LabelProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.PaddingVerticalProperty
@@ -80,7 +80,7 @@ class EmailScreen(
             ),
             lazyColumn(
                 verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
-                weight = WeightProperty(1),
+                weight = WeightProperty(1f),
                 paddingVertical = PaddingVerticalProperty(20),
                 components = listOf(
                     outlinedTextInput(
@@ -104,7 +104,7 @@ class EmailScreen(
                         components = listOf(
                             button(
                                 text = TextProperty("Continuar"),
-                                isEnabled = IsEnabledProperty(false, "SignUp.Email.isEmailValid"),
+                                isEnabled = EnabledProperty(false, "SignUp.Email.isEmailValid"),
                                 horizontalFillType = HorizontalFillTypeProperty(
                                     HorizontalFillTypeOption.Max
                                 ),

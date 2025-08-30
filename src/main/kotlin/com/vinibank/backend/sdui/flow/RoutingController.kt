@@ -9,12 +9,11 @@ import org.springframework.stereotype.Component
 @Component
 class RoutingController(
     private val sdUiFlowControllers: List<SdUiFlowController>,
-    private val undefinedController: UndefinedController
 ) {
 
     fun getSdUiScreen(sdUiRequest: SdUiRequest) = sdUiFlowControllers.firstOrNull {
         it.flowId == sdUiRequest.flow
-    }?.getScreen(sdUiRequest) ?: undefinedController.getSdUiScreen(sdUiRequest)
+    }?.getScreen(sdUiRequest) ?: getUndefinedScreen(sdUiRequest)
 
     fun getSdUiComponents(sdUiRequest: SdUiRequest) = getSdUiScreen(sdUiRequest)["components"]?.jsonArray?.map { it.jsonObject } ?: emptyList()
 }

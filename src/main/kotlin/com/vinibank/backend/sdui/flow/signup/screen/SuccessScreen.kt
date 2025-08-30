@@ -40,7 +40,7 @@ class SuccessScreen : SignUpScreen {
                 paddingHorizontal = PaddingHorizontalProperty(20),
                 horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                weight = WeightProperty(1),
+                weight = WeightProperty(1f),
                 components = listOf(
                     lottieAnimation(
                         animationData = LottieAnimationDataProperty(

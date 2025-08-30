@@ -1,7 +1,7 @@
 package com.vinibank.backend.sdui.flow.home.content
 
 import com.vini.designsystemsdui.component.sdUi
-import com.vini.designsystemsdui.property.CurrentScreenProperty
+import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.StageIdentifierProperty
@@ -30,14 +30,14 @@ class CardsContent(
             sdUi(
                 flow = FlowIdentifierProperty("Card"),
                 stage = StageIdentifierProperty(""),
-                currentScreen = CurrentScreenProperty(screenId),
+                currentScreen = FromScreenIdentifierProperty(screenId),
                 horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 components = routingController.getSdUiComponents(
                     SdUiRequest(
-                        "Card",
-                        screenId,
-                        "",
-                        request.screenData
+                        flow = "Card",
+                        fromScreen = "",
+                        toScreen = "",
+                        screenData = request.screenData
                     )
                 )
             ),

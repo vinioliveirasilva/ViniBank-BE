@@ -11,9 +11,9 @@ import com.vini.designsystemsdui.component.sdUi
 import com.vini.designsystemsdui.component.text
 import com.vini.designsystemsdui.property.ContentPaddingProperty
 import com.vini.designsystemsdui.property.CurrentPageProperty
-import com.vini.designsystemsdui.property.CurrentScreenProperty
 import com.vini.designsystemsdui.property.DrawableNameProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
+import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
 import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
@@ -99,7 +99,7 @@ class CardDetailContent {
         components = listOf(
             lazyColumn(
                 paddingHorizontal = PaddingHorizontalProperty(10),
-                weight = WeightProperty(1),
+                weight = WeightProperty(1f),
                 horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
                 components = listOf(
@@ -110,12 +110,12 @@ class CardDetailContent {
                     ),
                     sdUi(
                         flow = FlowIdentifierProperty("Card"),
-                        currentScreen = CurrentScreenProperty("Detail"),
+                        currentScreen = FromScreenIdentifierProperty("Detail"),
                         stage = StageIdentifierProperty("Detail", "CardsContent.SelectedCardId"),
                         horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                         verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                         horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-                        weight = WeightProperty(1),
+                        weight = WeightProperty(1f),
                         validators = listOf(
                             intToStringValidator(
                                 id = "CardsContent.SelectedCardIndex",

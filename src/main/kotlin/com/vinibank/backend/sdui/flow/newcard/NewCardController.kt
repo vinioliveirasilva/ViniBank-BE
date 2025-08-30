@@ -11,4 +11,4 @@ interface NewCardScreen : SdUiScreen
 class NewCardController(
     screens: List<NewCardScreen>,
     defaultScreen: NewCardIntroScreen,
-) : BaseFlowController(screens, defaultScreen, "NewCard")
+) : BaseFlowController<NewCardScreen>(screens, defaultScreen, "NewCard")

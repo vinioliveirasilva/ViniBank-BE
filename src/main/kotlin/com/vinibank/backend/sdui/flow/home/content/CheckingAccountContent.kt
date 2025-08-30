@@ -13,7 +13,7 @@ import com.vini.designsystemsdui.component.sdUi
 import com.vini.designsystemsdui.component.snackBar
 import com.vini.designsystemsdui.component.spacer
 import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.property.CurrentScreenProperty
+import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
 import com.vini.designsystemsdui.property.DrawableNameProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
 import com.vini.designsystemsdui.property.HeightProperty
@@ -24,7 +24,7 @@ import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.RequestUpdateProperty
-import com.vini.designsystemsdui.property.ShouldShowProperty
+import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.StageIdentifierProperty
 import com.vini.designsystemsdui.property.TextAlignProperty
@@ -134,10 +134,10 @@ class CheckingAccountContent(
         false,
         components = listOf(
             dialog(
-                shouldShow = ShouldShowProperty(false, "123abc")
+                shouldShow = VisibilityProperty(false, "123abc")
             ),
             bottomSheet(
-                shouldShow = ShouldShowProperty(false, "123abc1"),
+                shouldShow = VisibilityProperty(false, "123abc1"),
                 components = listOf(
                     button(
                         text = TextProperty("Balance"),
@@ -157,7 +157,7 @@ class CheckingAccountContent(
                 )
             ),
             lazyColumn(
-                weight = WeightProperty(1),
+                weight = WeightProperty(1f),
                 horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 paddingHorizontal = PaddingHorizontalProperty(10),
                 horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
@@ -183,7 +183,7 @@ class CheckingAccountContent(
                                             sdUi(
                                                 flow = FlowIdentifierProperty("Home"),
                                                 stage = StageIdentifierProperty("Balance"),
-                                                currentScreen = CurrentScreenProperty("ContaCorrente"),
+                                                currentScreen = FromScreenIdentifierProperty("ContaCorrente"),
                                                 requestUpdate = RequestUpdateProperty(
                                                     false,
                                                     "requestUpdate1"
@@ -283,7 +283,7 @@ class CheckingAccountContent(
                         verticalArrangement = VerticalArrangementProperty(
                             VerticalArrangementOption.SpacedBy(10)
                         ),
-                        weight = WeightProperty(1),
+                        weight = WeightProperty(1f),
                         components = listOf(
                             text(TextProperty("Last Transactions")),
                             transactionItem(),
@@ -295,7 +295,7 @@ class CheckingAccountContent(
             ),
             snackBar(
                 text = TextProperty("SnackBar"),
-                shouldShow = ShouldShowProperty(false, "123123")
+                shouldShow = VisibilityProperty(false, "123123")
             ),
         )
     )

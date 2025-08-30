@@ -63,7 +63,7 @@ class AddNewCardContent {
         components = listOf(
             lazyColumn(
                 paddingHorizontal = PaddingHorizontalProperty(10),
-                weight = WeightProperty(1),
+                weight = WeightProperty(1f),
                 horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
                 components = listOf(

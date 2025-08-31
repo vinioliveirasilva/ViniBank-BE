@@ -10,7 +10,7 @@ import com.vini.designsystemsdui.component.image
 import com.vini.designsystemsdui.component.lazyColumn
 import com.vini.designsystemsdui.component.row
 import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.component.topAppBar
 import com.vini.designsystemsdui.property.DrawableNameProperty
 import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
@@ -46,39 +46,37 @@ class NewCardIntroScreen : NewCardScreen {
         paddingVerticalProperty = PaddingVerticalProperty(10),
         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
         heightProperty = HeightProperty(180),
-        components = listOf(
+        content =  listOf(
             column(
-                paddingHorizontal = PaddingHorizontalProperty(20),
-                paddingVertical = PaddingVerticalProperty(20),
-                verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                components = listOf(
+                paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                paddingVerticalProperty = PaddingVerticalProperty(20),
+                verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                content =  listOf(
                     row(
-                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        horizontalArrangement = HorizontalArrangementProperty(HorizontalArrangementOption.SpaceBetween),
-                        components = listOf(
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        horizontalArrangementProperty = HorizontalArrangementProperty(HorizontalArrangementOption.SpaceBetween),
+                        content =  listOf(
                             text(TextProperty(card.name)),
                             text(TextProperty("final ".plus(card.number.split(" ").last())))
                         )
                     ),
                     text(TextProperty(card.type)),
                     column(
-                        verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.End),
-                        verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
-                        components = listOf(
+                        verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.End),
+                        verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
+                        content =  listOf(
                             image(
-                                drawableName = DrawableNameProperty("Visa"),
-                                size = SizeProperty(30)
+                                drawableNameProperty = DrawableNameProperty("Visa"),
+                                sizeProperty = SizeProperty(30)
                             )
                         )
                     ),
                 )
             ),
         ),
-        actions = listOf(
-            toIntAction("CardsContent.SelectedCardIndex", index)
-        )
+        onClick = toIntAction("CardsContent.SelectedCardIndex", index)
     )
 
     override fun getScreen(request: SdUiRequest): JsonObject? {
@@ -88,24 +86,24 @@ class NewCardIntroScreen : NewCardScreen {
             version = "1",
             template = "",
             shouldCache = false,
-            components = listOf(
-                topBar(
-                    components = listOf(text(TextProperty("Select your card"))),
-                    navigationIcons = listOf(
+            content =  listOf(
+                topAppBar(
+                    title =  listOf(text(TextProperty("Select your card"))),
+                    navigationIcon = listOf(
                         iconButton(
-                            components = listOf(
+                            content =  listOf(
                                 icon(
-                                    iconName = IconNameProperty("LeftArrow"),
+                                    iconNameProperty = IconNameProperty("LeftArrow"),
                                 )
                             ),
-                            actions = listOf(closeAction())
+                            onClick = closeAction()
                         )
                     )
                 ),
                 lazyColumn(
-                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    weight = WeightProperty(1f),
-                    components = listOf(
+                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    weightProperty = WeightProperty(1f),
+                    content =  listOf(
                         getCard(
                             card = Card(
                                 identifier = "",

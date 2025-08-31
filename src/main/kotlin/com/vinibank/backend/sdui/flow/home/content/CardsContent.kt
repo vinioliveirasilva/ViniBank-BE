@@ -26,12 +26,12 @@ class CardsContent(
         version = "1",
         template = "",
         shouldCache = false,
-        components = listOf(
+        content =  listOf(
             sdUi(
-                flow = FlowIdentifierProperty("Card"),
-                stage = StageIdentifierProperty(""),
-                currentScreen = FromScreenIdentifierProperty(screenId),
-                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                flowIdentifierProperty = FlowIdentifierProperty("Card"),
+                stageIdentifierProperty = StageIdentifierProperty(""),
+                fromScreenIdentifierProperty = FromScreenIdentifierProperty(screenId),
+                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 components = routingController.getSdUiComponents(
                     SdUiRequest(
                         flow = "Card",

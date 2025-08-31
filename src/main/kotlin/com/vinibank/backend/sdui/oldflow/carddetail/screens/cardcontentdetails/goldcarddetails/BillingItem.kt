@@ -9,7 +9,7 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //
 //object BillingItem : SdUiScreenOLD {
 //
-//    val topBar = component(
+//    val topAppBar = component(
 //        "topAppBar",
 //        listOf(),
 //        listOf(),
@@ -39,42 +39,42 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //        "horizontalDivider",
 //        listOf(
 //            property("paddingVertical", "8"),
-//            paddingHorizontal = PaddingHorizontalProperty(16"),
+//            paddingHorizontalProperty = PaddingHorizontalProperty(16"),
 //        )
 //    )
 //
 //    fun item(title: String, description: String, icon: String) = component(
 //        "row",
 //        listOf(
-//            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+//            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
 //            property("verticalAlignment", "Center"),
 //            property("paddingVertical", "16"),
-//            paddingHorizontal = PaddingHorizontalProperty(16"),
+//            paddingHorizontalProperty = PaddingHorizontalProperty(16"),
 //        ),
 //        listOf(
 //            component(
 //                "icon",
 //                listOf(
 //                    property("icon", icon),
-//                    size = SizeProperty(24"),
+//                    sizeProperty = SizeProperty(24"),
 //                )
 //            ),
 //            component(
 //                "column",
 //                listOf(
-//                    paddingHorizontal = PaddingHorizontalProperty(16"),
+//                    paddingHorizontalProperty = PaddingHorizontalProperty(16"),
 //                ),
 //                listOf(
 //                    component(
 //                        "text",
 //                        listOf(
-//                            text = TextProperty(title),
+//                            textProperty = TextProperty(title),
 //                        )
 //                    ),
 //                    component(
 //                        "text",
 //                        listOf(
-//                            text = TextProperty(description),
+//                            textProperty = TextProperty(description),
 //                        )
 //                    )
 //                )
@@ -88,16 +88,16 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //        "1",
 //        "",
 //        false,
-//        components = listOf(
+//        content =  listOf(
 //            component(
 //                "lazyColumn",
 //                listOf(
-//                    weight = WeightProperty(1),
-//                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-//                    horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+//                    weightProperty = WeightProperty(1),
+//                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+//                    horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
 //                ),
 //                listOf(
-//                    topBar,
+//                    topAppBar,
 //                    item("Valor Total", "R$ 1.000,00", "Money"),
 //                    horizontalDivider(),
 //                    item("Android Pay", "Gold Card, final 4869", ""),

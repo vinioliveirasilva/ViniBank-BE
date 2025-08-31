@@ -4,7 +4,7 @@ import com.vini.designsystemsdui.action.backAction
 import com.vini.designsystemsdui.component.icon
 import com.vini.designsystemsdui.component.iconButton
 import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.component.topAppBar
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.PaddingVerticalProperty
@@ -21,21 +21,19 @@ fun getUndefinedScreen(request: SdUiRequest) = screen(
     version = "1",
     template = "",
     shouldCache = false,
-    components = listOf(
-        topBar(
-            components = listOf(
+    content =  listOf(
+        topAppBar(
+            title =  listOf(
                 text(textProperty = TextProperty("TODO"))
             ),
-            navigationIcons = listOf(
+            navigationIcon = listOf(
                 iconButton(
-                    components = listOf(
+                    content =  listOf(
                         icon(
-                            iconName = IconNameProperty("LeftArrow"),
+                            iconNameProperty = IconNameProperty("LeftArrow"),
                         )
                     ),
-                    actions = listOf(
-                        backAction()
-                    )
+                    onClick = backAction(),
                 ),
             )
         ),

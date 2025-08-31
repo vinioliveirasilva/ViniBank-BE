@@ -20,12 +20,10 @@ class SuccessLoginScreen() : LoginScreen {
             version = "1",
             template = "",
             shouldCache = false,
-            components = listOf(
+            content =  listOf(
                 blank(
-                    actions = listOf(
-                        businessSuccessAction(
-                            screenData = request.screenData
-                        )
+                    onAppear = businessSuccessAction(
+                        screenData = request.screenData
                     )
                 )
             )

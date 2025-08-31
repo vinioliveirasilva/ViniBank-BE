@@ -15,7 +15,7 @@ object ScreenUtil {
         template: String,
         shouldCache: Boolean,
         cacheStrategy: JsonObject? = null,
-        components: List<Component>? = null,
+        content: List<Component>? = null,
     ) = buildJsonObject {
         put("flow", flow)
         put("stage", stage)
@@ -23,6 +23,6 @@ object ScreenUtil {
         put("template", template)
         put("shouldCache", shouldCache)
         cacheStrategy?.let { put("cacheStrategy", it) }
-        components?.run { putJsonArray("components") { forEach { add(it) } } }
+        content?.run { putJsonArray("components") { forEach { add(it) } } }
     }
 }

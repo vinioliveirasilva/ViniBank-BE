@@ -17,31 +17,31 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //    fun billing() = component(
 //        type = "row",
 //        properties = listOf(
-//            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+//            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
 //            property("verticalAlignment", "Center"),
 //            property("horizontalArrangement", "SpaceBetween"),
 //        ),
-//        components = listOf(
+//        content =  listOf(
 //            component(
 //                type = "column",
 //                properties = listOf(),
-//                components = listOf(
+//                content =  listOf(
 //                    component(
 //                        type = "text",
 //                        properties = listOf(
-//                            text = TextProperty("Fatura Fechada"),
+//                            textProperty = TextProperty("Fatura Fechada"),
 //                        )
 //                    ),
 //                    component(
 //                        type = "text",
 //                        properties = listOf(
-//                            text = TextProperty("R$ 177,42"),
+//                            textProperty = TextProperty("R$ 177,42"),
 //                        )
 //                    ),
 //                    component(
 //                        type = "text",
 //                        properties = listOf(
-//                            text = TextProperty("vencimento: 07 jul"),
+//                            textProperty = TextProperty("vencimento: 07 jul"),
 //                        )
 //                    ),
 //                )
@@ -51,19 +51,19 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //                properties = listOf(
 //                    property("verticalAlignment", "Center"),
 //                ),
-//                components = listOf(
+//                content =  listOf(
 //                    component(
 //                        type = "text",
 //                        properties = listOf(
-//                            paddingHorizontal = PaddingHorizontalProperty(8"),
-//                            text = TextProperty("Acessar fatura"),
+//                            paddingHorizontalProperty = PaddingHorizontalProperty(8"),
+//                            textProperty = TextProperty("Acessar fatura"),
 //                        )
 //                    ),
 //                    component(
 //                        type = "icon",
 //                        properties = listOf(
 //                            property("icon", "RightArrow"),
-//                            size = SizeProperty(16"),
+//                            sizeProperty = SizeProperty(16"),
 //                        )
 //                    )
 //                )
@@ -74,16 +74,16 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //    fun automaticPayment() = component(
 //        type = "row",
 //        properties = listOf(
-//            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+//            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
 //            property("verticalAlignment", "Center"),
 //            property("horizontalArrangement", "SpaceBetween"),
 //            property("paddingVertical", "12"),
 //        ),
-//        components = listOf(
+//        content =  listOf(
 //            component(
 //                type = "text",
 //                properties = listOf(
-//                    text = TextProperty("Débito automatico"),
+//                    textProperty = TextProperty("Débito automatico"),
 //                )
 //            ),
 //            component(
@@ -91,19 +91,19 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //                properties = listOf(
 //                    property("verticalAlignment", "Center"),
 //                ),
-//                components = listOf(
+//                content =  listOf(
 //                    component(
 //                        type = "text",
 //                        properties = listOf(
-//                            text = TextProperty("Ativado"),
-//                            paddingHorizontal = PaddingHorizontalProperty(8"),
+//                            textProperty = TextProperty("Ativado"),
+//                            paddingHorizontalProperty = PaddingHorizontalProperty(8"),
 //                        )
 //                    ),
 //                    component(
 //                        type = "icon",
 //                        properties = listOf(
 //                            property("icon", "RightArrow"),
-//                            size = SizeProperty(12"),
+//                            sizeProperty = SizeProperty(12"),
 //                        )
 //                    )
 //                )
@@ -114,16 +114,16 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //    fun creditLimit() = component(
 //        type = "row",
 //        properties = listOf(
-//            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+//            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
 //            property("verticalAlignment", "Center"),
 //            property("horizontalArrangement", "SpaceBetween"),
 //            property("paddingVertical", "12"),
 //        ),
-//        components = listOf(
+//        content =  listOf(
 //            component(
 //                type = "text",
 //                properties = listOf(
-//                    text = TextProperty("Limite Disponivel"),
+//                    textProperty = TextProperty("Limite Disponivel"),
 //                )
 //            ),
 //            component(
@@ -131,19 +131,19 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //                properties = listOf(
 //                    property("verticalAlignment", "Center"),
 //                ),
-//                components = listOf(
+//                content =  listOf(
 //                    component(
 //                        type = "text",
 //                        properties = listOf(
-//                            text = TextProperty("R$ 980,58"),
-//                            paddingHorizontal = PaddingHorizontalProperty(8"),
+//                            textProperty = TextProperty("R$ 980,58"),
+//                            paddingHorizontalProperty = PaddingHorizontalProperty(8"),
 //                        )
 //                    ),
 //                    component(
 //                        type = "icon",
 //                        properties = listOf(
 //                            property("icon", "RightArrow"),
-//                            size = SizeProperty(12"),
+//                            sizeProperty = SizeProperty(12"),
 //                        )
 //                    )
 //                )
@@ -154,16 +154,16 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //    fun milhas() = component(
 //        type = "row",
 //        properties = listOf(
-//            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+//            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
 //            property("verticalAlignment", "Center"),
 //            property("horizontalArrangement", "SpaceBetween"),
 //            property("paddingVertical", "12"),
 //        ),
-//        components = listOf(
+//        content =  listOf(
 //            component(
 //                type = "text",
 //                properties = listOf(
-//                    text = TextProperty("Pontos e Beneficios"),
+//                    textProperty = TextProperty("Pontos e Beneficios"),
 //                )
 //            ),
 //            component(
@@ -171,19 +171,19 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //                properties = listOf(
 //                    property("verticalAlignment", "Center"),
 //                ),
-//                components = listOf(
+//                content =  listOf(
 //                    component(
 //                        type = "text",
 //                        properties = listOf(
-//                            text = TextProperty("Indisponivel"),
-//                            paddingHorizontal = PaddingHorizontalProperty(8"),
+//                            textProperty = TextProperty("Indisponivel"),
+//                            paddingHorizontalProperty = PaddingHorizontalProperty(8"),
 //                        )
 //                    ),
 //                    component(
 //                        type = "icon",
 //                        properties = listOf(
 //                            property("icon", ""),
-//                            size = SizeProperty(12"),
+//                            sizeProperty = SizeProperty(12"),
 //                        )
 //                    )
 //                )
@@ -198,15 +198,15 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //             "",
 //            "",
 //             true,
-//            components = listOf(
+//            content =  listOf(
 //                component(
 //                    type = "column",
 //                    properties = listOf(
 //                        property("paddingVertical", "10"),
-//                        paddingHorizontal = PaddingHorizontalProperty(25"),
-//                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+//                        paddingHorizontalProperty = PaddingHorizontalProperty(25"),
+//                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
 //                    ),
-//                    components = listOf(
+//                    content =  listOf(
 //                        billing(),
 //                        horizontalDivider(),
 //                        automaticPayment(),

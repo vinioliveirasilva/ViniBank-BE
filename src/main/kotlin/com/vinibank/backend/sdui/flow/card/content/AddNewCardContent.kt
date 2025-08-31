@@ -32,17 +32,17 @@ import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 
 class AddNewCardContent {
     private fun item(title: String, description: String, icon: String) = row(
-        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-        verticalAlignment = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
-        paddingVertical = PaddingVerticalProperty(16),
-        components = listOf(
+        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+        verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
+        paddingVerticalProperty = PaddingVerticalProperty(16),
+        content =  listOf(
             icon(
-                iconName = IconNameProperty(icon),
-                size = SizeProperty(24),
+                iconNameProperty = IconNameProperty(icon),
+                sizeProperty = SizeProperty(24),
             ),
             column(
-                paddingHorizontal = PaddingHorizontalProperty(16),
-                components = listOf(
+                paddingHorizontalProperty = PaddingHorizontalProperty(16),
+                content =  listOf(
                     text(
                         textProperty = TextProperty(title),
                     ),
@@ -60,67 +60,63 @@ class AddNewCardContent {
         version = "1",
         template = "",
         shouldCache = false,
-        components = listOf(
+        content =  listOf(
             lazyColumn(
-                paddingHorizontal = PaddingHorizontalProperty(10),
-                weight = WeightProperty(1f),
-                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-                components = listOf(
+                paddingHorizontalProperty = PaddingHorizontalProperty(10),
+                weightProperty = WeightProperty(1f),
+                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+                content =  listOf(
                     horizontalPager(
-                        contentPadding = ContentPaddingProperty(20),
-                        currentPage = CurrentPageProperty(0, "CardsContent.SelectedCardIndex"),
-                        components = listOf(
+                        contentPaddingProperty = ContentPaddingProperty(20),
+                        currentPageProperty = CurrentPageProperty(0, "CardsContent.SelectedCardIndex"),
+                        pageContent =  listOf(
                             card(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(10),
                                 horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                     HorizontalFillTypeOption.Max
                                 ),
                                 heightProperty = HeightProperty(180),
-                                components = listOf(
+                                content =  listOf(
                                     column(
-                                        paddingHorizontal = PaddingHorizontalProperty(20),
-                                        paddingVertical = PaddingVerticalProperty(20),
-                                        verticalFillType = VerticalFillTypeProperty(
+                                        paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                                        paddingVerticalProperty = PaddingVerticalProperty(20),
+                                        verticalFillTypeProperty = VerticalFillTypeProperty(
                                             VerticalFillTypeOption.Max
                                         ),
-                                        horizontalFillType = HorizontalFillTypeProperty(
+                                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                             HorizontalFillTypeOption.Max
                                         ),
-                                        horizontalAlignment = HorizontalAlignmentProperty(
+                                        horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                             HorizontalAlignmentOption.Center
                                         ),
-                                        verticalArrangement = VerticalArrangementProperty(
+                                        verticalArrangementProperty = VerticalArrangementProperty(
                                             VerticalArrangementOption.Center
                                         ),
-                                        components = listOf(
+                                        content =  listOf(
                                             icon(
-                                                iconName = IconNameProperty("Add"),
-                                                size = SizeProperty(30),
+                                                iconNameProperty = IconNameProperty("Add"),
+                                                sizeProperty = SizeProperty(30),
                                             ),
                                         ),
                                     )
                                 ),
-                                actions = listOf(
-                                    navigateAction(
-                                        flow = "NewCard"
-                                    ),
-                                )
+                                onClick = navigateAction(flow = "NewCard"),
                             )
                         )
                     ),
                     column(
-                        paddingVertical = PaddingVerticalProperty(10),
-                        paddingHorizontal = PaddingHorizontalProperty(25),
-                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        components = listOf(
+                        paddingVerticalProperty = PaddingVerticalProperty(10),
+                        paddingHorizontalProperty = PaddingHorizontalProperty(25),
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        content =  listOf(
                             item(
                                 "Até 3 adicionais",
                                 "Conte com até 3 cartoes adicionais gratuitos com os mesmos beneficios do titular.",
                                 "Payment"
                             ),
                             horizontalDivider(
-                                paddingHorizontal = PaddingHorizontalProperty(8),
+                                paddingHorizontalProperty = PaddingHorizontalProperty(8),
                             ),
                             item(
                                 "ViniBank Shop",
@@ -128,7 +124,7 @@ class AddNewCardContent {
                                 "ShoppingBag"
                             ),
                             horizontalDivider(
-                                paddingHorizontal = PaddingHorizontalProperty(8),
+                                paddingHorizontalProperty = PaddingHorizontalProperty(8),
                             ),
                             item(
                                 "Concierge",
@@ -138,9 +134,9 @@ class AddNewCardContent {
                         )
                     ),
                     column(
-                        paddingVertical = PaddingVerticalProperty(10),
-                        paddingHorizontal = PaddingHorizontalProperty(25),
-                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        paddingVerticalProperty = PaddingVerticalProperty(10),
+                        paddingHorizontalProperty = PaddingHorizontalProperty(25),
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     ),
                 )
             )

@@ -14,7 +14,7 @@ import com.vini.designsystemsdui.component.lazyColumn
 import com.vini.designsystemsdui.component.outlinedTextInput
 import com.vini.designsystemsdui.component.spacer
 import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.component.topAppBar
 import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
@@ -58,23 +58,23 @@ class MainLoginScreen(
             version = "1",
             template = "",
             shouldCache = false,
-            components = listOf(
+            content =  listOf(
                 lazyColumn(
-                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
-                    weight = WeightProperty(1f),
-                    components = listOf(
+                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
+                    weightProperty = WeightProperty(1f),
+                    content =  listOf(
                         column(
-                            components = listOf(
-                                topBar(components = listOf(text(TextProperty("Login")))),
+                            content =  listOf(
+                                topAppBar(title = listOf(text(TextProperty("Login")))),
                                 spacer(heightProperty = HeightProperty(20)),
                                 outlinedTextInput(
-                                    paddingHorizontal = PaddingHorizontalProperty(30),
-                                    horizontalFillType = HorizontalFillTypeProperty(
+                                    paddingHorizontalProperty = PaddingHorizontalProperty(30),
+                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
-                                    label = LabelProperty("Email"),
-                                    text = TextProperty("123@123.com", "$screenFlowId.Email"),
+                                    labelProperty = LabelProperty("Email"),
+                                    textProperty = TextProperty("123@123.com", "$screenFlowId.Email"),
                                     validators = listOf(
                                         emailValidator(
                                             id = "$screenFlowId.Email.EmailValid",
@@ -83,14 +83,14 @@ class MainLoginScreen(
                                     )
                                 ),
                                 outlinedTextInput(
-                                    paddingHorizontal = PaddingHorizontalProperty(30),
-                                    horizontalFillType = HorizontalFillTypeProperty(
+                                    paddingHorizontalProperty = PaddingHorizontalProperty(30),
+                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
-                                    label = LabelProperty("Senha"),
-                                    text = TextProperty("123@123A", "$screenFlowId.Password"),
-                                    keyboardOptions = KeyboardOptionsProperty(KeyboardOptionsOption.Password),
-                                    visualTransformation = VisualTransformationProperty(
+                                    labelProperty = LabelProperty("Senha"),
+                                    textProperty = TextProperty("123@123A", "$screenFlowId.Password"),
+                                    keyboardOptionsProperty = KeyboardOptionsProperty(KeyboardOptionsOption.Password),
+                                    visualTransformationProperty = VisualTransformationProperty(
                                         VisualTransformationOption.Password,
                                         "$screenFlowId.Password.VisualTransformation"
                                     ),
@@ -103,70 +103,66 @@ class MainLoginScreen(
                                     ),
                                     trailingIcon = listOf(
                                         iconButton(
-                                            visibility = VisibilityProperty(
+                                            visibilityProperty = VisibilityProperty(
                                                 true,
                                                 "$screenFlowId.PasswordIsVisible"
                                             ),
-                                            components = listOf(
-                                                icon(iconName = IconNameProperty("Visibility"))
+                                            content =  listOf(
+                                                icon(iconNameProperty = IconNameProperty("Visibility"))
                                             ),
-                                            actions = listOf(
-                                                multipleActions(
-                                                    listOf(
-                                                        toStringAction(
-                                                            "$screenFlowId.Password.VisualTransformation",
-                                                            "None"
-                                                        ),
-                                                        toBooleanAction(
-                                                            "$screenFlowId.PasswordIsNotVisible",
-                                                            true
-                                                        ),
-                                                        toBooleanAction(
-                                                            "$screenFlowId.PasswordIsVisible",
-                                                            false
-                                                        ),
-                                                    )
+                                            onClick = multipleActions(
+                                                listOf(
+                                                    toStringAction(
+                                                        "$screenFlowId.Password.VisualTransformation",
+                                                        "None"
+                                                    ),
+                                                    toBooleanAction(
+                                                        "$screenFlowId.PasswordIsNotVisible",
+                                                        true
+                                                    ),
+                                                    toBooleanAction(
+                                                        "$screenFlowId.PasswordIsVisible",
+                                                        false
+                                                    ),
                                                 )
                                             )
                                         ),
                                         iconButton(
-                                            visibility = VisibilityProperty(
+                                            visibilityProperty = VisibilityProperty(
                                                 false,
                                                 "$screenFlowId.PasswordIsNotVisible"
                                             ),
-                                            components = listOf(icon(iconName = IconNameProperty("VisibilityOff"))),
-                                            actions = listOf(
-                                                multipleActions(
-                                                    listOf(
-                                                        toStringAction(
-                                                            "$screenFlowId.Password.VisualTransformation",
-                                                            "Password"
-                                                        ),
-                                                        toBooleanAction(
-                                                            "$screenFlowId.PasswordIsVisible",
-                                                            true
-                                                        ),
-                                                        toBooleanAction(
-                                                            "$screenFlowId.PasswordIsNotVisible",
-                                                            false
-                                                        ),
-                                                    )
+                                            content =  listOf(icon(iconNameProperty = IconNameProperty("VisibilityOff"))),
+                                            onClick = multipleActions(
+                                                listOf(
+                                                    toStringAction(
+                                                        "$screenFlowId.Password.VisualTransformation",
+                                                        "Password"
+                                                    ),
+                                                    toBooleanAction(
+                                                        "$screenFlowId.PasswordIsVisible",
+                                                        true
+                                                    ),
+                                                    toBooleanAction(
+                                                        "$screenFlowId.PasswordIsNotVisible",
+                                                        false
+                                                    ),
                                                 )
-                                            )
+                                            ),
                                         ),
                                     )
                                 ),
                             )
                         ),
                         column(
-                            paddingHorizontal = PaddingHorizontalProperty(30),
-                            components = listOf(
+                            paddingHorizontalProperty = PaddingHorizontalProperty(30),
+                            content =  listOf(
                                 button(
-                                    text = TextProperty("Fazer Login"),
-                                    horizontalFillType = HorizontalFillTypeProperty(
+                                    textProperty = TextProperty("Fazer Login"),
+                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
-                                    isEnabled = EnabledProperty(
+                                    enabledProperty = EnabledProperty(
                                         false,
                                         "$screenFlowId.LoginButton.Enabled"
                                     ),
@@ -179,38 +175,34 @@ class MainLoginScreen(
                                             )
                                         ),
                                     ),
-                                    actions = listOf(
-                                        continueAction(
-                                            id = "$screenFlowId.LoginButton",
-                                            flowId = request.flow,
-                                            nextScreenId = "Success",
-                                            currentScreenId = screenId,
-                                            screenRequestData = listOf(
-                                                "$screenFlowId.Email" to "email",
-                                                "$screenFlowId.Password" to "password"
-                                            ),
-                                            screenData = request.screenData
+                                    onClick = continueAction(
+                                        id = "$screenFlowId.LoginButton",
+                                        flowId = request.flow,
+                                        nextScreenId = "Success",
+                                        currentScreenId = screenId,
+                                        screenRequestData = listOf(
+                                            "$screenFlowId.Email" to "email",
+                                            "$screenFlowId.Password" to "password"
                                         ),
-                                    )
+                                        screenData = request.screenData
+                                    ),
 
                                 ),
                                 spacer(heightProperty = HeightProperty(10)),
                                 elevatedButton(
-                                    text = TextProperty("Fazer Cadastro"),
-                                    horizontalFillType = HorizontalFillTypeProperty(
+                                    textProperty = TextProperty("Fazer Cadastro"),
+                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
-                                    actions = listOf(
-                                        navigateAction(
-                                            flow = "SignUp",
-                                            actionId = "$screenFlowId.LoginButton",
-                                            screenData = request.screenData,
-                                            screenRequestData = listOf(
-                                                "$screenFlowId.Email" to "email",
-                                                "$screenFlowId.Password" to "password"
-                                            )
-                                        ),
-                                    )
+                                    onClick = navigateAction(
+                                        flow = "SignUp",
+                                        actionId = "$screenFlowId.LoginButton",
+                                        screenData = request.screenData,
+                                        screenRequestData = listOf(
+                                            "$screenFlowId.Email" to "email",
+                                            "$screenFlowId.Password" to "password"
+                                        )
+                                    ),
                                 ),
                                 spacer(heightProperty = HeightProperty(20))
                             )

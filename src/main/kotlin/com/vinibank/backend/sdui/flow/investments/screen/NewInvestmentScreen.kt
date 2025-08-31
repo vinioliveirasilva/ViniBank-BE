@@ -6,7 +6,7 @@ import com.vini.designsystemsdui.component.lazyColumn
 import com.vini.designsystemsdui.component.row
 import com.vini.designsystemsdui.component.spacer
 import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.component.topAppBar
 import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
@@ -32,30 +32,28 @@ class NewInvestmentScreen : InvestmentsScreen {
         listOf("Fundos" to "AvailableFunds", "CDB" to "", "LCI" to "", "LCA" to "")
 
     private fun availableProducts(request: SdUiRequest) = lazyColumn(
-        verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.SpacedBy(10)),
-        components = availableProducts.map {
+        verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpacedBy(10)),
+        content =  availableProducts.map {
             card(
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                components = listOf(
+                content =  listOf(
                     row(
-                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        horizontalArrangement = HorizontalArrangementProperty(
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        horizontalArrangementProperty = HorizontalArrangementProperty(
                             HorizontalArrangementOption.SpaceBetween
                         ),
-                        components = listOf(
+                        content =  listOf(
                             text(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 paddingVerticalProperty = PaddingVerticalProperty(20),
                                 textProperty = TextProperty(value = it.first),
                             ),
                         ),
-                        actions = listOf(
-                            continueAction(
-                                flowId = request.flow,
-                                nextScreenId = it.second,
-                                currentScreenId = screenId
-                            )
+                        onClick = continueAction(
+                            flowId = request.flow,
+                            nextScreenId = it.second,
+                            currentScreenId = screenId
                         )
                     )
                 )
@@ -70,9 +68,9 @@ class NewInvestmentScreen : InvestmentsScreen {
             version = "1",
             template = "",
             shouldCache = false,
-            components = listOf(
-                topBar(
-                    components = listOf(
+            content =  listOf(
+                topAppBar(
+                    title = listOf(
                         text(
                             textProperty = TextProperty(value = "Familias disponiveis"),
                             fontSizeProperty = FontSizeProperty(18f)

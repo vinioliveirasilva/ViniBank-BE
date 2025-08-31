@@ -37,37 +37,36 @@ class BalanceContent : HomeScreen {
             version = "1",
             template = "",
             shouldCache = false,
-            components = listOf(
+            content = listOf(
                 row(
-                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    verticalFillType = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                    verticalAlignment = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
-                    components = listOf(
-                        spacer(weight = WeightProperty(1f)),
+                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                    verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
+                    content = listOf(
+                        spacer(weightProperty = WeightProperty(1f)),
                         column(
-                            weight = WeightProperty(10f),
-                            paddingHorizontal = PaddingHorizontalProperty(10),
-                            paddingVertical = PaddingVerticalProperty(10),
-                            horizontalAlignment = HorizontalAlignmentProperty(
-                                HorizontalAlignmentOption.Center),
-                            components = listOf(
+                            weightProperty = WeightProperty(10f),
+                            paddingHorizontalProperty = PaddingHorizontalProperty(10),
+                            paddingVerticalProperty = PaddingVerticalProperty(10),
+                            horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                                HorizontalAlignmentOption.Center
+                            ),
+                            content = listOf(
                                 text(textProperty = TextProperty("Balance")),
                                 text(textProperty = TextProperty("R$ 1000,00")),
                                 text(textProperty = TextProperty("updated 10 min ago")),
                             )
                         ),
                         iconButton(
-                            weight = WeightProperty(1f),
-                            components = listOf(
+                            weightProperty = WeightProperty(1f),
+                            content = listOf(
                                 icon(
-                                    iconName = IconNameProperty("Autorenew")
+                                    iconNameProperty = IconNameProperty("Autorenew")
                                 )
                             ),
-                            actions = listOf(
-                                toBooleanAction(
-                                    idToChange = "requestUpdate1",
-                                    newValue = true
-                                )
+                            onClick = toBooleanAction(
+                                idToChange = "requestUpdate1",
+                                newValue = true
                             )
                         ),
                     )

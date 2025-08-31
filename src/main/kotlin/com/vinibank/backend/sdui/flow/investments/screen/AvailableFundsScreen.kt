@@ -5,11 +5,13 @@ import com.vini.designsystemsdui.action.toBooleanAction
 import com.vini.designsystemsdui.component.card
 import com.vini.designsystemsdui.component.column
 import com.vini.designsystemsdui.component.lazyColumn
+import com.vini.designsystemsdui.component.modalDatePicker
 import com.vini.designsystemsdui.component.outlinedButton
 import com.vini.designsystemsdui.component.row
 import com.vini.designsystemsdui.component.spacer
 import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.component.topAppBar
+import com.vini.designsystemsdui.property.ConfirmedDateProperty
 import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
@@ -18,6 +20,7 @@ import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
@@ -72,27 +75,27 @@ class AvailableFundsScreen : InvestmentsScreen {
     ) = availableFundOptions.map {
         card(
             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-            actions = listOf(
-                continueAction(
-                    flowId = request.flow,
-                    nextScreenId = "hireFund",
-                    currentScreenId = screenId,
-                    screenData = buildJsonObject {
-                        put("fundId", it.id)
-                    }
-                )
+            onClick = continueAction(
+                flowId = request.flow,
+                nextScreenId = "hireFund",
+                currentScreenId = screenId,
+                screenData = buildJsonObject {
+                    put("fundId", it.id)
+                }
             ),
-            components = listOf(
+            content = listOf(
                 column(
-                    paddingHorizontal = PaddingHorizontalProperty(10),
-                    paddingVertical = PaddingVerticalProperty(10),
-                    components = listOf(
+                    paddingHorizontalProperty = PaddingHorizontalProperty(10),
+                    paddingVerticalProperty = PaddingVerticalProperty(10),
+                    content = listOf(
                         row(
-                            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            horizontalArrangement = HorizontalArrangementProperty(
+                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                HorizontalFillTypeOption.Max
+                            ),
+                            horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.Center
                             ),
-                            components = listOf(
+                            content = listOf(
                                 text(
                                     textProperty = TextProperty(value = it.name),
                                     fontSizeProperty = FontSizeProperty(16f)
@@ -101,11 +104,13 @@ class AvailableFundsScreen : InvestmentsScreen {
                         ),
                         spacer(heightProperty = HeightProperty(10)),
                         row(
-                            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            horizontalArrangement = HorizontalArrangementProperty(
+                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                HorizontalFillTypeOption.Max
+                            ),
+                            horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.SpaceBetween
                             ),
-                            components = listOf(
+                            content = listOf(
                                 text(
                                     textProperty = TextProperty(value = "Tipo"),
                                     fontSizeProperty = FontSizeProperty(16f)
@@ -117,11 +122,13 @@ class AvailableFundsScreen : InvestmentsScreen {
                             ),
                         ),
                         row(
-                            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            horizontalArrangement = HorizontalArrangementProperty(
+                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                HorizontalFillTypeOption.Max
+                            ),
+                            horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.SpaceBetween
                             ),
-                            components = listOf(
+                            content = listOf(
                                 text(
                                     textProperty = TextProperty(value = "Rentabilidade"),
                                     fontSizeProperty = FontSizeProperty(16f)
@@ -133,11 +140,13 @@ class AvailableFundsScreen : InvestmentsScreen {
                             ),
                         ),
                         row(
-                            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            horizontalArrangement = HorizontalArrangementProperty(
+                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                HorizontalFillTypeOption.Max
+                            ),
+                            horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.SpaceBetween
                             ),
-                            components = listOf(
+                            content = listOf(
                                 text(
                                     textProperty = TextProperty(value = "Investimento Mínimo"),
                                     fontSizeProperty = FontSizeProperty(16f)
@@ -161,9 +170,9 @@ class AvailableFundsScreen : InvestmentsScreen {
             version = "1",
             template = "",
             shouldCache = false,
-            components = listOf(
-                topBar(
-                    components = listOf(
+            content = listOf(
+                topAppBar(
+                    title = listOf(
                         text(
                             textProperty = TextProperty(value = "Fundos Disponíveis"),
                             fontSizeProperty = FontSizeProperty(18f)
@@ -172,13 +181,13 @@ class AvailableFundsScreen : InvestmentsScreen {
                 ),
                 spacer(heightProperty = HeightProperty(10)),
                 lazyColumn(
-                    verticalArrangement = VerticalArrangementProperty(
+                    verticalArrangementProperty = VerticalArrangementProperty(
                         VerticalArrangementOption.SpacedBy(
                             10
                         )
                     ),
-                    paddingHorizontal = PaddingHorizontalProperty(20),
-                    components = availableFundOption(request)
+                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                    content = availableFundOption(request)
                 )
             )
         )
@@ -252,11 +261,11 @@ class HireFundScreen(
             version = "1",
             template = "",
             shouldCache = false,
-            components = listOf(
+            content = listOf(
                 lazyColumn(
-                    components = listOf(
-                        topBar(
-                            components = listOf(
+                    content = listOf(
+                        topAppBar(
+                            title = listOf(
                                 text(
                                     textProperty = TextProperty(value = "Detalhes do Fundo"),
                                     fontSizeProperty = FontSizeProperty(18f)
@@ -269,19 +278,19 @@ class HireFundScreen(
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                 HorizontalFillTypeOption.Max
                             ),
-                            components = listOf(
+                            content = listOf(
                                 column(
-                                    paddingHorizontal = PaddingHorizontalProperty(10),
-                                    paddingVertical = PaddingVerticalProperty(10),
-                                    components = listOf(
+                                    paddingHorizontalProperty = PaddingHorizontalProperty(10),
+                                    paddingVerticalProperty = PaddingVerticalProperty(10),
+                                    content = listOf(
                                         row(
-                                            horizontalFillType = HorizontalFillTypeProperty(
+                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                 HorizontalFillTypeOption.Max
                                             ),
-                                            horizontalArrangement = HorizontalArrangementProperty(
+                                            horizontalArrangementProperty = HorizontalArrangementProperty(
                                                 HorizontalArrangementOption.Center
                                             ),
-                                            components = listOf(
+                                            content = listOf(
                                                 text(
                                                     textProperty = TextProperty(value = fundInfo.name),
                                                     fontSizeProperty = FontSizeProperty(16f)
@@ -290,13 +299,13 @@ class HireFundScreen(
                                         ),
                                         spacer(heightProperty = HeightProperty(10)),
                                         row(
-                                            horizontalFillType = HorizontalFillTypeProperty(
+                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                 HorizontalFillTypeOption.Max
                                             ),
-                                            horizontalArrangement = HorizontalArrangementProperty(
+                                            horizontalArrangementProperty = HorizontalArrangementProperty(
                                                 HorizontalArrangementOption.SpaceBetween
                                             ),
-                                            components = listOf(
+                                            content = listOf(
                                                 text(
                                                     textProperty = TextProperty(value = "Tipo"),
                                                     fontSizeProperty = FontSizeProperty(16f)
@@ -308,13 +317,13 @@ class HireFundScreen(
                                             ),
                                         ),
                                         row(
-                                            horizontalFillType = HorizontalFillTypeProperty(
+                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                 HorizontalFillTypeOption.Max
                                             ),
-                                            horizontalArrangement = HorizontalArrangementProperty(
+                                            horizontalArrangementProperty = HorizontalArrangementProperty(
                                                 HorizontalArrangementOption.SpaceBetween
                                             ),
-                                            components = listOf(
+                                            content = listOf(
                                                 text(
                                                     textProperty = TextProperty(value = "Rentabilidade"),
                                                     fontSizeProperty = FontSizeProperty(16f)
@@ -326,13 +335,13 @@ class HireFundScreen(
                                             ),
                                         ),
                                         row(
-                                            horizontalFillType = HorizontalFillTypeProperty(
+                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                 HorizontalFillTypeOption.Max
                                             ),
-                                            horizontalArrangement = HorizontalArrangementProperty(
+                                            horizontalArrangementProperty = HorizontalArrangementProperty(
                                                 HorizontalArrangementOption.SpaceBetween
                                             ),
-                                            components = listOf(
+                                            content = listOf(
                                                 text(
                                                     textProperty = TextProperty(value = "Investimento Mínimo"),
                                                     fontSizeProperty = FontSizeProperty(16f)
@@ -344,13 +353,13 @@ class HireFundScreen(
                                             ),
                                         ),
                                         row(
-                                            horizontalFillType = HorizontalFillTypeProperty(
+                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                 HorizontalFillTypeOption.Max
                                             ),
-                                            horizontalArrangement = HorizontalArrangementProperty(
+                                            horizontalArrangementProperty = HorizontalArrangementProperty(
                                                 HorizontalArrangementOption.SpaceBetween
                                             ),
-                                            components = listOf(
+                                            content = listOf(
                                                 text(
                                                     textProperty = TextProperty(value = "Taxa de Administração"),
                                                     fontSizeProperty = FontSizeProperty(16f)
@@ -366,28 +375,31 @@ class HireFundScreen(
                             )
                         ),
                         outlinedButton(
-                            text = TextProperty(value = "Seleciona a data de investimento", "dateParsed"),
-                            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            paddingHorizontal = PaddingHorizontalProperty(16),
-                            actions = listOf(
-                                toBooleanAction("showDatePicker", true)
-                            )
+                            textProperty = TextProperty(
+                                value = "Seleciona a data de investimento",
+                                "dateParsed"
+                            ),
+                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                HorizontalFillTypeOption.Max
+                            ),
+                            paddingHorizontalProperty = PaddingHorizontalProperty(16),
+                            onClick = toBooleanAction("showDatePicker", true)
                         ),
-//                        modalDatePicker(
-//                            shouldShow = VisibilityProperty(false, "showDatePicker"),
-//                            confirmedDateProperty = ConfirmedDateProperty(id = "confirmedDate"),
-//                            onConfirm = toBooleanAction("showDatePicker", false),
-//                            onCancel = toBooleanAction("showDatePicker", false),
-//                            validators = listOf(
+                        modalDatePicker(
+                            visibilityProperty = VisibilityProperty(false, "showDatePicker"),
+                            confirmedDateProperty = ConfirmedDateProperty(id = "confirmedDate"),
+                            onConfirmAction = toBooleanAction("showDatePicker", false),
+                            onCancelAction = toBooleanAction("showDatePicker", false),
+                            validators = listOf(
 //                                millisToDateStringValidator(
 //                                    id = "dateParsed",
 //                                    required = "confirmedDate",
 //                                    datePattern = "dd/MM/yyyy"
 //                                )
-//                            )
-//                        ),
+                            )
+                        ),
                         row(
-                            components = listOf(
+                            content = listOf(
                                 text(textProperty = TextProperty(value = "Selecione a data de investimento: ")),
                                 text(textProperty = TextProperty(value = "", id = "dateParsed"))
                             )

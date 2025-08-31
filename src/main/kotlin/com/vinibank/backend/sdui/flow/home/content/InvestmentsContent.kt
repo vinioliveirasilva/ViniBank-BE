@@ -31,28 +31,26 @@ class InvestmentsContent : HomeScreen {
         version = "1",
         template = "",
         shouldCache = false,
-        components = listOf(
+        content =  listOf(
             lazyColumn(
-                weight = WeightProperty(1f),
-                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Center),
-                horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-                components = listOf(
+                weightProperty = WeightProperty(1f),
+                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Center),
+                horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+                content =  listOf(
                     column(
-                        components = listOf(
+                        content =  listOf(
                             text(TextProperty("Conteudo de investimentos"))
                         )
                     ),
                     column(
-                        verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
-                        components = listOf(
+                        verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
+                        content =  listOf(
                             button(
-                                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                                paddingHorizontal = PaddingHorizontalProperty(10),
-                                text = TextProperty("Ver mais"),
-                                actions = listOf(
-                                    navigateAction(flow = "Investments")
-                                )
+                                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                                paddingHorizontalProperty = PaddingHorizontalProperty(10),
+                                textProperty = TextProperty("Ver mais"),
+                                onClick = navigateAction(flow = "Investments")
                             )
                         )
                     ),

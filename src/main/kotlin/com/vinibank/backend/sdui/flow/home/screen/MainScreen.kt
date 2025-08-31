@@ -7,12 +7,11 @@ import com.vini.designsystemsdui.component.navigationBar
 import com.vini.designsystemsdui.component.navigationBarItem
 import com.vini.designsystemsdui.component.sdUi
 import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topBar
-import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
+import com.vini.designsystemsdui.component.topAppBar
 import com.vini.designsystemsdui.property.DestinationIndexProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
 import com.vini.designsystemsdui.property.FontSizeProperty
-import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
+import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.RequestUpdateProperty
@@ -20,7 +19,6 @@ import com.vini.designsystemsdui.property.SelectedDestinationIndexProperty
 import com.vini.designsystemsdui.property.StageIdentifierProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.validator.intToStringValidator
 import com.vinibank.backend.sdui.flow.home.HomeScreen
@@ -36,70 +34,68 @@ class MainScreen : HomeScreen {
 
     override fun getScreen(request: SdUiRequest): JsonObject? {
         val bottomNavigation = navigationBar(
-            selectedDestinationIndex = SelectedDestinationIndexProperty(0, "bottomNavigation.selectedDestination"),
-            components = listOf(
+            selectedDestinationIndexProperty = SelectedDestinationIndexProperty(0, "bottomNavigation.selectedDestination"),
+            content =  listOf(
                 navigationBarItem(
-                    destinationIndex = DestinationIndexProperty(0),
-                    selectedDestinationIndex = SelectedDestinationIndexProperty(0, "bottomNavigation.selectedDestination"),
-                    components = listOf(
+                    destinationIndexProperty = DestinationIndexProperty(0),
+                    selectedDestinationIndexProperty = SelectedDestinationIndexProperty(0, "bottomNavigation.selectedDestination"),
+                    label = listOf(
                         text(textProperty = TextProperty("Home"))
                     ),
                     selectedIcon = listOf(
-                        icon(iconName = IconNameProperty("Home"))
+                        icon(iconNameProperty = IconNameProperty("Home"))
                     ),
                     unselectedIcon = listOf(
-                        icon(iconName = IconNameProperty("HomeOutline"))
+                        icon(iconNameProperty = IconNameProperty("HomeOutline"))
                     )
                 ),
                 navigationBarItem(
-                    destinationIndex = DestinationIndexProperty(1),
-                    selectedDestinationIndex = SelectedDestinationIndexProperty(1, "bottomNavigation.selectedDestination"),
-                    components = listOf(
+                    destinationIndexProperty = DestinationIndexProperty(1),
+                    selectedDestinationIndexProperty = SelectedDestinationIndexProperty(1, "bottomNavigation.selectedDestination"),
+                    label =  listOf(
                         text(textProperty = TextProperty("Card"))
                     ),
                     selectedIcon = listOf(
-                        icon(iconName = IconNameProperty("Payment"))
+                        icon(iconNameProperty = IconNameProperty("Payment"))
                     ),
                     unselectedIcon = listOf(
-                        icon(iconName = IconNameProperty("PaymentOutline"))
+                        icon(iconNameProperty = IconNameProperty("PaymentOutline"))
                     )
                 ),
                 navigationBarItem(
-                    destinationIndex = DestinationIndexProperty(2),
-                    selectedDestinationIndex = SelectedDestinationIndexProperty(2, "bottomNavigation.selectedDestination"),
-                    components = listOf(
+                    destinationIndexProperty = DestinationIndexProperty(2),
+                    selectedDestinationIndexProperty = SelectedDestinationIndexProperty(2, "bottomNavigation.selectedDestination"),
+                    label =  listOf(
                         text(textProperty = TextProperty("Investimentos"))
                     ),
                     selectedIcon = listOf(
-                        icon(iconName = IconNameProperty("Investment"))
+                        icon(iconNameProperty = IconNameProperty("Investment"))
                     ),
                     unselectedIcon = listOf(
-                        icon(iconName = IconNameProperty("InvestmentOutline"))
+                        icon(iconNameProperty = IconNameProperty("InvestmentOutline"))
                     )
                 ),
             )
         )
 
-        val topBar = topBar(
-            components = listOf(
+        val topAppBar = topAppBar(
+            title = listOf(
                 text(
                     textProperty = TextProperty("Home", id = "bottomNavigation.selectedDestinationTitle"),
                     fontSizeProperty = FontSizeProperty(18f)
                 ),
             ),
-            actionIcons = listOf(
+            actions = listOf(
                 iconButton(
-                    actions = listOf(
-                        continueAction(
-                            flowId = request.flow,
-                            currentScreenId = screenId,
-                            nextScreenId = "UserDetail",
-                            screenData = request.screenData
-                        ),
+                    onClick = continueAction(
+                        flowId = request.flow,
+                        currentScreenId = screenId,
+                        nextScreenId = "UserDetail",
+                        screenData = request.screenData
                     ),
-                    components = listOf(
+                    content =  listOf(
                         icon(
-                            iconName = IconNameProperty("User")
+                            iconNameProperty = IconNameProperty("User")
                         )
                     )
                 ),
@@ -107,16 +103,15 @@ class MainScreen : HomeScreen {
         )
 
         val content = sdUi(
-            flow = FlowIdentifierProperty("Home"),
-            stage = StageIdentifierProperty(
+            flowIdentifierProperty = FlowIdentifierProperty("Home"),
+            stageIdentifierProperty = StageIdentifierProperty(
                 "ContaCorrente",
                 "bottomNavigation.selectedDestinationContent"
             ),
-            currentScreen = FromScreenIdentifierProperty("Home"),
-            requestUpdate = RequestUpdateProperty(false, "requestUpdate"),
-            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-            horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-            weight = WeightProperty(1f),
+            fromScreenIdentifierProperty = FromScreenIdentifierProperty("Home"),
+            requestUpdateProperty = RequestUpdateProperty(false, "requestUpdate"),
+            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+            weightProperty = WeightProperty(1f),
             validators = listOf(
                 intToStringValidator(
                     id = "bottomNavigation.selectedDestinationContent",
@@ -145,8 +140,8 @@ class MainScreen : HomeScreen {
             version = "1",
             template = "",
             shouldCache = true,
-            components = listOf(
-                topBar,
+            content =  listOf(
+                topAppBar,
                 content,
                 bottomNavigation
             )

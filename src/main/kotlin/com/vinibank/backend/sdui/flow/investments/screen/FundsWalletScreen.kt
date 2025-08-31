@@ -19,7 +19,7 @@ class FundsWalletScreen : InvestmentsScreen {
             version = "1",
             template = "",
             shouldCache = false,
-            components = listOf(
+            content =  listOf(
                 text(
                     textProperty = TextProperty("Fundos")
                 )

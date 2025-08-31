@@ -53,22 +53,20 @@ class CheckingAccountContent(
     @Lazy private val routingController: RoutingController,
 ) : HomeScreen {
     fun actionIcon(name: String, icon: String) = column(
-        horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-        components = listOf(
+        horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+        content =  listOf(
             card(
-                components = listOf(
+                content =  listOf(
                     icon(
-                        iconName = IconNameProperty(icon),
-                        paddingVertical = PaddingVerticalProperty(20),
-                        paddingHorizontal = PaddingHorizontalProperty(25),
-                        size = SizeProperty(36),
+                        iconNameProperty = IconNameProperty(icon),
+                        paddingVerticalProperty = PaddingVerticalProperty(20),
+                        paddingHorizontalProperty = PaddingHorizontalProperty(25),
+                        sizeProperty = SizeProperty(36),
                     )
                 ),
-                actions = listOf(
-                    toBooleanAction(
-                        idToChange = "123123",
-                        newValue = true
-                    )
+                onClick = toBooleanAction(
+                    idToChange = "123123",
+                    newValue = true
                 )
             ),
             text(
@@ -80,19 +78,19 @@ class CheckingAccountContent(
 
     fun transactionItem() = card(
         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-        components = listOf(
+        content =  listOf(
             row(
-                paddingVertical = PaddingVerticalProperty(10),
-                paddingHorizontal = PaddingHorizontalProperty(10),
-                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                horizontalArrangement = HorizontalArrangementProperty(HorizontalArrangementOption.SpaceBetween),
-                components = listOf(
+                paddingVerticalProperty = PaddingVerticalProperty(10),
+                paddingHorizontalProperty = PaddingHorizontalProperty(10),
+                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                horizontalArrangementProperty = HorizontalArrangementProperty(HorizontalArrangementOption.SpaceBetween),
+                content =  listOf(
                     row(
-                        paddingVertical = PaddingVerticalProperty(10),
-                        components = listOf(
+                        paddingVerticalProperty = PaddingVerticalProperty(10),
+                        content =  listOf(
                             icon(
-                                iconName = IconNameProperty("Money"),
-                                paddingHorizontal = PaddingHorizontalProperty(10),
+                                iconNameProperty = IconNameProperty("Money"),
+                                paddingHorizontalProperty = PaddingHorizontalProperty(10),
                             ),
                             text(
                                 textProperty = TextProperty("Gastou pra caralho"),
@@ -103,9 +101,9 @@ class CheckingAccountContent(
                         ),
                     ),
                     row(
-                        paddingVertical = PaddingVerticalProperty(10),
-                        verticalAlignment = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
-                        components = listOf(
+                        paddingVerticalProperty = PaddingVerticalProperty(10),
+                        verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
+                        content =  listOf(
                             text(
                                 textProperty = TextProperty("-R$ 500.00"),
                                 textAlignProperty = TextAlignProperty(
@@ -113,8 +111,8 @@ class CheckingAccountContent(
                                 ),
                             ),
                             icon(
-                                iconName = IconNameProperty("RightArrow"),
-                                size = SizeProperty(18),
+                                iconNameProperty = IconNameProperty("RightArrow"),
+                                sizeProperty = SizeProperty(18),
                             )
                         )
                     ),
@@ -132,20 +130,18 @@ class CheckingAccountContent(
         "1",
         "",
         false,
-        components = listOf(
+        content =  listOf(
             dialog(
-                shouldShow = VisibilityProperty(false, "123abc")
+                visibilityProperty = VisibilityProperty(false, "123abc")
             ),
             bottomSheet(
-                shouldShow = VisibilityProperty(false, "123abc1"),
-                components = listOf(
+                visibilityProperty = VisibilityProperty(false, "123abc1"),
+                content =  listOf(
                     button(
-                        text = TextProperty("Balance"),
-                        actions = listOf(
-                            toBooleanAction(
-                                idToChange = "123abc",
-                                newValue = true
-                            )
+                        textProperty = TextProperty("Balance"),
+                        onClick = toBooleanAction(
+                            idToChange = "123abc",
+                            newValue = true
                         )
                     ),
                     text(
@@ -157,41 +153,41 @@ class CheckingAccountContent(
                 )
             ),
             lazyColumn(
-                weight = WeightProperty(1f),
-                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                paddingHorizontal = PaddingHorizontalProperty(10),
-                horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-                components = listOf(
+                weightProperty = WeightProperty(1f),
+                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                paddingHorizontalProperty = PaddingHorizontalProperty(10),
+                horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+                content =  listOf(
                     column(
-                        paddingVertical = PaddingVerticalProperty(10),
-                        height = HeightProperty(110),
-                        components = listOf(
+                        paddingVerticalProperty = PaddingVerticalProperty(10),
+                        heightProperty = HeightProperty(110),
+                        content =  listOf(
                             card(
                                 heightProperty = HeightProperty(110),
-                                components = listOf(
+                                content =  listOf(
                                     column(
-                                        horizontalAlignment = HorizontalAlignmentProperty(
+                                        horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                             HorizontalAlignmentOption.Center
                                         ),
-                                        verticalArrangement = VerticalArrangementProperty(
+                                        verticalArrangementProperty = VerticalArrangementProperty(
                                             VerticalArrangementOption.Center
                                         ),
-                                        verticalFillType = VerticalFillTypeProperty(
+                                        verticalFillTypeProperty = VerticalFillTypeProperty(
                                             VerticalFillTypeOption.Max
                                         ),
-                                        components = listOf(
+                                        content =  listOf(
                                             sdUi(
-                                                flow = FlowIdentifierProperty("Home"),
-                                                stage = StageIdentifierProperty("Balance"),
-                                                currentScreen = FromScreenIdentifierProperty("ContaCorrente"),
-                                                requestUpdate = RequestUpdateProperty(
+                                                flowIdentifierProperty = FlowIdentifierProperty("Home"),
+                                                stageIdentifierProperty = StageIdentifierProperty("Balance"),
+                                                fromScreenIdentifierProperty = FromScreenIdentifierProperty("ContaCorrente"),
+                                                requestUpdateProperty = RequestUpdateProperty(
                                                     false,
                                                     "requestUpdate1"
                                                 ),
-                                                horizontalFillType = HorizontalFillTypeProperty(
+                                                horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                     HorizontalFillTypeOption.Max
                                                 ),
-                                                components = routingController.getSdUiComponents(
+                                                components =  routingController.getSdUiComponents(
                                                     SdUiRequest(
                                                         request.flow,
                                                         screenId,
@@ -204,37 +200,35 @@ class CheckingAccountContent(
                                     ),
                                 )
                             ),
-                            spacer(size = SizeProperty(10))
+                            spacer(sizeProperty = SizeProperty(10))
                         )
                     ),
                     row(
-                        paddingVertical = PaddingVerticalProperty(10),
-                        horizontalFillType = HorizontalFillTypeProperty(
+                        paddingVerticalProperty = PaddingVerticalProperty(10),
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
                             HorizontalFillTypeOption.Max
                         ),
-                        horizontalArrangement = HorizontalArrangementProperty(
+                        horizontalArrangementProperty = HorizontalArrangementProperty(
                             HorizontalArrangementOption.SpaceBetween
                         ),
-                        components = listOf(
+                        content =  listOf(
                             column(
-                                horizontalAlignment = HorizontalAlignmentProperty(
+                                horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                     HorizontalAlignmentOption.Center
                                 ),
-                                components = listOf(
+                                content =  listOf(
                                     card(
-                                        components = listOf(
+                                        content =  listOf(
                                             icon(
-                                                drawableName = DrawableNameProperty("Pix"),
-                                                paddingVertical = PaddingVerticalProperty(20),
-                                                paddingHorizontal = PaddingHorizontalProperty(25),
-                                                size = SizeProperty(36),
+                                                drawableNameProperty = DrawableNameProperty("Pix"),
+                                                paddingVerticalProperty = PaddingVerticalProperty(20),
+                                                paddingHorizontalProperty = PaddingHorizontalProperty(25),
+                                                sizeProperty = SizeProperty(36),
                                             )
                                         ),
-                                        actions = listOf(
-                                            toBooleanAction(
-                                                idToChange = "123abc",
-                                                newValue = true
-                                            )
+                                        onClick = toBooleanAction(
+                                            idToChange = "123abc",
+                                            newValue = true
                                         )
                                     ),
                                     text(
@@ -247,24 +241,22 @@ class CheckingAccountContent(
                             actionIcon("Transfer", "Payment"),
                             actionIcon("Pay", "ReceiptLong"),
                             column(
-                                horizontalAlignment = HorizontalAlignmentProperty(
+                                horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                     HorizontalAlignmentOption.Center
                                 ),
-                                components = listOf(
+                                content =  listOf(
                                     card(
-                                        components = listOf(
+                                        content =  listOf(
                                             icon(
-                                                iconName = IconNameProperty("MoreVert"),
-                                                paddingVertical = PaddingVerticalProperty(20),
-                                                paddingHorizontal = PaddingHorizontalProperty(25),
-                                                size = SizeProperty(36),
+                                                iconNameProperty = IconNameProperty("MoreVert"),
+                                                paddingVerticalProperty = PaddingVerticalProperty(20),
+                                                paddingHorizontalProperty = PaddingHorizontalProperty(25),
+                                                sizeProperty = SizeProperty(36),
                                             ),
                                         ),
-                                        actions = listOf(
-                                            toBooleanAction(
-                                                idToChange = "123abc1",
-                                                newValue = true
-                                            )
+                                        onClick = toBooleanAction(
+                                            idToChange = "123abc1",
+                                            newValue = true
                                         )
                                     ),
                                     text(
@@ -276,15 +268,15 @@ class CheckingAccountContent(
                         )
                     ),
                     column(
-                        horizontalAlignment = HorizontalAlignmentProperty(
+                        horizontalAlignmentProperty = HorizontalAlignmentProperty(
                             HorizontalAlignmentOption.Center
                         ),
-                        paddingVertical = PaddingVerticalProperty(10),
-                        verticalArrangement = VerticalArrangementProperty(
+                        paddingVerticalProperty = PaddingVerticalProperty(10),
+                        verticalArrangementProperty = VerticalArrangementProperty(
                             VerticalArrangementOption.SpacedBy(10)
                         ),
-                        weight = WeightProperty(1f),
-                        components = listOf(
+                        weightProperty = WeightProperty(1f),
+                        content =  listOf(
                             text(TextProperty("Last Transactions")),
                             transactionItem(),
                             transactionItem(),
@@ -294,8 +286,8 @@ class CheckingAccountContent(
                 )
             ),
             snackBar(
-                text = TextProperty("SnackBar"),
-                shouldShow = VisibilityProperty(false, "123123")
+                textProperty = TextProperty("SnackBar"),
+                visibilityProperty = VisibilityProperty(false, "123123")
             ),
         )
     )

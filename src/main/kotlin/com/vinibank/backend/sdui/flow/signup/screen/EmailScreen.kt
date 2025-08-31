@@ -8,7 +8,7 @@ import com.vini.designsystemsdui.component.lazyColumn
 import com.vini.designsystemsdui.component.outlinedButton
 import com.vini.designsystemsdui.component.outlinedTextInput
 import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topBar
+import com.vini.designsystemsdui.component.topAppBar
 import com.vini.designsystemsdui.property.ErrorMessageProperty
 import com.vini.designsystemsdui.property.ErrorProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
@@ -68,28 +68,28 @@ class EmailScreen(
         version = "1",
         template = "",
         shouldCache = false,
-        components = listOf(
-            topBar(
-                horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                paddingHorizontal = PaddingHorizontalProperty(20),
-                components = listOf(
+        content =  listOf(
+            topAppBar(
+                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                title = listOf(
                     text(
                         textProperty = TextProperty("Email"),
                     )
                 )
             ),
             lazyColumn(
-                verticalArrangement = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
-                weight = WeightProperty(1f),
-                paddingVertical = PaddingVerticalProperty(20),
-                components = listOf(
+                verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
+                weightProperty = WeightProperty(1f),
+                paddingVerticalProperty = PaddingVerticalProperty(20),
+                content =  listOf(
                     outlinedTextInput(
-                        text = TextProperty(state.email, "SignUp.Email.emailInput"),
-                        error = ErrorProperty(state.isError, "SignUp.Email.emailInput.isError"),
-                        errorMessage = ErrorMessageProperty("Email já cadastrado"),
-                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        paddingHorizontal = PaddingHorizontalProperty(20),
-                        label = LabelProperty("Digite seu email"),
+                        textProperty = TextProperty(state.email, "SignUp.Email.emailInput"),
+                        errorProperty = ErrorProperty(state.isError, "SignUp.Email.emailInput.isError"),
+                        errorMessageProperty = ErrorMessageProperty("Email já cadastrado"),
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                        labelProperty = LabelProperty("Digite seu email"),
                         validators = listOf(
                             emailValidator(
                                 id = "SignUp.Email.isEmailValid",
@@ -98,36 +98,32 @@ class EmailScreen(
                         )
                     ),
                     column(
-                        horizontalAlignment = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-                        paddingHorizontal = PaddingHorizontalProperty(20),
-                        horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        components = listOf(
+                        horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+                        paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        content =  listOf(
                             button(
-                                text = TextProperty("Continuar"),
-                                isEnabled = EnabledProperty(false, "SignUp.Email.isEmailValid"),
-                                horizontalFillType = HorizontalFillTypeProperty(
+                                textProperty = TextProperty("Continuar"),
+                                enabledProperty = EnabledProperty(false, "SignUp.Email.isEmailValid"),
+                                horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                     HorizontalFillTypeOption.Max
                                 ),
-                                actions = listOf(
-                                    continueAction(
-                                        flowId = "SignUp",
-                                        nextScreenId = "PersonalInfo",
-                                        currentScreenId = "Email",
-                                        screenRequestData = listOf(
-                                            "SignUp.Email.emailInput" to "email"
-                                        ),
-                                        screenData = request.screenData,
+                                onClick = continueAction(
+                                    flowId = "SignUp",
+                                    nextScreenId = "PersonalInfo",
+                                    currentScreenId = "Email",
+                                    screenRequestData = listOf(
+                                        "SignUp.Email.emailInput" to "email"
                                     ),
-                                )
+                                    screenData = request.screenData,
+                                ),
                             ),
                             outlinedButton(
-                                text = TextProperty("Fechar"),
-                                horizontalFillType = HorizontalFillTypeProperty(
+                                textProperty = TextProperty("Fechar"),
+                                horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                     HorizontalFillTypeOption.Max
                                 ),
-                                actions = listOf(
-                                    closeAction()
-                                )
+                                onClick = closeAction()
                             )
                         )
                     )

@@ -1,7 +1,7 @@
 package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.goldcarddetails
 //
 //import com.vinibank.backend.sdui.oldflow.SdUiScreenOLD
-//import com.vinibank.backend.sdui.components.topBarWithBackAction
+//import com.vinibank.backend.sdui.components.topAppBarWithBackAction
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.action
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.component
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.jsonObject
@@ -13,17 +13,17 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //    fun horizontalDivider() = component(
 //        "horizontalDivider",
 //        listOf(
-//            paddingHorizontal = PaddingHorizontalProperty(25"),
+//            paddingHorizontalProperty = PaddingHorizontalProperty(25"),
 //        )
 //    )
 //
 //    fun billingItem(whereUsedName: String, paymentType: String, paymentValue: String) = component(
 //        "row",
 //        listOf(
-//            horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+//            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
 //            property("verticalAlignment", "Center"),
 //            property("horizontalArrangement", "SpaceBetween"),
-//            paddingHorizontal = PaddingHorizontalProperty(25"),
+//            paddingHorizontalProperty = PaddingHorizontalProperty(25"),
 //            property("paddingVertical", "12"),
 //        ),
 //        listOf(
@@ -34,13 +34,13 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //                    component(
 //                        "text",
 //                        listOf(
-//                            text = TextProperty(whereUsedName),
+//                            textProperty = TextProperty(whereUsedName),
 //                        )
 //                    ),
 //                    component(
 //                        "text",
 //                        listOf(
-//                            text = TextProperty(paymentType),
+//                            textProperty = TextProperty(paymentType),
 //                        )
 //                    ),
 //                )
@@ -54,15 +54,15 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //                    component(
 //                        "text",
 //                        listOf(
-//                            paddingHorizontal = PaddingHorizontalProperty(8"),
-//                            text = TextProperty(paymentValue),
+//                            paddingHorizontalProperty = PaddingHorizontalProperty(8"),
+//                            textProperty = TextProperty(paymentValue),
 //                        )
 //                    ),
 //                    component(
 //                        "icon",
 //                        listOf(
 //                            property("icon", "RightArrow"),
-//                            size = SizeProperty(16"),
+//                            sizeProperty = SizeProperty(16"),
 //                        )
 //                    )
 //                )
@@ -86,14 +86,14 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //        "",
 //        "",
 //        false,
-//        components = listOf(
+//        content =  listOf(
 //            component(
 //                "lazyColumn",
 //                listOf(
-//                    horizontalFillType = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+//                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
 //                ),
 //                listOf(
-//                    topBarWithBackAction("Billing Description"),
+//                    topAppBarWithBackAction("Billing Description"),
 //                    billingItem("Loja do Zé", "Crédito", "R$ 120,00"),
 //                    horizontalDivider(),
 //                    billingItem("Supermercado Bom Preço", "Débito", "R$ 89,99"),

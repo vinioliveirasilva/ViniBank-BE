@@ -13,9 +13,9 @@ import com.vini.designsystemsdui.component.sdUi
 import com.vini.designsystemsdui.component.snackBar
 import com.vini.designsystemsdui.component.spacer
 import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
 import com.vini.designsystemsdui.property.DrawableNameProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
+import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
 import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
@@ -24,7 +24,6 @@ import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.RequestUpdateProperty
-import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.StageIdentifierProperty
 import com.vini.designsystemsdui.property.TextAlignProperty
@@ -32,6 +31,7 @@ import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalAlignmentProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
 import com.vini.designsystemsdui.property.VerticalFillTypeProperty
+import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
@@ -54,9 +54,9 @@ class CheckingAccountContent(
 ) : HomeScreen {
     fun actionIcon(name: String, icon: String) = column(
         horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-        content =  listOf(
+        content = listOf(
             card(
-                content =  listOf(
+                content = listOf(
                     icon(
                         iconNameProperty = IconNameProperty(icon),
                         paddingVerticalProperty = PaddingVerticalProperty(20),
@@ -78,16 +78,18 @@ class CheckingAccountContent(
 
     fun transactionItem() = card(
         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-        content =  listOf(
+        content = listOf(
             row(
                 paddingVerticalProperty = PaddingVerticalProperty(10),
                 paddingHorizontalProperty = PaddingHorizontalProperty(10),
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                horizontalArrangementProperty = HorizontalArrangementProperty(HorizontalArrangementOption.SpaceBetween),
-                content =  listOf(
+                horizontalArrangementProperty = HorizontalArrangementProperty(
+                    HorizontalArrangementOption.SpaceBetween
+                ),
+                content = listOf(
                     row(
                         paddingVerticalProperty = PaddingVerticalProperty(10),
-                        content =  listOf(
+                        content = listOf(
                             icon(
                                 iconNameProperty = IconNameProperty("Money"),
                                 paddingHorizontalProperty = PaddingHorizontalProperty(10),
@@ -102,8 +104,10 @@ class CheckingAccountContent(
                     ),
                     row(
                         paddingVerticalProperty = PaddingVerticalProperty(10),
-                        verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
-                        content =  listOf(
+                        verticalAlignmentProperty = VerticalAlignmentProperty(
+                            VerticalAlignmentOption.Center
+                        ),
+                        content = listOf(
                             text(
                                 textProperty = TextProperty("-R$ 500.00"),
                                 textAlignProperty = TextAlignProperty(
@@ -130,15 +134,17 @@ class CheckingAccountContent(
         "1",
         "",
         false,
-        content =  listOf(
+        content = listOf(
             dialog(
                 visibilityProperty = VisibilityProperty(false, "123abc")
             ),
             bottomSheet(
                 visibilityProperty = VisibilityProperty(false, "123abc1"),
-                content =  listOf(
+                content = listOf(
                     button(
-                        textProperty = TextProperty("Balance"),
+                        content = listOf(
+                            text(textProperty = TextProperty("Balance"))
+                        ),
                         onClick = toBooleanAction(
                             idToChange = "123abc",
                             newValue = true
@@ -155,16 +161,16 @@ class CheckingAccountContent(
             lazyColumn(
                 weightProperty = WeightProperty(1f),
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                paddingHorizontalProperty = PaddingHorizontalProperty(10),
                 horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-                content =  listOf(
+                content = listOf(
                     column(
                         paddingVerticalProperty = PaddingVerticalProperty(10),
                         heightProperty = HeightProperty(110),
-                        content =  listOf(
+                        paddingHorizontalProperty = PaddingHorizontalProperty(10),
+                        content = listOf(
                             card(
                                 heightProperty = HeightProperty(110),
-                                content =  listOf(
+                                content = listOf(
                                     column(
                                         horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                             HorizontalAlignmentOption.Center
@@ -175,11 +181,13 @@ class CheckingAccountContent(
                                         verticalFillTypeProperty = VerticalFillTypeProperty(
                                             VerticalFillTypeOption.Max
                                         ),
-                                        content =  listOf(
+                                        content = listOf(
                                             sdUi(
                                                 flowIdentifierProperty = FlowIdentifierProperty("Home"),
                                                 stageIdentifierProperty = StageIdentifierProperty("Balance"),
-                                                fromScreenIdentifierProperty = FromScreenIdentifierProperty("ContaCorrente"),
+                                                fromScreenIdentifierProperty = FromScreenIdentifierProperty(
+                                                    "ContaCorrente"
+                                                ),
                                                 requestUpdateProperty = RequestUpdateProperty(
                                                     false,
                                                     "requestUpdate1"
@@ -187,7 +195,7 @@ class CheckingAccountContent(
                                                 horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                     HorizontalFillTypeOption.Max
                                                 ),
-                                                components =  routingController.getSdUiComponents(
+                                                components = routingController.getSdUiComponents(
                                                     SdUiRequest(
                                                         request.flow,
                                                         screenId,
@@ -204,6 +212,7 @@ class CheckingAccountContent(
                         )
                     ),
                     row(
+                        paddingHorizontalProperty = PaddingHorizontalProperty(10),
                         paddingVerticalProperty = PaddingVerticalProperty(10),
                         horizontalFillTypeProperty = HorizontalFillTypeProperty(
                             HorizontalFillTypeOption.Max
@@ -211,18 +220,20 @@ class CheckingAccountContent(
                         horizontalArrangementProperty = HorizontalArrangementProperty(
                             HorizontalArrangementOption.SpaceBetween
                         ),
-                        content =  listOf(
+                        content = listOf(
                             column(
                                 horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                     HorizontalAlignmentOption.Center
                                 ),
-                                content =  listOf(
+                                content = listOf(
                                     card(
-                                        content =  listOf(
+                                        content = listOf(
                                             icon(
                                                 drawableNameProperty = DrawableNameProperty("Pix"),
                                                 paddingVerticalProperty = PaddingVerticalProperty(20),
-                                                paddingHorizontalProperty = PaddingHorizontalProperty(25),
+                                                paddingHorizontalProperty = PaddingHorizontalProperty(
+                                                    25
+                                                ),
                                                 sizeProperty = SizeProperty(36),
                                             )
                                         ),
@@ -244,13 +255,15 @@ class CheckingAccountContent(
                                 horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                     HorizontalAlignmentOption.Center
                                 ),
-                                content =  listOf(
+                                content = listOf(
                                     card(
-                                        content =  listOf(
+                                        content = listOf(
                                             icon(
                                                 iconNameProperty = IconNameProperty("MoreVert"),
                                                 paddingVerticalProperty = PaddingVerticalProperty(20),
-                                                paddingHorizontalProperty = PaddingHorizontalProperty(25),
+                                                paddingHorizontalProperty = PaddingHorizontalProperty(
+                                                    25
+                                                ),
                                                 sizeProperty = SizeProperty(36),
                                             ),
                                         ),
@@ -268,6 +281,7 @@ class CheckingAccountContent(
                         )
                     ),
                     column(
+                        paddingHorizontalProperty = PaddingHorizontalProperty(10),
                         horizontalAlignmentProperty = HorizontalAlignmentProperty(
                             HorizontalAlignmentOption.Center
                         ),
@@ -276,8 +290,8 @@ class CheckingAccountContent(
                             VerticalArrangementOption.SpacedBy(10)
                         ),
                         weightProperty = WeightProperty(1f),
-                        content =  listOf(
-                            text(TextProperty("Last Transactions")),
+                        content = listOf(
+                            text(textProperty = TextProperty("Last Transactions")),
                             transactionItem(),
                             transactionItem(),
                             transactionItem(),

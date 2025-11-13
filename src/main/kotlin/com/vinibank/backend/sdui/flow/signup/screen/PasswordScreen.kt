@@ -81,7 +81,9 @@ class PasswordScreen(
                     verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
                     content =  listOf(
                         button(
-                            textProperty = TextProperty("Continuar"),
+                            content = listOf(
+                                text(textProperty = TextProperty(value = "Continuar"))
+                            ),
                             enabledProperty = EnabledProperty(false, "$screenFlowId.isPasswordValid"),
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             onClick = continueAction(
@@ -95,7 +97,9 @@ class PasswordScreen(
                             ),
                         ),
                         outlinedButton(
-                            textProperty = TextProperty("Voltar"),
+                            content = listOf(
+                                text(textProperty = TextProperty(value = "Voltar"))
+                            ),
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             onClick = backAction()
                         ),

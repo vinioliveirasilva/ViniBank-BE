@@ -1,13 +1,14 @@
 package com.vinibank.backend
 
+import com.vini.designsystemsdui.exception.SdUiPropertyUpdateException
 import com.vinibank.backend.db.SessionDatabase
 import com.vinibank.backend.sdui.model.SdUiError
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.lang.Thread.sleep
 
 @Service
 class CryptographicFilter(
@@ -38,31 +39,41 @@ class CryptographicFilter(
                     input as SdUiRequest//TODO
                 }
 
-                var hasError = false
+                var errorType = ErrorType.None
 
-                val toEncrypt = runCatching {
+                val toEncrypt = try {
                     action(decodedObject)
-                }.onFailure {
-                    hasError = true
-                    (it as SdUiError).screen
+                } catch (it: SdUiError) {
+                    errorType = ErrorType.Screen
+                    Json.encodeToString(it)
+                } catch (it: SdUiPropertyUpdateException) {
+                    errorType = ErrorType.Property
+                    Json.encodeToString(it)
                 }
 
                 val (result, newIv) = encrypt(
-                    toEncrypt.getOrNull().orEmpty(),
+                    toEncrypt,
                     decryptIv,
                     this
                 )
 
-                sleep(1000)
-                return if (hasError) {
-                    ResponseEntity.badRequest()
-                } else {
-                    ResponseEntity.ok()
+                return when(errorType) {
+                    ErrorType.None -> ResponseEntity.ok()
+                    ErrorType.Screen -> ResponseEntity.status(HttpStatus.PRECONDITION_FAILED)
+                    ErrorType.Property -> ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+                    ErrorType.Unknown -> ResponseEntity.badRequest()
                 }.header("Content-Type", "text/plain")
                     .header("iv", encoderProvider.encode(newIv))
                     .body(encoderProvider.encode(result))
             }
         }
+    }
+
+    enum class ErrorType {
+        None,
+        Screen,
+        Property,
+        Unknown;
     }
 
     fun startFilter(publicKey: String) : Pair<String, String> {

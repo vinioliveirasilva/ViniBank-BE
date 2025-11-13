@@ -161,7 +161,13 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                             paddingVerticalProperty = PaddingVerticalProperty(20),
                             content =  listOf(
                                 button(
-                                    textProperty = TextProperty("Investir"),
+                                    content = listOf(
+                                        text(
+                                            textProperty = TextProperty(
+                                                value = "Investir",
+                                            )
+                                        )
+                                    ),
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),

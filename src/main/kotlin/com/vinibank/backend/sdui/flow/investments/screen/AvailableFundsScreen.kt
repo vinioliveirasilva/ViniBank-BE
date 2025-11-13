@@ -24,6 +24,7 @@ import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.validator.millisToDateStringValidator
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.flow.investments.toBrl
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -375,9 +376,13 @@ class HireFundScreen(
                             )
                         ),
                         outlinedButton(
-                            textProperty = TextProperty(
-                                value = "Seleciona a data de investimento",
-                                "dateParsed"
+                            content = listOf(
+                                text(
+                                    textProperty = TextProperty(
+                                        value = "Seleciona a data de investimento",
+                                        "dateParsed"
+                                    )
+                                )
                             ),
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                 HorizontalFillTypeOption.Max
@@ -391,17 +396,17 @@ class HireFundScreen(
                             onConfirmAction = toBooleanAction("showDatePicker", false),
                             onCancelAction = toBooleanAction("showDatePicker", false),
                             validators = listOf(
-//                                millisToDateStringValidator(
-//                                    id = "dateParsed",
-//                                    required = "confirmedDate",
-//                                    datePattern = "dd/MM/yyyy"
-//                                )
+                                millisToDateStringValidator(
+                                    id = "dateParsed",
+                                    required = "confirmedDate",
+                                    datePattern = "dd/MM/yyyy"
+                                )
                             )
                         ),
                         row(
                             content = listOf(
                                 text(textProperty = TextProperty(value = "Selecione a data de investimento: ")),
-                                text(textProperty = TextProperty(value = "", id = "dateParsed"))
+                                text(textProperty = TextProperty(id = "dateParsed"))
                             )
                         ),
                     )

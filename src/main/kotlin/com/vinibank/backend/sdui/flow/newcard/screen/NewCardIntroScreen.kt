@@ -56,11 +56,11 @@ class NewCardIntroScreen : NewCardScreen {
                         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                         horizontalArrangementProperty = HorizontalArrangementProperty(HorizontalArrangementOption.SpaceBetween),
                         content =  listOf(
-                            text(TextProperty(card.name)),
-                            text(TextProperty("final ".plus(card.number.split(" ").last())))
+                            text(textProperty = TextProperty(card.name)),
+                            text(textProperty = TextProperty("final ".plus(card.number.split(" ").last())))
                         )
                     ),
-                    text(TextProperty(card.type)),
+                    text(textProperty = TextProperty(card.type)),
                     column(
                         verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
@@ -88,7 +88,7 @@ class NewCardIntroScreen : NewCardScreen {
             shouldCache = false,
             content =  listOf(
                 topAppBar(
-                    title =  listOf(text(TextProperty("Select your card"))),
+                    title =  listOf(text(textProperty = TextProperty("Select your card"))),
                     navigationIcon = listOf(
                         iconButton(
                             content =  listOf(

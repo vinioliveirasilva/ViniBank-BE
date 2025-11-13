@@ -40,7 +40,7 @@ class InvestmentsContent : HomeScreen {
                 content =  listOf(
                     column(
                         content =  listOf(
-                            text(TextProperty("Conteudo de investimentos"))
+                            text(textProperty = TextProperty("Conteudo de investimentos"))
                         )
                     ),
                     column(
@@ -49,7 +49,9 @@ class InvestmentsContent : HomeScreen {
                             button(
                                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                                 paddingHorizontalProperty = PaddingHorizontalProperty(10),
-                                textProperty = TextProperty("Ver mais"),
+                                content = listOf(
+                                    text(textProperty = TextProperty("Ver mais"))
+                                ),
                                 onClick = navigateAction(flow = "Investments")
                             )
                         )

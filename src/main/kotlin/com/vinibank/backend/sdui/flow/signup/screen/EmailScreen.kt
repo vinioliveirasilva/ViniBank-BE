@@ -9,12 +9,12 @@ import com.vini.designsystemsdui.component.outlinedButton
 import com.vini.designsystemsdui.component.outlinedTextInput
 import com.vini.designsystemsdui.component.text
 import com.vini.designsystemsdui.component.topAppBar
+import com.vini.designsystemsdui.exception.createSdUiPropertyUpdateException
+import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.ErrorMessageProperty
 import com.vini.designsystemsdui.property.ErrorProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.EnabledProperty
-import com.vini.designsystemsdui.property.LabelProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.TextProperty
@@ -26,7 +26,6 @@ import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.validator.emailValidator
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
-import com.vinibank.backend.sdui.model.SdUiError
 import com.vinibank.backend.sdui.model.SdUiRequest
 import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 import kotlinx.serialization.json.Json
@@ -52,8 +51,16 @@ class EmailScreen(
         )
 
         if (userDb.users.any { it.key == model.email }) {
-            val response = getInternalScreen(request, model.copy(isError = true))
-            throw SdUiError("Email ja cadastrado", 400, response)
+            //val response = getInternalScreen(request, model.copy(isError = true))
+            throw createSdUiPropertyUpdateException(
+                message = "Email ja cadastrado",
+                properties = listOf(
+                    ErrorMessageProperty("Email já cadastrado1","SignUp.Email.emailInput.errorMessage"),
+                    ErrorProperty(true, "SignUp.Email.emailInput.isError"),
+                    EnabledProperty(false, "SignUp.Email.isEmailValid"),
+                )
+            )
+            //throw SdUiError("Email ja cadastrado", 400, response)
         }
 
         return null
@@ -61,14 +68,14 @@ class EmailScreen(
 
     private fun getInternalScreen(
         request: SdUiRequest,
-        state: EmailScreenState = EmailScreenState(),
+        state: EmailScreenState = EmailScreenState("vinioliveirasilva@hotmail.co"),
     ) = screen(
         flow = "SignUp",
         stage = "Email",
         version = "1",
         template = "",
         shouldCache = false,
-        content =  listOf(
+        content = listOf(
             topAppBar(
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
@@ -82,14 +89,21 @@ class EmailScreen(
                 verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
                 weightProperty = WeightProperty(1f),
                 paddingVerticalProperty = PaddingVerticalProperty(20),
-                content =  listOf(
+                content = listOf(
                     outlinedTextInput(
                         textProperty = TextProperty(state.email, "SignUp.Email.emailInput"),
-                        errorProperty = ErrorProperty(state.isError, "SignUp.Email.emailInput.isError"),
-                        errorMessageProperty = ErrorMessageProperty("Email já cadastrado"),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        errorProperty = ErrorProperty(
+                            state.isError,
+                            "SignUp.Email.emailInput.isError"
+                        ),
+                        errorMessageProperty = ErrorMessageProperty("Email já cadastrado", id = "SignUp.Email.emailInput.errorMessage"),
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                            HorizontalFillTypeOption.Max
+                        ),
                         paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                        labelProperty = LabelProperty("Digite seu email"),
+                        label = listOf(
+                            text(textProperty = TextProperty(value = "Digite seu email"))
+                        ),
                         validators = listOf(
                             emailValidator(
                                 id = "SignUp.Email.isEmailValid",
@@ -98,13 +112,22 @@ class EmailScreen(
                         )
                     ),
                     column(
-                        horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+                        horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                            HorizontalAlignmentOption.Center
+                        ),
                         paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        content =  listOf(
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                            HorizontalFillTypeOption.Max
+                        ),
+                        content = listOf(
                             button(
-                                textProperty = TextProperty("Continuar"),
-                                enabledProperty = EnabledProperty(false, "SignUp.Email.isEmailValid"),
+                                content = listOf(
+                                    text(textProperty = TextProperty(value = "Continuar"))
+                                ),
+                                enabledProperty = EnabledProperty(
+                                    false,
+                                    "SignUp.Email.isEmailValid"
+                                ),
                                 horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                     HorizontalFillTypeOption.Max
                                 ),
@@ -119,7 +142,9 @@ class EmailScreen(
                                 ),
                             ),
                             outlinedButton(
-                                textProperty = TextProperty("Fechar"),
+                                content = listOf(
+                                    text(textProperty = TextProperty(value = "Fechar"))
+                                ),
                                 horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                     HorizontalFillTypeOption.Max
                                 ),

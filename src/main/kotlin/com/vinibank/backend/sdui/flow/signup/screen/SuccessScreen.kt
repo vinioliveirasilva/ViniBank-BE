@@ -34,7 +34,7 @@ class SuccessScreen : SignUpScreen {
             topAppBar(
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                title =  listOf(text(TextProperty("Conta Criada com Sucesso")))
+                title =  listOf(text(textProperty = TextProperty("Conta Criada com Sucesso")))
             ),
             column(
                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
@@ -51,7 +51,9 @@ class SuccessScreen : SignUpScreen {
                         )
                     ),
                     button(
-                        textProperty = TextProperty("Corrigir animação - clicar para continuar"),
+                        content = listOf(
+                            text(textProperty = TextProperty(value = "Corrigir animação - clicar para continuar"))
+                        ),
                         onClick = businessSuccessAction(
                             screenData = request.screenData
                         )

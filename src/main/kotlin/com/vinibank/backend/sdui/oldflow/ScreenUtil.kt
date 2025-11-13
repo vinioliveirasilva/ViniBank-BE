@@ -1,5 +1,6 @@
 package com.vinibank.backend.sdui.oldflow
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -7,6 +8,7 @@ import kotlinx.serialization.json.putJsonArray
 
 typealias Component = JsonObject
 
+@OptIn(ExperimentalSerializationApi::class)
 object ScreenUtil {
     fun screen(
         flow: String,
@@ -23,6 +25,6 @@ object ScreenUtil {
         put("template", template)
         put("shouldCache", shouldCache)
         cacheStrategy?.let { put("cacheStrategy", it) }
-        content?.run { putJsonArray("components") { forEach { add(it) } } }
+        content?.let { putJsonArray("components") { addAll(it) } }
     }
 }

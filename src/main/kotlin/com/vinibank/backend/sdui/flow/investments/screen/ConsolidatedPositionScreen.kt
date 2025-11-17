@@ -1,14 +1,14 @@
 package com.vinibank.backend.sdui.flow.investments.screen
 
 import com.vini.designsystemsdui.action.continueAction
-import com.vini.designsystemsdui.component.button
-import com.vini.designsystemsdui.component.card
-import com.vini.designsystemsdui.component.column
-import com.vini.designsystemsdui.component.lazyColumn
-import com.vini.designsystemsdui.component.row
-import com.vini.designsystemsdui.component.spacer
-import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topAppBar
+import com.vini.designsystemsdui.component.Button
+import com.vini.designsystemsdui.component.Card
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.LazyColumn
+import com.vini.designsystemsdui.component.Row
+import com.vini.designsystemsdui.component.Spacer
+import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
@@ -23,11 +23,11 @@ import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.template.Template
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.flow.investments.toBrl
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil
-import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 
 @Component
@@ -37,25 +37,25 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
     private val consolidatedPositionValue = 1000.0
     private val products = listOf("Fundos" to 732.7, "CDB" to 167.3)
 
-    private fun availableProducts(request: SdUiRequest) = lazyColumn(
+    private fun availableProducts(request: SdUiRequest) = LazyColumn(
         verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpacedBy(10)),
         content =  products.map {
-            card(
+            Card(
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
                 content =  listOf(
-                    row(
+                    Row(
                         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                         horizontalArrangementProperty = HorizontalArrangementProperty(
                             HorizontalArrangementOption.SpaceBetween
                         ),
                         content =  listOf(
-                            text(
+                            Text(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 paddingVerticalProperty = PaddingVerticalProperty(20),
                                 textProperty = TextProperty(value = it.first)
                             ),
-                            text(
+                            Text(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 paddingVerticalProperty = PaddingVerticalProperty(20),
                                 textProperty = TextProperty(value = it.second.toBrl())
@@ -72,51 +72,50 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
         }
     )
 
-    override fun getScreen(request: SdUiRequest): JsonObject? {
-        return ScreenUtil.screen(
+    override fun getScreen(request: SdUiRequest): Template? {
+        return DefaultTemplate(
             flow = "Investments",
             stage = screenId,
             version = "1",
             template = "",
-            shouldCache = false,
             content =  listOf(
-                column(
+                Column(
                     content =  listOf(
-                        topAppBar(
+                        TopAppBar(
                             title = listOf(
-                                text(
+                                Text(
                                     textProperty = TextProperty(value = "Investimentos"),
                                     fontSizeProperty = FontSizeProperty(18f)
                                 )
                             )
                         ),
-                        column(
+                        Column(
                             weightProperty = WeightProperty(1f),
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                 HorizontalAlignmentOption.Center
                             ),
                             content =  listOf(
-                                spacer(sizeProperty = SizeProperty(10)),
-                                text(
+                                Spacer(sizeProperty = SizeProperty(10)),
+                                Text(
                                     textProperty = TextProperty(value = "Consolidado"),
                                     fontSizeProperty = FontSizeProperty(18f),
                                     paddingVerticalProperty = PaddingVerticalProperty(10),
                                 ),
-                                card(
+                                Card(
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                     content =  listOf(
-                                        column(
+                                        Column(
                                             paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                             paddingVerticalProperty = PaddingVerticalProperty(20),
                                             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                                 HorizontalAlignmentOption.Center
                                             ),
                                             content =  listOf(
-                                                row(
+                                                Row(
                                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                         HorizontalFillTypeOption.Max
                                                     ),
@@ -124,11 +123,11 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                                                         HorizontalArrangementOption.SpaceBetween
                                                     ),
                                                     content =  listOf(
-                                                        text(textProperty = TextProperty(value = "Valor Total")),
-                                                        text(textProperty = TextProperty(value = consolidatedPositionValue.toBrl()))
+                                                        Text(textProperty = TextProperty(value = "Valor Total")),
+                                                        Text(textProperty = TextProperty(value = consolidatedPositionValue.toBrl()))
                                                     )
                                                 ),
-                                                row(
+                                                Row(
                                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                         HorizontalFillTypeOption.Max
                                                     ),
@@ -136,16 +135,16 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                                                         HorizontalArrangementOption.SpaceBetween
                                                     ),
                                                     content =  listOf(
-                                                        text(textProperty = TextProperty(value = "Disponivel para resgate")),
-                                                        text(textProperty = TextProperty(value = consolidatedPositionValue.toBrl()))
+                                                        Text(textProperty = TextProperty(value = "Disponivel para resgate")),
+                                                        Text(textProperty = TextProperty(value = consolidatedPositionValue.toBrl()))
                                                     )
                                                 )
                                             )
                                         )
                                     )
                                 ),
-                                spacer(sizeProperty = SizeProperty(20)),
-                                text(
+                                Spacer(sizeProperty = SizeProperty(20)),
+                                Text(
                                     textProperty = TextProperty(value = "Consolidado por produto"),
                                     fontSizeProperty = FontSizeProperty(18f),
                                     paddingVerticalProperty = PaddingVerticalProperty(10)
@@ -153,16 +152,16 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                                 availableProducts(request),
                             )
                         ),
-                        column(
+                        Column(
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                 HorizontalAlignmentOption.Center
                             ),
                             paddingVerticalProperty = PaddingVerticalProperty(20),
                             content =  listOf(
-                                button(
+                                Button(
                                     content = listOf(
-                                        text(
+                                        Text(
                                             textProperty = TextProperty(
                                                 value = "Investir",
                                             )

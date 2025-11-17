@@ -1,14 +1,14 @@
 package com.vinibank.backend.sdui.flow.card.content
 
 import com.vini.designsystemsdui.action.navigateAction
-import com.vini.designsystemsdui.component.card
-import com.vini.designsystemsdui.component.column
-import com.vini.designsystemsdui.component.horizontalDivider
-import com.vini.designsystemsdui.component.horizontalPager
-import com.vini.designsystemsdui.component.icon
-import com.vini.designsystemsdui.component.lazyColumn
-import com.vini.designsystemsdui.component.row
-import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.component.Card
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.HorizontalDivider
+import com.vini.designsystemsdui.component.HorizontalPager
+import com.vini.designsystemsdui.component.Icon
+import com.vini.designsystemsdui.component.LazyColumn
+import com.vini.designsystemsdui.component.Row
+import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.property.ContentPaddingProperty
 import com.vini.designsystemsdui.property.CurrentPageProperty
 import com.vini.designsystemsdui.property.HeightProperty
@@ -28,25 +28,26 @@ import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
+import com.vini.designsystemsdui.template.DefaultTemplate
+
 
 class AddNewCardContent {
-    private fun item(title: String, description: String, icon: String) = row(
+    private fun item(title: String, description: String, icon: String) = Row(
         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
         verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
         paddingVerticalProperty = PaddingVerticalProperty(16),
-        content =  listOf(
-            icon(
+        content = listOf(
+            Icon(
                 iconNameProperty = IconNameProperty(icon),
                 sizeProperty = SizeProperty(24),
             ),
-            column(
+            Column(
                 paddingHorizontalProperty = PaddingHorizontalProperty(16),
-                content =  listOf(
-                    text(
+                content = listOf(
+                    Text(
                         textProperty = TextProperty(title),
                     ),
-                    text(
+                    Text(
                         textProperty = TextProperty(description),
                     ),
                 )
@@ -54,31 +55,33 @@ class AddNewCardContent {
         )
     )
 
-    fun screen() = screen(
+    fun defaultScreen() = DefaultTemplate(
         flow = "Card",
         stage = "newCard",
         version = "1",
         template = "",
-        shouldCache = false,
-        content =  listOf(
-            lazyColumn(
+        content = listOf(
+            LazyColumn(
                 paddingHorizontalProperty = PaddingHorizontalProperty(10),
                 weightProperty = WeightProperty(1f),
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-                content =  listOf(
-                    horizontalPager(
+                content = listOf(
+                    HorizontalPager(
                         contentPaddingProperty = ContentPaddingProperty(20),
-                        currentPageProperty = CurrentPageProperty(0, "CardsContent.SelectedCardIndex"),
-                        pageContent =  listOf(
-                            card(
+                        currentPageProperty = CurrentPageProperty(
+                            0,
+                            "CardsContent.SelectedCardIndex"
+                        ),
+                        pageContent = listOf(
+                            Card(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(10),
                                 horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                     HorizontalFillTypeOption.Max
                                 ),
                                 heightProperty = HeightProperty(180),
-                                content =  listOf(
-                                    column(
+                                content = listOf(
+                                    Column(
                                         paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                         paddingVerticalProperty = PaddingVerticalProperty(20),
                                         verticalFillTypeProperty = VerticalFillTypeProperty(
@@ -93,8 +96,8 @@ class AddNewCardContent {
                                         verticalArrangementProperty = VerticalArrangementProperty(
                                             VerticalArrangementOption.Center
                                         ),
-                                        content =  listOf(
-                                            icon(
+                                        content = listOf(
+                                            Icon(
                                                 iconNameProperty = IconNameProperty("Add"),
                                                 sizeProperty = SizeProperty(30),
                                             ),
@@ -105,17 +108,19 @@ class AddNewCardContent {
                             )
                         )
                     ),
-                    column(
+                    Column(
                         paddingVerticalProperty = PaddingVerticalProperty(10),
                         paddingHorizontalProperty = PaddingHorizontalProperty(25),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        content =  listOf(
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                            HorizontalFillTypeOption.Max
+                        ),
+                        content = listOf(
                             item(
                                 "Até 3 adicionais",
                                 "Conte com até 3 cartoes adicionais gratuitos com os mesmos beneficios do titular.",
                                 "Payment"
                             ),
-                            horizontalDivider(
+                            HorizontalDivider(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(8),
                             ),
                             item(
@@ -123,7 +128,7 @@ class AddNewCardContent {
                                 "Faça compras no ViniBank Shop com o seu cartão e tenha vantagens como cashback  e parcelamentos sem juros.",
                                 "ShoppingBag"
                             ),
-                            horizontalDivider(
+                            HorizontalDivider(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(8),
                             ),
                             item(
@@ -133,10 +138,12 @@ class AddNewCardContent {
                             ),
                         )
                     ),
-                    column(
+                    Column(
                         paddingVerticalProperty = PaddingVerticalProperty(10),
                         paddingHorizontalProperty = PaddingHorizontalProperty(25),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                            HorizontalFillTypeOption.Max
+                        ),
                     ),
                 )
             )

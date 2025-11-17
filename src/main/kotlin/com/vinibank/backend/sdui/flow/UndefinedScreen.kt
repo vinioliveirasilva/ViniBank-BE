@@ -1,10 +1,10 @@
 package com.vinibank.backend.sdui.flow
 
 import com.vini.designsystemsdui.action.backAction
-import com.vini.designsystemsdui.component.icon
-import com.vini.designsystemsdui.component.iconButton
-import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topAppBar
+import com.vini.designsystemsdui.component.Icon
+import com.vini.designsystemsdui.component.IconButton
+import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.PaddingVerticalProperty
@@ -12,24 +12,24 @@ import com.vini.designsystemsdui.property.TextAlignProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.TextAlignOption
+import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
 
-fun getUndefinedScreen(request: SdUiRequest) = screen(
+
+fun getUndefinedScreen(request: SdUiRequest) = DefaultTemplate(
     flow = request.flow,
     stage = request.toScreen,
     version = "1",
     template = "",
-    shouldCache = false,
     content =  listOf(
-        topAppBar(
+        TopAppBar(
             title =  listOf(
-                text(textProperty = TextProperty("TODO"))
+                Text(textProperty = TextProperty("TODO"))
             ),
             navigationIcon = listOf(
-                iconButton(
+                IconButton(
                     content =  listOf(
-                        icon(
+                        Icon(
                             iconNameProperty = IconNameProperty("LeftArrow"),
                         )
                     ),
@@ -37,7 +37,7 @@ fun getUndefinedScreen(request: SdUiRequest) = screen(
                 ),
             )
         ),
-        text(
+        Text(
             textProperty = TextProperty("Tela não cadastrada"),
             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
             paddingVerticalProperty = PaddingVerticalProperty(30),

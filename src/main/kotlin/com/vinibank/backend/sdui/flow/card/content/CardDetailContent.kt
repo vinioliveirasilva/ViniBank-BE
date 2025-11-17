@@ -1,14 +1,14 @@
 package com.vinibank.backend.sdui.flow.card.content
 
 import com.vini.designsystemsdui.action.toIntAction
-import com.vini.designsystemsdui.component.card
-import com.vini.designsystemsdui.component.column
-import com.vini.designsystemsdui.component.horizontalPager
-import com.vini.designsystemsdui.component.image
-import com.vini.designsystemsdui.component.lazyColumn
-import com.vini.designsystemsdui.component.row
-import com.vini.designsystemsdui.component.sdUi
-import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.component.Card
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.HorizontalPager
+import com.vini.designsystemsdui.component.Image
+import com.vini.designsystemsdui.component.LazyColumn
+import com.vini.designsystemsdui.component.Row
+import com.vini.designsystemsdui.component.SdUi
+import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.property.ContentPaddingProperty
 import com.vini.designsystemsdui.property.CurrentPageProperty
 import com.vini.designsystemsdui.property.DrawableNameProperty
@@ -31,31 +31,32 @@ import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
+import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vini.designsystemsdui.validator.intToStringValidator
-import com.vinibank.backend.db.Card
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
+import com.vinibank.backend.db.Card as CardDbModel
+
 
 class CardDetailContent {
-    private fun getCard(card: Card, index: Int) = card(
+    private fun getCard(card: CardDbModel, index: Int) = Card(
         paddingHorizontalProperty = PaddingHorizontalProperty(10),
         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
         heightProperty = HeightProperty(180),
         content =  listOf(
-            column(
+            Column(
                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
                 paddingVerticalProperty = PaddingVerticalProperty(20),
                 verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                 content =  listOf(
-                    row(
+                    Row(
                         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                         horizontalArrangementProperty = HorizontalArrangementProperty(
                             HorizontalArrangementOption.SpaceBetween
                         ),
                         content =  listOf(
-                            text(
+                            Text(
                                 textProperty = TextProperty(card.name),
                             ),
-                            text(
+                            Text(
                                 textProperty = TextProperty(
                                     "final ".plus(
                                         card.number.split(" ").last()
@@ -64,16 +65,16 @@ class CardDetailContent {
                             ),
                         )
                     ),
-                    text(
+                    Text(
                         textProperty = TextProperty(card.type),
                     ),
-                    column(
+                    Column(
                         verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                         horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.End),
                         verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
                         content =  listOf(
-                            image(
+                            Image(
                                 drawableNameProperty = DrawableNameProperty("Visa"),
                                 sizeProperty = SizeProperty(30),
                             ),
@@ -88,25 +89,24 @@ class CardDetailContent {
         ),
     )
 
-    fun screen(cards: List<Card>) = screen(
+    fun defaultScreen(cards: List<CardDbModel>) = DefaultTemplate(
         flow = "Card",
         stage = "Detail",
         version = "1",
         template = "",
-        shouldCache = false,
         content =  listOf(
-            lazyColumn(
+            LazyColumn(
                 paddingHorizontalProperty = PaddingHorizontalProperty(10),
                 weightProperty = WeightProperty(1f),
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
                 content =  listOf(
-                    horizontalPager(
+                    HorizontalPager(
                         contentPaddingProperty = ContentPaddingProperty(20),
                         currentPageProperty = CurrentPageProperty(0, "CardsContent.SelectedCardIndex"),
                         pageContent =  cards.mapIndexed { index, card -> getCard(card, index) }
                     ),
-                    sdUi(
+                    SdUi(
                         flowIdentifierProperty = FlowIdentifierProperty("Card"),
                         fromScreenIdentifierProperty = FromScreenIdentifierProperty("Detail"),
                         stageIdentifierProperty = StageIdentifierProperty("Detail", "CardsContent.SelectedCardId"),
@@ -121,7 +121,7 @@ class CardDetailContent {
                             ),
                         )
                     ),
-                    column(
+                    Column(
                         paddingVerticalProperty = PaddingVerticalProperty(10),
                         paddingHorizontalProperty = PaddingHorizontalProperty(25),
                         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),

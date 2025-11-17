@@ -25,7 +25,7 @@ class RootController(
         @RequestBody request: String,
     ): ResponseEntity<String> {
         return cryptoFilter.handleRequest(request, iv, sessionId) { output ->
-            Json.encodeToString(routingController.getSdUiScreen(output))
+            Json.encodeToString(routingController.getSdUiScreen(output).build())
         }
     }
 }

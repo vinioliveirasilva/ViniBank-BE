@@ -5,7 +5,7 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.component
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.jsonObject
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.property
-//import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
+//
 //import kotlinx.serialization.json.JsonObject
 //
 //object GoldCardDetails : SdUiScreenOLD {
@@ -25,7 +25,7 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //        ),
 //        listOf(
 //            component(
-//                "column",
+//                "Column",
 //                listOf(),
 //                listOf(
 //                    component(
@@ -203,7 +203,7 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //        )
 //    )
 //
-//    override fun getScreenModel(screenData: JsonObject?): JsonObject = screen(
+//    override fun getScreenModel(screenData: JsonObject?): JsonObject = DefaultTemplate(
 //        "Home",
 //        "Cartoes/card2",
 //        "",
@@ -211,7 +211,7 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //        true,
 //        content =  listOf(
 //            component(
-//                "column",
+//                "Column",
 //                listOf(
 //                    property("paddingVertical", "10"),
 //                    paddingHorizontalProperty = PaddingHorizontalProperty(25"),

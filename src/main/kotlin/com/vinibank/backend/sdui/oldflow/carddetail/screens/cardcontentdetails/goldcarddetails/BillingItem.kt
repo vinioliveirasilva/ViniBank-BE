@@ -4,13 +4,13 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.action
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.component
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.property
-//import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
+//
 //import kotlinx.serialization.json.JsonObject
 //
 //object BillingItem : SdUiScreenOLD {
 //
-//    val topAppBar = component(
-//        "topAppBar",
+//    val TopAppBar = component(
+//        "TopAppBar",
 //        listOf(),
 //        listOf(),
 //        validators = listOf(),
@@ -60,7 +60,7 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //                )
 //            ),
 //            component(
-//                "column",
+//                "Column",
 //                listOf(
 //                    paddingHorizontalProperty = PaddingHorizontalProperty(16"),
 //                ),
@@ -82,7 +82,7 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //        )
 //    )
 //
-//    override fun getScreenModel(screenData: JsonObject?): JsonObject = screen(
+//    override fun getScreenModel(screenData: JsonObject?): JsonObject = DefaultTemplate(
 //        "Home",
 //        "Cartoes",
 //        "1",
@@ -90,14 +90,14 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //        false,
 //        content =  listOf(
 //            component(
-//                "lazyColumn",
+//                "LazyColumn",
 //                listOf(
 //                    weightProperty = WeightProperty(1),
 //                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
 //                    horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
 //                ),
 //                listOf(
-//                    topAppBar,
+//                    TopAppBar,
 //                    item("Valor Total", "R$ 1.000,00", "Money"),
 //                    horizontalDivider(),
 //                    item("Android Pay", "Gold Card, final 4869", ""),

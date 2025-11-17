@@ -2,15 +2,15 @@ package com.vinibank.backend.sdui.flow.home.screen
 
 import com.vini.designsystemsdui.action.backAction
 import com.vini.designsystemsdui.action.continueAction
-import com.vini.designsystemsdui.component.card
-import com.vini.designsystemsdui.component.column
-import com.vini.designsystemsdui.component.horizontalDivider
-import com.vini.designsystemsdui.component.icon
-import com.vini.designsystemsdui.component.iconButton
-import com.vini.designsystemsdui.component.lazyColumn
-import com.vini.designsystemsdui.component.row
-import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topAppBar
+import com.vini.designsystemsdui.component.Card
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.HorizontalDivider
+import com.vini.designsystemsdui.component.Icon
+import com.vini.designsystemsdui.component.IconButton
+import com.vini.designsystemsdui.component.LazyColumn
+import com.vini.designsystemsdui.component.Row
+import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
@@ -27,10 +27,10 @@ import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.template.Template
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
-import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 
 @Component
@@ -38,13 +38,13 @@ class UserDetailScreen : HomeScreen {
     override val screenId: String
         get() = "UserDetail"
 
-    override fun getScreen(request: SdUiRequest): JsonObject? {
-        fun menuItem(name: String, icon: String? = null) = column(
+    override fun getScreen(request: SdUiRequest): Template? {
+        fun menuItem(name: String, icon: String? = null) = Column(
             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
             paddingHorizontalProperty = PaddingHorizontalProperty(20),
             verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Center),
             content =  listOf(
-                row(
+                Row(
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     paddingVerticalProperty = PaddingVerticalProperty(10),
                     horizontalArrangementProperty = HorizontalArrangementProperty(
@@ -52,26 +52,26 @@ class UserDetailScreen : HomeScreen {
                     ),
                     verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
                     content =  listOf(
-                        row(
+                        Row(
                             verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
                             content =  listOfNotNull(
                                 icon?.let {
-                                    icon(
+                                    Icon(
                                         iconNameProperty = IconNameProperty(it),
                                         paddingHorizontalProperty = PaddingHorizontalProperty(10),
                                         sizeProperty = SizeProperty(48),
                                     )
                                 },
-                                text(textProperty = TextProperty(name))
+                                Text(textProperty = TextProperty(name))
                             )
                         ),
-                        icon(
+                        Icon(
                             iconNameProperty = IconNameProperty("RightArrow"),
                             paddingHorizontalProperty = PaddingHorizontalProperty(10),
                         ),
                     )
                 ),
-                horizontalDivider(),
+                HorizontalDivider(),
             ),
             onClick = continueAction(
                 flowId = "TODO",
@@ -81,16 +81,16 @@ class UserDetailScreen : HomeScreen {
             ),
         )
 
-        val content = lazyColumn(
+        val content = LazyColumn(
             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
             weightProperty = WeightProperty(1f),
             content =  listOf(
-                card(
+                Card(
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     paddingVerticalProperty = PaddingVerticalProperty(10),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     content =  listOf(
-                        column(
+                        Column(
                             paddingVerticalProperty = PaddingVerticalProperty(20),
                             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                 HorizontalAlignmentOption.Center
@@ -99,20 +99,20 @@ class UserDetailScreen : HomeScreen {
                                 HorizontalFillTypeOption.Max
                             ),
                             content =  listOf(
-                                icon(
+                                Icon(
                                     iconNameProperty = IconNameProperty("User"),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                     sizeProperty = SizeProperty(96),
                                 ),
-                                text(
+                                Text(
                                     textProperty = TextProperty("Vinicius Oliveira"),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
-                                text(
+                                Text(
                                     textProperty = TextProperty("vinioliveirasilva@hotmail.com"),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
-                                text(
+                                Text(
                                     textProperty = TextProperty("+55 11 9 77801285"),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
@@ -127,21 +127,20 @@ class UserDetailScreen : HomeScreen {
             )
         )
 
-        val screen = screen(
+        val screen = DefaultTemplate(
             flow = "Home",
             stage = "UserDetail",
             version = "1",
             template = "",
-            shouldCache = false,
             content =  listOf(
-                topAppBar(
+                TopAppBar(
                     title =  listOf(
-                        text(textProperty = TextProperty("User Detail"))
+                        Text(textProperty = TextProperty("User Detail"))
                     ),
                     navigationIcon = listOf(
-                        iconButton(
+                        IconButton(
                             content =  listOf(
-                                icon(iconNameProperty = IconNameProperty("LeftArrow"))
+                                Icon(iconNameProperty = IconNameProperty("LeftArrow"))
                             ),
                             onClick = backAction()
                         )

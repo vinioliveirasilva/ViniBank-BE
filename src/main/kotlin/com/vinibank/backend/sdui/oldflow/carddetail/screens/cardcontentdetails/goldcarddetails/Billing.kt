@@ -1,12 +1,12 @@
 package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.goldcarddetails
 //
 //import com.vinibank.backend.sdui.oldflow.SdUiScreenOLD
-//import com.vinibank.backend.sdui.components.topAppBarWithBackAction
+//import com.vinibank.backend.sdui.components.TopAppBarWithBackAction
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.action
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.component
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.jsonObject
 //import com.vinibank.backend.sdui.oldflow.ScreenUtil.property
-//import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
+//
 //import kotlinx.serialization.json.JsonObject
 //
 //object Billing : SdUiScreenOLD {
@@ -28,7 +28,7 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //        ),
 //        listOf(
 //            component(
-//                "column",
+//                "Column",
 //                listOf(),
 //                listOf(
 //                    component(
@@ -80,7 +80,7 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //        )
 //    )
 //
-//    override fun getScreenModel(screenData: JsonObject?): JsonObject = screen(
+//    override fun getScreenModel(screenData: JsonObject?): JsonObject = DefaultTemplate(
 //        "Home",
 //        "Cartoes/card2/billing",
 //        "",
@@ -88,12 +88,12 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails.
 //        false,
 //        content =  listOf(
 //            component(
-//                "lazyColumn",
+//                "LazyColumn",
 //                listOf(
 //                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
 //                ),
 //                listOf(
-//                    topAppBarWithBackAction("Billing Description"),
+//                    TopAppBarWithBackAction("Billing Description"),
 //                    billingItem("Loja do Zé", "Crédito", "R$ 120,00"),
 //                    horizontalDivider(),
 //                    billingItem("Supermercado Bom Preço", "Débito", "R$ 89,99"),

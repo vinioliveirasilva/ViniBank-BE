@@ -6,17 +6,17 @@ import com.vini.designsystemsdui.action.multipleActions
 import com.vini.designsystemsdui.action.navigateAction
 import com.vini.designsystemsdui.action.toBooleanAction
 import com.vini.designsystemsdui.action.toStringAction
-import com.vini.designsystemsdui.component.backHandler
-import com.vini.designsystemsdui.component.button
-import com.vini.designsystemsdui.component.column
-import com.vini.designsystemsdui.component.icon
-import com.vini.designsystemsdui.component.iconButton
-import com.vini.designsystemsdui.component.lazyColumn
-import com.vini.designsystemsdui.component.outlinedButton
-import com.vini.designsystemsdui.component.outlinedTextInput
-import com.vini.designsystemsdui.component.spacer
-import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.textInput
+import com.vini.designsystemsdui.component.BackHandler
+import com.vini.designsystemsdui.component.Button
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.Icon
+import com.vini.designsystemsdui.component.IconButton
+import com.vini.designsystemsdui.component.LazyColumn
+import com.vini.designsystemsdui.component.OutlinedButton
+import com.vini.designsystemsdui.component.OutlinedTextInput
+import com.vini.designsystemsdui.component.Spacer
+import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.component.TextInput
 import com.vini.designsystemsdui.property.BackgroundColorProperty
 import com.vini.designsystemsdui.property.ButtonColorsProperty
 import com.vini.designsystemsdui.property.ColorProperty
@@ -53,15 +53,16 @@ import com.vini.designsystemsdui.property.options.ShapeOptions
 import com.vini.designsystemsdui.property.options.TextSelectionColorsModel
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VisualTransformationOption
+import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.template.Template
 import com.vini.designsystemsdui.validator.allTrueValidator
 import com.vini.designsystemsdui.validator.emailValidator
 import com.vini.designsystemsdui.validator.minLengthValidator
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.login.LoginScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
+
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import org.springframework.stereotype.Component
 
@@ -77,7 +78,7 @@ class MainLoginScreen(
     override val screenId: String
         get() = "InformationInput"
 
-    override fun getScreen(request: SdUiRequest): JsonObject? {
+    override fun getScreen(request: SdUiRequest): Template? {
         toggleLoginScreens = toggleLoginScreens.not()
         return if(toggleLoginScreens) {
             greenLoginScreen(request)
@@ -86,7 +87,7 @@ class MainLoginScreen(
         }
     }
 
-    private fun blueLoginScreen(request: SdUiRequest): JsonObject {
+    private fun blueLoginScreen(request: SdUiRequest): Template {
         val screenFlowId = "${request.flow}.${screenId}"
         val textFieldTheme = InternalTextFieldColors(
             focusedContainerColor = ColorOption.BlueGray,
@@ -98,15 +99,14 @@ class MainLoginScreen(
             focusedLabelColor = ColorOption.White,
             unfocusedLabelColor = ColorOption.White,
         )
-        return screen(
+        return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
             template = "",
-            shouldCache = false,
             content = listOf(
-                backHandler(onBackAction = closeApplicationAction()),
-                lazyColumn(
+                BackHandler(onBackAction = closeApplicationAction()),
+                LazyColumn(
                     backgroundColorProperty = BackgroundColorProperty(ColorOption.BlueGray),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     verticalArrangementProperty = VerticalArrangementProperty(
@@ -114,7 +114,7 @@ class MainLoginScreen(
                     ),
                     weightProperty = WeightProperty(1f),
                     content = listOf(
-                        column(
+                        Column(
                             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                 HorizontalAlignmentOption.Center
                             ),
@@ -122,9 +122,9 @@ class MainLoginScreen(
                                 HorizontalFillTypeOption.Max
                             ),
                             content = listOf(
-                                //topAppBar(title = listOf(text(textProperty = TextProperty("Login")))),
-                                spacer(heightProperty = HeightProperty(60)),
-                                column(
+                                //TopAppBar(title = listOf(Text(textProperty = TextProperty("Login")))),
+                                Spacer(heightProperty = HeightProperty(60)),
+                                Column(
                                     horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                         HorizontalAlignmentOption.Center
                                     ),
@@ -132,13 +132,13 @@ class MainLoginScreen(
                                         HorizontalFillTypeOption.Max
                                     ),
                                     content = listOf(
-                                        text(
+                                        Text(
                                             colorProperty = ColorProperty(ColorOption.White),
                                             textProperty = TextProperty("V i n i"),
                                             fontSizeProperty = FontSizeProperty(40f),
                                             fontWeightProperty = FontWeightProperty(FontWeightOption.ExtraBold)
                                         ),
-                                        text(
+                                        Text(
                                             colorProperty = ColorProperty(ColorOption.White),
                                             textProperty = TextProperty("B a n k"),
                                             fontSizeProperty = FontSizeProperty(40f),
@@ -146,22 +146,22 @@ class MainLoginScreen(
                                         ),
                                     )
                                 ),
-                                spacer(heightProperty = HeightProperty(60)),
-                                text(
+                                Spacer(heightProperty = HeightProperty(60)),
+                                Text(
                                     colorProperty = ColorProperty(ColorOption.White),
                                     textProperty = TextProperty("Login"),
                                     fontSizeProperty = FontSizeProperty(30f),
                                     fontWeightProperty = FontWeightProperty(FontWeightOption.Bold)
                                 ),
-                                spacer(heightProperty = HeightProperty(20)),
-                                textInput(
+                                Spacer(heightProperty = HeightProperty(20)),
+                                TextInput(
                                     textFieldColorsProperty = TextFieldColorsProperty(textFieldTheme),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(30),
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
                                     label = listOf(
-                                        text(textProperty = TextProperty("Email"))
+                                        Text(textProperty = TextProperty("Email"))
                                     ),
                                     textProperty = TextProperty(
                                         "123@123.com",
@@ -174,14 +174,14 @@ class MainLoginScreen(
                                         ),
                                     )
                                 ),
-                                textInput(
+                                TextInput(
                                     textFieldColorsProperty = TextFieldColorsProperty(textFieldTheme),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(30),
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
                                     label = listOf(
-                                        text(textProperty = TextProperty("Senha"))
+                                        Text(textProperty = TextProperty("Senha"))
                                     ),
                                     textProperty = TextProperty(
                                         "123@123A",
@@ -208,7 +208,7 @@ class MainLoginScreen(
 //                                                "screenFlowId.PasswordIsVisible"
 //                                            ),
 //                                            content = listOf(
-//                                                icon(iconNameProperty = IconNameProperty("Visibility"))
+//                                                Icon(iconNameProperty = IconNameProperty("Visibility"))
 //                                            ),
 //                                            onClick = multipleActions(
 //                                                listOf(
@@ -233,7 +233,7 @@ class MainLoginScreen(
 //                                                "screenFlowId.PasswordIsNotVisible"
 //                                            ),
 //                                            content = listOf(
-//                                                icon(
+//                                                Icon(
 //                                                    iconNameProperty = IconNameProperty(
 //                                                        "VisibilityOff"
 //                                                    )
@@ -260,10 +260,10 @@ class MainLoginScreen(
                                 ),
                             )
                         ),
-                        column(
+                        Column(
                             paddingHorizontalProperty = PaddingHorizontalProperty(30),
                             content = listOf(
-                                button(
+                                Button(
                                     buttonColorsProperty = ButtonColorsProperty(
                                         InternalButtonColors(
                                             contentColor = ColorOption.BlueGray,
@@ -271,7 +271,7 @@ class MainLoginScreen(
                                         )
                                     ),
                                     content = listOf(
-                                        text(textProperty = TextProperty("Fazer Login"))
+                                        Text(textProperty = TextProperty("Fazer Login"))
                                     ),
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
@@ -301,15 +301,15 @@ class MainLoginScreen(
                                         screenData = request.screenData
                                     ),
                                 ),
-                                spacer(heightProperty = HeightProperty(10)),
-                                outlinedButton(
+                                Spacer(heightProperty = HeightProperty(10)),
+                                OutlinedButton(
                                     buttonColorsProperty = ButtonColorsProperty(
                                         InternalButtonColors(
                                             contentColor = ColorOption.White,
                                         )
                                     ),
                                     content = listOf(
-                                        text(textProperty = TextProperty("Fazer Cadastro"))
+                                        Text(textProperty = TextProperty("Fazer Cadastro"))
                                     ),
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
@@ -324,7 +324,7 @@ class MainLoginScreen(
                                         )
                                     ),
                                 ),
-                                spacer(heightProperty = HeightProperty(20))
+                                Spacer(heightProperty = HeightProperty(20))
                             )
                         )
                     )
@@ -333,19 +333,18 @@ class MainLoginScreen(
         )
     }
 
-    private fun greenLoginScreen(request: SdUiRequest): JsonObject {
+    private fun greenLoginScreen(request: SdUiRequest): Template {
         val outlinedTextFieldsPadding = 30
         val outlinedTextFieldLabelPadding = outlinedTextFieldsPadding + 20
         val screenFlowId = "${request.flow}.${screenId}"
-        return screen(
+        return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
             template = "",
-            shouldCache = false,
             content = listOf(
-                backHandler(onBackAction = closeApplicationAction()),
-                column(
+                BackHandler(onBackAction = closeApplicationAction()),
+                Column(
                     verticalScrollProperty = VerticalScrollProperty(true),
                     horizontalAlignmentProperty = HorizontalAlignmentProperty(
                         HorizontalAlignmentOption.Center
@@ -356,14 +355,14 @@ class MainLoginScreen(
                         HorizontalFillTypeOption.Max
                     ),
                     content = listOf(
-                        spacer(heightProperty = HeightProperty(20)),
-                        text(
+                        Spacer(heightProperty = HeightProperty(20)),
+                        Text(
                             paddingVerticalProperty = PaddingVerticalProperty(60),
                             textProperty = TextProperty("Welcome"),
                             fontSizeProperty = FontSizeProperty(30f),
                             fontWeightProperty = FontWeightProperty(FontWeightOption.SemiBold)
                         ),
-                        column(
+                        Column(
                             shapeProperty = ShapeProperty(ShapeOptions.CustomTop(40)),
                             weightProperty = WeightProperty(1f),
                             backgroundColorProperty = BackgroundColorProperty(ColorOption.HoneyDew),
@@ -374,8 +373,8 @@ class MainLoginScreen(
                                 HorizontalAlignmentOption.Center
                             ),
                             content = listOf(
-                                spacer(heightProperty = HeightProperty(70)),
-                                text(
+                                Spacer(heightProperty = HeightProperty(70)),
+                                Text(
                                     textProperty = TextProperty("Email"),
                                     fontSizeProperty = FontSizeProperty(18f),
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
@@ -385,7 +384,7 @@ class MainLoginScreen(
                                         outlinedTextFieldLabelPadding
                                     )
                                 ),
-                                outlinedTextInput(
+                                OutlinedTextInput(
                                     outlinedTextFieldColorsProperty = OutlinedTextFieldColorsProperty(
                                         OutlinedTextFieldColorsModel(
                                             focusedBorderColor = ColorOption.Transparent,
@@ -413,7 +412,7 @@ class MainLoginScreen(
                                         "$screenFlowId.Email"
                                     ),
                                     prefix = listOf(
-                                        spacer(widthProperty = WidthProperty(10))
+                                        Spacer(widthProperty = WidthProperty(10))
                                     ),
                                     validators = listOf(
                                         emailValidator(
@@ -422,8 +421,8 @@ class MainLoginScreen(
                                         ),
                                     ),
                                 ),
-                                spacer(heightProperty = HeightProperty(30)),
-                                text(
+                                Spacer(heightProperty = HeightProperty(30)),
+                                Text(
                                     textProperty = TextProperty("Senha"),
                                     fontSizeProperty = FontSizeProperty(18f),
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
@@ -433,7 +432,7 @@ class MainLoginScreen(
                                         outlinedTextFieldLabelPadding
                                     )
                                 ),
-                                outlinedTextInput(
+                                OutlinedTextInput(
                                     outlinedTextFieldColorsProperty = OutlinedTextFieldColorsProperty(
                                         OutlinedTextFieldColorsModel(
                                             focusedBorderColor = ColorOption.Transparent,
@@ -475,13 +474,13 @@ class MainLoginScreen(
                                         outlinedTextFieldsPadding
                                     ),
                                     trailingIcon = listOf(
-                                        iconButton(
+                                        IconButton(
                                             visibilityProperty = VisibilityProperty(
                                                 true,
                                                 "$screenFlowId.PasswordIsVisible"
                                             ),
                                             content = listOf(
-                                                icon(iconNameProperty = IconNameProperty("Visibility"))
+                                                Icon(iconNameProperty = IconNameProperty("Visibility"))
                                             ),
                                             onClick = multipleActions(
                                                 listOf(
@@ -500,13 +499,13 @@ class MainLoginScreen(
                                                 )
                                             )
                                         ),
-                                        iconButton(
+                                        IconButton(
                                             visibilityProperty = VisibilityProperty(
                                                 false,
                                                 "$screenFlowId.PasswordIsNotVisible"
                                             ),
                                             content = listOf(
-                                                icon(
+                                                Icon(
                                                     iconNameProperty = IconNameProperty(
                                                         "VisibilityOff"
                                                     )
@@ -531,10 +530,10 @@ class MainLoginScreen(
                                         ),
                                     ),
                                     prefix = listOf(
-                                        spacer(widthProperty = WidthProperty(10))
+                                        Spacer(widthProperty = WidthProperty(10))
                                     )
                                 ),
-                                column(
+                                Column(
                                     weightProperty = WeightProperty(1f),
                                     verticalArrangementProperty = VerticalArrangementProperty(
                                         VerticalArrangementOption.Bottom
@@ -544,7 +543,7 @@ class MainLoginScreen(
                                         HorizontalAlignmentOption.Center
                                     ),
                                     content = listOf(
-                                        button(
+                                        Button(
                                             paddingHorizontalProperty = PaddingHorizontalProperty(
                                                 outlinedTextFieldLabelPadding
                                             ),
@@ -556,7 +555,7 @@ class MainLoginScreen(
                                                 )
                                             ),
                                             content = listOf(
-                                                text(
+                                                Text(
                                                     textProperty = TextProperty("Fazer Login"),
                                                     fontSizeProperty = FontSizeProperty(16f),
                                                     fontWeightProperty = FontWeightProperty(
@@ -592,8 +591,8 @@ class MainLoginScreen(
                                                 screenData = request.screenData
                                             ),
                                         ),
-                                        spacer(heightProperty = HeightProperty(10)),
-                                        button(
+                                        Spacer(heightProperty = HeightProperty(10)),
+                                        Button(
                                             paddingHorizontalProperty = PaddingHorizontalProperty(
                                                 outlinedTextFieldLabelPadding
                                             ),
@@ -605,7 +604,7 @@ class MainLoginScreen(
                                                 )
                                             ),
                                             content = listOf(
-                                                text(
+                                                Text(
                                                     textProperty = TextProperty("Fazer Cadastro"),
                                                     fontSizeProperty = FontSizeProperty(16f),
                                                     fontWeightProperty = FontWeightProperty(
@@ -626,10 +625,10 @@ class MainLoginScreen(
                                                 )
                                             ),
                                         ),
-                                        spacer(heightProperty = HeightProperty(20))
+                                        Spacer(heightProperty = HeightProperty(20))
                                     )
                                 ),
-                                spacer(sizeProperty = SizeProperty(10))
+                                Spacer(sizeProperty = SizeProperty(10))
                             )
                         ),
                     )
@@ -638,8 +637,8 @@ class MainLoginScreen(
         )
     }
 
-    override fun getRule(request: SdUiRequest): JsonObject? {
-        val model = Json.Default.decodeFromJsonElement<LoginScreenState>(
+    override fun getRule(request: SdUiRequest) {
+        val model = Json.decodeFromJsonElement<LoginScreenState>(
             request.screenData ?: throw IllegalArgumentException("LoginScreen Model is null")
         )
 
@@ -649,7 +648,7 @@ class MainLoginScreen(
         if (user == null) {
             TODO()
         } else {
-            return null
+            return
         }
     }
 }

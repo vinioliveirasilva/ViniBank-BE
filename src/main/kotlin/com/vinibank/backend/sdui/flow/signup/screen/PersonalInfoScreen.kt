@@ -2,13 +2,13 @@ package com.vinibank.backend.sdui.flow.signup.screen
 
 import com.vini.designsystemsdui.action.backAction
 import com.vini.designsystemsdui.action.continueAction
-import com.vini.designsystemsdui.component.button
-import com.vini.designsystemsdui.component.column
-import com.vini.designsystemsdui.component.outlinedButton
-import com.vini.designsystemsdui.component.outlinedTextInput
-import com.vini.designsystemsdui.component.spacer
-import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topAppBar
+import com.vini.designsystemsdui.component.Button
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.OutlinedButton
+import com.vini.designsystemsdui.component.OutlinedTextInput
+import com.vini.designsystemsdui.component.Spacer
+import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
@@ -26,41 +26,41 @@ import com.vini.designsystemsdui.property.options.KeyboardOptionsOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.options.VisualTransformationOption
+import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.template.Template
 import com.vini.designsystemsdui.validator.allTrueValidator
 import com.vini.designsystemsdui.validator.minLengthValidator
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
-import kotlinx.serialization.json.JsonObject
+
 import org.springframework.stereotype.Component
 
 @Component
 class PersonalInfoScreen : SignUpScreen {
     override val screenId: String = "PersonalInfo"
 
-    override fun getScreen(request: SdUiRequest): JsonObject? {
+    override fun getScreen(request: SdUiRequest): Template? {
         val screenFlowId = "${request.flow}.${screenId}"
-        return screen(
+        return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
             template = "",
-            shouldCache = false,
             content =  listOf(
-                topAppBar(
+                TopAppBar(
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     title =  listOf(
-                        text(textProperty = TextProperty("Informações Pessoais"))
+                        Text(textProperty = TextProperty("Informações Pessoais"))
                     )
                 ),
-                spacer(sizeProperty = SizeProperty(20)),
-                outlinedTextInput(
+                Spacer(sizeProperty = SizeProperty(20)),
+                OutlinedTextInput(
                     textProperty = TextProperty("", "$screenFlowId.nameInput"),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     label = listOf(
-                        text(textProperty = TextProperty(value = "Nome completo"))
+                        Text(textProperty = TextProperty(value = "Nome completo"))
                     ),
                     validators = listOf(
                         minLengthValidator(
@@ -70,13 +70,13 @@ class PersonalInfoScreen : SignUpScreen {
                         )
                     )
                 ),
-                spacer(sizeProperty = SizeProperty(20)),
-                outlinedTextInput(
+                Spacer(sizeProperty = SizeProperty(20)),
+                OutlinedTextInput(
                     textProperty = TextProperty("", "$screenFlowId.documentInput"),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     label = listOf(
-                        text(textProperty = TextProperty(value = "CPF"))
+                        Text(textProperty = TextProperty(value = "CPF"))
                     ),
                     visualTransformationProperty = VisualTransformationProperty(VisualTransformationOption.CpfDocument),
                     keyboardOptionsProperty = KeyboardOptionsProperty(KeyboardOptionsOption.Number),
@@ -89,13 +89,13 @@ class PersonalInfoScreen : SignUpScreen {
                     )
 
                 ),
-                spacer(sizeProperty = SizeProperty(20)),
-                outlinedTextInput(
+                Spacer(sizeProperty = SizeProperty(20)),
+                OutlinedTextInput(
                     textProperty = TextProperty("", "$screenFlowId.phoneInput"),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     label = listOf(
-                        text(textProperty = TextProperty(value = "Telefone"))
+                        Text(textProperty = TextProperty(value = "Telefone"))
                     ),
                     visualTransformationProperty = VisualTransformationProperty(VisualTransformationOption.Phone),
                     keyboardOptionsProperty = KeyboardOptionsProperty(KeyboardOptionsOption.Phone),
@@ -107,7 +107,7 @@ class PersonalInfoScreen : SignUpScreen {
                         )
                     )
                 ),
-                column(
+                Column(
                     horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
@@ -115,9 +115,9 @@ class PersonalInfoScreen : SignUpScreen {
                     weightProperty = WeightProperty(1f),
                     verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
                     content =  listOf(
-                        button(
+                        Button(
                             content = listOf(
-                                text(textProperty = TextProperty(value = "Continuar"))
+                                Text(textProperty = TextProperty(value = "Continuar"))
                             ),
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             enabledProperty = EnabledProperty(false, "$screenFlowId.continueButton"),
@@ -143,16 +143,16 @@ class PersonalInfoScreen : SignUpScreen {
                                 )
                             )
                         ),
-                        outlinedButton(
+                        OutlinedButton(
                             content = listOf(
-                                text(textProperty = TextProperty(value = "Voltar"))
+                                Text(textProperty = TextProperty(value = "Voltar"))
                             ),
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             onClick = backAction()
                         ),
                     )
                 ),
-                spacer(sizeProperty = SizeProperty(20)),
+                Spacer(sizeProperty = SizeProperty(20)),
             )
         )
     }

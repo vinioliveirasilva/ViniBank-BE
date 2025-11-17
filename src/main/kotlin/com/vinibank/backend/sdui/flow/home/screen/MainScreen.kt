@@ -3,19 +3,19 @@ package com.vinibank.backend.sdui.flow.home.screen
 import com.vini.designsystemsdui.action.closeApplicationAction
 import com.vini.designsystemsdui.action.continueAction
 import com.vini.designsystemsdui.action.toBooleanAction
-import com.vini.designsystemsdui.component.backHandler
-import com.vini.designsystemsdui.component.bottomSheet
-import com.vini.designsystemsdui.component.button
-import com.vini.designsystemsdui.component.column
-import com.vini.designsystemsdui.component.icon
-import com.vini.designsystemsdui.component.iconButton
-import com.vini.designsystemsdui.component.navigationBar
-import com.vini.designsystemsdui.component.navigationBarItem
-import com.vini.designsystemsdui.component.outlinedButton
-import com.vini.designsystemsdui.component.sdUi
-import com.vini.designsystemsdui.component.spacer
-import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topAppBar
+import com.vini.designsystemsdui.component.BackHandler
+import com.vini.designsystemsdui.component.BottomSheet
+import com.vini.designsystemsdui.component.Button
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.Icon
+import com.vini.designsystemsdui.component.IconButton
+import com.vini.designsystemsdui.component.NavigationBar
+import com.vini.designsystemsdui.component.NavigationBarItem
+import com.vini.designsystemsdui.component.OutlinedButton
+import com.vini.designsystemsdui.component.SdUi
+import com.vini.designsystemsdui.component.Spacer
+import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.property.DestinationIndexProperty
 import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
@@ -36,11 +36,11 @@ import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.ShapeOptions
+import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.template.Template
 import com.vini.designsystemsdui.validator.intToStringValidator
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
-import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 
 @Component
@@ -48,64 +48,64 @@ class MainScreen : HomeScreen {
     override val screenId: String
         get() = "Home"
 
-    override fun getScreen(request: SdUiRequest): JsonObject? {
-        val bottomNavigation = navigationBar(
+    override fun getScreen(request: SdUiRequest): Template? {
+        val bottomNavigation = NavigationBar(
             selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                 value = 0,
                 id = "bottomNavigation.selectedDestination"
             ),
             content = listOf(
-                navigationBarItem(
+                NavigationBarItem(
                     destinationIndexProperty = DestinationIndexProperty(0),
                     selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                         id = "bottomNavigation.selectedDestination"
                     ),
                     label = listOf(
-                        text(textProperty = TextProperty("Home"))
+                        Text(textProperty = TextProperty("Home"))
                     ),
                     selectedIcon = listOf(
-                        icon(iconNameProperty = IconNameProperty("Home"))
+                        Icon(iconNameProperty = IconNameProperty("Home"))
                     ),
                     unselectedIcon = listOf(
-                        icon(iconNameProperty = IconNameProperty("HomeOutline"))
+                        Icon(iconNameProperty = IconNameProperty("HomeOutline"))
                     )
                 ),
-                navigationBarItem(
+                NavigationBarItem(
                     destinationIndexProperty = DestinationIndexProperty(1),
                     selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                         id = "bottomNavigation.selectedDestination"
                     ),
                     label = listOf(
-                        text(textProperty = TextProperty("Card"))
+                        Text(textProperty = TextProperty("Card"))
                     ),
                     selectedIcon = listOf(
-                        icon(iconNameProperty = IconNameProperty("Payment"))
+                        Icon(iconNameProperty = IconNameProperty("Payment"))
                     ),
                     unselectedIcon = listOf(
-                        icon(iconNameProperty = IconNameProperty("PaymentOutline"))
+                        Icon(iconNameProperty = IconNameProperty("PaymentOutline"))
                     )
                 ),
-                navigationBarItem(
+                NavigationBarItem(
                     destinationIndexProperty = DestinationIndexProperty(2),
                     selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                         id = "bottomNavigation.selectedDestination"
                     ),
                     label = listOf(
-                        text(textProperty = TextProperty("Investimentos"))
+                        Text(textProperty = TextProperty("Investimentos"))
                     ),
                     selectedIcon = listOf(
-                        icon(iconNameProperty = IconNameProperty("Investment"))
+                        Icon(iconNameProperty = IconNameProperty("Investment"))
                     ),
                     unselectedIcon = listOf(
-                        icon(iconNameProperty = IconNameProperty("InvestmentOutline"))
+                        Icon(iconNameProperty = IconNameProperty("InvestmentOutline"))
                     )
                 ),
             )
         )
 
-        val topAppBar = topAppBar(
+        val TopAppBar = TopAppBar(
             title = listOf(
-                text(
+                Text(
                     textProperty = TextProperty(
                         "Home",
                         id = "bottomNavigation.selectedDestinationTitle"
@@ -114,7 +114,7 @@ class MainScreen : HomeScreen {
                 ),
             ),
             actions = listOf(
-                iconButton(
+                IconButton(
                     onClick = continueAction(
                         flowId = request.flow,
                         currentScreenId = screenId,
@@ -122,7 +122,7 @@ class MainScreen : HomeScreen {
                         screenData = request.screenData
                     ),
                     content = listOf(
-                        icon(
+                        Icon(
                             iconNameProperty = IconNameProperty("User")
                         )
                     )
@@ -130,7 +130,7 @@ class MainScreen : HomeScreen {
             )
         )
 
-        val content = sdUi(
+        val content = SdUi(
             flowIdentifierProperty = FlowIdentifierProperty("Home"),
             stageIdentifierProperty = StageIdentifierProperty(
                 "ContaCorrente",
@@ -162,21 +162,20 @@ class MainScreen : HomeScreen {
             )
         )
 
-        val screenObj = screen(
+        val screenObj = DefaultTemplate(
             flow = "Home",
             stage = "Home",
             version = "1",
             template = "",
-            shouldCache = false,
             content = listOf(
-                backHandler(
+                BackHandler(
                     enabledProperty = EnabledProperty(true),
                     onBackAction = toBooleanAction("exitAppBackHandler", true)
                 ),
-                bottomSheet(
+                BottomSheet(
                     visibilityProperty = VisibilityProperty(false, "exitAppBackHandler"),
                     content = listOf(
-                        column(
+                        Column(
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                 HorizontalFillTypeOption.Max
                             ),
@@ -185,26 +184,26 @@ class MainScreen : HomeScreen {
                             ),
                             paddingHorizontalProperty = PaddingHorizontalProperty(10),
                             content = listOf(
-                                text(textProperty = TextProperty("Tem certeza que deseja sair?")),
-                                spacer(heightProperty = HeightProperty(10)),
-                                button(
+                                Text(textProperty = TextProperty("Tem certeza que deseja sair?")),
+                                Spacer(heightProperty = HeightProperty(10)),
+                                Button(
                                     shapeProperty = ShapeProperty(ShapeOptions.Large),
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
                                     content = listOf(
-                                        text(textProperty = TextProperty("Sair do App"))
+                                        Text(textProperty = TextProperty("Sair do App"))
                                     ),
                                     onClick = closeApplicationAction()
                                 ),
-                                spacer(heightProperty = HeightProperty(4)),
-                                outlinedButton(
+                                Spacer(heightProperty = HeightProperty(4)),
+                                OutlinedButton(
                                     shapeProperty = ShapeProperty(ShapeOptions.Large),
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
                                     content = listOf(
-                                        text(textProperty = TextProperty("Cancelar"))
+                                        Text(textProperty = TextProperty("Cancelar"))
                                     ),
                                     onClick = toBooleanAction("exitAppBackHandler", false)
                                 )
@@ -212,7 +211,7 @@ class MainScreen : HomeScreen {
                         )
                     )
                 ),
-                topAppBar,
+                TopAppBar,
                 content,
                 bottomNavigation
             )

@@ -1,12 +1,12 @@
 package com.vinibank.backend.sdui.flow.home.content
 
 import com.vini.designsystemsdui.action.toBooleanAction
-import com.vini.designsystemsdui.component.column
-import com.vini.designsystemsdui.component.icon
-import com.vini.designsystemsdui.component.iconButton
-import com.vini.designsystemsdui.component.row
-import com.vini.designsystemsdui.component.spacer
-import com.vini.designsystemsdui.component.text
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.Icon
+import com.vini.designsystemsdui.component.IconButton
+import com.vini.designsystemsdui.component.Row
+import com.vini.designsystemsdui.component.Spacer
+import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
@@ -20,31 +20,31 @@ import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
+import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.template.Template
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
-import kotlinx.serialization.json.JsonObject
+
 import org.springframework.stereotype.Component
 
 @Component
 class BalanceContent : HomeScreen {
     override val screenId: String = "Balance"
 
-    override fun getScreen(request: SdUiRequest): JsonObject? {
-        val screenObj = screen(
+    override fun getScreen(request: SdUiRequest): Template? {
+        return DefaultTemplate(
             flow = "Home",
             stage = "Balance",
             version = "1",
             template = "",
-            shouldCache = false,
             content = listOf(
-                row(
+                Row(
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                     verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
                     content = listOf(
-                        spacer(weightProperty = WeightProperty(1f)),
-                        column(
+                        Spacer(weightProperty = WeightProperty(1f)),
+                        Column(
                             weightProperty = WeightProperty(10f),
                             paddingHorizontalProperty = PaddingHorizontalProperty(10),
                             paddingVerticalProperty = PaddingVerticalProperty(10),
@@ -52,15 +52,15 @@ class BalanceContent : HomeScreen {
                                 HorizontalAlignmentOption.Center
                             ),
                             content = listOf(
-                                text(textProperty = TextProperty("Balance")),
-                                text(textProperty = TextProperty("R$ 1000,00")),
-                                text(textProperty = TextProperty("updated 10 min ago")),
+                                Text(textProperty = TextProperty("Balance")),
+                                Text(textProperty = TextProperty("R$ 1000,00")),
+                                Text(textProperty = TextProperty("updated 10 min ago")),
                             )
                         ),
-                        iconButton(
+                        IconButton(
                             weightProperty = WeightProperty(1f),
                             content = listOf(
-                                icon(
+                                Icon(
                                     iconNameProperty = IconNameProperty("Autorenew")
                                 )
                             ),
@@ -73,6 +73,5 @@ class BalanceContent : HomeScreen {
                 ),
             )
         )
-        return screenObj
     }
 }

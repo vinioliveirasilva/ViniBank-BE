@@ -2,15 +2,15 @@ package com.vinibank.backend.sdui.flow.newcard.screen
 
 import com.vini.designsystemsdui.action.closeAction
 import com.vini.designsystemsdui.action.toIntAction
-import com.vini.designsystemsdui.component.card
-import com.vini.designsystemsdui.component.column
-import com.vini.designsystemsdui.component.icon
-import com.vini.designsystemsdui.component.iconButton
-import com.vini.designsystemsdui.component.image
-import com.vini.designsystemsdui.component.lazyColumn
-import com.vini.designsystemsdui.component.row
-import com.vini.designsystemsdui.component.text
-import com.vini.designsystemsdui.component.topAppBar
+import com.vini.designsystemsdui.component.Card
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.Icon
+import com.vini.designsystemsdui.component.IconButton
+import com.vini.designsystemsdui.component.Image
+import com.vini.designsystemsdui.component.LazyColumn
+import com.vini.designsystemsdui.component.Row
+import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.property.DrawableNameProperty
 import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
@@ -29,11 +29,12 @@ import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
-import com.vinibank.backend.db.Card
+import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.template.Template
+import com.vinibank.backend.db.Card as CardDbModel
 import com.vinibank.backend.sdui.flow.newcard.NewCardScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import com.vinibank.backend.sdui.oldflow.ScreenUtil.screen
-import kotlinx.serialization.json.JsonObject
+
 import org.springframework.stereotype.Component
 
 @Component
@@ -41,33 +42,33 @@ class NewCardIntroScreen : NewCardScreen {
 
     override val screenId: String = "newCard"
 
-    private fun getCard(card: Card, index: Int) = card(
+    private fun getCard(card: CardDbModel, index: Int) = Card(
         paddingHorizontalProperty = PaddingHorizontalProperty(30),
         paddingVerticalProperty = PaddingVerticalProperty(10),
         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
         heightProperty = HeightProperty(180),
         content =  listOf(
-            column(
+            Column(
                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
                 paddingVerticalProperty = PaddingVerticalProperty(20),
                 verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                 content =  listOf(
-                    row(
+                    Row(
                         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                         horizontalArrangementProperty = HorizontalArrangementProperty(HorizontalArrangementOption.SpaceBetween),
                         content =  listOf(
-                            text(textProperty = TextProperty(card.name)),
-                            text(textProperty = TextProperty("final ".plus(card.number.split(" ").last())))
+                            Text(textProperty = TextProperty(card.name)),
+                            Text(textProperty = TextProperty("final ".plus(card.number.split(" ").last())))
                         )
                     ),
-                    text(textProperty = TextProperty(card.type)),
-                    column(
+                    Text(textProperty = TextProperty(card.type)),
+                    Column(
                         verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                         horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.End),
                         verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
                         content =  listOf(
-                            image(
+                            Image(
                                 drawableNameProperty = DrawableNameProperty("Visa"),
                                 sizeProperty = SizeProperty(30)
                             )
@@ -79,20 +80,19 @@ class NewCardIntroScreen : NewCardScreen {
         onClick = toIntAction("CardsContent.SelectedCardIndex", index)
     )
 
-    override fun getScreen(request: SdUiRequest): JsonObject? {
-        return screen(
+    override fun getScreen(request: SdUiRequest): Template? {
+        return DefaultTemplate(
             flow = "Home",
             stage = "UserDetail",
             version = "1",
             template = "",
-            shouldCache = false,
             content =  listOf(
-                topAppBar(
-                    title =  listOf(text(textProperty = TextProperty("Select your card"))),
+                TopAppBar(
+                    title =  listOf(Text(textProperty = TextProperty("Select your card"))),
                     navigationIcon = listOf(
-                        iconButton(
+                        IconButton(
                             content =  listOf(
-                                icon(
+                                Icon(
                                     iconNameProperty = IconNameProperty("LeftArrow"),
                                 )
                             ),
@@ -100,12 +100,12 @@ class NewCardIntroScreen : NewCardScreen {
                         )
                     )
                 ),
-                lazyColumn(
+                LazyColumn(
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     weightProperty = WeightProperty(1f),
                     content =  listOf(
                         getCard(
-                            card = Card(
+                            card = CardDbModel(
                                 identifier = "",
                                 name = "Platinum card",
                                 type = "International",
@@ -116,7 +116,7 @@ class NewCardIntroScreen : NewCardScreen {
                             index = 0
                         ),
                         getCard(
-                            card = Card(
+                            card = CardDbModel(
                                 identifier = "",
                                 name = "Gold card",
                                 type = "International",
@@ -127,7 +127,7 @@ class NewCardIntroScreen : NewCardScreen {
                             index = 0
                         ),
                         getCard(
-                            card = Card(
+                            card = CardDbModel(
                                 identifier = "",
                                 name = "Silver Card",
                                 type = "National",

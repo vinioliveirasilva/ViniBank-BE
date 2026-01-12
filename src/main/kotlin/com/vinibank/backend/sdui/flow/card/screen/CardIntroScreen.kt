@@ -1,6 +1,6 @@
 package com.vinibank.backend.sdui.flow.card.screen
 
-import com.vini.designsystemsdui.template.Template
+import com.vini.designsystemsdui.Template
 import com.vinibank.backend.db.Card
 import com.vinibank.backend.sdui.flow.RoutingController
 import com.vinibank.backend.sdui.flow.card.CardScreen
@@ -19,7 +19,7 @@ class CardIntroScreen(
 
     private val cards = listOf<Card>()//TODO
 
-    override val screenId: String = "Intro"
+    override val screenId: String = "Start"
 
     override fun getScreen(request: SdUiRequest): Template? {
         return if (cards.isEmpty()) {

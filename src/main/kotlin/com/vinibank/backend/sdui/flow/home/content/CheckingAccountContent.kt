@@ -1,6 +1,6 @@
 package com.vinibank.backend.sdui.flow.home.content
 
-import com.vini.designsystemsdui.action.toBooleanAction
+import com.vini.designsystemsdui.action.ToBooleanAction
 import com.vini.designsystemsdui.component.BottomSheet
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Card
@@ -41,9 +41,12 @@ import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.template.Template
+import com.vini.designsystemsdui.Template
+import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vinibank.backend.sdui.flow.RoutingController
+import com.vinibank.backend.sdui.flow.UpdateSdUiTemplateRequest
 import com.vinibank.backend.sdui.flow.home.HomeScreen
+import com.vinibank.backend.sdui.flow.toSdUiRequest
 import com.vinibank.backend.sdui.model.SdUiRequest
 
 import org.springframework.context.annotation.Lazy
@@ -53,6 +56,28 @@ import org.springframework.stereotype.Component
 class CheckingAccountContent(
     @Lazy private val routingController: RoutingController,
 ) : HomeScreen {
+
+    companion object {
+        val checkingAccountTopSdUiRequestUpdate = PropertyIdWrapper<Boolean>("requestUpdate1")
+    }
+
+    private val showDialogId = PropertyIdWrapper<Boolean>("123abc")
+    private val showBottomSheetId = PropertyIdWrapper<Boolean>("123abc1")
+    private val showSnackBarId = PropertyIdWrapper<Boolean>("123123")
+
+    private fun getBalanceComponents(request: SdUiRequest) = routingController.getSdUiComponents(
+        SdUiRequest(
+            request.flow,
+            screenId,
+            "Balance",
+            request.screenData
+        )
+    )
+
+    override fun getScreenUpdate(request: UpdateSdUiTemplateRequest): List<com.vini.designsystemsdui.Component> {
+        return getBalanceComponents(request.toSdUiRequest())
+    }
+
     fun actionIcon(name: String, icon: String) = Column(
         horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
         content = listOf(
@@ -65,8 +90,8 @@ class CheckingAccountContent(
                         sizeProperty = SizeProperty(36),
                     )
                 ),
-                onClick = toBooleanAction(
-                    idToChange = "123123",
+                onClick = ToBooleanAction(
+                    idToChange = showSnackBarId,
                     newValue = true
                 )
             ),
@@ -130,23 +155,22 @@ class CheckingAccountContent(
         get() = "ContaCorrente"
 
     override fun getScreen(request: SdUiRequest): Template? = DefaultTemplate(
-        "Home",
-        "ContaCorrente",
-        "1",
-        "",
+        flow = "Home",
+        stage = screenId,
+        version = "1",
         content = listOf(
             Dialog(
-                visibilityProperty = VisibilityProperty(false, "123abc")
+                visibilityProperty = VisibilityProperty(false, showDialogId)
             ),
             BottomSheet(
-                visibilityProperty = VisibilityProperty(false, "123abc1"),
+                visibilityProperty = VisibilityProperty(false, showBottomSheetId),
                 content = listOf(
                     Button(
                         content = listOf(
                             Text(textProperty = TextProperty("Balance"))
                         ),
-                        onClick = toBooleanAction(
-                            idToChange = "123abc",
+                        onClick = ToBooleanAction(
+                            idToChange = showDialogId,
                             newValue = true
                         )
                     ),
@@ -186,23 +210,15 @@ class CheckingAccountContent(
                                                 flowIdentifierProperty = FlowIdentifierProperty("Home"),
                                                 stageIdentifierProperty = StageIdentifierProperty("Balance"),
                                                 fromScreenIdentifierProperty = FromScreenIdentifierProperty(
-                                                    "ContaCorrente"
+                                                    screenId
                                                 ),
                                                 requestUpdateProperty = RequestUpdateProperty(
-                                                    false,
-                                                    "requestUpdate1"
+                                                    idWrapper = checkingAccountTopSdUiRequestUpdate
                                                 ),
                                                 horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                     HorizontalFillTypeOption.Max
                                                 ),
-                                                components = routingController.getSdUiComponents(
-                                                    SdUiRequest(
-                                                        request.flow,
-                                                        screenId,
-                                                        "Balance",
-                                                        request.screenData
-                                                    )
-                                                ),
+                                                components = getBalanceComponents(request),
                                             ),
                                         )
                                     ),
@@ -237,8 +253,8 @@ class CheckingAccountContent(
                                                 sizeProperty = SizeProperty(36),
                                             )
                                         ),
-                                        onClick = toBooleanAction(
-                                            idToChange = "123abc",
+                                        onClick = ToBooleanAction(
+                                            idToChange = showDialogId,
                                             newValue = true
                                         )
                                     ),
@@ -267,8 +283,8 @@ class CheckingAccountContent(
                                                 sizeProperty = SizeProperty(36),
                                             ),
                                         ),
-                                        onClick = toBooleanAction(
-                                            idToChange = "123abc1",
+                                        onClick = ToBooleanAction(
+                                            idToChange = showBottomSheetId,
                                             newValue = true
                                         )
                                     ),
@@ -301,7 +317,7 @@ class CheckingAccountContent(
             ),
             SnackBar(
                 textProperty = TextProperty("SnackBar"),
-                visibilityProperty = VisibilityProperty(false, "123123")
+                visibilityProperty = VisibilityProperty(false, showSnackBarId)
             ),
         )
     )

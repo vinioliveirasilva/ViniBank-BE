@@ -1,7 +1,7 @@
 package com.vinibank.backend.sdui.flow.home.screen
 
-import com.vini.designsystemsdui.action.backAction
-import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.action.BackAction
+import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Card
 import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.HorizontalDivider
@@ -28,7 +28,7 @@ import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.template.Template
+import com.vini.designsystemsdui.Template
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component
@@ -73,7 +73,7 @@ class UserDetailScreen : HomeScreen {
                 ),
                 HorizontalDivider(),
             ),
-            onClick = continueAction(
+            onClick = ContinueAction(
                 flowId = "TODO",
                 currentScreenId = "UserDetail",
                 nextScreenId = "TODO",
@@ -131,7 +131,6 @@ class UserDetailScreen : HomeScreen {
             flow = "Home",
             stage = "UserDetail",
             version = "1",
-            template = "",
             content =  listOf(
                 TopAppBar(
                     title =  listOf(
@@ -142,7 +141,7 @@ class UserDetailScreen : HomeScreen {
                             content =  listOf(
                                 Icon(iconNameProperty = IconNameProperty("LeftArrow"))
                             ),
-                            onClick = backAction()
+                            onClick = BackAction()
                         )
                     )
                 ),

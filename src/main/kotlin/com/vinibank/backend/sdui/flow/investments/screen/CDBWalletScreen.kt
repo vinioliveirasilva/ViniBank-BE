@@ -30,30 +30,30 @@ import kotlinx.serialization.json.put
 import org.springframework.stereotype.Component
 
 @Component
-class FundsWalletScreen : InvestmentsScreen {
-    override val screenId: String = "Fundos"
+class CDBWalletScreen : InvestmentsScreen {
+    override val screenId: String = "CDB"
 
     private val availableOptions = listOf(
         InvestmentOption(
             id = "1",
-            name = "Fundo de Renda Fixa",
-            balance = "R$ 296,30",
-            rentability = "12,5﹪",
-            availableToRedeem = "R$ 246,00",
+            name = "CDB Pós-fixado",
+            balance = "R$ 13,30",
+            rentability = "7,85﹪",
+            availableToRedeem = "R$ 13,30",
         ),
         InvestmentOption(
             id = "2",
-            name = "Fundo de Ações",
-            balance = "R$ 312,33",
-            rentability = "6,99﹪",
-            availableToRedeem = "R$ 312,33",
+            name = "CDB Prefixado",
+            balance = "R$ 100,00",
+            rentability = "2,50﹪",
+            availableToRedeem = "R$ 94,90",
         ),
         InvestmentOption(
             id = "3",
-            name = "Fundo Multimercado",
-            balance = "R$ 124,07",
-            rentability = "2,3﹪",
-            availableToRedeem = "R$ 100,00",
+            name = "CDB IPCA+",
+            balance = "R$ 54,00",
+            rentability = "1,44﹪",
+            availableToRedeem = "R$ 18,00",
         )
     )
 
@@ -121,6 +121,7 @@ class FundsWalletScreen : InvestmentsScreen {
     }
 
     override fun getScreen(request: SdUiRequest): Template? {
+        println("CDB: $request")
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
@@ -133,7 +134,7 @@ class FundsWalletScreen : InvestmentsScreen {
                         TopAppBar(
                             title = listOf(
                                 Text(
-                                    textProperty = TextProperty(value = "Carteira de Fundos"),
+                                    textProperty = TextProperty(value = "Carteira de CDB"),
                                     fontSizeProperty = FontSizeProperty(18f)
                                 )
                             )
@@ -156,3 +157,4 @@ class FundsWalletScreen : InvestmentsScreen {
         )
     }
 }
+

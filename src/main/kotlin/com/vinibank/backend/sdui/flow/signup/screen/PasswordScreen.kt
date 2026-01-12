@@ -1,7 +1,7 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
-import com.vini.designsystemsdui.action.backAction
-import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.action.BackAction
+import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.CreatePassword
@@ -24,7 +24,8 @@ import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.template.Template
+import com.vini.designsystemsdui.Template
+import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -40,6 +41,9 @@ class PasswordScreen(
 ) : SignUpScreen {
     override val screenId: String = "Password"
 
+    private val passwordInputId = PropertyIdWrapper<String>("SignUp.${screenId}.passwordInput")
+    private val isPasswordValid = PropertyIdWrapper<Boolean>("SignUp.${screenId}.isPasswordValid")
+
     override fun getRule(request: SdUiRequest) {
         val model = Json.decodeFromJsonElement<PasswordScreenState>(
             request.screenData ?: JsonObject(emptyMap())
@@ -54,7 +58,6 @@ class PasswordScreen(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            template = "",
             content =  listOf(
                 TopAppBar(
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
@@ -67,10 +70,10 @@ class PasswordScreen(
                     sizeProperty = SizeProperty(20)
                 ),
                 CreatePassword(
-                    textProperty = TextProperty("", "$screenFlowId.passwordInput"),
+                    textProperty = TextProperty("", passwordInputId),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                    validPasswordProperty = ValidPasswordProperty(false, "$screenFlowId.isPasswordValid")
+                    validPasswordProperty = ValidPasswordProperty(false, isPasswordValid)
                 ),
                 Column(
                     horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
@@ -84,15 +87,15 @@ class PasswordScreen(
                             content = listOf(
                                 Text(textProperty = TextProperty(value = "Continuar"))
                             ),
-                            enabledProperty = EnabledProperty(false, "$screenFlowId.isPasswordValid"),
+                            enabledProperty = EnabledProperty(false, isPasswordValid),
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            onClick = continueAction(
+                            onClick = ContinueAction(
                                 flowId = request.flow,
                                 currentScreenId = screenId,
                                 nextScreenId = "Success",
                                 screenData = request.screenData,
                                 screenRequestData = listOf(
-                                    "$screenFlowId.passwordInput" to "password"
+                                    passwordInputId.id to "password"
                                 )
                             ),
                         ),
@@ -101,7 +104,7 @@ class PasswordScreen(
                                 Text(textProperty = TextProperty(value = "Voltar"))
                             ),
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            onClick = backAction()
+                            onClick = BackAction()
                         ),
                     )
                 ),

@@ -1,6 +1,6 @@
 package com.vinibank.backend.sdui.flow.card.content
 
-import com.vini.designsystemsdui.action.navigateAction
+import com.vini.designsystemsdui.action.NavigateAction
 import com.vini.designsystemsdui.component.Card
 import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.HorizontalDivider
@@ -59,7 +59,6 @@ class AddNewCardContent {
         flow = "Card",
         stage = "newCard",
         version = "1",
-        template = "",
         content = listOf(
             LazyColumn(
                 paddingHorizontalProperty = PaddingHorizontalProperty(10),
@@ -69,10 +68,7 @@ class AddNewCardContent {
                 content = listOf(
                     HorizontalPager(
                         contentPaddingProperty = ContentPaddingProperty(20),
-                        currentPageProperty = CurrentPageProperty(
-                            0,
-                            "CardsContent.SelectedCardIndex"
-                        ),
+                        currentPageProperty = CurrentPageProperty(0),
                         pageContent = listOf(
                             Card(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(10),
@@ -104,7 +100,7 @@ class AddNewCardContent {
                                         ),
                                     )
                                 ),
-                                onClick = navigateAction(flow = "NewCard"),
+                                onClick = NavigateAction(flow = "NewCard"),
                             )
                         )
                     ),

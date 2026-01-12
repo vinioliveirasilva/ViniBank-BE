@@ -1,7 +1,7 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
-import com.vini.designsystemsdui.action.closeAction
-import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.action.CloseAction
+import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.LazyColumn
@@ -24,7 +24,8 @@ import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.template.Template
+import com.vini.designsystemsdui.Template
+import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.validator.emailValidator
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
@@ -39,7 +40,12 @@ import org.springframework.stereotype.Component
 class EmailScreen(
     private val userDb: UserDatabase,
 ) : SignUpScreen {
-    override val screenId: String = "Email"
+    override val screenId: String = "Start"
+
+    private val emailInputId = PropertyIdWrapper<String>("SignUp.Email.emailInput")
+    private val isEmailValid = PropertyIdWrapper<Boolean>("SignUp.Email.isEmailValid")
+    private val isError = PropertyIdWrapper<Boolean>("SignUp.Email.emailInput.isError")
+    private val errorMessage = PropertyIdWrapper<String>("SignUp.Email.emailInput.errorMessage")
 
     override fun getScreen(request: SdUiRequest): Template? {
         return getInternalScreen(request)
@@ -57,9 +63,9 @@ class EmailScreen(
             throw createSdUiPropertyUpdateException(
                 message = "Email ja cadastrado",
                 properties = listOf(
-                    ErrorMessageProperty("Email já cadastrado1","SignUp.Email.emailInput.errorMessage"),
-                    ErrorProperty(true, "SignUp.Email.emailInput.isError"),
-                    EnabledProperty(false, "SignUp.Email.isEmailValid"),
+                    ErrorMessageProperty("Email já cadastrado", errorMessage),
+                    ErrorProperty(true, isError),
+                    EnabledProperty(false, isEmailValid),
                 )
             )
             //throw SdUiError("Email ja cadastrado", 400, response)
@@ -71,9 +77,8 @@ class EmailScreen(
         state: EmailScreenState = EmailScreenState("vinioliveirasilva@hotmail.co"),
     ) = DefaultTemplate(
         flow = "SignUp",
-        stage = "Email",
+        stage = screenId,
         version = "1",
-        template = "",
         content = listOf(
             TopAppBar(
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
@@ -90,12 +95,12 @@ class EmailScreen(
                 paddingVerticalProperty = PaddingVerticalProperty(20),
                 content = listOf(
                     OutlinedTextInput(
-                        textProperty = TextProperty(state.email, "SignUp.Email.emailInput"),
+                        textProperty = TextProperty(state.email, emailInputId),
                         errorProperty = ErrorProperty(
                             state.isError,
-                            "SignUp.Email.emailInput.isError"
+                            isError
                         ),
-                        errorMessageProperty = ErrorMessageProperty("Email já cadastrado", id = "SignUp.Email.emailInput.errorMessage"),
+                        errorMessageProperty = ErrorMessageProperty("Email já cadastrado", idWrapper = errorMessage),
                         horizontalFillTypeProperty = HorizontalFillTypeProperty(
                             HorizontalFillTypeOption.Max
                         ),
@@ -105,8 +110,8 @@ class EmailScreen(
                         ),
                         validators = listOf(
                             emailValidator(
-                                id = "SignUp.Email.isEmailValid",
-                                emails = listOf("SignUp.Email.emailInput"),
+                                idWrapper = isEmailValid,
+                                emails = listOf(emailInputId),
                             ),
                         )
                     ),
@@ -125,15 +130,15 @@ class EmailScreen(
                                 ),
                                 enabledProperty = EnabledProperty(
                                     false,
-                                    "SignUp.Email.isEmailValid"
+                                    isEmailValid
                                 ),
                                 horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                     HorizontalFillTypeOption.Max
                                 ),
-                                onClick = continueAction(
+                                onClick = ContinueAction(
                                     flowId = "SignUp",
                                     nextScreenId = "PersonalInfo",
-                                    currentScreenId = "Email",
+                                    currentScreenId = screenId,
                                     screenRequestData = listOf(
                                         "SignUp.Email.emailInput" to "email"
                                     ),
@@ -147,7 +152,7 @@ class EmailScreen(
                                 horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                     HorizontalFillTypeOption.Max
                                 ),
-                                onClick = closeAction()
+                                onClick = CloseAction()
                             )
                         )
                     )

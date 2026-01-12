@@ -11,5 +11,9 @@ interface HomeScreen : SdUiScreen
 class HomeController(
     screens: List<HomeScreen>,
     defaultScreen: MainScreen,
-) : BaseFlowController<HomeScreen>(screens, defaultScreen, "Home")
+) : BaseFlowController<HomeScreen>(screens, defaultScreen, FLOW_ID) {
+    companion object {
+        const val FLOW_ID = "Home"
+    }
+}
 

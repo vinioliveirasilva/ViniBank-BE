@@ -7,7 +7,7 @@ import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.StageIdentifierProperty
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.template.Template
+import com.vini.designsystemsdui.Template
 import com.vinibank.backend.sdui.flow.RoutingController
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -23,20 +23,19 @@ class CardsContent(
 
     override fun getScreen(request: SdUiRequest): Template? = DefaultTemplate(
         flow = "Home",
-        stage = "Cartoes",
+        stage = screenId,
         version = "1",
-        template = "",
         content =  listOf(
             SdUi(
                 flowIdentifierProperty = FlowIdentifierProperty("Card"),
-                stageIdentifierProperty = StageIdentifierProperty(""),
+                stageIdentifierProperty = StageIdentifierProperty("Start"),
                 fromScreenIdentifierProperty = FromScreenIdentifierProperty(screenId),
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 components = routingController.getSdUiComponents(
                     SdUiRequest(
                         flow = "Card",
-                        fromScreen = "",
-                        toScreen = "",
+                        fromScreen = screenId,
+                        toScreen = "Start",
                         screenData = request.screenData
                     )
                 )

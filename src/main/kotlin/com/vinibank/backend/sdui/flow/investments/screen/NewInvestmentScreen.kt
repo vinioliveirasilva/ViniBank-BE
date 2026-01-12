@@ -1,6 +1,7 @@
 package com.vinibank.backend.sdui.flow.investments.screen
 
-import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.SceneStrategy
+import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Card
 import com.vini.designsystemsdui.component.Column
@@ -26,7 +27,7 @@ import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.template.Template
+import com.vini.designsystemsdui.Template
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component
@@ -36,7 +37,7 @@ class NewInvestmentScreen : InvestmentsScreen {
     override val screenId: String = "NewInvestment"
 
     private val availableProducts =
-        listOf("Fundos" to "AvailableFunds", "CDB" to "", "LCI" to "", "LCA" to "")
+        listOf("Fundos" to "AvailableFunds", "CDB" to "")
 
     private fun availableProducts(request: SdUiRequest) = LazyColumn(
         verticalArrangementProperty = VerticalArrangementProperty(
@@ -44,7 +45,7 @@ class NewInvestmentScreen : InvestmentsScreen {
                 10
             )
         ),
-        content = availableProducts.map {
+        content = availableProducts.map { (investmentName: String, screenName: String) ->
             Card(
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
@@ -60,12 +61,12 @@ class NewInvestmentScreen : InvestmentsScreen {
                             Text(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 paddingVerticalProperty = PaddingVerticalProperty(20),
-                                textProperty = TextProperty(value = it.first),
+                                textProperty = TextProperty(value = investmentName),
                             ),
                         ),
-                        onClick = continueAction(
+                        onClick = ContinueAction(
                             flowId = request.flow,
-                            nextScreenId = it.second,
+                            nextScreenId = screenName,
                             currentScreenId = screenId
                         )
                     )
@@ -79,7 +80,7 @@ class NewInvestmentScreen : InvestmentsScreen {
             flow = request.flow,
             stage = screenId,
             version = "1",
-            template = "",
+            scene = SceneStrategy.DualPanel(id = "1"),
             content = listOf(
                 Column(
                     weightProperty = WeightProperty(1f),
@@ -96,31 +97,6 @@ class NewInvestmentScreen : InvestmentsScreen {
                         availableProducts(request)
                     )
                 ),
-                Column(
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    weightProperty = WeightProperty(1f),
-                    verticalArrangementProperty = VerticalArrangementProperty(
-                        VerticalArrangementOption.Center
-                    ),
-                    horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                        HorizontalAlignmentOption.Center
-                    ),
-                    content = listOf(
-                        Text(
-                            colorProperty = ColorProperty(ColorOption.White),
-                            textProperty = TextProperty(value = "teste"),
-                        ),
-                        Button(
-                            content = listOf(
-                                Text(
-                                    textProperty = TextProperty(
-                                        value = "teste",
-                                    )
-                                )
-                            ),
-                        )
-                    )
-                )
             )
         )
     }

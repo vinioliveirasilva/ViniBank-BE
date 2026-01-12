@@ -1,11 +1,10 @@
 package com.vinibank.backend.sdui.flow.login.screen
 
-import com.vini.designsystemsdui.action.closeApplicationAction
-import com.vini.designsystemsdui.action.continueAction
-import com.vini.designsystemsdui.action.multipleActions
-import com.vini.designsystemsdui.action.navigateAction
-import com.vini.designsystemsdui.action.toBooleanAction
-import com.vini.designsystemsdui.action.toStringAction
+import com.vini.designsystemsdui.action.CloseApplicationAction
+import com.vini.designsystemsdui.action.ContinueAction
+import com.vini.designsystemsdui.action.MultipleActions
+import com.vini.designsystemsdui.action.NavigateAction
+import com.vini.designsystemsdui.action.ToBooleanAction
 import com.vini.designsystemsdui.component.BackHandler
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Column
@@ -54,7 +53,9 @@ import com.vini.designsystemsdui.property.options.TextSelectionColorsModel
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VisualTransformationOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.template.Template
+import com.vini.designsystemsdui.Template
+import com.vini.designsystemsdui.action.ToTypeAction
+import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.validator.allTrueValidator
 import com.vini.designsystemsdui.validator.emailValidator
 import com.vini.designsystemsdui.validator.minLengthValidator
@@ -76,7 +77,7 @@ class MainLoginScreen(
     }
 
     override val screenId: String
-        get() = "InformationInput"
+        get() = "Start"
 
     override fun getScreen(request: SdUiRequest): Template? {
         toggleLoginScreens = toggleLoginScreens.not()
@@ -99,13 +100,21 @@ class MainLoginScreen(
             focusedLabelColor = ColorOption.White,
             unfocusedLabelColor = ColorOption.White,
         )
+
+        val emailInputId = PropertyIdWrapper<String>("$screenFlowId.Email")
+        val isEmailValid = PropertyIdWrapper<Boolean>("$screenFlowId.Email.EmailValid")
+        val passwordInputId = PropertyIdWrapper<String>("$screenFlowId.Password")
+        val isPasswordMinLength = PropertyIdWrapper<Boolean>("$screenFlowId.Email.MinLength")
+
+        val isContinueEnabled = PropertyIdWrapper<Boolean>("$screenFlowId.LoginButton.Enabled")
+        val loginActionId = PropertyIdWrapper<String>("$screenFlowId.LoginAction")
+
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            template = "",
             content = listOf(
-                BackHandler(onBackAction = closeApplicationAction()),
+                BackHandler(onBackAction = CloseApplicationAction()),
                 LazyColumn(
                     backgroundColorProperty = BackgroundColorProperty(ColorOption.BlueGray),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
@@ -165,12 +174,12 @@ class MainLoginScreen(
                                     ),
                                     textProperty = TextProperty(
                                         "123@123.com",
-                                        "$screenFlowId.Email"
+                                        emailInputId
                                     ),
                                     validators = listOf(
                                         emailValidator(
-                                            id ="$screenFlowId.Email.EmailValid",
-                                            emails = listOf("$screenFlowId.Email")
+                                            idWrapper = isEmailValid,
+                                            emails = listOf(emailInputId)
                                         ),
                                     )
                                 ),
@@ -185,19 +194,18 @@ class MainLoginScreen(
                                     ),
                                     textProperty = TextProperty(
                                         "123@123A",
-                                        "$screenFlowId.Password"
+                                        passwordInputId
                                     ),
                                     keyboardOptionsProperty = KeyboardOptionsProperty(
                                         KeyboardOptionsOption.Password
                                     ),
                                     visualTransformationProperty = VisualTransformationProperty(
-                                        VisualTransformationOption.Password,
-                                        "$screenFlowId.Password.VisualTransformation"
+                                        VisualTransformationOption.Password
                                     ),
                                     validators = listOf(
                                         minLengthValidator(
-                                            id = "$screenFlowId.Password.MinLength",
-                                            idsToValidate = listOf("$screenFlowId.Password"),
+                                            idWrapper = isPasswordMinLength,
+                                            idsToValidate = listOf(passwordInputId),
                                             length = 8
                                         ),
                                     ),
@@ -210,17 +218,17 @@ class MainLoginScreen(
 //                                            content = listOf(
 //                                                Icon(iconNameProperty = IconNameProperty("Visibility"))
 //                                            ),
-//                                            onClick = multipleActions(
+//                                            onClick = MultipleActions(
 //                                                listOf(
-//                                                    toStringAction(
+//                                                    ToStringAction(
 //                                                        "screenFlowId.Password.VisualTransformation",
 //                                                        "None"
 //                                                    ),
-//                                                    toBooleanAction(
+//                                                    ToBooleanAction(
 //                                                        "screenFlowId.PasswordIsNotVisible",
 //                                                        true
 //                                                    ),
-//                                                    toBooleanAction(
+//                                                    ToBooleanAction(
 //                                                        "screenFlowId.PasswordIsVisible",
 //                                                        false
 //                                                    ),
@@ -239,17 +247,17 @@ class MainLoginScreen(
 //                                                    )
 //                                                )
 //                                            ),
-//                                            onClick = multipleActions(
+//                                            onClick = MultipleActions(
 //                                                listOf(
-//                                                    toStringAction(
+//                                                    ToStringAction(
 //                                                        "screenFlowId.Password.VisualTransformation",
 //                                                        "Password"
 //                                                    ),
-//                                                    toBooleanAction(
+//                                                    ToBooleanAction(
 //                                                        "screenFlowId.PasswordIsVisible",
 //                                                        true
 //                                                    ),
-//                                                    toBooleanAction(
+//                                                    ToBooleanAction(
 //                                                        "screenFlowId.PasswordIsNotVisible",
 //                                                        false
 //                                                    ),
@@ -278,25 +286,25 @@ class MainLoginScreen(
                                     ),
                                     enabledProperty = EnabledProperty(
                                         false,
-                                        "$screenFlowId.LoginButton.Enabled"
+                                        isContinueEnabled
                                     ),
                                     validators = listOf(
                                         allTrueValidator(
-                                            id = "$screenFlowId.LoginButton.Enabled",
+                                            idWrapper = isContinueEnabled,
                                             toValidate = listOf(
-                                                "$screenFlowId.Email.EmailValid",
-                                                "$screenFlowId.Password.MinLength"
+                                                isEmailValid,
+                                                isPasswordMinLength
                                             )
                                         ),
                                     ),
-                                    onClick = continueAction(
-                                        id = "$screenFlowId.LoginButton",
+                                    onClick = ContinueAction(
+                                        idWrapper = loginActionId,
                                         flowId = request.flow,
                                         nextScreenId = "Success",
                                         currentScreenId = screenId,
                                         screenRequestData = listOf(
-                                            "$screenFlowId.Email" to "email",
-                                            "$screenFlowId.Password" to "password"
+                                            emailInputId.id to "email",
+                                            passwordInputId.id to "password"
                                         ),
                                         screenData = request.screenData
                                     ),
@@ -314,13 +322,13 @@ class MainLoginScreen(
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
-                                    onClick = navigateAction(
+                                    onClick = NavigateAction(
                                         flow = "SignUp",
-                                        actionId = "$screenFlowId.LoginButton",
+                                        actionId = loginActionId,
                                         screenData = request.screenData,
                                         screenRequestData = listOf(
-                                            "$screenFlowId.Email" to "email",
-                                            "$screenFlowId.Password" to "password"
+                                            emailInputId.id to "email",
+                                            passwordInputId.id to "password"
                                         )
                                     ),
                                 ),
@@ -337,13 +345,25 @@ class MainLoginScreen(
         val outlinedTextFieldsPadding = 30
         val outlinedTextFieldLabelPadding = outlinedTextFieldsPadding + 20
         val screenFlowId = "${request.flow}.${screenId}"
+
+        val emailInputId = PropertyIdWrapper<String>("$screenFlowId.Email")
+        val isEmailValid = PropertyIdWrapper<Boolean>("$screenFlowId.Email.EmailValid")
+        val passwordInputId = PropertyIdWrapper<String>("$screenFlowId.Password")
+        val passwordVisualTransformation = PropertyIdWrapper<VisualTransformationOption>("$screenFlowId.Password.VisualTransformation")
+        val isPasswordMinLength = PropertyIdWrapper<Boolean>("$screenFlowId.Email.MinLength")
+
+        val isContinueEnabled = PropertyIdWrapper<Boolean>("$screenFlowId.LoginButton.Enabled")
+        val isPasswordVisible = PropertyIdWrapper<Boolean>("$screenFlowId.PasswordIsVisible")
+        val isPasswordInvisible = PropertyIdWrapper<Boolean>("$screenFlowId.PasswordIsNotVisible")
+
+        val loginActionId = PropertyIdWrapper<String>("$screenFlowId.LoginAction")
+
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            template = "",
             content = listOf(
-                BackHandler(onBackAction = closeApplicationAction()),
+                BackHandler(onBackAction = CloseApplicationAction()),
                 Column(
                     verticalScrollProperty = VerticalScrollProperty(true),
                     horizontalAlignmentProperty = HorizontalAlignmentProperty(
@@ -409,15 +429,15 @@ class MainLoginScreen(
                                     ),
                                     textProperty = TextProperty(
                                         "123@123.com",
-                                        "$screenFlowId.Email"
+                                        emailInputId
                                     ),
                                     prefix = listOf(
                                         Spacer(widthProperty = WidthProperty(10))
                                     ),
                                     validators = listOf(
                                         emailValidator(
-                                            id = "$screenFlowId.Email.EmailValid",
-                                            emails = listOf("$screenFlowId.Email")
+                                            idWrapper = isEmailValid,
+                                            emails = listOf(emailInputId)
                                         ),
                                     ),
                                 ),
@@ -454,19 +474,19 @@ class MainLoginScreen(
                                     ),
                                     visualTransformationProperty = VisualTransformationProperty(
                                         VisualTransformationOption.Password,
-                                        "$screenFlowId.Password.VisualTransformation"
+                                        passwordVisualTransformation
                                     ),
                                     textProperty = TextProperty(
                                         "123@123A",
-                                        id = "$screenFlowId.Password"
+                                        idWrapper = passwordInputId
                                     ),
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
                                     validators = listOf(
                                         minLengthValidator(
-                                            id = "$screenFlowId.Password.MinLength",
-                                            idsToValidate = listOf("$screenFlowId.Password"),
+                                            idWrapper = isPasswordMinLength,
+                                            idsToValidate = listOf(passwordInputId),
                                             length = 8
                                         ),
                                     ),
@@ -477,23 +497,23 @@ class MainLoginScreen(
                                         IconButton(
                                             visibilityProperty = VisibilityProperty(
                                                 true,
-                                                "$screenFlowId.PasswordIsVisible"
+                                                isPasswordVisible
                                             ),
                                             content = listOf(
                                                 Icon(iconNameProperty = IconNameProperty("Visibility"))
                                             ),
-                                            onClick = multipleActions(
+                                            onClick = MultipleActions(
                                                 listOf(
-                                                    toStringAction(
-                                                        "$screenFlowId.Password.VisualTransformation",
-                                                        VisualTransformationOption.None.name
+                                                    ToTypeAction(
+                                                        passwordVisualTransformation,
+                                                        VisualTransformationOption.None
                                                     ),
-                                                    toBooleanAction(
-                                                        "$screenFlowId.PasswordIsNotVisible",
+                                                    ToBooleanAction(
+                                                        isPasswordInvisible,
                                                         true
                                                     ),
-                                                    toBooleanAction(
-                                                        "$screenFlowId.PasswordIsVisible",
+                                                    ToBooleanAction(
+                                                        isPasswordVisible,
                                                         false
                                                     ),
                                                 )
@@ -502,7 +522,7 @@ class MainLoginScreen(
                                         IconButton(
                                             visibilityProperty = VisibilityProperty(
                                                 false,
-                                                "$screenFlowId.PasswordIsNotVisible"
+                                                isPasswordInvisible
                                             ),
                                             content = listOf(
                                                 Icon(
@@ -511,18 +531,18 @@ class MainLoginScreen(
                                                     )
                                                 )
                                             ),
-                                            onClick = multipleActions(
+                                            onClick = MultipleActions(
                                                 listOf(
-                                                    toStringAction(
-                                                        "$screenFlowId.Password.VisualTransformation",
-                                                        "Password"
+                                                    ToTypeAction(
+                                                        passwordVisualTransformation,
+                                                        VisualTransformationOption.Password
                                                     ),
-                                                    toBooleanAction(
-                                                        "$screenFlowId.PasswordIsVisible",
+                                                    ToBooleanAction(
+                                                        isPasswordVisible,
                                                         true
                                                     ),
-                                                    toBooleanAction(
-                                                        "$screenFlowId.PasswordIsNotVisible",
+                                                    ToBooleanAction(
+                                                        isPasswordInvisible,
                                                         false
                                                     ),
                                                 )
@@ -568,25 +588,25 @@ class MainLoginScreen(
                                             ),
                                             enabledProperty = EnabledProperty(
                                                 false,
-                                                "$screenFlowId.LoginButton.Enabled"
+                                                isContinueEnabled
                                             ),
                                             validators = listOf(
                                                 allTrueValidator(
-                                                    id = "$screenFlowId.LoginButton.Enabled",
+                                                    idWrapper = isContinueEnabled,
                                                     toValidate = listOf(
-                                                        "$screenFlowId.Email.EmailValid",
-                                                        "$screenFlowId.Password.MinLength"
+                                                        isEmailValid,
+                                                        isPasswordMinLength
                                                     )
                                                 ),
                                             ),
-                                            onClick = continueAction(
-                                                id = "$screenFlowId.LoginButton",
+                                            onClick = ContinueAction(
+                                                idWrapper = loginActionId,
                                                 flowId = request.flow,
                                                 nextScreenId = "Success",
                                                 currentScreenId = screenId,
                                                 screenRequestData = listOf(
-                                                    "$screenFlowId.Email" to "email",
-                                                    "$screenFlowId.Password" to "password"
+                                                    emailInputId.id to "email",
+                                                    passwordInputId.id to "password"
                                                 ),
                                                 screenData = request.screenData
                                             ),
@@ -615,13 +635,13 @@ class MainLoginScreen(
                                             horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                                 HorizontalFillTypeOption.Max
                                             ),
-                                            onClick = navigateAction(
+                                            onClick = NavigateAction(
                                                 flow = "SignUp",
-                                                actionId = "$screenFlowId.LoginButton",
+                                                actionId = loginActionId,
                                                 screenData = request.screenData,
                                                 screenRequestData = listOf(
-                                                    "$screenFlowId.Email" to "email",
-                                                    "$screenFlowId.Password" to "password"
+                                                    emailInputId.id to "email",
+                                                    passwordInputId.id to "password"
                                                 )
                                             ),
                                         ),

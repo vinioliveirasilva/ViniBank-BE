@@ -1,7 +1,9 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
-import com.vini.designsystemsdui.action.backAction
-import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.CacheStrategy
+import com.vini.designsystemsdui.Template
+import com.vini.designsystemsdui.action.BackAction
+import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.OutlinedButton
@@ -26,28 +28,53 @@ import com.vini.designsystemsdui.property.options.KeyboardOptionsOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.options.VisualTransformationOption
+import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.template.Template
 import com.vini.designsystemsdui.validator.allTrueValidator
 import com.vini.designsystemsdui.validator.minLengthValidator
+import com.vinibank.backend.sdui.flow.UpdateSdUiTemplateRequest
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-
 import org.springframework.stereotype.Component
 
 @Component
 class PersonalInfoScreen : SignUpScreen {
     override val screenId: String = "PersonalInfo"
 
+    override fun getScreenUpdate(request: UpdateSdUiTemplateRequest): List<com.vini.designsystemsdui.Component> {
+        return listOf(
+            TopAppBar(
+                id = "Salve.topAppBar",
+                cacheStrategy = CacheStrategy.AlwaysCache(),
+                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                title = listOf(
+                    Text(textProperty = TextProperty("Informações Pessoais"))
+                )
+            )
+        )
+    }
+
     override fun getScreen(request: SdUiRequest): Template? {
         val screenFlowId = "${request.flow}.${screenId}"
+
+        val nameInputId = PropertyIdWrapper<String>("$screenFlowId.nameInput")
+        val isNameFilled = PropertyIdWrapper<Boolean>("$screenFlowId.isNameFilled")
+        val documentInputId = PropertyIdWrapper<String>("$screenFlowId.documentInput")
+        val isDocumentValid = PropertyIdWrapper<Boolean>("$screenFlowId.isCpfValid")
+        val phoneInputId = PropertyIdWrapper<String>("$screenFlowId.phoneInput")
+        val isPhoneFilled = PropertyIdWrapper<Boolean>("$screenFlowId.isPhoneFilled")
+
+        val isContinueButtonEnabled = PropertyIdWrapper<Boolean>("$screenFlowId.continueButton")
+
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            template = "",
-            content =  listOf(
+            content = listOf(
                 TopAppBar(
+                    id = "Salve.topAppBar",
+                    cacheStrategy = CacheStrategy.NoCache(),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     title =  listOf(
@@ -56,7 +83,7 @@ class PersonalInfoScreen : SignUpScreen {
                 ),
                 Spacer(sizeProperty = SizeProperty(20)),
                 OutlinedTextInput(
-                    textProperty = TextProperty("", "$screenFlowId.nameInput"),
+                    textProperty = TextProperty(idWrapper = nameInputId),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     label = listOf(
@@ -64,64 +91,76 @@ class PersonalInfoScreen : SignUpScreen {
                     ),
                     validators = listOf(
                         minLengthValidator(
-                            id = "$screenFlowId.isNameFilled",
-                            idsToValidate = listOf("$screenFlowId.nameInput"),
+                            idWrapper = isNameFilled,
+                            idsToValidate = listOf(nameInputId),
                             length = 3
                         )
                     )
                 ),
                 Spacer(sizeProperty = SizeProperty(20)),
                 OutlinedTextInput(
-                    textProperty = TextProperty("", "$screenFlowId.documentInput"),
+                    textProperty = TextProperty(idWrapper = documentInputId),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     label = listOf(
                         Text(textProperty = TextProperty(value = "CPF"))
                     ),
-                    visualTransformationProperty = VisualTransformationProperty(VisualTransformationOption.CpfDocument),
+                    visualTransformationProperty = VisualTransformationProperty(
+                        VisualTransformationOption.CpfDocument
+                    ),
                     keyboardOptionsProperty = KeyboardOptionsProperty(KeyboardOptionsOption.Number),
                     validators = listOf(
                         minLengthValidator(
-                            id = "$screenFlowId.isCpfValid",
-                            idsToValidate = listOf("$screenFlowId.documentInput"),
+                            idWrapper = isDocumentValid,
+                            idsToValidate = listOf(documentInputId),
                             length = 11
                         )
                     )
-
                 ),
                 Spacer(sizeProperty = SizeProperty(20)),
                 OutlinedTextInput(
-                    textProperty = TextProperty("", "$screenFlowId.phoneInput"),
+                    textProperty = TextProperty(idWrapper = phoneInputId),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     label = listOf(
                         Text(textProperty = TextProperty(value = "Telefone"))
                     ),
-                    visualTransformationProperty = VisualTransformationProperty(VisualTransformationOption.Phone),
+                    visualTransformationProperty = VisualTransformationProperty(
+                        VisualTransformationOption.Phone
+                    ),
                     keyboardOptionsProperty = KeyboardOptionsProperty(KeyboardOptionsOption.Phone),
                     validators = listOf(
                         minLengthValidator(
-                            id = "$screenFlowId.isPhoneFilled",
-                            idsToValidate = listOf("$screenFlowId.phoneInput"),
+                            idWrapper = isPhoneFilled,
+                            idsToValidate = listOf(phoneInputId),
                             length = 11
                         )
                     )
                 ),
                 Column(
-                    horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
+                    horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                        HorizontalAlignmentOption.Center
+                    ),
                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                     weightProperty = WeightProperty(1f),
-                    verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
-                    content =  listOf(
+                    verticalArrangementProperty = VerticalArrangementProperty(
+                        VerticalArrangementOption.Bottom
+                    ),
+                    content = listOf(
                         Button(
                             content = listOf(
                                 Text(textProperty = TextProperty(value = "Continuar"))
                             ),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            enabledProperty = EnabledProperty(false, "$screenFlowId.continueButton"),
-                            onClick = continueAction(
+                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                HorizontalFillTypeOption.Max
+                            ),
+                            enabledProperty = EnabledProperty(
+                                false,
+                                isContinueButtonEnabled
+                            ),
+                            onClick = ContinueAction(
                                 flowId = request.flow,
                                 currentScreenId = screenId,
                                 nextScreenId = "Password",
@@ -134,11 +173,11 @@ class PersonalInfoScreen : SignUpScreen {
                             ),
                             validators = listOf(
                                 allTrueValidator(
-                                    id = "$screenFlowId.continueButton",
+                                    idWrapper = isContinueButtonEnabled,
                                     toValidate = listOf(
-                                        "$screenFlowId.isNameFilled",
-                                        "$screenFlowId.isCpfValid",
-                                        "$screenFlowId.isPhoneFilled"
+                                        isNameFilled,
+                                        isDocumentValid,
+                                        isPhoneFilled
                                     )
                                 )
                             )
@@ -147,8 +186,10 @@ class PersonalInfoScreen : SignUpScreen {
                             content = listOf(
                                 Text(textProperty = TextProperty(value = "Voltar"))
                             ),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            onClick = backAction()
+                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                HorizontalFillTypeOption.Max
+                            ),
+                            onClick = BackAction()
                         ),
                     )
                 ),

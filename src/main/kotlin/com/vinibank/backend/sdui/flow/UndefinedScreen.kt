@@ -1,6 +1,6 @@
 package com.vinibank.backend.sdui.flow
 
-import com.vini.designsystemsdui.action.backAction
+import com.vini.designsystemsdui.action.BackAction
 import com.vini.designsystemsdui.component.Icon
 import com.vini.designsystemsdui.component.IconButton
 import com.vini.designsystemsdui.component.Text
@@ -15,12 +15,10 @@ import com.vini.designsystemsdui.property.options.TextAlignOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.model.SdUiRequest
 
-
 fun getUndefinedScreen(request: SdUiRequest) = DefaultTemplate(
     flow = request.flow,
     stage = request.toScreen,
     version = "1",
-    template = "",
     content =  listOf(
         TopAppBar(
             title =  listOf(
@@ -33,7 +31,7 @@ fun getUndefinedScreen(request: SdUiRequest) = DefaultTemplate(
                             iconNameProperty = IconNameProperty("LeftArrow"),
                         )
                     ),
-                    onClick = backAction(),
+                    onClick = BackAction(),
                 ),
             )
         ),

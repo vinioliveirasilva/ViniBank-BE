@@ -1,6 +1,8 @@
 package com.vinibank.backend.sdui.flow.investments.screen
 
-import com.vini.designsystemsdui.action.continueAction
+import com.vini.designsystemsdui.CacheStrategy
+import com.vini.designsystemsdui.SceneStrategy
+import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Card
 import com.vini.designsystemsdui.component.Column
@@ -24,20 +26,26 @@ import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.template.Template
+import com.vini.designsystemsdui.Template
+import com.vini.designsystemsdui.property.BackgroundColorProperty
+import com.vini.designsystemsdui.property.HeightProperty
+import com.vini.designsystemsdui.property.VerticalFillTypeProperty
+import com.vini.designsystemsdui.property.options.ColorOption
+import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.flow.investments.toBrl
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component
+import java.awt.Color
 
 @Component
 class ConsolidatedPositionScreen : InvestmentsScreen {
-    override val screenId = "ConsolidatedPosition"
+    override val screenId = "Start"
 
     private val consolidatedPositionValue = 1000.0
     private val products = listOf("Fundos" to 732.7, "CDB" to 167.3)
 
-    private fun availableProducts(request: SdUiRequest) = LazyColumn(
+    private fun availableProducts(request: SdUiRequest) = Column(
         verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpacedBy(10)),
         content =  products.map {
             Card(
@@ -61,7 +69,7 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                                 textProperty = TextProperty(value = it.second.toBrl())
                             )
                         ),
-                        onClick = continueAction(
+                        onClick = ContinueAction(
                             flowId = request.flow,
                             nextScreenId = it.first,
                             currentScreenId = screenId
@@ -77,9 +85,11 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
             flow = "Investments",
             stage = screenId,
             version = "1",
-            template = "",
+            scene = SceneStrategy.DualPanel(),
+            cacheStrategy = CacheStrategy.NoCache(),
             content =  listOf(
-                Column(
+                LazyColumn(
+                    weightProperty = WeightProperty(1f),
                     content =  listOf(
                         TopAppBar(
                             title = listOf(
@@ -92,9 +102,7 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                         Column(
                             weightProperty = WeightProperty(1f),
                             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                                HorizontalAlignmentOption.Center
-                            ),
+                            horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
                             content =  listOf(
                                 Spacer(sizeProperty = SizeProperty(10)),
                                 Text(
@@ -152,31 +160,27 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                                 availableProducts(request),
                             )
                         ),
-                        Column(
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                                HorizontalAlignmentOption.Center
-                            ),
-                            paddingVerticalProperty = PaddingVerticalProperty(20),
-                            content =  listOf(
-                                Button(
-                                    content = listOf(
-                                        Text(
-                                            textProperty = TextProperty(
-                                                value = "Investir",
-                                            )
-                                        )
-                                    ),
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
-                                    ),
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                    onClick = continueAction(
-                                        flowId = request.flow,
-                                        nextScreenId = "NewInvestment",
-                                        currentScreenId = screenId
+                    )
+                ),
+                Column(
+                    content = listOf(
+                        Button(
+                            content = listOf(
+                                Text(
+                                    textProperty = TextProperty(
+                                        value = "Investir",
                                     )
                                 )
+                            ),
+                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                HorizontalFillTypeOption.Max
+                            ),
+                            paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                            paddingVerticalProperty = PaddingVerticalProperty(20),
+                            onClick = ContinueAction(
+                                flowId = request.flow,
+                                nextScreenId = "NewInvestment",
+                                currentScreenId = screenId
                             )
                         )
                     )

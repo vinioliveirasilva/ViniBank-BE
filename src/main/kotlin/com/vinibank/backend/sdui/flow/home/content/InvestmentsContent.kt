@@ -1,6 +1,6 @@
 package com.vinibank.backend.sdui.flow.home.content
 
-import com.vini.designsystemsdui.action.navigateAction
+import com.vini.designsystemsdui.action.NavigateAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.LazyColumn
@@ -15,7 +15,7 @@ import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.template.Template
+import com.vini.designsystemsdui.Template
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 
@@ -28,9 +28,8 @@ class InvestmentsContent : HomeScreen {
 
     override fun getScreen(request: SdUiRequest): Template? = DefaultTemplate(
         flow = "Home",
-        stage = "Investimentos",
+        stage = screenId,
         version = "1",
-        template = "",
         content =  listOf(
             LazyColumn(
                 weightProperty = WeightProperty(1f),
@@ -52,7 +51,7 @@ class InvestmentsContent : HomeScreen {
                                 content = listOf(
                                     Text(textProperty = TextProperty("Ver mais"))
                                 ),
-                                onClick = navigateAction(flow = "Investments")
+                                onClick = NavigateAction(flow = "Investments")
                             )
                         )
                     ),

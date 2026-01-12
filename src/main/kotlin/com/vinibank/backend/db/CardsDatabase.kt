@@ -26,6 +26,7 @@ class CardsDatabase {
     }
 
     private val cache: MutableMap<String, List<Card>> = mutableMapOf()
+    private val json = Json {}
 
     init {
         loadFromResource()
@@ -56,7 +57,7 @@ class CardsDatabase {
                 if (writeHeader) {
                     appendLine("email -> models")
                 }
-                appendLine("$email -> ${Json.encodeToString(cards)}\n")//TODO override
+                appendLine("$email -> ${json.encodeToString(cards)}\n")
             }
         )
     }

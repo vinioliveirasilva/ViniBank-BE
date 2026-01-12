@@ -1,14 +1,46 @@
 package com.vinibank.backend.sdui.flow.investments.screen
 
+import com.vini.designsystemsdui.CacheStrategy
 import com.vini.designsystemsdui.SceneStrategy
 import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.ToBooleanAction
-import com.vini.designsystemsdui.component.*
-import com.vini.designsystemsdui.property.*
-import com.vini.designsystemsdui.property.options.*
+import com.vini.designsystemsdui.component.Button
+import com.vini.designsystemsdui.component.Card
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.LazyColumn
+import com.vini.designsystemsdui.component.ModalDatePicker
+import com.vini.designsystemsdui.component.OutlinedButton
+import com.vini.designsystemsdui.component.OutlinedTextInput
+import com.vini.designsystemsdui.component.Row
+import com.vini.designsystemsdui.component.Spacer
+import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.property.ConfirmedDateProperty
+import com.vini.designsystemsdui.property.EnabledProperty
+import com.vini.designsystemsdui.property.FontSizeProperty
+import com.vini.designsystemsdui.property.HeightProperty
+import com.vini.designsystemsdui.property.HorizontalArrangementProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.KeyboardOptionsProperty
+import com.vini.designsystemsdui.property.PaddingHorizontalProperty
+import com.vini.designsystemsdui.property.PaddingVerticalProperty
+import com.vini.designsystemsdui.property.ShapeProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.VisibilityProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.KeyboardOptionsOption
+import com.vini.designsystemsdui.property.options.ShapeOptions
+import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.validator.*
+import com.vini.designsystemsdui.validator.allTrueValidator
+import com.vini.designsystemsdui.validator.doubleComparatorValidator
+import com.vini.designsystemsdui.validator.millisToDateStringValidator
+import com.vini.designsystemsdui.validator.notNullValidator
+import com.vini.designsystemsdui.validator.onlyNumberValidator
 import com.vinibank.backend.db.FundsDatabase
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.flow.investments.toBrl
@@ -43,7 +75,7 @@ class HireFundScreen(
 
     override fun getScreen(request: SdUiRequest): Template? {
 
-        val fundId = (request.screenData?.get("fundId")?.jsonPrimitive?.content ?: "")
+        val fundId = request.screenData?.get("fundId")?.jsonPrimitive?.content ?: ""
         val fundInfo = fundsDatabase.getFundInfo(fundId)
 
         if (fundInfo == null) return null
@@ -60,6 +92,7 @@ class HireFundScreen(
             flow = request.flow,
             stage = screenId,
             version = "1",
+            cacheStrategy = CacheStrategy.NoCache(),
             scene = SceneStrategy.DualPanel(id = "1" ),
             content = listOf(
                 LazyColumn(

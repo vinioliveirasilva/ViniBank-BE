@@ -2,9 +2,6 @@ package com.vinibank.backend.sdui.flow.investments.screen
 
 import com.vini.designsystemsdui.CacheStrategy
 import com.vini.designsystemsdui.SceneStrategy
-import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Card
@@ -12,6 +9,7 @@ import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.LazyColumn
 import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
+import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.HeightProperty
@@ -20,9 +18,11 @@ import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.TextAlignProperty
+import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.TextAlignOption
+import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.json.buildJsonObject

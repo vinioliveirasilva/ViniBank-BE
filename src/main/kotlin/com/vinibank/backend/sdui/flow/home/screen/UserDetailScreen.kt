@@ -1,5 +1,6 @@
 package com.vinibank.backend.sdui.flow.home.screen
 
+import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.BackAction
 import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Card
@@ -28,7 +29,6 @@ import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.Template
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component
@@ -128,8 +128,8 @@ class UserDetailScreen : HomeScreen {
         )
 
         val screen = DefaultTemplate(
-            flow = "Home",
-            stage = "UserDetail",
+            flow = request.flow,
+            stage = screenId,
             version = "1",
             content =  listOf(
                 TopAppBar(

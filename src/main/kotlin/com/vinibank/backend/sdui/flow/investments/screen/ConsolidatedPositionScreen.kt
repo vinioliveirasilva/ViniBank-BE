@@ -2,6 +2,7 @@ package com.vinibank.backend.sdui.flow.investments.screen
 
 import com.vini.designsystemsdui.CacheStrategy
 import com.vini.designsystemsdui.SceneStrategy
+import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Card
@@ -26,17 +27,10 @@ import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.property.BackgroundColorProperty
-import com.vini.designsystemsdui.property.HeightProperty
-import com.vini.designsystemsdui.property.VerticalFillTypeProperty
-import com.vini.designsystemsdui.property.options.ColorOption
-import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.flow.investments.toBrl
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component
-import java.awt.Color
 
 @Component
 class ConsolidatedPositionScreen : InvestmentsScreen {
@@ -82,7 +76,7 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
 
     override fun getScreen(request: SdUiRequest): Template? {
         return DefaultTemplate(
-            flow = "Investments",
+            flow = request.flow,
             stage = screenId,
             version = "1",
             scene = SceneStrategy.DualPanel(),

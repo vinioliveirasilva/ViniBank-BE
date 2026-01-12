@@ -1,10 +1,12 @@
 package com.vinibank.backend.sdui.flow.login.screen
 
+import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.CloseApplicationAction
 import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.action.MultipleActions
 import com.vini.designsystemsdui.action.NavigateAction
 import com.vini.designsystemsdui.action.ToBooleanAction
+import com.vini.designsystemsdui.action.ToTypeAction
 import com.vini.designsystemsdui.component.BackHandler
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Column
@@ -52,17 +54,14 @@ import com.vini.designsystemsdui.property.options.ShapeOptions
 import com.vini.designsystemsdui.property.options.TextSelectionColorsModel
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VisualTransformationOption
-import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.ToTypeAction
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
+import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vini.designsystemsdui.validator.allTrueValidator
 import com.vini.designsystemsdui.validator.emailValidator
 import com.vini.designsystemsdui.validator.minLengthValidator
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.login.LoginScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
 import org.springframework.stereotype.Component

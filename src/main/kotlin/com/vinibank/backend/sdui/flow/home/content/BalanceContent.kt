@@ -34,19 +34,17 @@ import kotlin.random.Random
 class BalanceContent : HomeScreen {
     override val screenId: String = "Balance"
 
-    override fun getScreenUpdate(request: UpdateSdUiTemplateRequest): List<com.vini.designsystemsdui.Component> {
-        return listOf(
-            Text(
-                id = "HomeBalance",
-                textProperty = TextProperty("R$ ${Random.nextInt(10000)},00"),
-                cacheStrategy = CacheStrategy.NoCache(),
-            )
+    override fun getScreenUpdate(request: UpdateSdUiTemplateRequest) = listOf(
+        Text(
+            id = "HomeBalance",
+            textProperty = TextProperty("R$ ${Random.nextInt(10000)},00"),
+            cacheStrategy = CacheStrategy.NoCache(),
         )
-    }
+    )
 
     override fun getScreen(request: SdUiRequest): Template? {
         return DefaultTemplate(
-            flow = "Home",
+            flow = request.flow,
             stage = screenId,
             version = "1",
             content = listOf(

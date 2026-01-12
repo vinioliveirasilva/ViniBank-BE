@@ -1,5 +1,6 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
+import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.CloseAction
 import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Button
@@ -23,14 +24,12 @@ import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
+import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vini.designsystemsdui.validator.emailValidator
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -76,7 +75,7 @@ class EmailScreen(
         request: SdUiRequest,
         state: EmailScreenState = EmailScreenState("vinioliveirasilva@hotmail.co"),
     ) = DefaultTemplate(
-        flow = "SignUp",
+        flow = request.flow,
         stage = screenId,
         version = "1",
         content = listOf(

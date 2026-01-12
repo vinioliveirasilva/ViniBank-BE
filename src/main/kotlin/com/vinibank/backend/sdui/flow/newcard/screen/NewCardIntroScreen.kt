@@ -3,9 +3,33 @@ package com.vinibank.backend.sdui.flow.newcard.screen
 import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.CloseAction
 import com.vini.designsystemsdui.action.ToNumberAction
-import com.vini.designsystemsdui.component.*
-import com.vini.designsystemsdui.property.*
-import com.vini.designsystemsdui.property.options.*
+import com.vini.designsystemsdui.component.Card
+import com.vini.designsystemsdui.component.Column
+import com.vini.designsystemsdui.component.Icon
+import com.vini.designsystemsdui.component.IconButton
+import com.vini.designsystemsdui.component.Image
+import com.vini.designsystemsdui.component.LazyColumn
+import com.vini.designsystemsdui.component.Row
+import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.property.DrawableNameProperty
+import com.vini.designsystemsdui.property.HeightProperty
+import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
+import com.vini.designsystemsdui.property.HorizontalArrangementProperty
+import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.property.IconNameProperty
+import com.vini.designsystemsdui.property.PaddingHorizontalProperty
+import com.vini.designsystemsdui.property.PaddingVerticalProperty
+import com.vini.designsystemsdui.property.SizeProperty
+import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.VerticalArrangementProperty
+import com.vini.designsystemsdui.property.VerticalFillTypeProperty
+import com.vini.designsystemsdui.property.WeightProperty
+import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
+import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
+import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.newcard.NewCardScreen
@@ -60,7 +84,7 @@ class NewCardIntroScreen : NewCardScreen {
 
     override fun getScreen(request: SdUiRequest): Template? {
         return DefaultTemplate(
-            flow = "Home",
+            flow = request.flow,
             stage = screenId,
             version = "1",
             content = listOf(

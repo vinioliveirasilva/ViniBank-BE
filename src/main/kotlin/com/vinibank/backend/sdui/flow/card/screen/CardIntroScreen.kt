@@ -7,8 +7,8 @@ import com.vinibank.backend.sdui.flow.card.CardScreen
 import com.vinibank.backend.sdui.flow.card.content.AddNewCardContent
 import com.vinibank.backend.sdui.flow.card.content.CardDetailContent
 import com.vinibank.backend.sdui.model.SdUiRequest
-import org.springframework.stereotype.Component
 import org.springframework.context.annotation.Lazy
+import org.springframework.stereotype.Component
 
 @Component
 class CardIntroScreen(

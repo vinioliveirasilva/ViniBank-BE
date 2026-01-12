@@ -1,5 +1,6 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
+import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.BusinessSuccessAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Column
@@ -15,7 +16,6 @@ import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.Template
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component

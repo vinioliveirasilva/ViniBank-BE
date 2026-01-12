@@ -1,5 +1,6 @@
 package com.vinibank.backend.sdui.flow.home.content
 
+import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.ToBooleanAction
 import com.vini.designsystemsdui.component.BottomSheet
 import com.vini.designsystemsdui.component.Button
@@ -40,15 +41,13 @@ import com.vini.designsystemsdui.property.options.TextAlignOption
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
-import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
+import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.RoutingController
 import com.vinibank.backend.sdui.flow.UpdateSdUiTemplateRequest
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.flow.toSdUiRequest
 import com.vinibank.backend.sdui.model.SdUiRequest
-
 import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Component
 

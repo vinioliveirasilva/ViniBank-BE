@@ -1,9 +1,9 @@
 package com.vinibank.backend.sdui.flow.login.screen
 
+import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.BusinessSuccessAction
 import com.vini.designsystemsdui.component.Blank
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.Template
 import com.vinibank.backend.sdui.flow.login.LoginScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component

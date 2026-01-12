@@ -1,5 +1,6 @@
 package com.vinibank.backend.sdui.flow.home.content
 
+import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.NavigateAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Column
@@ -15,10 +16,8 @@ import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.Template
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-
 import org.springframework.stereotype.Component
 
 @Component
@@ -27,7 +26,7 @@ class InvestmentsContent : HomeScreen {
         get() = "Investimentos"
 
     override fun getScreen(request: SdUiRequest): Template? = DefaultTemplate(
-        flow = "Home",
+        flow = request.flow,
         stage = screenId,
         version = "1",
         content =  listOf(

@@ -1,5 +1,6 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
+import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.BackAction
 import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Button
@@ -9,9 +10,9 @@ import com.vini.designsystemsdui.component.OutlinedButton
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextProperty
@@ -23,13 +24,11 @@ import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
-import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
+import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement

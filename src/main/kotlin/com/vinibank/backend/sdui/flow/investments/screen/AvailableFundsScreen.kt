@@ -2,6 +2,7 @@ package com.vinibank.backend.sdui.flow.investments.screen
 
 import com.vini.designsystemsdui.CacheStrategy
 import com.vini.designsystemsdui.SceneStrategy
+import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.component.Card
 import com.vini.designsystemsdui.component.Column
@@ -22,7 +23,6 @@ import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.Template
 import com.vinibank.backend.db.FundsDatabase
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.flow.investments.toBrl

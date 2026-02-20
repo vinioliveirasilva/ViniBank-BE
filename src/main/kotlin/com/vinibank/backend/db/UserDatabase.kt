@@ -12,6 +12,7 @@ data class User(
     @SerialName("name") val name: String,
     @SerialName("email") val email: String,
     @SerialName("password") val password: String,
+    @SerialName("phoneNumber") val phone: String,
 )
 
 @Service
@@ -47,15 +48,15 @@ class UserDatabase {
         file.appendText(
             buildString {
                 if (writeHeader) {
-                    append("email,model\n")
+                    append("email -> model\n")
                 }
                 append("${user.email} -> ${Json.encodeToString(user)}\n")
             }
         )
     }
 
-    fun addUser(name: String, email: String, password: String) {
-        val user = User(name = name, email = email, password = password)
+    fun addUser(name: String, email: String, password: String, phone: String) {
+        val user = User(name = name, email = email, password = password, phone = phone)
         saveUserToCsv(user)
         users[user.email] = user
     }

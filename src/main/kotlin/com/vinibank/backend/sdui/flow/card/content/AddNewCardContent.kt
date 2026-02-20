@@ -25,6 +25,7 @@ import com.vini.designsystemsdui.property.VerticalFillTypeProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
@@ -32,7 +33,7 @@ import com.vini.designsystemsdui.template.DefaultTemplate
 
 
 class AddNewCardContent {
-    private fun item(title: String, description: String, icon: String) = Row(
+    private fun item(title: String, description: String, icon: IconOption) = Row(
         horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
         verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
         paddingVerticalProperty = PaddingVerticalProperty(16),
@@ -94,7 +95,7 @@ class AddNewCardContent {
                                         ),
                                         content = listOf(
                                             Icon(
-                                                iconNameProperty = IconNameProperty("Add"),
+                                                iconNameProperty = IconNameProperty(IconOption.Add),
                                                 sizeProperty = SizeProperty(30),
                                             ),
                                         ),
@@ -114,7 +115,7 @@ class AddNewCardContent {
                             item(
                                 "Até 3 adicionais",
                                 "Conte com até 3 cartoes adicionais gratuitos com os mesmos beneficios do titular.",
-                                "Payment"
+                                IconOption.Payment
                             ),
                             HorizontalDivider(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(8),
@@ -122,7 +123,7 @@ class AddNewCardContent {
                             item(
                                 "ViniBank Shop",
                                 "Faça compras no ViniBank Shop com o seu cartão e tenha vantagens como cashback  e parcelamentos sem juros.",
-                                "ShoppingBag"
+                                IconOption.ShoppingBag
                             ),
                             HorizontalDivider(
                                 paddingHorizontalProperty = PaddingHorizontalProperty(8),
@@ -130,7 +131,7 @@ class AddNewCardContent {
                             item(
                                 "Concierge",
                                 "Conte com assistencia pessoal para te ajudar na organização de viagens, procura de eeventos e incidação dos melhores restaurantes e servicos onde quer que voce esteja.",
-                                "SupervisorAccount"
+                                IconOption.SupervisorAccount
                             ),
                         )
                     ),

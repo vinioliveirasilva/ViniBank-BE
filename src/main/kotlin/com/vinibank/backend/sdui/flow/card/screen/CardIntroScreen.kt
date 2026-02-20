@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component
 @Component
 class CardIntroScreen(
     private val newCardContent: AddNewCardContent = AddNewCardContent(),
-    private val cardDetailContent: CardDetailContent = CardDetailContent(),
+    @Lazy private val cardDetailContent: CardDetailContent,
     @Lazy private val internalRoutingController: RoutingController,
 ) : CardScreen {
 

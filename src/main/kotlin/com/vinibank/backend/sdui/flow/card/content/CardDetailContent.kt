@@ -34,10 +34,16 @@ import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vini.designsystemsdui.validator.intToStringValidator
+import com.vinibank.backend.sdui.flow.RoutingController
+import org.springframework.context.annotation.Lazy
+import org.springframework.stereotype.Component
 import com.vinibank.backend.db.Card as CardDbModel
 
 
-class CardDetailContent {
+@Component
+class CardDetailContent(
+    @Lazy private val routingController: RoutingController
+) {
 
     private val selectedCardIndex = PropertyIdWrapper<Int>("CardsContent.SelectedCardIndex")
     private val selectedCardId = PropertyIdWrapper<String>("CardsContent.SelectedCardId")
@@ -110,21 +116,22 @@ class CardDetailContent {
                         currentPageProperty = CurrentPageProperty(0, selectedCardIndex),
                         pageContent =  cards.mapIndexed { index, card -> getCard(card, index) }
                     ),
-                    SdUi(
-                        flowIdentifierProperty = FlowIdentifierProperty("Card"),
-                        fromScreenIdentifierProperty = FromScreenIdentifierProperty("Detail"),
-                        stageIdentifierProperty = StageIdentifierProperty("Detail", selectedCardId),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                        weightProperty = WeightProperty(1f),
-                        validators = listOf(
-                            intToStringValidator(
-                                idWrapper = selectedCardId,
-                                intToString = cards.mapIndexed { index, card -> index to "Cartoes/${card.identifier}" },
-                                required = listOf(selectedCardIndex)
-                            ),
-                        )
-                    ),
+//                    SdUi(
+//                        flowIdentifierProperty = FlowIdentifierProperty("Card"),
+//                        fromScreenIdentifierProperty = FromScreenIdentifierProperty("Detail"),
+//                        stageIdentifierProperty = StageIdentifierProperty("Detail", selectedCardId),
+//                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+//                        verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+//                        weightProperty = WeightProperty(1f),
+//                        validators = listOf(
+//                            intToStringValidator(
+//                                idWrapper = selectedCardId,
+//                                intToString = cards.mapIndexed { index, card -> index to "Cartoes/${card.identifier}" },
+//                                required = listOf(selectedCardIndex)
+//                            ),
+//                        ),
+//                        template =
+//                    ),
                     Column(
                         paddingVerticalProperty = PaddingVerticalProperty(10),
                         paddingHorizontalProperty = PaddingHorizontalProperty(25),

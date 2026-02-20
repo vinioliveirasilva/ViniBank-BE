@@ -2,6 +2,7 @@ package com.vinibank.backend.sdui.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlinx.serialization.json.JsonObject
 
 @Serializable
@@ -14,4 +15,6 @@ data class SdUiRequest(
     val toScreen: String,
     @SerialName("screenData")
     val screenData: JsonObject?,
+    @Transient
+    val sessionId: String = ""
 )

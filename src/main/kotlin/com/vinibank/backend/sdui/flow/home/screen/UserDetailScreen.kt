@@ -26,20 +26,34 @@ import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vinibank.backend.db.User
+import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 
 @Component
-class UserDetailScreen : HomeScreen {
+class UserDetailScreen(
+    private val userDetailRepository: UserDatabase
+) : HomeScreen {
     override val screenId: String
         get() = "UserDetail"
 
+    private fun String.formatPhoneNumber(): String {
+        val digitsOnly = replace(Regex("[^\\d]"), "")
+        val regex = Regex("(\\d{2})(\\d)(\\d{4})(\\d{4})")
+        return regex.replace(digitsOnly, "$1 $2 $3-$4")
+    }
+
     override fun getScreen(request: SdUiRequest): Template? {
-        fun menuItem(name: String, icon: String? = null) = Column(
+        val user = userDetailRepository.users["vinioliveirasilva@outlook.com"] ?: User("", "", "", "")
+
+        fun menuItem(name: String, icon: IconOption? = null) = Column(
             horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
             paddingHorizontalProperty = PaddingHorizontalProperty(20),
             verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Center),
@@ -66,7 +80,7 @@ class UserDetailScreen : HomeScreen {
                             )
                         ),
                         Icon(
-                            iconNameProperty = IconNameProperty("RightArrow"),
+                            iconNameProperty = IconNameProperty(IconOption.RightArrow),
                             paddingHorizontalProperty = PaddingHorizontalProperty(10),
                         ),
                     )
@@ -100,30 +114,30 @@ class UserDetailScreen : HomeScreen {
                             ),
                             content =  listOf(
                                 Icon(
-                                    iconNameProperty = IconNameProperty("User"),
+                                    iconNameProperty = IconNameProperty(IconOption.User),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                     sizeProperty = SizeProperty(96),
                                 ),
                                 Text(
-                                    textProperty = TextProperty("Vinicius Oliveira"),
+                                    textProperty = TextProperty(user.name),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
                                 Text(
-                                    textProperty = TextProperty("vinioliveirasilva@hotmail.com"),
+                                    textProperty = TextProperty(user.email),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
                                 Text(
-                                    textProperty = TextProperty("+55 11 9 77801285"),
+                                    textProperty = TextProperty(user.phone.formatPhoneNumber()),
                                     paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
                             )
                         )
                     )
                 ),
-                menuItem("Dados Pessoais", "PersonSearch"),
-                menuItem("Privacidade de dados", "Lock"),
-                menuItem("Tema", "Theme"),
-                menuItem("Sair do App", "Logout"),
+                menuItem("Dados Pessoais", IconOption.PersonSearch),
+                menuItem("Privacidade de dados", IconOption.Lock),
+                menuItem("Tema", IconOption.Theme),
+                menuItem("Sair do App", IconOption.Logout),
             )
         )
 
@@ -139,7 +153,7 @@ class UserDetailScreen : HomeScreen {
                     navigationIcon = listOf(
                         IconButton(
                             content =  listOf(
-                                Icon(iconNameProperty = IconNameProperty("LeftArrow"))
+                                Icon(iconNameProperty = IconNameProperty(IconOption.LeftArrow))
                             ),
                             onClick = BackAction()
                         )

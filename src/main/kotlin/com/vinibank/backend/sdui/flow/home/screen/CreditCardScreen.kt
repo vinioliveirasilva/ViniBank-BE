@@ -1,4 +1,4 @@
-package com.vinibank.backend.sdui.flow.home.content
+package com.vinibank.backend.sdui.flow.home.screen
 
 import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.component.SdUi
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Component
 
 @Component
-class CardsContent(
+class CreditCardScreen(
     @Lazy private val routingController: RoutingController
 ) : HomeScreen {
     override val screenId: String = "Cartoes"
@@ -24,13 +24,13 @@ class CardsContent(
         flow = request.flow,
         stage = screenId,
         version = "1",
-        content =  listOf(
+        content = listOf(
             SdUi(
                 flowIdentifierProperty = FlowIdentifierProperty("Card"),
                 stageIdentifierProperty = StageIdentifierProperty("Start"),
                 fromScreenIdentifierProperty = FromScreenIdentifierProperty(screenId),
                 horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                components = routingController.getSdUiComponents(
+                template = routingController.getTemplate(
                     SdUiRequest(
                         flow = "Card",
                         fromScreen = screenId,

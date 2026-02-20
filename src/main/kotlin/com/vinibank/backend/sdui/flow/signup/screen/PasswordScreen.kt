@@ -47,7 +47,7 @@ class PasswordScreen(
         val model = Json.decodeFromJsonElement<PasswordScreenState>(
             request.screenData ?: JsonObject(emptyMap())
         )
-        userDb.addUser(model.name, model.email, model.password)
+        userDb.addUser(model.name, model.email, model.password, model.phone)
     }
 
     override fun getScreen(request: SdUiRequest): Template? {

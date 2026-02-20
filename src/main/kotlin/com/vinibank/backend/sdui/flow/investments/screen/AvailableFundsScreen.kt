@@ -135,7 +135,7 @@ class AvailableFundsScreen(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            scene = SceneStrategy.DualPanel(id = "1"),
+            scene = SceneStrategy.DualPane(id = "1"),
             cacheStrategy = CacheStrategy.NoCache(),
             content = listOf(
                 TopAppBar(

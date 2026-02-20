@@ -166,9 +166,9 @@ class PersonalInfoScreen : SignUpScreen {
                                 nextScreenId = "Password",
                                 screenData = request.screenData,
                                 screenRequestData = listOf(
-                                    "$screenFlowId.nameInput" to "name",
-                                    "$screenFlowId.documentInput" to "document",
-                                    "$screenFlowId.phoneInput" to "phone"
+                                    nameInputId.id to "name",
+                                    documentInputId.id to "document",
+                                    phoneInputId.id to "phone"
                                 )
                             ),
                             validators = listOf(

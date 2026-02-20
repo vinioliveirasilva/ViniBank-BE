@@ -126,7 +126,7 @@ class CDBWalletScreen : InvestmentsScreen {
             flow = request.flow,
             stage = screenId,
             version = "1",
-            scene = SceneStrategy.DualPanel(),
+            scene = SceneStrategy.DualPane(),
             cacheStrategy = CacheStrategy.NoCache(),
             content =  listOf(
                 LazyColumn(

@@ -75,7 +75,7 @@ class NewInvestmentScreen : InvestmentsScreen {
             flow = request.flow,
             stage = screenId,
             version = "1",
-            scene = SceneStrategy.DualPanel(id = "1"),
+            scene = SceneStrategy.DualPane(id = "1"),
             content = listOf(
                 Column(
                     weightProperty = WeightProperty(1f),

@@ -57,8 +57,7 @@ class EmailScreen(
             request.screenData ?: JsonObject(emptyMap())
         )
 
-        if (userDb.users.any { it.key == model.email }) {
-            //val response = getInternalScreen(request, model.copy(isError = true))
+        if (userDb.users[model.email] != null) {
             throw createSdUiPropertyUpdateException(
                 message = "Email ja cadastrado",
                 properties = listOf(
@@ -67,13 +66,12 @@ class EmailScreen(
                     EnabledProperty(false, isEmailValid),
                 )
             )
-            //throw SdUiError("Email ja cadastrado", 400, response)
         }
     }
 
     private fun getInternalScreen(
         request: SdUiRequest,
-        state: EmailScreenState = EmailScreenState("vinioliveirasilva@hotmail.co"),
+        state: EmailScreenState = EmailScreenState(),
     ) = DefaultTemplate(
         flow = request.flow,
         stage = screenId,

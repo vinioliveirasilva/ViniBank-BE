@@ -93,7 +93,7 @@ class HireFundScreen(
             stage = screenId,
             version = "1",
             cacheStrategy = CacheStrategy.NoCache(),
-            scene = SceneStrategy.DualPanel(id = "1" ),
+            scene = SceneStrategy.DualPane(id = "1" ),
             content = listOf(
                 LazyColumn(
                     verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),

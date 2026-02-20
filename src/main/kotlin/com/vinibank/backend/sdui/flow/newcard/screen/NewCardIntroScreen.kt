@@ -28,6 +28,7 @@ import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
@@ -94,7 +95,7 @@ class NewCardIntroScreen : NewCardScreen {
                         IconButton(
                             content = listOf(
                                 Icon(
-                                    iconNameProperty = IconNameProperty("LeftArrow"),
+                                    iconNameProperty = IconNameProperty(IconOption.LeftArrow),
                                 )
                             ),
                             onClick = CloseAction()

@@ -17,6 +17,9 @@ import com.vini.designsystemsdui.component.SdUi
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.property.BackgroundColorProperty
+import com.vini.designsystemsdui.property.ContainerColorProperty
+import com.vini.designsystemsdui.property.ContentColorProperty
 import com.vini.designsystemsdui.property.DestinationIndexProperty
 import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
@@ -26,16 +29,23 @@ import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
+import com.vini.designsystemsdui.property.NavigationBarItemColorsProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.SelectedDestinationIndexProperty
 import com.vini.designsystemsdui.property.ShapeProperty
+import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.StageIdentifierProperty
 import com.vini.designsystemsdui.property.TextProperty
+import com.vini.designsystemsdui.property.VerticalFillTypeProperty
 import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.IconOption
+import com.vini.designsystemsdui.property.options.NavigationBarItemColorsModel
 import com.vini.designsystemsdui.property.options.ShapeOptions
+import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
+import com.vini.designsystemsdui.property.options.color.ColorOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vini.designsystemsdui.validator.intToStringValidator
@@ -56,13 +66,26 @@ class MainScreen(
     override fun getScreen(request: SdUiRequest): Template? {
         val bottomNavigationId = PropertyIdWrapper<Int>(id = "bottomNavigation.selectedDestination")
 
+        val navItemColors = NavigationBarItemColorsProperty(
+            value = NavigationBarItemColorsModel(
+                selectedIconColor = ColorOption.CustomColor(0xff2B8CEE),
+                selectedTextColor = ColorOption.CustomColor(0xff2B8CEE),
+                unselectedIconColor = ColorOption.CustomColor(0xff94A3B8),
+                unselectedTextColor = ColorOption.CustomColor(0xff94A3B8),
+                selectedIndicatorColor = ColorOption.CustomColor(0xff101922)
+            )
+        )
+
         val bottomNavigation = NavigationBar(
+            containerColor = ContainerColorProperty(ColorOption.CustomColor(0xff101922)),
+            contentColor = ContentColorProperty(ColorOption.Blue()),
             selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                 value = 0,
                 idWrapper = bottomNavigationId
             ),
             content = listOf(
                 NavigationBarItem(
+                    colors = navItemColors,
                     destinationIndexProperty = DestinationIndexProperty(0),
                     selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                         idWrapper = bottomNavigationId
@@ -71,13 +94,14 @@ class MainScreen(
                         Text(textProperty = TextProperty("Home"))
                     ),
                     selectedIcon = listOf(
-                        Icon(iconNameProperty = IconNameProperty("Home"))
+                        Icon(iconNameProperty = IconNameProperty(IconOption.Home))
                     ),
                     unselectedIcon = listOf(
-                        Icon(iconNameProperty = IconNameProperty("HomeOutline"))
+                        Icon(iconNameProperty = IconNameProperty(IconOption.HomeOutline))
                     ),
                 ),
                 NavigationBarItem(
+                    colors = navItemColors,
                     destinationIndexProperty = DestinationIndexProperty(1),
                     selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                         idWrapper = bottomNavigationId
@@ -86,13 +110,14 @@ class MainScreen(
                         Text(textProperty = TextProperty("Card"))
                     ),
                     selectedIcon = listOf(
-                        Icon(iconNameProperty = IconNameProperty("Payment"))
+                        Icon(iconNameProperty = IconNameProperty(IconOption.Payment))
                     ),
                     unselectedIcon = listOf(
-                        Icon(iconNameProperty = IconNameProperty("PaymentOutline"))
+                        Icon(iconNameProperty = IconNameProperty(IconOption.PaymentOutline))
                     ),
                 ),
                 NavigationBarItem(
+                    colors = navItemColors,
                     destinationIndexProperty = DestinationIndexProperty(2),
                     selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                         idWrapper = bottomNavigationId
@@ -101,39 +126,11 @@ class MainScreen(
                         Text(textProperty = TextProperty("Investimentos"))
                     ),
                     selectedIcon = listOf(
-                        Icon(iconNameProperty = IconNameProperty("Investment"))
+                        Icon(iconNameProperty = IconNameProperty(IconOption.Investment))
                     ),
                     unselectedIcon = listOf(
-                        Icon(iconNameProperty = IconNameProperty("InvestmentOutline"))
+                        Icon(iconNameProperty = IconNameProperty(IconOption.InvestmentOutline))
                     ),
-                ),
-            )
-        )
-
-        val topAppBarTitleId = PropertyIdWrapper<String>("bottomNavigation.selectedDestinationTitle")
-        val topAppBar = TopAppBar(
-            title = listOf(
-                Text(
-                    textProperty = TextProperty(
-                        "Home",
-                        idWrapper = topAppBarTitleId
-                    ),
-                    fontSizeProperty = FontSizeProperty(18f),
-                ),
-            ),
-            actions = listOf(
-                IconButton(
-                    onClick = ContinueAction(
-                        flowId = request.flow,
-                        currentScreenId = screenId,
-                        nextScreenId = "UserDetail",
-                        screenData = request.screenData
-                    ),
-                    content = listOf(
-                        Icon(
-                            iconNameProperty = IconNameProperty("User")
-                        )
-                    )
                 ),
             )
         )
@@ -158,22 +155,10 @@ class MainScreen(
                     ),
                     required = listOf(bottomNavigationId)
                 ),
-                intToStringValidator(
-                    idWrapper = topAppBarTitleId,
-                    intToString = listOf(
-                        0 to "Home",
-                        1 to "Card",
-                        2 to "Investment"
-                    ),
-                    required = listOf(bottomNavigationId)
-                ),
             ),
-            components = routingController.getSdUiComponents(
-                SdUiRequest(
-                    flow = "Home",
-                    fromScreen = screenId,
-                    toScreen = "ContaCorrente",
-                    screenData = request.screenData
+            template = routingController.getTemplate(
+                request.copy(
+                    toScreen = "ContaCorrente"
                 )
             )
         )
@@ -184,52 +169,69 @@ class MainScreen(
             stage = screenId,
             version = "1",
             content = listOf(
-                BackHandler(
-                    enabledProperty = EnabledProperty(true),
-                    onBackAction = ToBooleanAction(showExitBottomSheetId, true)
-                ),
-                BottomSheet(
-                    visibilityProperty = VisibilityProperty(false, showExitBottomSheetId),
+                Column(
+                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                        HorizontalFillTypeOption.Max
+                    ),
+                    verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                    backgroundColorProperty = BackgroundColorProperty(ColorOption.CustomColor(0xff101922)),
                     content = listOf(
-                        Column(
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
-                            horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                                HorizontalAlignmentOption.Center
-                            ),
-                            paddingHorizontalProperty = PaddingHorizontalProperty(10),
+                        BackHandler(
+                            enabledProperty = EnabledProperty(true),
+                            onBackAction = ToBooleanAction(showExitBottomSheetId, true)
+                        ),
+                        BottomSheet(
+                            visibilityProperty = VisibilityProperty(false, showExitBottomSheetId),
                             content = listOf(
-                                Text(textProperty = TextProperty("Tem certeza que deseja sair?")),
-                                Spacer(heightProperty = HeightProperty(10)),
-                                Button(
-                                    shapeProperty = ShapeProperty(ShapeOptions.Large),
+                                Column(
                                     horizontalFillTypeProperty = HorizontalFillTypeProperty(
                                         HorizontalFillTypeOption.Max
                                     ),
+                                    horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                                        HorizontalAlignmentOption.Center
+                                    ),
+                                    paddingHorizontalProperty = PaddingHorizontalProperty(10),
                                     content = listOf(
-                                        Text(textProperty = TextProperty("Sair do App"))
-                                    ),
-                                    onClick = CloseApplicationAction()
-                                ),
-                                Spacer(heightProperty = HeightProperty(4)),
-                                OutlinedButton(
-                                    shapeProperty = ShapeProperty(ShapeOptions.Large),
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
-                                    ),
-                                    content = listOf(
-                                        Text(textProperty = TextProperty("Cancelar"))
-                                    ),
-                                    onClick = ToBooleanAction(showExitBottomSheetId, false)
+                                        Text(textProperty = TextProperty("Tem certeza que deseja sair?")),
+                                        Spacer(heightProperty = HeightProperty(10)),
+                                        Button(
+                                            shapeProperty = ShapeProperty(ShapeOptions.Large),
+                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                                HorizontalFillTypeOption.Max
+                                            ),
+                                            content = listOf(
+                                                Text(textProperty = TextProperty("Sair do App"))
+                                            ),
+                                            onClick = CloseApplicationAction()
+                                        ),
+                                        Spacer(heightProperty = HeightProperty(4)),
+                                        OutlinedButton(
+                                            shapeProperty = ShapeProperty(ShapeOptions.Large),
+                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                                HorizontalFillTypeOption.Max
+                                            ),
+                                            content = listOf(
+                                                Text(textProperty = TextProperty("Cancelar"))
+                                            ),
+                                            onClick = ToBooleanAction(showExitBottomSheetId, false)
+                                        )
+                                    )
                                 )
                             )
-                        )
+                        ),
+                        //topAppBar,
+                        Spacer(sizeProperty = SizeProperty(36)),
+                        content,
+                        Column(
+                            backgroundColorProperty = BackgroundColorProperty(ColorOption.CustomColor(0xff1E293B)),
+                            heightProperty = HeightProperty(2),
+                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
+                                HorizontalFillTypeOption.Max
+                            )
+                        ),
+                        bottomNavigation
                     )
                 ),
-                topAppBar,
-                content,
-                bottomNavigation
             )
         )
         return screenObj

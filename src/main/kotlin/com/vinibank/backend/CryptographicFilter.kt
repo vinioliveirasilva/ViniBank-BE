@@ -35,7 +35,7 @@ class CryptographicFilter(
                 val (input, decryptIv) = decrypt(decoded, decodedIv, this)
 
                 val decodedObject = try {
-                    Json.decodeFromString<SdUiRequest>(input.decodeToString())
+                    (Json.decodeFromString<SdUiRequest>(input.decodeToString())).copy(sessionId = sessionId)
                 } catch (ex: Exception) {
                     println(ex)
                     input as SdUiRequest//TODO

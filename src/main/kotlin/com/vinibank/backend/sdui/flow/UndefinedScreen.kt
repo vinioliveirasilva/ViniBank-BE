@@ -11,6 +11,7 @@ import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.TextAlignProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
+import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.TextAlignOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -28,7 +29,7 @@ fun getUndefinedScreen(request: SdUiRequest) = DefaultTemplate(
                 IconButton(
                     content =  listOf(
                         Icon(
-                            iconNameProperty = IconNameProperty("LeftArrow"),
+                            iconNameProperty = IconNameProperty(IconOption.LeftArrow),
                         )
                     ),
                     onClick = BackAction(),

@@ -120,7 +120,7 @@ class CDBWalletScreen : InvestmentsScreen {
         )
     }
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
         println("CDB: $request")
         return DefaultTemplate(
             flow = request.flow,

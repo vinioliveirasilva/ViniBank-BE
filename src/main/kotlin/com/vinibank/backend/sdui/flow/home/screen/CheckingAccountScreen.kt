@@ -63,25 +63,33 @@ import com.vini.designsystemsdui.property.options.color.BackgroundOption
 import com.vini.designsystemsdui.property.options.color.ColorOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vinibank.backend.db.CheckingAccountDatabase
+import com.vinibank.backend.db.CheckingAccountTransaction
 import com.vinibank.backend.db.NotificationsDatabase
-import com.vinibank.backend.db.SessionDatabase
+import com.vinibank.backend.db.TransactionCategory
 import com.vinibank.backend.db.UserLoginDb
 import com.vinibank.backend.sdui.flow.RoutingController
 import com.vinibank.backend.sdui.flow.home.HomeScreen
+import com.vinibank.backend.sdui.flow.investments.toBrl
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Component
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Component
 class CheckingAccountScreen(
     @Lazy private val routingController: RoutingController,
     @Lazy private val notificationsDatabase: NotificationsDatabase,
     @Lazy private val userLoginDb: UserLoginDb,
+    @Lazy private val transactionHistoryDatabase: CheckingAccountDatabase,
 ) : HomeScreen {
 
     companion object {
         val checkingAccountTopSdUiRequestUpdate = PropertyIdWrapper<Boolean>("requestUpdate1")
     }
+
 
     private fun notificationIcon(request: SdUiRequest) = listOfNotNull(
         Icon(
@@ -114,10 +122,29 @@ class CheckingAccountScreen(
         }
     )
 
+    object DateParserPtBr {
+
+        private val inputFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+        private val outputFormatter =
+            DateTimeFormatter.ofPattern("dd 'de' MMMM", Locale("pt", "BR"))
+
+        fun parse(date: String): String {
+            val localDate = LocalDate.parse(date, inputFormatter)
+            return outputFormatter.format(localDate).split(" ")
+                .joinToString(" ") { it.replaceFirstChar { it.uppercase() } }
+        }
+    }
+
     override val screenId: String
         get() = "ContaCorrente"
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
 
         val textColor = ColorOption.White()
 
@@ -125,14 +152,28 @@ class CheckingAccountScreen(
         val showBottomSheetId = PropertyIdWrapper<Boolean>("123abc1")
         val showSnackBarId = PropertyIdWrapper<Boolean>("123123")
 
+        fun parseTransactionDateAndTime(transaction: CheckingAccountTransaction): String {
+            return "${DateParserPtBr.parse(transaction.transactionDate)} • ${transaction.transactionTime}"
+        }
+
+        fun getTransactionIcon(transaction: CheckingAccountTransaction): IconOption {
+            return when (transaction.category) {
+                TransactionCategory.MARKET -> IconOption.ShoppingBag
+                TransactionCategory.PHARMACY -> IconOption.MedicalServices
+                TransactionCategory.SALARY -> IconOption.Money
+                TransactionCategory.PIX -> IconOption.Money
+                TransactionCategory.STREAMING -> IconOption.VideoLibrary
+                TransactionCategory.TRANSPORT -> IconOption.DirectionsCar
+                TransactionCategory.FOOD -> IconOption.Fastfood
+                TransactionCategory.UTILITIES -> IconOption.Handyman
+                TransactionCategory.OTHER -> IconOption.Receipt
+            }
+        }
+
         fun transactionItem(
-            title: String,
-            subtitle: String,
-            icon: IconOption,
-            color: ColorOption,
-            value: String,
+            transaction: CheckingAccountTransaction,
         ) = Card(
-            colors = CardColorsProperty(
+            cardColorsProperty = CardColorsProperty(
                 CardColorsModel(
                     containerColor = ColorOption.CustomColor(0x881E293B),
                     contentColor = ColorOption.White(),
@@ -155,7 +196,7 @@ class CheckingAccountScreen(
                             ),
                             content = listOf(
                                 Card(
-                                    colors = CardColorsProperty(
+                                    cardColorsProperty = CardColorsProperty(
                                         CardColorsModel(
                                             containerColor = ColorOption.CustomColor(0x1A2B8CEE),
                                             contentColor = ColorOption.CustomColor(0xff2B8CEE),
@@ -165,7 +206,11 @@ class CheckingAccountScreen(
                                     heightProperty = HeightProperty(40),
                                     content = listOf(
                                         Icon(
-                                            iconNameProperty = IconNameProperty(icon),
+                                            iconNameProperty = IconNameProperty(
+                                                getTransactionIcon(
+                                                    transaction
+                                                )
+                                            ),
                                             paddingHorizontalProperty = PaddingHorizontalProperty(10),
                                             paddingVerticalProperty = PaddingVerticalProperty(10),
                                         ),
@@ -176,7 +221,7 @@ class CheckingAccountScreen(
                                     content = listOf(
                                         Text(
                                             fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
-                                            textProperty = TextProperty(title),
+                                            textProperty = TextProperty(transaction.establishmentName),
                                             textAlignProperty = TextAlignProperty(
                                                 TextAlignOption.Center
                                             ),
@@ -184,7 +229,11 @@ class CheckingAccountScreen(
                                         Text(
                                             fontSizeProperty = FontSizeProperty(11f),
                                             colorProperty = ColorProperty(ColorOption.LightGray()),
-                                            textProperty = TextProperty(subtitle),
+                                            textProperty = TextProperty(
+                                                parseTransactionDateAndTime(
+                                                    transaction
+                                                )
+                                            ),
                                             textAlignProperty = TextAlignProperty(
                                                 TextAlignOption.Center
                                             ),
@@ -201,8 +250,14 @@ class CheckingAccountScreen(
                             content = listOf(
                                 Text(
                                     fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
-                                    colorProperty = ColorProperty(color),
-                                    textProperty = TextProperty(value),
+                                    colorProperty = ColorProperty(
+                                        if (transaction.amount > 0) {
+                                            ColorOption.CustomColor(0xff10B981)
+                                        } else {
+                                            ColorOption.CustomColor(0xffEF4444)
+                                        }
+                                    ),
+                                    textProperty = TextProperty(transaction.amount.toBrl()),
                                     textAlignProperty = TextAlignProperty(
                                         TextAlignOption.End
                                     ),
@@ -229,7 +284,7 @@ class CheckingAccountScreen(
             ),
             content = listOf(
                 Card(
-                    colors = CardColorsProperty(
+                    cardColorsProperty = CardColorsProperty(
                         CardColorsModel(
                             containerColor = ColorOption.CustomColor(0x1A2B8CEE),
                             contentColor = ColorOption.CustomColor(0xff2B8CEE),
@@ -418,23 +473,12 @@ class CheckingAccountScreen(
                         16
                     )
                 ),
-                content = listOf(
-                    transactionItem(
-                        "Starbucks Coffee",
-                        "May 24, 2024 • 08:32 AM",
-                        icon = IconOption.Check,
-                        color = ColorOption.CustomColor(0xffEF4444),
-                        value = "-R$ 10,00"
-                    ),
-                    transactionItem(
-                        "Salary Deposit",
-                        "May 23, 2024 • 09:00 AM",
-                        icon = IconOption.Money,
-                        color = ColorOption.CustomColor(0xff10B981),
-                        value = "+R$ 3200,00"
-                    )
-                )
-            )
+                content = transactionHistoryDatabase.get(userLoginDb.getUserEmail(request.sessionId))
+                    .map {
+                        transactionItem(it)
+                    }
+            ),
+            Spacer(sizeProperty = SizeProperty(8))
         )
 
 

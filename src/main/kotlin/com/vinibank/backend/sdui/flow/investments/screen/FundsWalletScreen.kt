@@ -120,7 +120,7 @@ class FundsWalletScreen : InvestmentsScreen {
         )
     }
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,

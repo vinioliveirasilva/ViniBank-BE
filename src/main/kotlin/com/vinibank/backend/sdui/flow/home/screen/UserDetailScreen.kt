@@ -35,7 +35,6 @@ import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Repository
 
 @Component
 class UserDetailScreen(
@@ -50,7 +49,7 @@ class UserDetailScreen(
         return regex.replace(digitsOnly, "$1 $2 $3-$4")
     }
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
         val user = userDetailRepository.users["vinioliveirasilva@outlook.com"] ?: User("", "", "", "")
 
         fun menuItem(name: String, icon: IconOption? = null) = Column(

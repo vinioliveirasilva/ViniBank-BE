@@ -46,7 +46,7 @@ class EmailScreen(
     private val isError = PropertyIdWrapper<Boolean>("SignUp.Email.emailInput.isError")
     private val errorMessage = PropertyIdWrapper<String>("SignUp.Email.emailInput.errorMessage")
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
         return getInternalScreen(request)
     }
 

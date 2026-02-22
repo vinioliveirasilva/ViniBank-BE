@@ -15,8 +15,8 @@ class InvestmentsController(
 
 
 fun Double.toBrl(): String {
-    val formattedValue = "%.2f".format(this).replace(".", ",")
+    val formattedValue = "%.2f".format(this).replace(".", ",").replace("-", "")
     val parts = formattedValue.split(",")
     val integerPart = parts.first().reversed().chunked(3).joinToString(".").reversed()
-    return "R$ $integerPart,${parts.last()}"
+    return "R$ ${if (this < 0) "-" else ""}$integerPart,${parts.last()}"
 }

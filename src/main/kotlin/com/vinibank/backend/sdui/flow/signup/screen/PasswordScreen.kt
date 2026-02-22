@@ -50,7 +50,7 @@ class PasswordScreen(
         userDb.addUser(model.name, model.email, model.password, model.phone)
     }
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
         val screenFlowId = "${request.flow}.${screenId}"
 
         return DefaultTemplate(

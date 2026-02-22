@@ -68,14 +68,14 @@ class BalanceContent : HomeScreen {
         ),
     )
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
             content = listOf(
                 Card(
-                    colors = CardColorsProperty(
+                    cardColorsProperty = CardColorsProperty(
                         CardColorsModel(
                             containerColor = ColorOption.CustomColor(hex = 0xff2B8CEE),
                             contentColor = ColorOption.White(),

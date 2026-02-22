@@ -32,7 +32,7 @@ import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextAlignProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.TintProperty
-import com.vini.designsystemsdui.property.TopAppBarColorsProperty
+import com.vini.designsystemsdui.property.TopAppBarColorProperty
 import com.vini.designsystemsdui.property.VerticalAlignmentProperty
 import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.WeightProperty
@@ -54,8 +54,6 @@ import com.vinibank.backend.db.NotificationsDatabase
 import com.vinibank.backend.db.UserLoginDb
 import com.vinibank.backend.sdui.flow.notification.NotificationScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
 import org.springframework.stereotype.Component
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -105,12 +103,12 @@ class MainNotificationScreen(
         }
     }
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
 
         val background = ColorOption.CustomColor(0xff101922)
 
         val topBar = TopAppBar(
-            colors = TopAppBarColorsProperty(
+            topAppBarColorProperty = TopAppBarColorProperty(
                 value = TopAppBarColorsModel(
                     containerColor = background,
                     titleContentColor = ColorOption.White(),
@@ -227,10 +225,7 @@ class MainNotificationScreen(
                         ContinueAction(
                             flowId = request.flow,
                             currentScreenId = screenId,
-                            nextScreenId = "Detail",
-                            screenData = buildJsonObject {
-                                put("notificationId", it.id)
-                            }
+                            nextScreenId = "Detail?notificationId=${it.id}",
                         ),
                         ToBooleanAction(
                             idToChange = PropertyIdWrapper(

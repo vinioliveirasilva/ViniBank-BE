@@ -73,7 +73,7 @@ class HireFundScreen(
         ),
     )
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
 
         val fundId = request.screenData?.get("fundId")?.jsonPrimitive?.content ?: ""
         val fundInfo = fundsDatabase.getFundInfo(fundId)

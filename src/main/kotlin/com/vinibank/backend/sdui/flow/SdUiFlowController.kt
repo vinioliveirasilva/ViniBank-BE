@@ -19,7 +19,7 @@ open class BaseFlowController <T : SdUiScreen>(
 
     override fun getScreen(request: SdUiRequest): Template? {
         return if (request.toScreen == "Start") {
-            defaultScreen.getScreen(request)
+            defaultScreen.getScreen(request = request, screenId = request.toScreen)
         } else {
             executeRule(request)
             executeScreen(request)
@@ -36,6 +36,25 @@ open class BaseFlowController <T : SdUiScreen>(
     private fun executeRule(request: SdUiRequest) =
         screens.firstOrNull { it.screenId == request.fromScreen }?.getRule(request)
 
-    private fun executeScreen(request: SdUiRequest) =
-        screens.firstOrNull { it.screenId == request.toScreen }?.getScreen(request) ?: getUndefinedScreen(request)
+    private fun executeScreen(request: SdUiRequest) : Template {
+        val parameters = getQueryParameters(request.toScreen)
+        val parsedScreenId = request.toScreen.stripQueryParameters()
+
+        return screens.firstOrNull { it.screenId == parsedScreenId }?.getScreen(
+            request = request,
+            parameters = parameters,
+            screenId = request.toScreen
+        ) ?: getUndefinedScreen(request)
+    }
+
+    private fun getQueryParameters(screenId: String) : Map<String, String> {
+        val parameters = screenId.split("?").last()
+        if(parameters == screenId) return emptyMap()
+        return parameters.split("&").associate {
+            val (key, value) = it.split("=")
+            key to value
+        }.toMap()
+    }
+
+    private fun String.stripQueryParameters() = split("?").first()
 }

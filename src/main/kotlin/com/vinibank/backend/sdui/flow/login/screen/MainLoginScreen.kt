@@ -72,7 +72,7 @@ class MainLoginScreen(
     override val screenId: String
         get() = "Start"
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
         return greenLoginScreen(request)
     }
 

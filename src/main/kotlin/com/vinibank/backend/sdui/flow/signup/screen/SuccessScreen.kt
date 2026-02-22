@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component
 class SuccessScreen : SignUpScreen {
     override val screenId: String = "Success"
 
-    override fun getScreen(request: SdUiRequest): Template? = DefaultTemplate(
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? = DefaultTemplate(
         flow = request.flow,
         stage = screenId,
         version = "1",

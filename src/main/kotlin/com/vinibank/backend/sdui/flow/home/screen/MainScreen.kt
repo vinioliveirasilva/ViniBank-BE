@@ -2,34 +2,30 @@ package com.vinibank.backend.sdui.flow.home.screen
 
 import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.CloseApplicationAction
-import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.action.ToBooleanAction
 import com.vini.designsystemsdui.component.BackHandler
 import com.vini.designsystemsdui.component.BottomSheet
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.Icon
-import com.vini.designsystemsdui.component.IconButton
 import com.vini.designsystemsdui.component.NavigationBar
 import com.vini.designsystemsdui.component.NavigationBarItem
 import com.vini.designsystemsdui.component.OutlinedButton
 import com.vini.designsystemsdui.component.SdUi
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.property.BackgroundColorProperty
 import com.vini.designsystemsdui.property.ContainerColorProperty
 import com.vini.designsystemsdui.property.ContentColorProperty
 import com.vini.designsystemsdui.property.DestinationIndexProperty
 import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
-import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
 import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.NavigationBarItemColorsProperty
+import com.vini.designsystemsdui.property.NavigationBarItemColorProperty
 import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.SelectedDestinationIndexProperty
 import com.vini.designsystemsdui.property.ShapeProperty
@@ -63,10 +59,10 @@ class MainScreen(
     override val screenId: String
         get() = "Start"
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
         val bottomNavigationId = PropertyIdWrapper<Int>(id = "bottomNavigation.selectedDestination")
 
-        val navItemColors = NavigationBarItemColorsProperty(
+        val navItemColors = NavigationBarItemColorProperty(
             value = NavigationBarItemColorsModel(
                 selectedIconColor = ColorOption.CustomColor(0xff2B8CEE),
                 selectedTextColor = ColorOption.CustomColor(0xff2B8CEE),
@@ -77,15 +73,15 @@ class MainScreen(
         )
 
         val bottomNavigation = NavigationBar(
-            containerColor = ContainerColorProperty(ColorOption.CustomColor(0xff101922)),
-            contentColor = ContentColorProperty(ColorOption.Blue()),
+            containerColorProperty = ContainerColorProperty(ColorOption.CustomColor(0xff101922)),
+            contentColorProperty = ContentColorProperty(ColorOption.Blue()),
             selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                 value = 0,
                 idWrapper = bottomNavigationId
             ),
             content = listOf(
                 NavigationBarItem(
-                    colors = navItemColors,
+                    navigationBarItemColorProperty = navItemColors,
                     destinationIndexProperty = DestinationIndexProperty(0),
                     selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                         idWrapper = bottomNavigationId
@@ -101,7 +97,7 @@ class MainScreen(
                     ),
                 ),
                 NavigationBarItem(
-                    colors = navItemColors,
+                    navigationBarItemColorProperty = navItemColors,
                     destinationIndexProperty = DestinationIndexProperty(1),
                     selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                         idWrapper = bottomNavigationId
@@ -117,7 +113,7 @@ class MainScreen(
                     ),
                 ),
                 NavigationBarItem(
-                    colors = navItemColors,
+                    navigationBarItemColorProperty = navItemColors,
                     destinationIndexProperty = DestinationIndexProperty(2),
                     selectedDestinationIndexProperty = SelectedDestinationIndexProperty(
                         idWrapper = bottomNavigationId

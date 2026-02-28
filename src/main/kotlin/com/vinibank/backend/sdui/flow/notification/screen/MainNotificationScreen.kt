@@ -5,7 +5,7 @@ import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.CloseAction
 import com.vini.designsystemsdui.action.ContinueAction
 import com.vini.designsystemsdui.action.MultipleActions
-import com.vini.designsystemsdui.action.ToBooleanAction
+import com.vini.designsystemsdui.action.ToModifierAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.Icon
@@ -15,32 +15,34 @@ import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
-import com.vini.designsystemsdui.property.BackgroundColorProperty
+import com.vini.designsystemsdui.modifier.BaseModifier
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.background
+import com.vini.designsystemsdui.modifier.clip
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
+import com.vini.designsystemsdui.modifier.visible
+import com.vini.designsystemsdui.modifier.width
 import com.vini.designsystemsdui.property.ButtonColorsProperty
 import com.vini.designsystemsdui.property.ColorProperty
 import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.FontWeightProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.LineHeightProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.ShapeProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextAlignProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.TintProperty
 import com.vini.designsystemsdui.property.TopAppBarColorProperty
 import com.vini.designsystemsdui.property.VerticalAlignmentProperty
-import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.WidthProperty
 import com.vini.designsystemsdui.property.options.ButtonColorsModel
 import com.vini.designsystemsdui.property.options.FontWeightOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.ShapeOptions
 import com.vini.designsystemsdui.property.options.TextAlignOption
@@ -103,7 +105,11 @@ class MainNotificationScreen(
         }
     }
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
 
         val background = ColorOption.CustomColor(0xff101922)
 
@@ -168,24 +174,21 @@ class MainNotificationScreen(
         )
 
         val filters = LazyRow(
-            paddingHorizontalProperty = PaddingHorizontalProperty(16),
+            modifier = SdUiModifier().padding(horizontal = 16),
             content = listOf(
                 filterButton("All", true),
-                Spacer(widthProperty = WidthProperty(8)),
+                Spacer(modifier = SdUiModifier().width(8)),
                 filterButton("Transactions"),
-                Spacer(widthProperty = WidthProperty(8)),
+                Spacer(modifier = SdUiModifier().width(8)),
                 filterButton("Security"),
-                Spacer(widthProperty = WidthProperty(8)),
+                Spacer(modifier = SdUiModifier().width(8)),
                 filterButton("Offers"),
             )
         )
 
         val separator = Column(
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                HorizontalFillTypeOption.Max
-            ),
-            heightProperty = HeightProperty(1),
-            backgroundColorProperty = BackgroundColorProperty(ColorOption.CustomColor(0xff233648))
+            modifier = SdUiModifier().fillMaxWidth().height(1)
+                .background(ColorOption.CustomColor(0xff233648)),
         )
 
         fun getNotifications() =
@@ -218,6 +221,9 @@ class MainNotificationScreen(
             else -> ColorOption.CustomColor(0x302B8CEE)
         }
 
+        fun readDotId(notificationId: String) =
+            PropertyIdWrapper<BaseModifier>(id = "notification_${notificationId}")
+
         val notifications = getNotifications().map {
             Column(
                 onClick = MultipleActions(
@@ -227,32 +233,26 @@ class MainNotificationScreen(
                             currentScreenId = screenId,
                             nextScreenId = "Detail?notificationId=${it.id}",
                         ),
-                        ToBooleanAction(
-                            idToChange = PropertyIdWrapper(
-                                id = "notification_${it.id}"
-                            ),
-                            newValue = false
+                        ToModifierAction(
+                            SdUiModifier().visible(
+                                visible = false, id = readDotId(it.id)
+                            )
                         )
                     )
                 ),
                 content = listOf(
                     Row(
-                        paddingVerticalProperty = PaddingVerticalProperty(16),
-                        paddingHorizontalProperty = PaddingHorizontalProperty(16),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                            HorizontalFillTypeOption.Max
-                        ),
+                        modifier = SdUiModifier().padding(vertical = 16, horizontal = 16)
+                            .fillMaxWidth(),
                         content = listOf(
                             Column(
-                                backgroundColorProperty = BackgroundColorProperty(
-                                    getNotificationBackground(it.category)
-                                ),
-                                shapeProperty = ShapeProperty(ShapeOptions.Medium),
+                                modifier = SdUiModifier().clip(ShapeOption.RoundedCorner(8))
+                                    .background(getNotificationBackground(it.category)),
                                 content = listOf(
                                     IconButton(
                                         content = listOf(
                                             Icon(
-                                                sizeProperty = SizeProperty(24),
+                                                modifier = SdUiModifier().size(24),
                                                 tintProperty = TintProperty(
                                                     getNotificationTint(it.category)
                                                 ),
@@ -264,13 +264,11 @@ class MainNotificationScreen(
                                     )
                                 )
                             ),
-                            Spacer(sizeProperty = SizeProperty(16)),
+                            Spacer(modifier = SdUiModifier().size(16)),
                             Column(
                                 content = listOf(
                                     Row(
-                                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                            HorizontalFillTypeOption.Max
-                                        ),
+                                        modifier = SdUiModifier().fillMaxWidth(),
                                         horizontalArrangementProperty = HorizontalArrangementProperty(
                                             HorizontalArrangementOption.SpaceBetween
                                         ),
@@ -299,23 +297,13 @@ class MainNotificationScreen(
                                                         ),
                                                     ),
                                                     Column(
-                                                        visibilityProperty = VisibilityProperty(
-                                                            value = !it.isRead,
-                                                            idWrapper = PropertyIdWrapper(
-                                                                id = "notification_${it.id}"
-                                                            )
-                                                        ),
-                                                        paddingHorizontalProperty = PaddingHorizontalProperty(
-                                                            4
-                                                        ),
-                                                        heightProperty = HeightProperty(8),
-                                                        widthProperty = WidthProperty(16),
-                                                        shapeProperty = ShapeProperty(
-                                                            ShapeOptions.Circle
-                                                        ),
-                                                        backgroundColorProperty = BackgroundColorProperty(
-                                                            ColorOption.LightBlue()
-                                                        )
+                                                        modifier = SdUiModifier().visible(
+                                                            visible = !it.isRead,
+                                                            id = readDotId(it.id)
+                                                        ).padding(horizontal = 4)
+                                                            .size(height = 8, width = 16)
+                                                            .clip(ShapeOption.Circle())
+                                                            .background(ColorOption.LightBlue()),
                                                     )
                                                 )
                                             )
@@ -343,13 +331,12 @@ class MainNotificationScreen(
             cacheStrategy = CacheStrategy.NoCache(),//CacheStrategy.TimeCache(System.currentTimeMillis().plus(300000)),
             content = listOf(
                 Column(
-                    backgroundColorProperty = BackgroundColorProperty(background),
+                    modifier = SdUiModifier().fillMaxWidth().background(background),
                     weightProperty = WeightProperty(1f),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     content = listOf(
                         topBar,
                         filters,
-                        Spacer(heightProperty = HeightProperty(16)),
+                        Spacer(modifier = SdUiModifier().height(16)),
                         separator,
                     ).plus(notifications)
                 )

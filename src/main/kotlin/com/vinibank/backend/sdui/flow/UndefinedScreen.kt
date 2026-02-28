@@ -5,12 +5,12 @@ import com.vini.designsystemsdui.component.Icon
 import com.vini.designsystemsdui.component.IconButton
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.TextAlignProperty
 import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.TextAlignOption
 import com.vini.designsystemsdui.template.DefaultTemplate
@@ -20,14 +20,14 @@ fun getUndefinedScreen(request: SdUiRequest) = DefaultTemplate(
     flow = request.flow,
     stage = request.toScreen,
     version = "1",
-    content =  listOf(
+    content = listOf(
         TopAppBar(
-            title =  listOf(
+            title = listOf(
                 Text(textProperty = TextProperty("TODO"))
             ),
             navigationIcon = listOf(
                 IconButton(
-                    content =  listOf(
+                    content = listOf(
                         Icon(
                             iconNameProperty = IconNameProperty(IconOption.LeftArrow),
                         )
@@ -37,9 +37,8 @@ fun getUndefinedScreen(request: SdUiRequest) = DefaultTemplate(
             )
         ),
         Text(
+            modifier = SdUiModifier().fillMaxWidth().padding(vertical = 30),
             textProperty = TextProperty("Tela não cadastrada"),
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-            paddingVerticalProperty = PaddingVerticalProperty(30),
             textAlignProperty = TextAlignProperty(TextAlignOption.Center)
         ),
     )

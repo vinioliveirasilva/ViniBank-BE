@@ -1,54 +1,47 @@
 package com.vinibank.backend.sdui.flow.home.screen
 
 import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.BackAction
-import com.vini.designsystemsdui.component.Box
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Card
 import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.Icon
-import com.vini.designsystemsdui.component.IconButton
 import com.vini.designsystemsdui.component.LazyColumn
 import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.SdUi
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.component.TopAppBar
-import com.vini.designsystemsdui.property.BackgroundColorProperty
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.background
+import com.vini.designsystemsdui.modifier.clip
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
+import com.vini.designsystemsdui.modifier.width
 import com.vini.designsystemsdui.property.ButtonColorsProperty
 import com.vini.designsystemsdui.property.CardColorsProperty
 import com.vini.designsystemsdui.property.ColorProperty
-import com.vini.designsystemsdui.property.ContentAlignmentProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
 import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.FontWeightProperty
 import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.LineHeightProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.ShapeProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.StageIdentifierProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.TintProperty
-import com.vini.designsystemsdui.property.TopAppBarColorProperty
 import com.vini.designsystemsdui.property.VerticalAlignmentProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
 import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.WidthProperty
-import com.vini.designsystemsdui.property.options.AlignmentOptions
 import com.vini.designsystemsdui.property.options.ButtonColorsModel
 import com.vini.designsystemsdui.property.options.CardColorsModel
 import com.vini.designsystemsdui.property.options.FontWeightOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.ShapeOptions
-import com.vini.designsystemsdui.property.options.TopAppBarColorsModel
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.color.ColorOption
@@ -61,11 +54,15 @@ import org.springframework.stereotype.Component
 
 @Component
 class CreditCardScreen(
-    @Lazy private val routingController: RoutingController
+    @Lazy private val routingController: RoutingController,
 ) : HomeScreen {
     override val screenId: String = "Cartoes"
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         val background = ColorOption.CustomColor(0xff101922)
         val surface = ColorOption.CustomColor(0xf202B8CEE)
         val subtitleColor = ColorOption.CustomColor(0xff94A3B8)
@@ -80,6 +77,7 @@ class CreditCardScreen(
             accentOne: ColorOption,
             accentTwo: ColorOption,
         ) = Card(
+            modifier = SdUiModifier().fillMaxWidth(),
             shapeProperty = ShapeProperty(ShapeOptions.Large),
             cardColorsProperty = CardColorsProperty(
                 value = CardColorsModel(
@@ -87,27 +85,27 @@ class CreditCardScreen(
                     contentColor = textColor,
                 )
             ),
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
             content = listOf(
                 Column(
-                    paddingHorizontalProperty = PaddingHorizontalProperty(16),
-                    paddingVerticalProperty = PaddingVerticalProperty(16),
-                    heightProperty = HeightProperty(170),
+                    modifier = SdUiModifier().padding(horizontal = 16).padding(vertical = 16)
+                        .height(170),
                     verticalArrangementProperty = VerticalArrangementProperty(
                         VerticalArrangementOption.SpaceBetween
                     ),
                     content = listOf(
                         Row(
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                            modifier = SdUiModifier().fillMaxWidth(),
                             horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.SpaceBetween
                             ),
-                            verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
+                            verticalAlignmentProperty = VerticalAlignmentProperty(
+                                VerticalAlignmentOption.Center
+                            ),
                             content = listOf(
                                 Icon(
+                                    modifier = SdUiModifier().size(20),
                                     iconNameProperty = IconNameProperty(IconOption.Card),
                                     tintProperty = TintProperty(textColor),
-                                    sizeProperty = SizeProperty(20)
                                 ),
                                 Text(
                                     textProperty = TextProperty(name),
@@ -121,17 +119,15 @@ class CreditCardScreen(
                         Row(
                             content = listOf(
                                 Column(
-                                    widthProperty = WidthProperty(16),
-                                    heightProperty = HeightProperty(16),
-                                    shapeProperty = ShapeProperty(ShapeOptions.Circle),
-                                    backgroundColorProperty = BackgroundColorProperty(accentOne)
+                                    modifier = SdUiModifier().size(16)
+                                        .clip(shape = ShapeOption.Circle())
+                                        .background(accentOne),
                                 ),
-                                Spacer(widthProperty = WidthProperty(6)),
+                                Spacer(modifier = SdUiModifier().width(6)),
                                 Column(
-                                    widthProperty = WidthProperty(16),
-                                    heightProperty = HeightProperty(16),
-                                    shapeProperty = ShapeProperty(ShapeOptions.Circle),
-                                    backgroundColorProperty = BackgroundColorProperty(accentTwo)
+                                    modifier = SdUiModifier().size(16)
+                                        .clip(shape = ShapeOption.Circle())
+                                        .background(accentTwo),
                                 ),
                             )
                         ),
@@ -142,11 +138,9 @@ class CreditCardScreen(
                                     colorProperty = ColorProperty(textColor),
                                     fontSizeProperty = FontSizeProperty(14f),
                                 ),
-                                Spacer(sizeProperty = SizeProperty(8)),
+                                Spacer(modifier = SdUiModifier().size(8)),
                                 Row(
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
-                                    ),
+                                    modifier = SdUiModifier().fillMaxWidth(),
                                     horizontalArrangementProperty = HorizontalArrangementProperty(
                                         HorizontalArrangementOption.SpaceBetween
                                     ),
@@ -175,11 +169,11 @@ class CreditCardScreen(
             verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
             content = listOf(
                 Icon(
+                    modifier = SdUiModifier().size(16),
                     iconNameProperty = IconNameProperty(IconOption.Check),
                     tintProperty = TintProperty(iconColor),
-                    sizeProperty = SizeProperty(16),
                 ),
-                Spacer(widthProperty = WidthProperty(10)),
+                Spacer(modifier = SdUiModifier().width(10)),
                 Text(
                     textProperty = TextProperty(text),
                     colorProperty = ColorProperty(ColorOption.White()),
@@ -190,7 +184,11 @@ class CreditCardScreen(
         )
 
         fun benefitsList(items: List<String>, iconColor: ColorOption) = Column(
-            verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpacedBy(10)),
+            verticalArrangementProperty = VerticalArrangementProperty(
+                VerticalArrangementOption.SpacedBy(
+                    10
+                )
+            ),
             content = items.map { benefitItem(it, iconColor) }
         )
 
@@ -201,7 +199,7 @@ class CreditCardScreen(
                     colorProperty = ColorProperty(subtitleColor),
                     fontSizeProperty = FontSizeProperty(12f)
                 ),
-                Spacer(sizeProperty = SizeProperty(2)),
+                Spacer(modifier = SdUiModifier().size(2)),
                 Text(
                     textProperty = TextProperty(value),
                     colorProperty = ColorProperty(ColorOption.White()),
@@ -226,6 +224,7 @@ class CreditCardScreen(
             badgeTwo: ColorOption,
             benefitIconColor: ColorOption,
         ) = Card(
+            modifier = SdUiModifier().fillMaxWidth(),
             shapeProperty = ShapeProperty(ShapeOptions.Large),
             cardColorsProperty = CardColorsProperty(
                 value = CardColorsModel(
@@ -233,11 +232,9 @@ class CreditCardScreen(
                     contentColor = ColorOption.White(),
                 )
             ),
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
             content = listOf(
                 Column(
-                    paddingHorizontalProperty = PaddingHorizontalProperty(16),
-                    paddingVerticalProperty = PaddingVerticalProperty(16),
+                    modifier = SdUiModifier().padding(horizontal = 16).padding(vertical = 16),
                     verticalArrangementProperty = VerticalArrangementProperty(
                         VerticalArrangementOption.SpacedBy(14)
                     ),
@@ -260,6 +257,7 @@ class CreditCardScreen(
                         ),
                         benefitsList(benefits, benefitIconColor),
                         Card(
+                            modifier = SdUiModifier().fillMaxWidth(),
                             shapeProperty = ShapeProperty(ShapeOptions.Medium),
                             cardColorsProperty = CardColorsProperty(
                                 value = CardColorsModel(
@@ -267,16 +265,10 @@ class CreditCardScreen(
                                     contentColor = ColorOption.White(),
                                 )
                             ),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
                             content = listOf(
                                 Row(
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(14),
-                                    paddingVerticalProperty = PaddingVerticalProperty(12),
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
-                                    ),
+                                    modifier = SdUiModifier().padding(horizontal = 14)
+                                        .padding(vertical = 12).fillMaxWidth(),
                                     horizontalArrangementProperty = HorizontalArrangementProperty(
                                         HorizontalArrangementOption.SpaceBetween
                                     ),
@@ -288,7 +280,7 @@ class CreditCardScreen(
                             )
                         ),
                         Button(
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                            modifier = SdUiModifier().fillMaxWidth(),
                             shapeProperty = ShapeProperty(ShapeOptions.Medium),
                             buttonColorsProperty = ButtonColorsProperty(
                                 value = ButtonColorsModel(
@@ -298,7 +290,7 @@ class CreditCardScreen(
                             ),
                             content = listOf(
                                 Text(
-                                    paddingVerticalProperty = PaddingVerticalProperty(6),
+                                    modifier = SdUiModifier().padding(vertical = 6),
                                     textProperty = TextProperty("Choose this Card"),
                                     fontSizeProperty = FontSizeProperty(16f),
                                     fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
@@ -316,21 +308,19 @@ class CreditCardScreen(
             version = "1",
             content = listOf(
                 Column(
-                    backgroundColorProperty = BackgroundColorProperty(background),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    modifier = SdUiModifier().fillMaxWidth().background(background),
                     weightProperty = WeightProperty(1f),
                     content = listOf(
                         LazyColumn(
+                            modifier = SdUiModifier().padding(horizontal = 12, vertical = 16)
+                                .fillMaxWidth(),
                             weightProperty = WeightProperty(1f),
-                            paddingHorizontalProperty = PaddingHorizontalProperty(12),
-                            paddingVerticalProperty = PaddingVerticalProperty(16),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             verticalArrangementProperty = VerticalArrangementProperty(
                                 VerticalArrangementOption.SpacedBy(14)
                             ),
                             content = listOf(
                                 Column(
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(8),
+                                    modifier = SdUiModifier().padding(horizontal = 8),
                                     content = listOf(
                                         Text(
                                             textProperty = TextProperty("Choose your plan"),
@@ -339,7 +329,7 @@ class CreditCardScreen(
                                             fontSizeProperty = FontSizeProperty(36f),
                                             lineHeightProperty = LineHeightProperty(42)
                                         ),
-                                        Spacer(sizeProperty = SizeProperty(4)),
+                                        Spacer(modifier = SdUiModifier().size(4)),
                                         Text(
                                             textProperty = TextProperty(
                                                 "Select the credit card that best fits your financial goals."
@@ -417,16 +407,20 @@ class CreditCardScreen(
         return screen
     }
 
-    fun getScreen1(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? = DefaultTemplate(
+    fun getScreen1(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? = DefaultTemplate(
         flow = request.flow,
         stage = screenId,
         version = "1",
         content = listOf(
             SdUi(
+                modifier = SdUiModifier().fillMaxWidth(),
                 flowIdentifierProperty = FlowIdentifierProperty("Card"),
                 stageIdentifierProperty = StageIdentifierProperty("Start"),
                 fromScreenIdentifierProperty = FromScreenIdentifierProperty(screenId),
-                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 template = routingController.getTemplate(
                     SdUiRequest(
                         flow = "Card",

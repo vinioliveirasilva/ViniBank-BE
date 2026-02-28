@@ -16,5 +16,5 @@ data class SdUiRequest(
     @SerialName("screenData")
     val screenData: JsonObject?,
     @Transient
-    val sessionId: String = ""
+    val sessionId: String = "",
 )

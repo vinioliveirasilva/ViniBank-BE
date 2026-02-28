@@ -11,18 +11,17 @@ import com.vini.designsystemsdui.component.OutlinedTextInput
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.exception.createSdUiPropertyUpdateException
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.ErrorMessageProperty
 import com.vini.designsystemsdui.property.ErrorProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
@@ -46,7 +45,11 @@ class EmailScreen(
     private val isError = PropertyIdWrapper<Boolean>("SignUp.Email.emailInput.isError")
     private val errorMessage = PropertyIdWrapper<String>("SignUp.Email.emailInput.errorMessage")
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         return getInternalScreen(request)
     }
 
@@ -78,8 +81,7 @@ class EmailScreen(
         version = "1",
         content = listOf(
             TopAppBar(
-                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
                 title = listOf(
                     Text(
                         textProperty = TextProperty("Email"),
@@ -87,21 +89,21 @@ class EmailScreen(
                 )
             ),
             LazyColumn(
+                modifier = SdUiModifier().padding(vertical = 20),
                 verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
                 weightProperty = WeightProperty(1f),
-                paddingVerticalProperty = PaddingVerticalProperty(20),
                 content = listOf(
                     OutlinedTextInput(
+                        modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
                         textProperty = TextProperty(state.email, emailInputId),
                         errorProperty = ErrorProperty(
                             state.isError,
                             isError
                         ),
-                        errorMessageProperty = ErrorMessageProperty("Email já cadastrado", idWrapper = errorMessage),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                            HorizontalFillTypeOption.Max
+                        errorMessageProperty = ErrorMessageProperty(
+                            "Email já cadastrado",
+                            idWrapper = errorMessage
                         ),
-                        paddingHorizontalProperty = PaddingHorizontalProperty(20),
                         label = listOf(
                             Text(textProperty = TextProperty(value = "Digite seu email"))
                         ),
@@ -113,24 +115,19 @@ class EmailScreen(
                         )
                     ),
                     Column(
+                        modifier = SdUiModifier().padding(horizontal = 20).fillMaxWidth(),
                         horizontalAlignmentProperty = HorizontalAlignmentProperty(
                             HorizontalAlignmentOption.Center
                         ),
-                        paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                            HorizontalFillTypeOption.Max
-                        ),
                         content = listOf(
                             Button(
+                                modifier = SdUiModifier().fillMaxWidth(),
                                 content = listOf(
                                     Text(textProperty = TextProperty(value = "Continuar"))
                                 ),
                                 enabledProperty = EnabledProperty(
                                     false,
                                     isEmailValid
-                                ),
-                                horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                    HorizontalFillTypeOption.Max
                                 ),
                                 onClick = ContinueAction(
                                     flowId = "SignUp",
@@ -143,11 +140,9 @@ class EmailScreen(
                                 ),
                             ),
                             OutlinedButton(
+                                modifier = SdUiModifier().fillMaxWidth(),
                                 content = listOf(
                                     Text(textProperty = TextProperty(value = "Fechar"))
-                                ),
-                                horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                    HorizontalFillTypeOption.Max
                                 ),
                                 onClick = CloseAction()
                             )

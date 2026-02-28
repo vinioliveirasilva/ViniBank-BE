@@ -10,17 +10,16 @@ import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.property.FontSizeProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
@@ -42,20 +41,17 @@ class NewInvestmentScreen : InvestmentsScreen {
         ),
         content = availableProducts.map { (investmentName: String, screenName: String) ->
             Card(
-                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
                 content = listOf(
                     Row(
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                            HorizontalFillTypeOption.Max
-                        ),
+                        modifier = SdUiModifier().fillMaxWidth(),
                         horizontalArrangementProperty = HorizontalArrangementProperty(
                             HorizontalArrangementOption.SpaceBetween
                         ),
                         content = listOf(
                             Text(
-                                paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                paddingVerticalProperty = PaddingVerticalProperty(20),
+                                modifier = SdUiModifier().padding(horizontal = 20)
+                                    .padding(vertical = 20),
                                 textProperty = TextProperty(value = investmentName),
                             ),
                         ),
@@ -70,7 +66,11 @@ class NewInvestmentScreen : InvestmentsScreen {
         }
     )
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
@@ -88,7 +88,7 @@ class NewInvestmentScreen : InvestmentsScreen {
                                 ),
                             )
                         ),
-                        Spacer(heightProperty = HeightProperty(10)),
+                        Spacer(modifier = SdUiModifier().height(10)),
                         availableProducts(request)
                     )
                 ),

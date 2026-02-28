@@ -11,7 +11,7 @@ interface SdUiFlowController {
     fun getScreenUpdate(request: UpdateSdUiTemplateRequest): List<Component> = emptyList()
 }
 
-open class BaseFlowController <T : SdUiScreen>(
+open class BaseFlowController<T : SdUiScreen>(
     private val screens: List<T>,
     private val defaultScreen: T,
     override val flowId: String,
@@ -27,16 +27,17 @@ open class BaseFlowController <T : SdUiScreen>(
     }
 
     override fun getScreenUpdate(request: UpdateSdUiTemplateRequest): List<Component> {
-        if(request.screenData.isNotEmpty()) {
+        if (request.screenData.isNotEmpty()) {
             executeRule(request.toSdUiRequest())
         }
-        return screens.firstOrNull { it.screenId == request.toScreen }?.getScreenUpdate(request) ?: emptyList()
+        return screens.firstOrNull { it.screenId == request.toScreen }?.getScreenUpdate(request)
+            ?: emptyList()
     }
 
     private fun executeRule(request: SdUiRequest) =
         screens.firstOrNull { it.screenId == request.fromScreen }?.getRule(request)
 
-    private fun executeScreen(request: SdUiRequest) : Template {
+    private fun executeScreen(request: SdUiRequest): Template {
         val parameters = getQueryParameters(request.toScreen)
         val parsedScreenId = request.toScreen.stripQueryParameters()
 
@@ -47,9 +48,9 @@ open class BaseFlowController <T : SdUiScreen>(
         ) ?: getUndefinedScreen(request)
     }
 
-    private fun getQueryParameters(screenId: String) : Map<String, String> {
+    private fun getQueryParameters(screenId: String): Map<String, String> {
         val parameters = screenId.split("?").last()
-        if(parameters == screenId) return emptyMap()
+        if (parameters == screenId) return emptyMap()
         return parameters.split("&").associate {
             val (key, value) = it.split("=")
             key to value

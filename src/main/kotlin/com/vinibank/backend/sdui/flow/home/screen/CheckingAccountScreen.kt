@@ -20,46 +20,45 @@ import com.vini.designsystemsdui.component.SdUi
 import com.vini.designsystemsdui.component.SnackBar
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.property.BackgroundColorProperty
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.background
+import com.vini.designsystemsdui.modifier.clip
+import com.vini.designsystemsdui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
+import com.vini.designsystemsdui.modifier.width
 import com.vini.designsystemsdui.property.CardColorsProperty
 import com.vini.designsystemsdui.property.ColorProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
 import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.FontWeightProperty
 import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.LineHeightProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.RequestUpdateProperty
 import com.vini.designsystemsdui.property.ShapeProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.StageIdentifierProperty
 import com.vini.designsystemsdui.property.TextAlignProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.TintProperty
 import com.vini.designsystemsdui.property.VerticalAlignmentProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.VerticalFillTypeProperty
 import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.WidthProperty
 import com.vini.designsystemsdui.property.options.CardColorsModel
 import com.vini.designsystemsdui.property.options.FontWeightOption
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.ShapeOptions
 import com.vini.designsystemsdui.property.options.TextAlignOption
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
-import com.vini.designsystemsdui.property.options.color.BackgroundOption
 import com.vini.designsystemsdui.property.options.color.ColorOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
@@ -90,31 +89,23 @@ class CheckingAccountScreen(
         val checkingAccountTopSdUiRequestUpdate = PropertyIdWrapper<Boolean>("requestUpdate1")
     }
 
-
     private fun notificationIcon(request: SdUiRequest) = listOfNotNull(
         Icon(
             tintProperty = TintProperty(ColorOption.White()),
             iconNameProperty = IconNameProperty(IconOption.Notification)
         ),
         Column(
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                HorizontalFillTypeOption.Max
-            ),
+            modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 10),
             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                 HorizontalAlignmentOption.End
             ),
-            paddingHorizontalProperty = PaddingHorizontalProperty(10),
             content = listOf(
                 Column(
-                    heightProperty = HeightProperty(8),
-                    widthProperty = WidthProperty(8),
-                    shapeProperty = ShapeProperty(ShapeOptions.Circle),
-                    backgroundColorProperty = BackgroundColorProperty(
-                        ColorOption.Red()
-                    )
+                    modifier = SdUiModifier().height(8).width(8).clip(ShapeOption.Circle())
+                        .background(ColorOption.Red()),
                 ),
                 Spacer(
-                    sizeProperty = SizeProperty(10)
+                    modifier = SdUiModifier().size(10),
                 )
             )
         ).takeIf {
@@ -128,7 +119,7 @@ class CheckingAccountScreen(
             DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
         private val outputFormatter =
-            DateTimeFormatter.ofPattern("dd 'de' MMMM", Locale("pt", "BR"))
+            DateTimeFormatter.ofPattern("dd 'de' MMM", Locale("pt", "BR"))
 
         fun parse(date: String): String {
             val localDate = LocalDate.parse(date, inputFormatter)
@@ -173,19 +164,18 @@ class CheckingAccountScreen(
         fun transactionItem(
             transaction: CheckingAccountTransaction,
         ) = Card(
+            modifier = SdUiModifier().fillMaxWidth(),
             cardColorsProperty = CardColorsProperty(
                 CardColorsModel(
                     containerColor = ColorOption.CustomColor(0x881E293B),
                     contentColor = ColorOption.White(),
                 )
             ),
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
             content = listOf(
                 Row(
+                    modifier = SdUiModifier().padding(vertical = 10).padding(horizontal = 10)
+                        .fillMaxWidth(),
                     verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
-                    paddingVerticalProperty = PaddingVerticalProperty(10),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(10),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                     horizontalArrangementProperty = HorizontalArrangementProperty(
                         HorizontalArrangementOption.SpaceBetween
                     ),
@@ -196,27 +186,26 @@ class CheckingAccountScreen(
                             ),
                             content = listOf(
                                 Card(
+                                    modifier = SdUiModifier().width(40).height(40),
                                     cardColorsProperty = CardColorsProperty(
                                         CardColorsModel(
                                             containerColor = ColorOption.CustomColor(0x1A2B8CEE),
                                             contentColor = ColorOption.CustomColor(0xff2B8CEE),
                                         )
                                     ),
-                                    widthProperty = WidthProperty(40),
-                                    heightProperty = HeightProperty(40),
                                     content = listOf(
                                         Icon(
+                                            modifier = SdUiModifier().padding(horizontal = 10)
+                                                .padding(vertical = 10),
                                             iconNameProperty = IconNameProperty(
                                                 getTransactionIcon(
                                                     transaction
                                                 )
                                             ),
-                                            paddingHorizontalProperty = PaddingHorizontalProperty(10),
-                                            paddingVerticalProperty = PaddingVerticalProperty(10),
                                         ),
                                     )
                                 ),
-                                Spacer(sizeProperty = SizeProperty(12)),
+                                Spacer(modifier = SdUiModifier().size(12)),
                                 Column(
                                     content = listOf(
                                         Text(
@@ -243,7 +232,7 @@ class CheckingAccountScreen(
                             ),
                         ),
                         Row(
-                            paddingVerticalProperty = PaddingVerticalProperty(10),
+                            modifier = SdUiModifier().padding(vertical = 10),
                             verticalAlignmentProperty = VerticalAlignmentProperty(
                                 VerticalAlignmentOption.Center
                             ),
@@ -263,7 +252,7 @@ class CheckingAccountScreen(
                                     ),
                                 ),
                                 Spacer(
-                                    sizeProperty = SizeProperty(8)
+                                    modifier = SdUiModifier().size(8),
                                 )
                             )
                         ),
@@ -284,35 +273,30 @@ class CheckingAccountScreen(
             ),
             content = listOf(
                 Card(
+                    modifier = SdUiModifier().height(56).width(56),
                     cardColorsProperty = CardColorsProperty(
                         CardColorsModel(
                             containerColor = ColorOption.CustomColor(0x1A2B8CEE),
                             contentColor = ColorOption.CustomColor(0xff2B8CEE),
                         )
                     ),
-                    heightProperty = HeightProperty(56),
-                    widthProperty = WidthProperty(56),
                     shapeProperty = ShapeProperty(ShapeOptions.Large),
                     content = listOf(
                         Row(
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
+                            modifier = SdUiModifier().fillMaxWidth(),
                             horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.Center
                             ),
                             content = listOf(
                                 Column(
+                                    modifier = SdUiModifier().fillMaxHeight(),
                                     verticalArrangementProperty = VerticalArrangementProperty(
                                         VerticalArrangementOption.Center
-                                    ),
-                                    verticalFillTypeProperty = VerticalFillTypeProperty(
-                                        VerticalFillTypeOption.Max
                                     ),
                                     content = listOf(
                                         Icon(
                                             iconNameProperty = IconNameProperty(icon),
-                                            sizeProperty = SizeProperty(20),
+                                            modifier = SdUiModifier().size(20),
                                         )
                                     )
                                 )
@@ -322,17 +306,16 @@ class CheckingAccountScreen(
                     onClick = onClickAction
                 ),
                 Text(
+                    modifier = SdUiModifier().padding(vertical = 10),
                     colorProperty = ColorProperty(textColor),
                     textProperty = TextProperty(name),
-                    fontSizeProperty = FontSizeProperty(11f),
-                    paddingVerticalProperty = PaddingVerticalProperty(10)
+                    fontSizeProperty = FontSizeProperty(11f)
                 ),
             ),
         )
 
         fun PerfilDoUsuario() = Row(
-            paddingHorizontalProperty = PaddingHorizontalProperty(20),
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+            modifier = SdUiModifier().padding(horizontal = 20).fillMaxWidth(),
             horizontalArrangementProperty = HorizontalArrangementProperty(
                 HorizontalArrangementOption.SpaceBetween
             ),
@@ -342,10 +325,10 @@ class CheckingAccountScreen(
                     content = listOf(
                         Image(
                             iconNameProperty = IconNameProperty(IconOption.User),
-                            sizeProperty = SizeProperty(48),
+                            modifier = SdUiModifier().size(48),
                             tintProperty = TintProperty(ColorOption.White())
                         ),
-                        Spacer(widthProperty = WidthProperty(5)),
+                        Spacer(modifier = SdUiModifier().width(5)),
                         Column(
                             verticalArrangementProperty = VerticalArrangementProperty(
                                 VerticalArrangementOption.Center
@@ -367,14 +350,11 @@ class CheckingAccountScreen(
                     )
                 ),
                 Column(
-                    backgroundColorProperty = BackgroundColorProperty(
-                        BackgroundOption.from(
-                            ColorOption.CustomColor(
-                                hex = 0xff1E293B
-                            )
+                    modifier = SdUiModifier().clip(ShapeOption.Circle()).background(
+                        ColorOption.CustomColor(
+                            hex = 0xff1E293B
                         )
                     ),
-                    shapeProperty = ShapeProperty(ShapeOptions.Circle),
                     content = listOf(
                         IconButton(
                             content = notificationIcon(request),
@@ -388,6 +368,7 @@ class CheckingAccountScreen(
         )
 
         fun SaldoDaConta() = SdUi(
+            modifier = SdUiModifier().fillMaxWidth(),
             flowIdentifierProperty = FlowIdentifierProperty("Home"),
             stageIdentifierProperty = StageIdentifierProperty("Balance"),
             fromScreenIdentifierProperty = FromScreenIdentifierProperty(
@@ -396,15 +377,12 @@ class CheckingAccountScreen(
             requestUpdateProperty = RequestUpdateProperty(
                 idWrapper = checkingAccountTopSdUiRequestUpdate
             ),
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                HorizontalFillTypeOption.Max
-            ),
             template = routingController.getTemplate(request.copy(toScreen = "Balance"))
         )
 
         fun Servicos() = listOf(
             Row(
-                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                modifier = SdUiModifier().fillMaxWidth(),
                 horizontalArrangementProperty = HorizontalArrangementProperty(
                     HorizontalArrangementOption.SpaceBetween
                 ),
@@ -423,12 +401,12 @@ class CheckingAccountScreen(
                     ),
                 )
             ),
-            Spacer(sizeProperty = SizeProperty(16)),
+            Spacer(modifier = SdUiModifier().size(16)),
             Row(
+                modifier = SdUiModifier().fillMaxWidth(),
                 horizontalArrangementProperty = HorizontalArrangementProperty(
                     HorizontalArrangementOption.SpaceBetween
                 ),
-                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 content = listOf(
                     actionIcon(
                         "Cards",
@@ -454,7 +432,7 @@ class CheckingAccountScreen(
 
         fun LastTransactions() = listOf(
             Row(
-                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                modifier = SdUiModifier().fillMaxWidth(),
                 horizontalArrangementProperty = HorizontalArrangementProperty(
                     HorizontalArrangementOption.SpaceBetween
                 ),
@@ -478,7 +456,7 @@ class CheckingAccountScreen(
                         transactionItem(it)
                     }
             ),
-            Spacer(sizeProperty = SizeProperty(8))
+            Spacer(modifier = SdUiModifier().size(8))
         )
 
 
@@ -489,26 +467,21 @@ class CheckingAccountScreen(
             content = listOf(
                 BackHandler(onBackAction = CloseApplicationAction()),
                 Column(
-                    horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                        HorizontalAlignmentOption.Center
-                    ),
-                    backgroundColorProperty = BackgroundColorProperty(
+                    modifier = SdUiModifier().fillMaxWidth().background(
                         ColorOption.CustomColor(
                             0xff101922
                         )
                     ),
-                    weightProperty = WeightProperty(1f),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                        HorizontalFillTypeOption.Max
+                    horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                        HorizontalAlignmentOption.Center
                     ),
+                    weightProperty = WeightProperty(1f),
                     content = listOf(
                         PerfilDoUsuario(),
                         Column(
-                            shapeProperty = ShapeProperty(ShapeOptions.CustomTop(40)),
+                            modifier = SdUiModifier().fillMaxWidth()
+                                .clip(shape = ShapeOption.RoundedCornerEdges(40, 40)),
                             weightProperty = WeightProperty(1f),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
                             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                 HorizontalAlignmentOption.Center
                             ),
@@ -543,38 +516,27 @@ class CheckingAccountScreen(
                                     )
                                 ),
                                 LazyColumn(
+                                    modifier = SdUiModifier().fillMaxWidth(),
                                     weightProperty = WeightProperty(1f),
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
-                                    ),
                                     horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                         HorizontalAlignmentOption.Center
                                     ),
                                     content = listOf(
                                         Column(
-                                            paddingHorizontalProperty = PaddingHorizontalProperty(
-                                                24
-                                            ),
+                                            modifier = SdUiModifier().padding(horizontal = 24),
                                             content = listOf(
-                                                Spacer(sizeProperty = SizeProperty(20)),
+                                                Spacer(modifier = SdUiModifier().size(20)),
                                                 SaldoDaConta(),
-                                                Spacer(sizeProperty = SizeProperty(10)),
+                                                Spacer(modifier = SdUiModifier().size(10)),
                                             )
                                         ),
                                         Column(
-                                            paddingHorizontalProperty = PaddingHorizontalProperty(
-                                                24
-                                            ),
-                                            paddingVerticalProperty = PaddingVerticalProperty(10),
-                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                                HorizontalFillTypeOption.Max
-                                            ),
+                                            modifier = SdUiModifier().padding(horizontal = 24)
+                                                .padding(vertical = 10).fillMaxWidth(),
                                             content = Servicos()
                                         ),
                                         Column(
-                                            paddingHorizontalProperty = PaddingHorizontalProperty(
-                                                24
-                                            ),
+                                            modifier = SdUiModifier().padding(horizontal = 24),
                                             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                                 HorizontalAlignmentOption.Center
                                             ),

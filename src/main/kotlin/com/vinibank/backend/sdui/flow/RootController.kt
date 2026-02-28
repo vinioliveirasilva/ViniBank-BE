@@ -40,7 +40,11 @@ class RootController(
         @RequestHeader(value = "sessionId") sessionId: String,
         @RequestBody request: String,
     ): ResponseEntity<String> {
-        return cryptoFilter.handleUpdateRequest(request, iv, sessionId) { output: UpdateSdUiTemplateRequest ->
+        return cryptoFilter.handleUpdateRequest(
+            request,
+            iv,
+            sessionId
+        ) { output: UpdateSdUiTemplateRequest ->
             Thread.sleep(200)
             Json.encodeToString(routingController.getSdUiScreenUpdate(output))
         }

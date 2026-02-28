@@ -11,16 +11,15 @@ import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.property.FontSizeProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.TextAlignProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.TextAlignOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
@@ -58,9 +57,7 @@ class CDBWalletScreen : InvestmentsScreen {
     )
 
     private fun cardRow(label: String, value: String) = Row(
-        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-            HorizontalFillTypeOption.Max
-        ),
+        modifier = SdUiModifier().fillMaxWidth(),
         horizontalArrangementProperty = HorizontalArrangementProperty(
             HorizontalArrangementOption.SpaceBetween
         ),
@@ -80,9 +77,8 @@ class CDBWalletScreen : InvestmentsScreen {
         request: SdUiRequest,
     ) = availableOptions.map {
         Card(
-            paddingVerticalProperty = PaddingVerticalProperty(10),
-            paddingHorizontalProperty = PaddingHorizontalProperty(10),
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+            modifier = SdUiModifier().padding(vertical = 10).padding(horizontal = 10)
+            .fillMaxWidth(),
             onClick = ContinueAction(
                 flowId = request.flow,
                 nextScreenId = "hireFund",
@@ -93,13 +89,10 @@ class CDBWalletScreen : InvestmentsScreen {
             ),
             content = listOf(
                 Column(
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                    paddingVerticalProperty = PaddingVerticalProperty(10),
+                    modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 10),
                     content = listOf(
                         Row(
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
+                            modifier = SdUiModifier().fillMaxWidth(),
                             horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.Center
                             ),
@@ -110,7 +103,7 @@ class CDBWalletScreen : InvestmentsScreen {
                                 ),
                             ),
                         ),
-                        Spacer(heightProperty = HeightProperty(10)),
+                        Spacer(modifier = SdUiModifier().height(10)),
                         cardRow("Saldo atual", it.balance),
                         cardRow("Disponivel para resgate", it.availableToRedeem),
                         cardRow("Rentabilidade", it.rentability),
@@ -120,7 +113,11 @@ class CDBWalletScreen : InvestmentsScreen {
         )
     }
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         println("CDB: $request")
         return DefaultTemplate(
             flow = request.flow,
@@ -128,7 +125,7 @@ class CDBWalletScreen : InvestmentsScreen {
             version = "1",
             scene = SceneStrategy.DualPane(),
             cacheStrategy = CacheStrategy.NoCache(),
-            content =  listOf(
+            content = listOf(
                 LazyColumn(
                     content = listOf(
                         TopAppBar(
@@ -140,17 +137,16 @@ class CDBWalletScreen : InvestmentsScreen {
                             )
                         ),
                         Text(
+                            modifier = SdUiModifier().padding(vertical = 10)
+                                .padding(horizontal = 10).fillMaxWidth(),
                             textProperty = TextProperty(value = "Ativos"),
                             fontSizeProperty = FontSizeProperty(18f),
-                            paddingVerticalProperty = PaddingVerticalProperty(10),
-                            paddingHorizontalProperty = PaddingHorizontalProperty(10),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             textAlignProperty = TextAlignProperty(TextAlignOption.Center)
                         ),
                         Column(
                             content = availableFundOption(request)
                         ),
-                        Spacer(heightProperty = HeightProperty(10)),
+                        Spacer(modifier = SdUiModifier().height(10)),
                     )
                 )
             )

@@ -33,7 +33,7 @@ class CardsController(private val email: String) {
         return Pair(getInternalScreen(request), null)
     }
 
-    private fun getInternalScreen(request: SdUiRequest) : JsonObject = when (request.toScreen) {
+    private fun getInternalScreen(request: SdUiRequest): JsonObject = when (request.toScreen) {
 //        "Cartoes/card1" -> PlatinumCardDetails.getScreenModel(request.screenData)
 //        "Cartoes/card2" -> GoldCardDetails.getScreenModel(request.screenData)
 //        "Cartoes/card2/billing" -> Billing.getScreenModel(request.screenData)

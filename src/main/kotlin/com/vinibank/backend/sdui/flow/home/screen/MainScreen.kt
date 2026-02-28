@@ -14,33 +14,32 @@ import com.vini.designsystemsdui.component.OutlinedButton
 import com.vini.designsystemsdui.component.SdUi
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.property.BackgroundColorProperty
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.background
+import com.vini.designsystemsdui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
 import com.vini.designsystemsdui.property.ContainerColorProperty
 import com.vini.designsystemsdui.property.ContentColorProperty
 import com.vini.designsystemsdui.property.DestinationIndexProperty
 import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.FlowIdentifierProperty
 import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.NavigationBarItemColorProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
 import com.vini.designsystemsdui.property.SelectedDestinationIndexProperty
 import com.vini.designsystemsdui.property.ShapeProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.StageIdentifierProperty
 import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.VerticalFillTypeProperty
 import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.NavigationBarItemColorsModel
 import com.vini.designsystemsdui.property.options.ShapeOptions
-import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.options.color.ColorOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
@@ -54,12 +53,16 @@ import org.springframework.stereotype.Component
 
 @Component
 class MainScreen(
-    @Lazy private val routingController: RoutingController
+    @Lazy private val routingController: RoutingController,
 ) : HomeScreen {
     override val screenId: String
         get() = "Start"
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         val bottomNavigationId = PropertyIdWrapper<Int>(id = "bottomNavigation.selectedDestination")
 
         val navItemColors = NavigationBarItemColorProperty(
@@ -133,13 +136,13 @@ class MainScreen(
 
         val sdUiStageId = PropertyIdWrapper<String>("bottomNavigation.selectedDestinationContent")
         val content = SdUi(
+            modifier = SdUiModifier().fillMaxWidth(),
             flowIdentifierProperty = FlowIdentifierProperty("Home"),
             stageIdentifierProperty = StageIdentifierProperty(
                 "ContaCorrente",
                 sdUiStageId
             ),
             fromScreenIdentifierProperty = FromScreenIdentifierProperty(screenId),
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
             weightProperty = WeightProperty(1f),
             validators = listOf(
                 intToStringValidator(
@@ -166,46 +169,41 @@ class MainScreen(
             version = "1",
             content = listOf(
                 Column(
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                        HorizontalFillTypeOption.Max
+                    modifier = SdUiModifier().fillMaxWidth().fillMaxHeight().background(
+                        ColorOption.CustomColor(
+                            0xff101922
+                        )
                     ),
-                    verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                    backgroundColorProperty = BackgroundColorProperty(ColorOption.CustomColor(0xff101922)),
                     content = listOf(
                         BackHandler(
                             enabledProperty = EnabledProperty(true),
                             onBackAction = ToBooleanAction(showExitBottomSheetId, true)
                         ),
                         BottomSheet(
+                            modifier = SdUiModifier(),
                             visibilityProperty = VisibilityProperty(false, showExitBottomSheetId),
                             content = listOf(
                                 Column(
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
-                                    ),
+                                    modifier = SdUiModifier().fillMaxWidth()
+                                        .padding(horizontal = 10),
                                     horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                         HorizontalAlignmentOption.Center
                                     ),
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(10),
                                     content = listOf(
                                         Text(textProperty = TextProperty("Tem certeza que deseja sair?")),
-                                        Spacer(heightProperty = HeightProperty(10)),
+                                        Spacer(modifier = SdUiModifier().height(10)),
                                         Button(
+                                            modifier = SdUiModifier().fillMaxWidth(),
                                             shapeProperty = ShapeProperty(ShapeOptions.Large),
-                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                                HorizontalFillTypeOption.Max
-                                            ),
                                             content = listOf(
                                                 Text(textProperty = TextProperty("Sair do App"))
                                             ),
                                             onClick = CloseApplicationAction()
                                         ),
-                                        Spacer(heightProperty = HeightProperty(4)),
+                                        Spacer(modifier = SdUiModifier().height(4)),
                                         OutlinedButton(
+                                            modifier = SdUiModifier().fillMaxWidth(),
                                             shapeProperty = ShapeProperty(ShapeOptions.Large),
-                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                                HorizontalFillTypeOption.Max
-                                            ),
                                             content = listOf(
                                                 Text(textProperty = TextProperty("Cancelar"))
                                             ),
@@ -216,14 +214,14 @@ class MainScreen(
                             )
                         ),
                         //topAppBar,
-                        Spacer(sizeProperty = SizeProperty(36)),
+                        Spacer(modifier = SdUiModifier().size(36)),
                         content,
                         Column(
-                            backgroundColorProperty = BackgroundColorProperty(ColorOption.CustomColor(0xff1E293B)),
-                            heightProperty = HeightProperty(2),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            )
+                            modifier = SdUiModifier().height(2).fillMaxWidth().background(
+                                ColorOption.CustomColor(
+                                    0xff1E293B
+                                )
+                            ),
                         ),
                         bottomNavigation
                     )

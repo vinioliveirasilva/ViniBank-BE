@@ -11,16 +11,15 @@ import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.property.FontSizeProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.db.FundsDatabase
@@ -33,7 +32,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class AvailableFundsScreen(
-    private val fundsDatabase: FundsDatabase
+    private val fundsDatabase: FundsDatabase,
 ) : InvestmentsScreen {
     override val screenId: String = "AvailableFunds"
 
@@ -41,7 +40,7 @@ class AvailableFundsScreen(
         request: SdUiRequest,
     ) = fundsDatabase.getAllFunds().values.map {
         Card(
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+            modifier = SdUiModifier().fillMaxWidth(),
             onClick = ContinueAction(
                 flowId = request.flow,
                 nextScreenId = "hireFund",
@@ -52,13 +51,10 @@ class AvailableFundsScreen(
             ),
             content = listOf(
                 Column(
-                    paddingHorizontalProperty = PaddingHorizontalProperty(10),
-                    paddingVerticalProperty = PaddingVerticalProperty(10),
+                    modifier = SdUiModifier().padding(horizontal = 10).padding(vertical = 10),
                     content = listOf(
                         Row(
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
+                            modifier = SdUiModifier().fillMaxWidth(),
                             horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.Center
                             ),
@@ -69,11 +65,9 @@ class AvailableFundsScreen(
                                 ),
                             ),
                         ),
-                        Spacer(heightProperty = HeightProperty(10)),
+                        Spacer(modifier = SdUiModifier().height(10)),
                         Row(
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
+                            modifier = SdUiModifier().fillMaxWidth(),
                             horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.SpaceBetween
                             ),
@@ -89,9 +83,7 @@ class AvailableFundsScreen(
                             ),
                         ),
                         Row(
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
+                            modifier = SdUiModifier().fillMaxWidth(),
                             horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.SpaceBetween
                             ),
@@ -107,9 +99,7 @@ class AvailableFundsScreen(
                             ),
                         ),
                         Row(
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
+                            modifier = SdUiModifier().fillMaxWidth(),
                             horizontalArrangementProperty = HorizontalArrangementProperty(
                                 HorizontalArrangementOption.SpaceBetween
                             ),
@@ -130,7 +120,11 @@ class AvailableFundsScreen(
         )
     }
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
@@ -146,14 +140,14 @@ class AvailableFundsScreen(
                         )
                     )
                 ),
-                Spacer(heightProperty = HeightProperty(10)),
+                Spacer(modifier = SdUiModifier().height(10)),
                 LazyColumn(
+                    modifier = SdUiModifier().padding(horizontal = 20),
                     verticalArrangementProperty = VerticalArrangementProperty(
                         VerticalArrangementOption.SpacedBy(
                             10
                         )
                     ),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     content = availableFundOption(request)
                 )
             )

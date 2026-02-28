@@ -10,20 +10,19 @@ import com.vini.designsystemsdui.component.OutlinedButton
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
 import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.ValidPasswordProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.VerticalFillTypeProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.db.UserDatabase
@@ -50,44 +49,49 @@ class PasswordScreen(
         userDb.addUser(model.name, model.email, model.password, model.phone)
     }
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         val screenFlowId = "${request.flow}.${screenId}"
 
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content =  listOf(
+            content = listOf(
                 TopAppBar(
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
                     title = listOf(
                         Text(textProperty = TextProperty("Criar Senha"))
                     )
                 ),
                 Spacer(
-                    sizeProperty = SizeProperty(20)
+                    modifier = SdUiModifier().size(20)
                 ),
                 CreatePassword(
+                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
                     textProperty = TextProperty("", passwordInputId),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     validPasswordProperty = ValidPasswordProperty(false, isPasswordValid)
                 ),
                 Column(
-                    horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                    modifier = SdUiModifier().padding(horizontal = 20).fillMaxWidth()
+                        .fillMaxHeight(),
+                    horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                        HorizontalAlignmentOption.Center
+                    ),
                     weightProperty = WeightProperty(1f),
-                    verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
-                    content =  listOf(
+                    verticalArrangementProperty = VerticalArrangementProperty(
+                        VerticalArrangementOption.Bottom
+                    ),
+                    content = listOf(
                         Button(
+                            modifier = SdUiModifier().fillMaxWidth(),
                             content = listOf(
                                 Text(textProperty = TextProperty(value = "Continuar"))
                             ),
                             enabledProperty = EnabledProperty(false, isPasswordValid),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             onClick = ContinueAction(
                                 flowId = request.flow,
                                 currentScreenId = screenId,
@@ -99,15 +103,15 @@ class PasswordScreen(
                             ),
                         ),
                         OutlinedButton(
+                            modifier = SdUiModifier().fillMaxWidth(),
                             content = listOf(
                                 Text(textProperty = TextProperty(value = "Voltar"))
                             ),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                             onClick = BackAction()
                         ),
                     )
                 ),
-                Spacer(sizeProperty = SizeProperty(20)),
+                Spacer(modifier = SdUiModifier().size(20)),
             )
         )
     }

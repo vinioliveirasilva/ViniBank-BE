@@ -11,6 +11,12 @@ import com.vini.designsystemsdui.component.IconButton
 import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
+import com.vini.designsystemsdui.modifier.width
 import com.vini.designsystemsdui.property.ButtonColorsProperty
 import com.vini.designsystemsdui.property.CardColorsProperty
 import com.vini.designsystemsdui.property.ColorProperty
@@ -18,29 +24,21 @@ import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.FontWeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.ShapeProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalAlignmentProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.VerticalFillTypeProperty
 import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.WidthProperty
 import com.vini.designsystemsdui.property.options.ButtonColorsModel
 import com.vini.designsystemsdui.property.options.CardColorsModel
 import com.vini.designsystemsdui.property.options.FontWeightOption
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.ShapeOptions
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.options.color.ColorOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.UpdateSdUiTemplateRequest
@@ -68,7 +66,11 @@ class BalanceContent : HomeScreen {
         ),
     )
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
@@ -86,22 +88,17 @@ class BalanceContent : HomeScreen {
                     shapeProperty = ShapeProperty(ShapeOptions.Large),
                     content = listOf(
                         Column(
-                            paddingHorizontalProperty = PaddingHorizontalProperty(24),
-                            paddingVerticalProperty = PaddingVerticalProperty(24),
+                            modifier = SdUiModifier().padding(horizontal = 24)
+                                .padding(vertical = 24).fillMaxHeight(),
                             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                 HorizontalAlignmentOption.Center
                             ),
                             verticalArrangementProperty = VerticalArrangementProperty(
                                 VerticalArrangementOption.Center
                             ),
-                            verticalFillTypeProperty = VerticalFillTypeProperty(
-                                VerticalFillTypeOption.Max
-                            ),
                             content = listOf(
                                 Row(
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
-                                    ),
+                                    modifier = SdUiModifier().fillMaxWidth(),
                                     verticalAlignmentProperty = VerticalAlignmentProperty(
                                         VerticalAlignmentOption.Center
                                     ),
@@ -151,11 +148,9 @@ class BalanceContent : HomeScreen {
                                         ),
                                     )
                                 ),
-                                Spacer(sizeProperty = SizeProperty(24)),
+                                Spacer(modifier = SdUiModifier().size(24)),
                                 Row(
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
-                                    ),
+                                    modifier = SdUiModifier().fillMaxWidth(),
                                     horizontalArrangementProperty = HorizontalArrangementProperty(
                                         HorizontalArrangementOption.SpaceBetween
                                     ),
@@ -173,10 +168,10 @@ class BalanceContent : HomeScreen {
                                             weightProperty = WeightProperty(1f),
                                             content = listOf(
                                                 Icon(
-                                                    sizeProperty = SizeProperty(16),
+                                                    modifier = SdUiModifier().size(16),
                                                     iconNameProperty = IconNameProperty(IconOption.Money)
                                                 ),
-                                                Spacer(sizeProperty = SizeProperty(8)),
+                                                Spacer(modifier = SdUiModifier().size(8)),
                                                 Text(
                                                     textProperty = TextProperty("Transferir"),
                                                     fontSizeProperty = FontSizeProperty(14f),
@@ -186,9 +181,7 @@ class BalanceContent : HomeScreen {
                                                 )
                                             ),
                                         ),
-                                        Spacer(
-                                            widthProperty = WidthProperty(12)
-                                        ),
+                                        Spacer(modifier = SdUiModifier().width(12)),
                                         Button(
                                             buttonColorsProperty = ButtonColorsProperty(
                                                 value = ButtonColorsModel(
@@ -202,10 +195,10 @@ class BalanceContent : HomeScreen {
                                             weightProperty = WeightProperty(1f),
                                             content = listOf(
                                                 Icon(
-                                                    sizeProperty = SizeProperty(16),
+                                                    modifier = SdUiModifier().size(16),
                                                     iconNameProperty = IconNameProperty(IconOption.Add)
                                                 ),
-                                                Spacer(sizeProperty = SizeProperty(8)),
+                                                Spacer(modifier = SdUiModifier().size(8)),
                                                 Text(
                                                     textProperty = TextProperty("Investir"),
                                                     fontSizeProperty = FontSizeProperty(14f),

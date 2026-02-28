@@ -7,5 +7,5 @@ import kotlinx.serialization.Transient
 @Serializable
 data class EmailScreenState(
     @SerialName("email") val email: String = "",
-    @Transient val isError: Boolean = false
+    @Transient val isError: Boolean = false,
 )

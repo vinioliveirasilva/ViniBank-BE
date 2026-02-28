@@ -3,7 +3,8 @@ package com.vinibank.backend.sdui.flow.investments.screen
 import com.vini.designsystemsdui.CacheStrategy
 import com.vini.designsystemsdui.SceneStrategy
 import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.ToBooleanAction
+import com.vini.designsystemsdui.action.MultipleActions
+import com.vini.designsystemsdui.action.ToModifierAction
 import com.vini.designsystemsdui.component.Button
 import com.vini.designsystemsdui.component.Card
 import com.vini.designsystemsdui.component.Column
@@ -15,22 +16,22 @@ import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.modifier.BaseModifier
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.visible
 import com.vini.designsystemsdui.property.ConfirmedDateProperty
 import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.FontSizeProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.KeyboardOptionsProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.ShapeProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.VisibilityProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.KeyboardOptionsOption
 import com.vini.designsystemsdui.property.options.ShapeOptions
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
@@ -55,9 +56,7 @@ class HireFundScreen(
     override val screenId: String = "hireFund"
 
     private fun cardRow(label: String, value: String) = Row(
-        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-            HorizontalFillTypeOption.Max
-        ),
+        modifier = SdUiModifier().fillMaxWidth(),
         horizontalArrangementProperty = HorizontalArrangementProperty(
             HorizontalArrangementOption.SpaceBetween
         ),
@@ -73,7 +72,11 @@ class HireFundScreen(
         ),
     )
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
 
         val fundId = request.screenData?.get("fundId")?.jsonPrimitive?.content ?: ""
         val fundInfo = fundsDatabase.getFundInfo(fundId)
@@ -83,9 +86,11 @@ class HireFundScreen(
         val hasMinimumToInvestId = PropertyIdWrapper<Boolean>("valueToInvest")
         val valueToInvestId = PropertyIdWrapper<String>("HireFundMonetaryInput")
         val dateHasBeenSelected = PropertyIdWrapper<Boolean>("dateHasBeenSelected")
+        val dateSelectionInfoVisibilityId =
+            PropertyIdWrapper<BaseModifier>("dateSelectionInfoVisibility")
         val selectedDateId = PropertyIdWrapper<String>("dateParsed")
         val confirmedDateId = PropertyIdWrapper<Long>("confirmedDateId")
-        val showDatePickerId = PropertyIdWrapper<Boolean>("showDatePicker")
+        val showDatePickerId = PropertyIdWrapper<BaseModifier>("showDatePicker")
         val allValidationConfirmed = PropertyIdWrapper<Boolean>("allValidationConfirmed")
 
         return DefaultTemplate(
@@ -93,10 +98,12 @@ class HireFundScreen(
             stage = screenId,
             version = "1",
             cacheStrategy = CacheStrategy.NoCache(),
-            scene = SceneStrategy.DualPane(id = "1" ),
+            scene = SceneStrategy.DualPane(id = "1"),
             content = listOf(
                 LazyColumn(
-                    verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
+                    verticalArrangementProperty = VerticalArrangementProperty(
+                        VerticalArrangementOption.SpaceBetween
+                    ),
                     weightProperty = WeightProperty(1f),
                     content = listOf(
                         Column(
@@ -110,21 +117,17 @@ class HireFundScreen(
                                         ),
                                     )
                                 ),
-                                Spacer(heightProperty = HeightProperty(10)),
+                                Spacer(modifier = SdUiModifier().height(10)),
                                 Card(
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
-                                    ),
+                                    modifier = SdUiModifier().padding(horizontal = 20)
+                                        .fillMaxWidth(),
                                     content = listOf(
                                         Column(
-                                            paddingHorizontalProperty = PaddingHorizontalProperty(10),
-                                            paddingVerticalProperty = PaddingVerticalProperty(10),
+                                            modifier = SdUiModifier().padding(horizontal = 10)
+                                                .padding(vertical = 10),
                                             content = listOf(
                                                 Row(
-                                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                                        HorizontalFillTypeOption.Max
-                                                    ),
+                                                    modifier = SdUiModifier().fillMaxWidth(),
                                                     horizontalArrangementProperty = HorizontalArrangementProperty(
                                                         HorizontalArrangementOption.Center
                                                     ),
@@ -135,32 +138,44 @@ class HireFundScreen(
                                                         ),
                                                     ),
                                                 ),
-                                                Spacer(heightProperty = HeightProperty(10)),
+                                                Spacer(modifier = SdUiModifier().height(10)),
                                                 cardRow("Rentabilidade", fundInfo.rentability),
-                                                cardRow("Investimento Mínimo", fundInfo.minimumInvestment.toBrl()),
-                                                cardRow("Taxa de Administração", fundInfo.productTax),
+                                                cardRow(
+                                                    "Investimento Mínimo",
+                                                    fundInfo.minimumInvestment.toBrl()
+                                                ),
+                                                cardRow(
+                                                    "Taxa de Administração",
+                                                    fundInfo.productTax
+                                                ),
                                                 cardRow("Risco", fundInfo.riskLevel),
-                                                cardRow("Tempo sugerido de permanencia", fundInfo.suggestedTimeStay),
-                                                cardRow("Tempo limite para operação", fundInfo.hourLimitToInvestment),
+                                                cardRow(
+                                                    "Tempo sugerido de permanencia",
+                                                    fundInfo.suggestedTimeStay
+                                                ),
+                                                cardRow(
+                                                    "Tempo limite para operação",
+                                                    fundInfo.hourLimitToInvestment
+                                                ),
                                             ),
                                         )
                                     )
                                 ),
-                                Spacer(heightProperty = HeightProperty(10)),
+                                Spacer(modifier = SdUiModifier().height(10)),
                                 OutlinedTextInput(
+                                    modifier = SdUiModifier().fillMaxWidth()
+                                        .padding(horizontal = 20),
                                     label = listOf(
                                         Text(
+                                            modifier = SdUiModifier().fillMaxWidth()
+                                                .padding(horizontal = 20),
                                             textProperty = TextProperty(value = "Valor da aplicação"),
-                                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                                HorizontalFillTypeOption.Max
-                                            ),
-                                            paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                         )
                                     ),
                                     textProperty = TextProperty(idWrapper = valueToInvestId),
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                    keyboardOptionsProperty = KeyboardOptionsProperty(KeyboardOptionsOption.Number),
+                                    keyboardOptionsProperty = KeyboardOptionsProperty(
+                                        KeyboardOptionsOption.Number
+                                    ),
                                     prefix = listOf(
                                         Text(
                                             textProperty = TextProperty(value = "R$"),
@@ -176,15 +191,17 @@ class HireFundScreen(
                                     )
                                 ),
                                 Spacer(
-                                    heightProperty = HeightProperty(10),
-                                    visibilityProperty = VisibilityProperty(idWrapper = dateHasBeenSelected, value = false),
+                                    modifier = SdUiModifier().height(10)
+                                        .visible(false, dateSelectionInfoVisibilityId),
                                 ),
                                 Text(
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
+                                    modifier = SdUiModifier().padding(horizontal = 20)
+                                        .visible(false, dateSelectionInfoVisibilityId),
                                     textProperty = TextProperty("Data selecionada:"),
-                                    visibilityProperty = VisibilityProperty(idWrapper = dateHasBeenSelected, value = false),
                                 ),
                                 OutlinedButton(
+                                    modifier = SdUiModifier().fillMaxWidth()
+                                        .padding(horizontal = 20),
                                     content = listOf(
                                         Text(
                                             textProperty = TextProperty(
@@ -193,18 +210,30 @@ class HireFundScreen(
                                             )
                                         )
                                     ),
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
+                                    onClick = ToModifierAction(
+                                        SdUiModifier().visible(true, showDatePickerId)
                                     ),
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                    onClick = ToBooleanAction(showDatePickerId, true),
                                     shapeProperty = ShapeProperty(ShapeOptions.Small),
                                 ),
                                 ModalDatePicker(
-                                    visibilityProperty = VisibilityProperty(false, showDatePickerId),
+                                    modifier = SdUiModifier().visible(false, showDatePickerId),
                                     confirmedDateProperty = ConfirmedDateProperty(idWrapper = confirmedDateId),
-                                    onConfirmAction = ToBooleanAction(showDatePickerId, false),
-                                    onCancelAction = ToBooleanAction(showDatePickerId, false),
+                                    onConfirmAction = MultipleActions(
+                                        listOf(
+                                            ToModifierAction(
+                                                SdUiModifier().visible(false, showDatePickerId)
+                                            ),
+                                            ToModifierAction(
+                                                SdUiModifier().visible(
+                                                    true,
+                                                    dateSelectionInfoVisibilityId
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    onCancelAction = ToModifierAction(
+                                        SdUiModifier().visible(false, showDatePickerId)
+                                    ),
                                     validators = listOf(
                                         millisToDateStringValidator(
                                             idWrapper = selectedDateId,
@@ -221,11 +250,14 @@ class HireFundScreen(
                         ),
                         Column(
                             content = listOf(
-                                Spacer(heightProperty = HeightProperty(20)),
+                                Spacer(modifier = SdUiModifier().height(20)),
                                 Button(
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                    enabledProperty = EnabledProperty(idWrapper = allValidationConfirmed, value = false),
+                                    modifier = SdUiModifier().fillMaxWidth()
+                                        .padding(horizontal = 20),
+                                    enabledProperty = EnabledProperty(
+                                        idWrapper = allValidationConfirmed,
+                                        value = false
+                                    ),
                                     content = listOf(
                                         Text(
                                             textProperty = TextProperty(value = "Continuar")
@@ -234,11 +266,14 @@ class HireFundScreen(
                                     validators = listOf(
                                         allTrueValidator(
                                             idWrapper = allValidationConfirmed,
-                                            toValidate = listOf(dateHasBeenSelected, hasMinimumToInvestId)
+                                            toValidate = listOf(
+                                                dateHasBeenSelected,
+                                                hasMinimumToInvestId
+                                            )
                                         )
                                     )
                                 ),
-                                Spacer(heightProperty = HeightProperty(20)),
+                                Spacer(modifier = SdUiModifier().height(20)),
                             )
                         )
                     ),

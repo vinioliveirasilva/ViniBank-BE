@@ -12,20 +12,19 @@ import com.vini.designsystemsdui.component.LazyColumn
 import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalAlignmentProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
@@ -38,7 +37,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserDetailScreen(
-    private val userDetailRepository: UserDatabase
+    private val userDetailRepository: UserDatabase,
 ) : HomeScreen {
     override val screenId: String
         get() = "UserDetail"
@@ -49,38 +48,42 @@ class UserDetailScreen(
         return regex.replace(digitsOnly, "$1 $2 $3-$4")
     }
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
-        val user = userDetailRepository.users["vinioliveirasilva@outlook.com"] ?: User("", "", "", "")
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
+        val user =
+            userDetailRepository.users["vinioliveirasilva@outlook.com"] ?: User("", "", "", "")
 
         fun menuItem(name: String, icon: IconOption? = null) = Column(
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-            paddingHorizontalProperty = PaddingHorizontalProperty(20),
+            modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
             verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Center),
-            content =  listOf(
+            content = listOf(
                 Row(
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    paddingVerticalProperty = PaddingVerticalProperty(10),
+                    modifier = SdUiModifier().fillMaxWidth().padding(vertical = 10),
                     horizontalArrangementProperty = HorizontalArrangementProperty(
                         HorizontalArrangementOption.SpaceBetween
                     ),
                     verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
-                    content =  listOf(
+                    content = listOf(
                         Row(
-                            verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
-                            content =  listOfNotNull(
+                            verticalAlignmentProperty = VerticalAlignmentProperty(
+                                VerticalAlignmentOption.Center
+                            ),
+                            content = listOfNotNull(
                                 icon?.let {
                                     Icon(
+                                        modifier = SdUiModifier().padding(horizontal = 10).size(48),
                                         iconNameProperty = IconNameProperty(it),
-                                        paddingHorizontalProperty = PaddingHorizontalProperty(10),
-                                        sizeProperty = SizeProperty(48),
                                     )
                                 },
                                 Text(textProperty = TextProperty(name))
                             )
                         ),
                         Icon(
+                            modifier = SdUiModifier().padding(horizontal = 10),
                             iconNameProperty = IconNameProperty(IconOption.RightArrow),
-                            paddingHorizontalProperty = PaddingHorizontalProperty(10),
                         ),
                     )
                 ),
@@ -95,39 +98,34 @@ class UserDetailScreen(
         )
 
         val content = LazyColumn(
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+            modifier = SdUiModifier().fillMaxWidth(),
             weightProperty = WeightProperty(1f),
-            content =  listOf(
+            content = listOf(
                 Card(
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                    paddingVerticalProperty = PaddingVerticalProperty(10),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    content =  listOf(
+                    modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 10)
+                        .fillMaxWidth(),
+                    content = listOf(
                         Column(
-                            paddingVerticalProperty = PaddingVerticalProperty(20),
+                            modifier = SdUiModifier().padding(vertical = 20).fillMaxWidth(),
                             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                 HorizontalAlignmentOption.Center
                             ),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
-                            content =  listOf(
+                            content = listOf(
                                 Icon(
+                                    modifier = SdUiModifier().padding(horizontal = 20).size(96),
                                     iconNameProperty = IconNameProperty(IconOption.User),
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                    sizeProperty = SizeProperty(96),
                                 ),
                                 Text(
+                                    modifier = SdUiModifier().padding(horizontal = 20),
                                     textProperty = TextProperty(user.name),
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
                                 Text(
+                                    modifier = SdUiModifier().padding(horizontal = 20),
                                     textProperty = TextProperty(user.email),
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
                                 Text(
+                                    modifier = SdUiModifier().padding(horizontal = 20),
                                     textProperty = TextProperty(user.phone.formatPhoneNumber()),
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
                                 ),
                             )
                         )
@@ -144,14 +142,14 @@ class UserDetailScreen(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content =  listOf(
+            content = listOf(
                 TopAppBar(
-                    title =  listOf(
+                    title = listOf(
                         Text(textProperty = TextProperty("User Detail"))
                     ),
                     navigationIcon = listOf(
                         IconButton(
-                            content =  listOf(
+                            content = listOf(
                                 Icon(iconNameProperty = IconNameProperty(IconOption.LeftArrow))
                             ),
                             onClick = BackAction()

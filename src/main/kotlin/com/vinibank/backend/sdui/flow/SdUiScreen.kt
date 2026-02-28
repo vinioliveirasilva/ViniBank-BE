@@ -10,9 +10,11 @@ interface SdUiScreen {
     fun getScreen(
         request: SdUiRequest,
         parameters: Map<String, String> = emptyMap(),
-        screenId: String
+        screenId: String,
     ): Template?
+
     fun getRule(request: SdUiRequest) = Unit
 
-    fun getScreenUpdate(request: UpdateSdUiTemplateRequest): List<com.vini.designsystemsdui.Component> = emptyList()
+    fun getScreenUpdate(request: UpdateSdUiTemplateRequest): List<com.vini.designsystemsdui.Component> =
+        emptyList()
 }

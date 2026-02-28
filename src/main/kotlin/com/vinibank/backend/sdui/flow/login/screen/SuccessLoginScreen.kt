@@ -13,12 +13,16 @@ class SuccessLoginScreen() : LoginScreen {
     override val screenId: String
         get() = "Success"
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content =  listOf(
+            content = listOf(
                 Blank(
                     onAppear = BusinessSuccessAction(
                         screenData = request.screenData

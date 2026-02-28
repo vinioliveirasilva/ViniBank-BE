@@ -11,22 +11,21 @@ import com.vini.designsystemsdui.component.OutlinedTextInput
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
 import com.vini.designsystemsdui.property.EnabledProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.KeyboardOptionsProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.VerticalFillTypeProperty
 import com.vini.designsystemsdui.property.VisualTransformationProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.KeyboardOptionsOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.options.VisualTransformationOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
@@ -44,10 +43,9 @@ class PersonalInfoScreen : SignUpScreen {
     override fun getScreenUpdate(request: UpdateSdUiTemplateRequest): List<com.vini.designsystemsdui.Component> {
         return listOf(
             TopAppBar(
+                modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
                 id = "Salve.topAppBar",
                 cacheStrategy = CacheStrategy.AlwaysCache(),
-                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                paddingHorizontalProperty = PaddingHorizontalProperty(20),
                 title = listOf(
                     Text(textProperty = TextProperty("Informações Pessoais"))
                 )
@@ -55,7 +53,11 @@ class PersonalInfoScreen : SignUpScreen {
         )
     }
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         val screenFlowId = "${request.flow}.${screenId}"
 
         val nameInputId = PropertyIdWrapper<String>("$screenFlowId.nameInput")
@@ -73,19 +75,17 @@ class PersonalInfoScreen : SignUpScreen {
             version = "1",
             content = listOf(
                 TopAppBar(
+                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
                     id = "Salve.topAppBar",
                     cacheStrategy = CacheStrategy.NoCache(),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                    title =  listOf(
+                    title = listOf(
                         Text(textProperty = TextProperty("Informações Pessoais"))
                     )
                 ),
-                Spacer(sizeProperty = SizeProperty(20)),
+                Spacer(modifier = SdUiModifier().size(20)),
                 OutlinedTextInput(
+                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
                     textProperty = TextProperty(idWrapper = nameInputId),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     label = listOf(
                         Text(textProperty = TextProperty(value = "Nome completo"))
                     ),
@@ -97,11 +97,10 @@ class PersonalInfoScreen : SignUpScreen {
                         )
                     )
                 ),
-                Spacer(sizeProperty = SizeProperty(20)),
+                Spacer(modifier = SdUiModifier().size(20)),
                 OutlinedTextInput(
+                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
                     textProperty = TextProperty(idWrapper = documentInputId),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     label = listOf(
                         Text(textProperty = TextProperty(value = "CPF"))
                     ),
@@ -117,11 +116,10 @@ class PersonalInfoScreen : SignUpScreen {
                         )
                     )
                 ),
-                Spacer(sizeProperty = SizeProperty(20)),
+                Spacer(modifier = SdUiModifier().size(20)),
                 OutlinedTextInput(
+                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
                     textProperty = TextProperty(idWrapper = phoneInputId),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
                     label = listOf(
                         Text(textProperty = TextProperty(value = "Telefone"))
                     ),
@@ -138,23 +136,20 @@ class PersonalInfoScreen : SignUpScreen {
                     )
                 ),
                 Column(
+                    modifier = SdUiModifier().padding(horizontal = 20).fillMaxWidth()
+                        .fillMaxHeight(),
                     horizontalAlignmentProperty = HorizontalAlignmentProperty(
                         HorizontalAlignmentOption.Center
                     ),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
                     weightProperty = WeightProperty(1f),
                     verticalArrangementProperty = VerticalArrangementProperty(
                         VerticalArrangementOption.Bottom
                     ),
                     content = listOf(
                         Button(
+                            modifier = SdUiModifier().fillMaxWidth(),
                             content = listOf(
                                 Text(textProperty = TextProperty(value = "Continuar"))
-                            ),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
                             ),
                             enabledProperty = EnabledProperty(
                                 false,
@@ -183,17 +178,15 @@ class PersonalInfoScreen : SignUpScreen {
                             )
                         ),
                         OutlinedButton(
+                            modifier = SdUiModifier().fillMaxWidth(),
                             content = listOf(
                                 Text(textProperty = TextProperty(value = "Voltar"))
-                            ),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
                             ),
                             onClick = BackAction()
                         ),
                     )
                 ),
-                Spacer(sizeProperty = SizeProperty(20)),
+                Spacer(modifier = SdUiModifier().size(20)),
             )
         )
     }

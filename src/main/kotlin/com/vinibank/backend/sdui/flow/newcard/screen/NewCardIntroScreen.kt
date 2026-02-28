@@ -12,25 +12,23 @@ import com.vini.designsystemsdui.component.LazyColumn
 import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
 import com.vini.designsystemsdui.property.DrawableNameProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.VerticalFillTypeProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.newcard.NewCardScreen
@@ -46,34 +44,42 @@ class NewCardIntroScreen : NewCardScreen {
     private val selectedCardIndex = PropertyIdWrapper<Int>("CardsContent.SelectedCardIndex")
 
     private fun getCard(card: CardDbModel, index: Int) = Card(
-        paddingHorizontalProperty = PaddingHorizontalProperty(30),
-        paddingVerticalProperty = PaddingVerticalProperty(10),
-        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-        heightProperty = HeightProperty(180),
+        modifier = SdUiModifier().padding(horizontal = 30).padding(vertical = 10).fillMaxWidth()
+            .height(180),
         content = listOf(
             Column(
-                paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                paddingVerticalProperty = PaddingVerticalProperty(20),
-                verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
+                modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 20)
+                    .fillMaxHeight(),
                 content = listOf(
                     Row(
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        horizontalArrangementProperty = HorizontalArrangementProperty(HorizontalArrangementOption.SpaceBetween),
+                        modifier = SdUiModifier().fillMaxWidth(),
+                        horizontalArrangementProperty = HorizontalArrangementProperty(
+                            HorizontalArrangementOption.SpaceBetween
+                        ),
                         content = listOf(
                             Text(textProperty = TextProperty(card.name)),
-                            Text(textProperty = TextProperty("final ".plus(card.number.split(" ").last())))
+                            Text(
+                                textProperty = TextProperty(
+                                    "final ".plus(
+                                        card.number.split(" ").last()
+                                    )
+                                )
+                            )
                         )
                     ),
                     Text(textProperty = TextProperty(card.type)),
                     Column(
-                        verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.End),
-                        verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
+                        modifier = SdUiModifier().fillMaxHeight().fillMaxWidth(),
+                        horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                            HorizontalAlignmentOption.End
+                        ),
+                        verticalArrangementProperty = VerticalArrangementProperty(
+                            VerticalArrangementOption.Bottom
+                        ),
                         content = listOf(
                             Image(
+                                modifier = SdUiModifier().size(30),
                                 drawableNameProperty = DrawableNameProperty("Visa"),
-                                sizeProperty = SizeProperty(30)
                             )
                         )
                     ),
@@ -83,7 +89,11 @@ class NewCardIntroScreen : NewCardScreen {
         onClick = ToNumberAction(selectedCardIndex, index)
     )
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
@@ -103,7 +113,7 @@ class NewCardIntroScreen : NewCardScreen {
                     )
                 ),
                 LazyColumn(
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                    modifier = SdUiModifier().fillMaxWidth(),
                     weightProperty = WeightProperty(1f),
                     content = listOf(
                         getCard(

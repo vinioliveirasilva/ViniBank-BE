@@ -21,7 +21,11 @@ class CardIntroScreen(
 
     override val screenId: String = "Start"
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         return if (cards.isEmpty()) {
             newCardContent.defaultScreen()
         } else {

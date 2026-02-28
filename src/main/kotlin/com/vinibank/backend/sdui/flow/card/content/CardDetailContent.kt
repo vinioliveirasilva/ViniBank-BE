@@ -7,33 +7,26 @@ import com.vini.designsystemsdui.component.HorizontalPager
 import com.vini.designsystemsdui.component.Image
 import com.vini.designsystemsdui.component.LazyColumn
 import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.SdUi
 import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
 import com.vini.designsystemsdui.property.ContentPaddingProperty
 import com.vini.designsystemsdui.property.CurrentPageProperty
 import com.vini.designsystemsdui.property.DrawableNameProperty
-import com.vini.designsystemsdui.property.FlowIdentifierProperty
-import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
-import com.vini.designsystemsdui.property.SizeProperty
-import com.vini.designsystemsdui.property.StageIdentifierProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.VerticalFillTypeProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.options.VerticalFillTypeOption
 import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.validator.intToStringValidator
 import com.vinibank.backend.sdui.flow.RoutingController
 import org.springframework.context.annotation.Lazy
 import org.springframework.stereotype.Component
@@ -42,28 +35,25 @@ import com.vinibank.backend.db.Card as CardDbModel
 
 @Component
 class CardDetailContent(
-    @Lazy private val routingController: RoutingController
+    @Lazy private val routingController: RoutingController,
 ) {
 
     private val selectedCardIndex = PropertyIdWrapper<Int>("CardsContent.SelectedCardIndex")
     private val selectedCardId = PropertyIdWrapper<String>("CardsContent.SelectedCardId")
 
     private fun getCard(card: CardDbModel, index: Int) = Card(
-        paddingHorizontalProperty = PaddingHorizontalProperty(10),
-        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-        heightProperty = HeightProperty(180),
-        content =  listOf(
+        modifier = SdUiModifier().padding(horizontal = 10).fillMaxWidth().height(180),
+        content = listOf(
             Column(
-                paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                paddingVerticalProperty = PaddingVerticalProperty(20),
-                verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                content =  listOf(
+                modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 20)
+                    .fillMaxHeight(),
+                content = listOf(
                     Row(
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        modifier = SdUiModifier().fillMaxWidth(),
                         horizontalArrangementProperty = HorizontalArrangementProperty(
                             HorizontalArrangementOption.SpaceBetween
                         ),
-                        content =  listOf(
+                        content = listOf(
                             Text(
                                 textProperty = TextProperty(card.name),
                             ),
@@ -80,14 +70,17 @@ class CardDetailContent(
                         textProperty = TextProperty(card.type),
                     ),
                     Column(
-                        verticalFillTypeProperty = VerticalFillTypeProperty(VerticalFillTypeOption.Max),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.End),
-                        verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Bottom),
-                        content =  listOf(
+                        modifier = SdUiModifier().fillMaxHeight().fillMaxWidth(),
+                        horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                            HorizontalAlignmentOption.End
+                        ),
+                        verticalArrangementProperty = VerticalArrangementProperty(
+                            VerticalArrangementOption.Bottom
+                        ),
+                        content = listOf(
                             Image(
+                                modifier = SdUiModifier().size(30),
                                 drawableNameProperty = DrawableNameProperty("Visa"),
-                                sizeProperty = SizeProperty(30),
                             ),
                         )
                     )
@@ -104,17 +97,16 @@ class CardDetailContent(
         flow = "Card",
         stage = "Detail",
         version = "1",
-        content =  listOf(
+        content = listOf(
             LazyColumn(
-                paddingHorizontalProperty = PaddingHorizontalProperty(10),
+                modifier = SdUiModifier().padding(horizontal = 10).fillMaxWidth(),
                 weightProperty = WeightProperty(1f),
-                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
                 horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-                content =  listOf(
+                content = listOf(
                     HorizontalPager(
                         contentPaddingProperty = ContentPaddingProperty(20),
                         currentPageProperty = CurrentPageProperty(0, selectedCardIndex),
-                        pageContent =  cards.mapIndexed { index, card -> getCard(card, index) }
+                        pageContent = cards.mapIndexed { index, card -> getCard(card, index) }
                     ),
 //                    SdUi(
 //                        flowIdentifierProperty = FlowIdentifierProperty("Card"),
@@ -133,9 +125,8 @@ class CardDetailContent(
 //                        template =
 //                    ),
                     Column(
-                        paddingVerticalProperty = PaddingVerticalProperty(10),
-                        paddingHorizontalProperty = PaddingHorizontalProperty(25),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        modifier = SdUiModifier().padding(vertical = 10).padding(horizontal = 25)
+                            .fillMaxWidth(),
                     ),
                 )
             )

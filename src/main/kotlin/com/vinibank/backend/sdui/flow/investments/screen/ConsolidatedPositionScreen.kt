@@ -12,19 +12,18 @@ import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
 import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
 import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
@@ -40,26 +39,29 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
     private val products = listOf("Fundos" to 732.7, "CDB" to 167.3)
 
     private fun availableProducts(request: SdUiRequest) = Column(
-        verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpacedBy(10)),
-        content =  products.map {
+        verticalArrangementProperty = VerticalArrangementProperty(
+            VerticalArrangementOption.SpacedBy(
+                10
+            )
+        ),
+        content = products.map {
             Card(
-                horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                content =  listOf(
+                modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
+                content = listOf(
                     Row(
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
+                        modifier = SdUiModifier().fillMaxWidth(),
                         horizontalArrangementProperty = HorizontalArrangementProperty(
                             HorizontalArrangementOption.SpaceBetween
                         ),
-                        content =  listOf(
+                        content = listOf(
                             Text(
-                                paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                paddingVerticalProperty = PaddingVerticalProperty(20),
+                                modifier = SdUiModifier().padding(horizontal = 20)
+                                    .padding(vertical = 20),
                                 textProperty = TextProperty(value = it.first)
                             ),
                             Text(
-                                paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                paddingVerticalProperty = PaddingVerticalProperty(20),
+                                modifier = SdUiModifier().padding(horizontal = 20)
+                                    .padding(vertical = 20),
                                 textProperty = TextProperty(value = it.second.toBrl())
                             )
                         ),
@@ -74,17 +76,21 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
         }
     )
 
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
             scene = SceneStrategy.DualPane(),
             cacheStrategy = CacheStrategy.NoCache(),
-            content =  listOf(
+            content = listOf(
                 LazyColumn(
                     weightProperty = WeightProperty(1f),
-                    content =  listOf(
+                    content = listOf(
                         TopAppBar(
                             title = listOf(
                                 Text(
@@ -94,49 +100,45 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                             )
                         ),
                         Column(
+                            modifier = SdUiModifier().fillMaxWidth(),
                             weightProperty = WeightProperty(1f),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                            horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
-                            content =  listOf(
-                                Spacer(sizeProperty = SizeProperty(10)),
+                            horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                                HorizontalAlignmentOption.Center
+                            ),
+                            content = listOf(
+                                Spacer(modifier = SdUiModifier().size(10)),
                                 Text(
+                                    modifier = SdUiModifier().padding(vertical = 10),
                                     textProperty = TextProperty(value = "Consolidado"),
                                     fontSizeProperty = FontSizeProperty(18f),
-                                    paddingVerticalProperty = PaddingVerticalProperty(10),
                                 ),
                                 Card(
-                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                        HorizontalFillTypeOption.Max
-                                    ),
-                                    paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                    content =  listOf(
+                                    modifier = SdUiModifier().fillMaxWidth()
+                                        .padding(horizontal = 20),
+                                    content = listOf(
                                         Column(
-                                            paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                                            paddingVerticalProperty = PaddingVerticalProperty(20),
+                                            modifier = SdUiModifier().padding(horizontal = 20)
+                                                .padding(vertical = 20),
                                             horizontalAlignmentProperty = HorizontalAlignmentProperty(
                                                 HorizontalAlignmentOption.Center
                                             ),
-                                            content =  listOf(
+                                            content = listOf(
                                                 Row(
-                                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                                        HorizontalFillTypeOption.Max
-                                                    ),
+                                                    modifier = SdUiModifier().fillMaxWidth(),
                                                     horizontalArrangementProperty = HorizontalArrangementProperty(
                                                         HorizontalArrangementOption.SpaceBetween
                                                     ),
-                                                    content =  listOf(
+                                                    content = listOf(
                                                         Text(textProperty = TextProperty(value = "Valor Total")),
                                                         Text(textProperty = TextProperty(value = consolidatedPositionValue.toBrl()))
                                                     )
                                                 ),
                                                 Row(
-                                                    horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                                        HorizontalFillTypeOption.Max
-                                                    ),
+                                                    modifier = SdUiModifier().fillMaxWidth(),
                                                     horizontalArrangementProperty = HorizontalArrangementProperty(
                                                         HorizontalArrangementOption.SpaceBetween
                                                     ),
-                                                    content =  listOf(
+                                                    content = listOf(
                                                         Text(textProperty = TextProperty(value = "Disponivel para resgate")),
                                                         Text(textProperty = TextProperty(value = consolidatedPositionValue.toBrl()))
                                                     )
@@ -145,11 +147,11 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                                         )
                                     )
                                 ),
-                                Spacer(sizeProperty = SizeProperty(20)),
+                                Spacer(modifier = SdUiModifier().size(20)),
                                 Text(
+                                    modifier = SdUiModifier().padding(vertical = 10),
                                     textProperty = TextProperty(value = "Consolidado por produto"),
-                                    fontSizeProperty = FontSizeProperty(18f),
-                                    paddingVerticalProperty = PaddingVerticalProperty(10)
+                                    fontSizeProperty = FontSizeProperty(18f)
                                 ),
                                 availableProducts(request),
                             )
@@ -159,6 +161,8 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                 Column(
                     content = listOf(
                         Button(
+                            modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20)
+                                .padding(vertical = 20),
                             content = listOf(
                                 Text(
                                     textProperty = TextProperty(
@@ -166,11 +170,6 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                                     )
                                 )
                             ),
-                            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                HorizontalFillTypeOption.Max
-                            ),
-                            paddingHorizontalProperty = PaddingHorizontalProperty(20),
-                            paddingVerticalProperty = PaddingVerticalProperty(20),
                             onClick = ContinueAction(
                                 flowId = request.flow,
                                 nextScreenId = "NewInvestment",

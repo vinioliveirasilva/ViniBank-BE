@@ -1,6 +1,5 @@
 package com.vinibank.backend.sdui.flow.notification.screen
 
-import com.vini.designsystemsdui.CacheStrategy
 import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.BackAction
 import com.vini.designsystemsdui.component.Box
@@ -15,23 +14,25 @@ import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
-import com.vini.designsystemsdui.property.BackgroundColorProperty
+import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.background
+import com.vini.designsystemsdui.modifier.clip
+import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.modifier.padding
+import com.vini.designsystemsdui.modifier.size
 import com.vini.designsystemsdui.property.ButtonColorsProperty
 import com.vini.designsystemsdui.property.CardColorsProperty
 import com.vini.designsystemsdui.property.ColorProperty
 import com.vini.designsystemsdui.property.ContentAlignmentProperty
 import com.vini.designsystemsdui.property.FontSizeProperty
 import com.vini.designsystemsdui.property.FontWeightProperty
-import com.vini.designsystemsdui.property.HeightProperty
 import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
 import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.HorizontalFillTypeProperty
 import com.vini.designsystemsdui.property.IconNameProperty
 import com.vini.designsystemsdui.property.LineHeightProperty
-import com.vini.designsystemsdui.property.PaddingHorizontalProperty
-import com.vini.designsystemsdui.property.PaddingVerticalProperty
 import com.vini.designsystemsdui.property.ShapeProperty
-import com.vini.designsystemsdui.property.SizeProperty
 import com.vini.designsystemsdui.property.TextAlignProperty
 import com.vini.designsystemsdui.property.TextProperty
 import com.vini.designsystemsdui.property.TintProperty
@@ -39,14 +40,12 @@ import com.vini.designsystemsdui.property.TopAppBarColorProperty
 import com.vini.designsystemsdui.property.VerticalAlignmentProperty
 import com.vini.designsystemsdui.property.VerticalArrangementProperty
 import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.WidthProperty
 import com.vini.designsystemsdui.property.options.AlignmentOptions
 import com.vini.designsystemsdui.property.options.ButtonColorsModel
 import com.vini.designsystemsdui.property.options.CardColorsModel
 import com.vini.designsystemsdui.property.options.FontWeightOption
 import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
 import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.HorizontalFillTypeOption
 import com.vini.designsystemsdui.property.options.IconOption
 import com.vini.designsystemsdui.property.options.ShapeOptions
 import com.vini.designsystemsdui.property.options.TextAlignOption
@@ -72,7 +71,11 @@ class NotificationDetailScreen(
     private val userLoginDb: UserLoginDb,
 ) : NotificationScreen {
     override val screenId: String = "Detail"
-    override fun getScreen(request: SdUiRequest, parameters: Map<String, String>, screenId: String): Template? {
+    override fun getScreen(
+        request: SdUiRequest,
+        parameters: Map<String, String>,
+        screenId: String,
+    ): Template? {
         val notificationId = parameters["notificationId"]
         val notification = notificationDetailDatabase.get(
             userLoginDb.getUserEmail(request.sessionId),
@@ -87,13 +90,32 @@ class NotificationDetailScreen(
                 notification.notificationId
             )
 
-            when(notification.categoryLabel) {
+            when (notification.categoryLabel) {
                 NotificationCategory.ALL -> getNotificationTemplate(request, notification, screenId)
-                NotificationCategory.TRANSACTIONS -> getNotificationTemplate(request, notification, screenId)
-                NotificationCategory.SECURITY -> getNotificationTemplate(request, notification, screenId)
-                NotificationCategory.OFFER -> getNotificationTemplate(request, notification, screenId)
+                NotificationCategory.TRANSACTIONS -> getNotificationTemplate(
+                    request,
+                    notification,
+                    screenId
+                )
+
+                NotificationCategory.SECURITY -> getNotificationTemplate(
+                    request,
+                    notification,
+                    screenId
+                )
+
+                NotificationCategory.OFFER -> getNotificationTemplate(
+                    request,
+                    notification,
+                    screenId
+                )
+
                 NotificationCategory.LOGIN -> getLoginNotificationTemplate(notification, screenId)
-                NotificationCategory.STATEMENT -> getNotificationTemplate(request, notification, screenId)
+                NotificationCategory.STATEMENT -> getNotificationTemplate(
+                    request,
+                    notification,
+                    screenId
+                )
             }
         }
     }
@@ -128,17 +150,13 @@ class NotificationDetailScreen(
     private fun getNotificationTemplate(
         request: SdUiRequest,
         notification: NotificationDetail,
-        screenId: String
+        screenId: String,
     ): Template {
-        val background = ColorOption.CustomColor(0xff101922)
-
+        val background = ColorOption.DeepBlue()
 
         val separator = Column(
-            horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                HorizontalFillTypeOption.Max
-            ),
-            heightProperty = HeightProperty(1),
-            backgroundColorProperty = BackgroundColorProperty(ColorOption.CustomColor(0xff233648))
+            modifier = SdUiModifier().fillMaxWidth().height(1)
+                .background(ColorOption.CustomColor(0xff233648))
         )
 
         val topBar = TopAppBar(
@@ -171,15 +189,11 @@ class NotificationDetailScreen(
         )
 
         val centerIcon = Column(
-            shapeProperty = ShapeProperty(ShapeOptions.Circle),
-            heightProperty = HeightProperty(128),
-            widthProperty = WidthProperty(128),
-            backgroundColorProperty = BackgroundColorProperty(getNotificationBackground(notification.categoryLabel)),
+            modifier = SdUiModifier().size(128).clip(ShapeOption.Circle())
+                .background(getNotificationBackground(notification.categoryLabel)),
             content = listOf(
                 Icon(
-                    paddingHorizontalProperty = PaddingHorizontalProperty(32),
-                    paddingVerticalProperty = PaddingVerticalProperty(32),
-                    sizeProperty = SizeProperty(64),
+                    modifier = SdUiModifier().padding(32).size(64),
                     iconNameProperty = IconNameProperty(getNotificationIcon(notification.categoryLabel)),
                     tintProperty = TintProperty(getNotificationTint(notification.categoryLabel)),
                 )
@@ -187,7 +201,7 @@ class NotificationDetailScreen(
         )
 
         val body = Column(
-            paddingHorizontalProperty = PaddingHorizontalProperty(24),
+            modifier = SdUiModifier().padding(horizontal = 24),
             horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
             content = listOf(
                 Card(
@@ -200,36 +214,35 @@ class NotificationDetailScreen(
                     ),
                     content = listOf(
                         Text(
-                            paddingHorizontalProperty = PaddingHorizontalProperty(8),
-                            paddingVerticalProperty = PaddingVerticalProperty(4),
+                            modifier = SdUiModifier().padding(horizontal = 8, vertical = 4),
                             textProperty = TextProperty(notification.categoryLabel.name),
                             fontSizeProperty = FontSizeProperty(12f),
                             fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
                         )
                     )
                 ),
-                Spacer(heightProperty = HeightProperty(8)),
+                Spacer(modifier = SdUiModifier().height(8)),
                 Text(
                     textProperty = TextProperty(notification.title),
                     fontSizeProperty = FontSizeProperty(30f),
                     fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
                     colorProperty = ColorProperty(ColorOption.White())
                 ),
-                Spacer(sizeProperty = SizeProperty(8)),
+                Spacer(modifier = SdUiModifier().height(8)),
                 Text(
                     textProperty = TextProperty(notification.highlightedText.orEmpty()),
                     fontSizeProperty = FontSizeProperty(20f),
                     fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
                     colorProperty = ColorProperty(ColorOption.LightBlue())
                 ),
-                Spacer(sizeProperty = SizeProperty(8)),
+                Spacer(modifier = SdUiModifier().height(8)),
                 Text(
                     textProperty = TextProperty(notification.dateTimeText.orEmpty()),
                     fontSizeProperty = FontSizeProperty(14f),
                     fontWeightProperty = FontWeightProperty(FontWeightOption.Normal),
                     colorProperty = ColorProperty(ColorOption.CustomColor(0xBA2B8CEE))
                 ),
-                Spacer(sizeProperty = SizeProperty(32)),
+                Spacer(modifier = SdUiModifier().height(32)),
                 Card(
                     cardColorsProperty = CardColorsProperty(
                         value = CardColorsModel(
@@ -239,8 +252,7 @@ class NotificationDetailScreen(
                     ),
                     content = listOf(
                         Text(
-                            paddingHorizontalProperty = PaddingHorizontalProperty(24),
-                            paddingVerticalProperty = PaddingVerticalProperty(24),
+                            modifier = SdUiModifier().padding(24),
                             textProperty = TextProperty(notification.detailMessage.orEmpty()),
                             fontSizeProperty = FontSizeProperty(16f),
                             fontWeightProperty = FontWeightProperty(FontWeightOption.Normal),
@@ -255,10 +267,9 @@ class NotificationDetailScreen(
             horizontalAlignmentProperty = HorizontalAlignmentProperty(HorizontalAlignmentOption.Center),
             content = listOf(
                 Button(
-                    onClick = BackAction(),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(24),
-                    shapeProperty = ShapeProperty(ShapeOptions.Medium),
+                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 24).clip(
+                        ShapeOption.RoundedCorner(8)
+                    ),
                     buttonColorsProperty = ButtonColorsProperty(
                         value = ButtonColorsModel(
                             containerColor = ColorOption.CustomColor(0xff2B8CEE),
@@ -267,7 +278,7 @@ class NotificationDetailScreen(
                     ),
                     content = listOf(
                         Text(
-                            paddingVerticalProperty = PaddingVerticalProperty(8),
+                            modifier = SdUiModifier().padding(vertical = 8),
                             textProperty = TextProperty("View Transaction Details"),
                             fontSizeProperty = FontSizeProperty(16f),
                             fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
@@ -275,10 +286,9 @@ class NotificationDetailScreen(
                     )
                 ),
                 Button(
-                    onClick = BackAction(),
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    paddingHorizontalProperty = PaddingHorizontalProperty(24),
-                    shapeProperty = ShapeProperty(ShapeOptions.Medium),
+                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 24).clip(
+                        ShapeOption.RoundedCorner(8)
+                    ),
                     buttonColorsProperty = ButtonColorsProperty(
                         value = ButtonColorsModel(
                             containerColor = background,
@@ -287,14 +297,14 @@ class NotificationDetailScreen(
                     ),
                     content = listOf(
                         Text(
-                            paddingVerticalProperty = PaddingVerticalProperty(8),
+                            modifier = SdUiModifier().padding(vertical = 8),
                             textProperty = TextProperty("Dismiss Notification"),
                             fontSizeProperty = FontSizeProperty(16f),
                             fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
                         )
                     )
                 ),
-                Spacer(sizeProperty = SizeProperty(32))
+                Spacer(modifier = SdUiModifier().height(32)),
             ),
         )
 
@@ -302,11 +312,11 @@ class NotificationDetailScreen(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            cacheStrategy = CacheStrategy.TimeCache(System.currentTimeMillis().plus(300000)),
+            //cacheStrategy = CacheStrategy.TimeCache(System.currentTimeMillis().plus(300000)),
             content = listOf(
                 Column(
+                    modifier = SdUiModifier().background(color = background),
                     weightProperty = WeightProperty(1f),
-                    backgroundColorProperty = BackgroundColorProperty(background),
                     verticalArrangementProperty = VerticalArrangementProperty(
                         VerticalArrangementOption.SpaceBetween
                     ),
@@ -321,9 +331,9 @@ class NotificationDetailScreen(
                             content = listOf(
                                 topBar,
                                 separator,
-                                Spacer(sizeProperty = SizeProperty(48)),
+                                Spacer(modifier = SdUiModifier().height(48)),
                                 centerIcon,
-                                Spacer(sizeProperty = SizeProperty(32)),
+                                Spacer(modifier = SdUiModifier().height(32)),
                                 body,
                             )
                         ),
@@ -337,287 +347,274 @@ class NotificationDetailScreen(
     }
 
 
-    private fun getLoginNotificationTemplate(notification: NotificationDetail, screenId: String): Template {
-            val background = ColorOption.CustomColor(0xff081523)
-            val cardBackground = ColorOption.CustomColor(0xff0D1D30)
-            val separatorColor = ColorOption.CustomColor(0xff1C2F45)
+    private fun getLoginNotificationTemplate(
+        notification: NotificationDetail,
+        screenId: String,
+    ): Template {
+        val background = ColorOption.CustomColor(0xff081523)
+        val cardBackground = ColorOption.CustomColor(0xff0D1D30)
+        val separatorColor = ColorOption.CustomColor(0xff1C2F45)
 
-            val topBar = TopAppBar(
-                topAppBarColorProperty = TopAppBarColorProperty(
-                    value = TopAppBarColorsModel(
-                        containerColor = background,
-                        titleContentColor = ColorOption.White(),
-                        navigationIconContentColor = ColorOption.White(),
-                    )
-                ),
-                title = listOf(
-                    Text(
-                        textProperty = TextProperty(notification.screenTitle),
-                        fontSizeProperty = FontSizeProperty(18f),
-                        lineHeightProperty = LineHeightProperty(28),
-                        textAlignProperty = TextAlignProperty(TextAlignOption.Center),
-                        fontWeightProperty = FontWeightProperty(FontWeightOption.Bold)
-                    )
-                ),
-                navigationIcon = listOf(
-                    IconButton(
-                        onClick = BackAction(),
-                        content = listOf(
-                            Icon(iconNameProperty = IconNameProperty(IconOption.LeftArrow))
-                        )
-                    )
-                ),
-            )
-
-            fun detailRow(
-                label: String,
-                value: String,
-                showSeparator: Boolean = true,
-            ) = listOfNotNull(
-                Row(
-                    horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                    horizontalArrangementProperty = HorizontalArrangementProperty(
-                        HorizontalArrangementOption.SpaceBetween
-                    ),
-                    verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
+        val topBar = TopAppBar(
+            topAppBarColorProperty = TopAppBarColorProperty(
+                value = TopAppBarColorsModel(
+                    containerColor = background,
+                    titleContentColor = ColorOption.White(),
+                    navigationIconContentColor = ColorOption.White(),
+                )
+            ),
+            title = listOf(
+                Text(
+                    textProperty = TextProperty(notification.screenTitle),
+                    fontSizeProperty = FontSizeProperty(18f),
+                    lineHeightProperty = LineHeightProperty(28),
+                    textAlignProperty = TextAlignProperty(TextAlignOption.Center),
+                    fontWeightProperty = FontWeightProperty(FontWeightOption.Bold)
+                )
+            ),
+            navigationIcon = listOf(
+                IconButton(
+                    onClick = BackAction(),
                     content = listOf(
-                        Text(
-                            paddingVerticalProperty = PaddingVerticalProperty(16),
-                            textProperty = TextProperty(label),
-                            colorProperty = ColorProperty(ColorOption.CustomColor(0xff8EA2BD)),
-                            fontSizeProperty = FontSizeProperty(14f),
-                            lineHeightProperty = LineHeightProperty(20),
-                        ),
-                        Text(
-                            textProperty = TextProperty(value),
-                            colorProperty = ColorProperty(ColorOption.White()),
-                            fontWeightProperty = FontWeightProperty(FontWeightOption.SemiBold),
-                            fontSizeProperty = FontSizeProperty(14f),
-                            lineHeightProperty = LineHeightProperty(20),
-                        )
+                        Icon(iconNameProperty = IconNameProperty(IconOption.LeftArrow))
                     )
-                ),
-                if (showSeparator) {
-                    Column(
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                            HorizontalFillTypeOption.Max
-                        ),
-                        heightProperty = HeightProperty(1),
-                        backgroundColorProperty = BackgroundColorProperty(separatorColor)
-                    )
-                } else null
-            )
+                )
+            ),
+        )
 
-            val screen = DefaultTemplate(
-                flow = "Notification",
-                stage = screenId,
-                version = "1",
+        fun detailRow(
+            label: String,
+            value: String,
+            showSeparator: Boolean = true,
+        ) = listOfNotNull(
+            Row(
+                modifier = SdUiModifier().fillMaxWidth(),
+                horizontalArrangementProperty = HorizontalArrangementProperty(
+                    HorizontalArrangementOption.SpaceBetween
+                ),
+                verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
                 content = listOf(
-                    Column(
-                        backgroundColorProperty = BackgroundColorProperty(background),
-                        weightProperty = WeightProperty(1f),
-                        horizontalFillTypeProperty = HorizontalFillTypeProperty(HorizontalFillTypeOption.Max),
-                        content = listOf(
-                            topBar,
-                            LazyColumn(
-                                horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                                    HorizontalAlignmentOption.Center
-                                ),
-                                paddingHorizontalProperty = PaddingHorizontalProperty(24),
-                                horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                    HorizontalFillTypeOption.Max
-                                ),
-                                content = listOf(
-                                    Spacer(sizeProperty = SizeProperty(24)),
-                                    Box(
-                                        contentAlignmentProperty = ContentAlignmentProperty(AlignmentOptions.TopEnd),
-                                        content = listOf(
-                                            Card(
-                                                shapeProperty = ShapeProperty(ShapeOptions.Circle),
-                                                cardColorsProperty = CardColorsProperty(
-                                                    value = CardColorsModel(
-                                                        containerColor = ColorOption.CustomColor(0xff153354),
-                                                        contentColor = ColorOption.CustomColor(0xff2B8CEE),
-                                                    )
-                                                ),
-                                                content = listOf(
-                                                    Icon(
-                                                        iconNameProperty = IconNameProperty(IconOption.Devices),
-                                                        tintProperty = TintProperty(
-                                                            ColorOption.CustomColor(
-                                                                0xff2B8CEE
-                                                            )
-                                                        ),
-                                                        sizeProperty = SizeProperty(64),
-                                                        paddingVerticalProperty = PaddingVerticalProperty(32),
-                                                        paddingHorizontalProperty = PaddingHorizontalProperty(
-                                                            32
-                                                        ),
-                                                    )
-                                                )
-                                            ),
-                                            Card(
-                                                shapeProperty = ShapeProperty(ShapeOptions.Circle),
-                                                cardColorsProperty = CardColorsProperty(
-                                                    value = CardColorsModel(
-                                                        containerColor = ColorOption.CustomColor(0xffEF4444),
-                                                        contentColor = ColorOption.White(),
-                                                    )
-                                                ),
-                                                heightProperty = HeightProperty(44),
-                                                widthProperty = WidthProperty(44),
-                                                content = listOf(
-                                                    Icon(
-                                                        iconNameProperty = IconNameProperty(IconOption.WarningAmber),
-                                                        tintProperty = TintProperty(ColorOption.White()),
-                                                        sizeProperty = SizeProperty(20),
-                                                        paddingVerticalProperty = PaddingVerticalProperty(12),
-                                                        paddingHorizontalProperty = PaddingHorizontalProperty(
-                                                            12
-                                                        ),
-                                                    )
-                                                )
-                                            ),
-                                        )
+                    Text(
+                        modifier = SdUiModifier().padding(vertical = 16),
+                        textProperty = TextProperty(label),
+                        colorProperty = ColorProperty(ColorOption.CustomColor(0xff8EA2BD)),
+                        fontSizeProperty = FontSizeProperty(14f),
+                        lineHeightProperty = LineHeightProperty(20),
+                    ),
+                    Text(
+                        textProperty = TextProperty(value),
+                        colorProperty = ColorProperty(ColorOption.White()),
+                        fontWeightProperty = FontWeightProperty(FontWeightOption.SemiBold),
+                        fontSizeProperty = FontSizeProperty(14f),
+                        lineHeightProperty = LineHeightProperty(20),
+                    )
+                )
+            ),
+            if (showSeparator) {
+                Column(
+                    modifier = SdUiModifier().fillMaxWidth().background(separatorColor).height(1)
+                )
+            } else null
+        )
+
+        val screen = DefaultTemplate(
+            flow = "Notification",
+            stage = screenId,
+            version = "1",
+            content = listOf(
+                Column(
+                    modifier = SdUiModifier().fillMaxWidth().background(background),
+                    weightProperty = WeightProperty(1f),
+                    content = listOf(
+                        topBar,
+                        LazyColumn(
+                            modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 24),
+                            horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                                HorizontalAlignmentOption.Center
+                            ),
+                            content = listOf(
+                                Spacer(modifier = SdUiModifier().height(24)),
+                                Box(
+                                    contentAlignmentProperty = ContentAlignmentProperty(
+                                        AlignmentOptions.TopEnd
                                     ),
-                                    Spacer(sizeProperty = SizeProperty(28)),
-                                    Text(
-                                        textProperty = TextProperty(notification.title),
-                                        fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
-                                        fontSizeProperty = FontSizeProperty(30f),
-                                        lineHeightProperty = LineHeightProperty(38),
-                                        textAlignProperty = TextAlignProperty(TextAlignOption.Center),
-                                        colorProperty = ColorProperty(ColorOption.White()),
-                                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                            HorizontalFillTypeOption.Max
-                                        )
-                                    ),
-                                    Spacer(sizeProperty = SizeProperty(10)),
-                                    Text(
-                                        textProperty = TextProperty(
-                                            notification.subtitle
-                                        ),
-                                        colorProperty = ColorProperty(ColorOption.CustomColor(0xff8EA2BD)),
-                                        textAlignProperty = TextAlignProperty(TextAlignOption.Center),
-                                        fontSizeProperty = FontSizeProperty(18f),
-                                        lineHeightProperty = LineHeightProperty(26),
-                                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                            HorizontalFillTypeOption.Max
-                                        )
-                                    ),
-                                    Spacer(sizeProperty = SizeProperty(24)),
-                                    Card(
-                                        shapeProperty = ShapeProperty(ShapeOptions.Large),
-                                        cardColorsProperty = CardColorsProperty(
-                                            value = CardColorsModel(
-                                                containerColor = cardBackground,
-                                                contentColor = ColorOption.White(),
-                                            )
-                                        ),
-                                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                            HorizontalFillTypeOption.Max
-                                        ),
-                                        content = listOf(
-                                            Column(
-                                                paddingHorizontalProperty = PaddingHorizontalProperty(16),
-                                                paddingVerticalProperty = PaddingVerticalProperty(4),
-                                                content = detailRow("Device", "iPhone 15 Pro")
-                                                    .plus(detailRow("Location", "Brooklyn, NY"))
-                                                    .plus(detailRow("Date", "October 24, 2024"))
-                                                    .plus(detailRow("Time", "02:15 PM", showSeparator = false))
-                                            ),
-                                            Column(
-                                                horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                                    HorizontalFillTypeOption.Max
-                                                ),
-                                                heightProperty = HeightProperty(130),
-                                                backgroundColorProperty = BackgroundColorProperty(
-                                                    ColorOption.CustomColor(0xff1B324A)
-                                                ),
-                                                horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                                                    HorizontalAlignmentOption.Center
-                                                ),
-                                                verticalArrangementProperty = VerticalArrangementProperty(
-                                                    VerticalArrangementOption.Center
-                                                ),
-                                                content = listOf(
-                                                    Icon(
-                                                        iconNameProperty = IconNameProperty(IconOption.Notification),
-                                                        tintProperty = TintProperty(ColorOption.CustomColor(0xff5FA8FF)),
-                                                        sizeProperty = SizeProperty(26),
+                                    content = listOf(
+                                        Card(
+                                            shapeProperty = ShapeProperty(ShapeOptions.Circle),
+                                            cardColorsProperty = CardColorsProperty(
+                                                value = CardColorsModel(
+                                                    containerColor = ColorOption.CustomColor(
+                                                        0xff153354
                                                     ),
-                                                    Spacer(sizeProperty = SizeProperty(8)),
-                                                    Text(
-                                                        textProperty = TextProperty("Brooklyn map preview"),
-                                                        colorProperty = ColorProperty(
-                                                            ColorOption.CustomColor(0xffA8BFDA)
-                                                        ),
-                                                        fontSizeProperty = FontSizeProperty(12f),
+                                                    contentColor = ColorOption.CustomColor(
+                                                        0xff2B8CEE
+                                                    ),
+                                                )
+                                            ),
+                                            content = listOf(
+                                                Icon(
+                                                    modifier = SdUiModifier().padding(32).size(64),
+                                                    iconNameProperty = IconNameProperty(IconOption.Devices),
+                                                    tintProperty = TintProperty(
+                                                        ColorOption.LightBlue()
+                                                    ),
+                                                )
+                                            )
+                                        ),
+                                        Card(
+                                            modifier = SdUiModifier().size(44),
+                                            shapeProperty = ShapeProperty(ShapeOptions.Circle),
+                                            cardColorsProperty = CardColorsProperty(
+                                                value = CardColorsModel(
+                                                    containerColor = ColorOption.CustomColor(
+                                                        0xffEF4444
+                                                    ),
+                                                    contentColor = ColorOption.White(),
+                                                )
+                                            ),
+                                            content = listOf(
+                                                Icon(
+                                                    modifier = SdUiModifier().padding(12).size(20),
+                                                    iconNameProperty = IconNameProperty(IconOption.WarningAmber),
+                                                    tintProperty = TintProperty(ColorOption.White()),
+                                                )
+                                            )
+                                        ),
+                                    )
+                                ),
+                                Spacer(modifier = SdUiModifier().height(28)),
+                                Text(
+                                    modifier = SdUiModifier().fillMaxWidth(),
+                                    textProperty = TextProperty(notification.title),
+                                    fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
+                                    fontSizeProperty = FontSizeProperty(30f),
+                                    lineHeightProperty = LineHeightProperty(38),
+                                    textAlignProperty = TextAlignProperty(TextAlignOption.Center),
+                                    colorProperty = ColorProperty(ColorOption.White()),
+                                ),
+                                Spacer(modifier = SdUiModifier().height(10)),
+                                Text(
+                                    modifier = SdUiModifier().fillMaxWidth(),
+                                    textProperty = TextProperty(
+                                        notification.subtitle
+                                    ),
+                                    colorProperty = ColorProperty(ColorOption.CustomColor(0xff8EA2BD)),
+                                    textAlignProperty = TextAlignProperty(TextAlignOption.Center),
+                                    fontSizeProperty = FontSizeProperty(18f),
+                                    lineHeightProperty = LineHeightProperty(26),
+                                ),
+                                Spacer(modifier = SdUiModifier().height(24)),
+                                Card(
+                                    modifier = SdUiModifier().fillMaxWidth(),
+                                    shapeProperty = ShapeProperty(ShapeOptions.Large),
+                                    cardColorsProperty = CardColorsProperty(
+                                        value = CardColorsModel(
+                                            containerColor = cardBackground,
+                                            contentColor = ColorOption.White(),
+                                        )
+                                    ),
+                                    content = listOf(
+                                        Column(
+                                            modifier = SdUiModifier().padding(
+                                                horizontal = 16,
+                                                vertical = 4
+                                            ),
+                                            content = detailRow("Device", "iPhone 15 Pro")
+                                                .plus(detailRow("Location", "Brooklyn, NY"))
+                                                .plus(detailRow("Date", "October 24, 2024"))
+                                                .plus(
+                                                    detailRow(
+                                                        "Time",
+                                                        "02:15 PM",
+                                                        showSeparator = false
                                                     )
+                                                )
+                                        ),
+                                        Column(
+                                            modifier = SdUiModifier().height(130).fillMaxWidth()
+                                                .background(ColorOption.CustomColor(0xff1B324A)),
+                                            horizontalAlignmentProperty = HorizontalAlignmentProperty(
+                                                HorizontalAlignmentOption.Center
+                                            ),
+                                            verticalArrangementProperty = VerticalArrangementProperty(
+                                                VerticalArrangementOption.Center
+                                            ),
+                                            content = listOf(
+                                                Icon(
+                                                    modifier = SdUiModifier().size(26),
+                                                    iconNameProperty = IconNameProperty(IconOption.Notification),
+                                                    tintProperty = TintProperty(
+                                                        ColorOption.CustomColor(
+                                                            0xff5FA8FF
+                                                        )
+                                                    ),
+                                                ),
+                                                Spacer(modifier = SdUiModifier().height(8)),
+                                                Text(
+                                                    textProperty = TextProperty("Brooklyn map preview"),
+                                                    colorProperty = ColorProperty(
+                                                        ColorOption.CustomColor(0xffA8BFDA)
+                                                    ),
+                                                    fontSizeProperty = FontSizeProperty(12f),
                                                 )
                                             )
                                         )
-                                    ),
-                                    Spacer(sizeProperty = SizeProperty(40)),
-                                    Button(
-                                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                            HorizontalFillTypeOption.Max
-                                        ),
-                                        shapeProperty = ShapeProperty(ShapeOptions.Large),
-                                        buttonColorsProperty = ButtonColorsProperty(
-                                            value = ButtonColorsModel(
-                                                containerColor = ColorOption.CustomColor(0xff2B8CEE),
-                                                contentColor = ColorOption.White()
-                                            )
-                                        ),
-                                        content = listOf(
-                                            Text(
-                                                paddingVerticalProperty = PaddingVerticalProperty(8),
-                                                textProperty = TextProperty("Yes, it was me"),
-                                                fontSizeProperty = FontSizeProperty(18f),
-                                                fontWeightProperty = FontWeightProperty(FontWeightOption.Bold)
-                                            )
+                                    )
+                                ),
+                                Spacer(modifier = SdUiModifier().height(40)),
+                                Button(
+                                    modifier = SdUiModifier().fillMaxWidth()
+                                        .clip(ShapeOption.RoundedCorner(16)),
+                                    buttonColorsProperty = ButtonColorsProperty(
+                                        value = ButtonColorsModel(
+                                            containerColor = ColorOption.CustomColor(0xff2B8CEE),
+                                            contentColor = ColorOption.White()
                                         )
                                     ),
-                                    Spacer(sizeProperty = SizeProperty(12)),
-                                    OutlinedButton(
-                                        buttonColorsProperty = ButtonColorsProperty(
-                                            value = ButtonColorsModel()
-                                        ),
-                                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                            HorizontalFillTypeOption.Max
-                                        ),
-                                        shapeProperty = ShapeProperty(ShapeOptions.Large),
-                                        content = listOf(
-                                            Text(
-                                                paddingVerticalProperty = PaddingVerticalProperty(8),
-                                                textProperty = TextProperty("No, secure my account"),
-                                                fontSizeProperty = FontSizeProperty(16f),
-                                                fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
-                                                colorProperty = ColorProperty(ColorOption.White())
-                                            )
+                                    content = listOf(
+                                        Text(
+                                            modifier = SdUiModifier().padding(vertical = 8),
+                                            textProperty = TextProperty("Yes, it was me"),
+                                            fontSizeProperty = FontSizeProperty(18f),
+                                            fontWeightProperty = FontWeightProperty(FontWeightOption.Bold)
                                         )
+                                    )
+                                ),
+                                Spacer(modifier = SdUiModifier().height(12)),
+                                OutlinedButton(
+                                    modifier = SdUiModifier().fillMaxWidth()
+                                        .clip(ShapeOption.RoundedCorner(16)),
+                                    buttonColorsProperty = ButtonColorsProperty(
+                                        value = ButtonColorsModel()
                                     ),
-                                    Spacer(sizeProperty = SizeProperty(24)),
-                                    Text(
-                                        textProperty = TextProperty(
-                                            "If you don't recognize this activity, please secure your account immediately to prevent unauthorized access."
-                                        ),
-                                        colorProperty = ColorProperty(ColorOption.CustomColor(0xff7E94AF)),
-                                        textAlignProperty = TextAlignProperty(TextAlignOption.Center),
-                                        fontSizeProperty = FontSizeProperty(16f),
-                                        lineHeightProperty = LineHeightProperty(24),
-                                        horizontalFillTypeProperty = HorizontalFillTypeProperty(
-                                            HorizontalFillTypeOption.Max
+                                    content = listOf(
+                                        Text(
+                                            modifier = SdUiModifier().padding(vertical = 8),
+                                            textProperty = TextProperty("No, secure my account"),
+                                            fontSizeProperty = FontSizeProperty(16f),
+                                            fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
+                                            colorProperty = ColorProperty(ColorOption.White())
                                         )
+                                    )
+                                ),
+                                Spacer(modifier = SdUiModifier().height(24)),
+                                Text(
+                                    modifier = SdUiModifier().fillMaxWidth(),
+                                    textProperty = TextProperty(
+                                        "If you don't recognize this activity, please secure your account immediately to prevent unauthorized access."
                                     ),
-                                    Spacer(sizeProperty = SizeProperty(24)),
-                                )
+                                    colorProperty = ColorProperty(ColorOption.CustomColor(0xff7E94AF)),
+                                    textAlignProperty = TextAlignProperty(TextAlignOption.Center),
+                                    fontSizeProperty = FontSizeProperty(16f),
+                                    lineHeightProperty = LineHeightProperty(24),
+                                ),
+                                Spacer(modifier = SdUiModifier().height(24)),
                             )
                         )
                     )
                 )
             )
+        )
 
         return screen
 

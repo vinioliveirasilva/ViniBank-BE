@@ -13,17 +13,13 @@ import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.modifier.SdUiModifier
 import com.vini.designsystemsdui.modifier.fillMaxHeight
 import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
 import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.property.EnabledProperty
-import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
-import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.ValidPasswordProperty
-import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
-import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.util.PropertyIdWrapper
+import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.InteractionId
+import com.vini.designsystemsdui.component.ButtonInteractionModel
+import com.vini.designsystemsdui.component.CreatePasswordInteractionModel
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
@@ -39,8 +35,8 @@ class PasswordScreen(
 ) : SignUpScreen {
     override val screenId: String = "Password"
 
-    private val passwordInputId = PropertyIdWrapper<String>("SignUp.${screenId}.passwordInput")
-    private val isPasswordValid = PropertyIdWrapper<Boolean>("SignUp.${screenId}.isPasswordValid")
+    private val passwordInputId = InteractionId<String>("SignUp.${screenId}.passwordInput")
+    private val isPasswordValid = InteractionId<Boolean>("SignUp.${screenId}.isPasswordValid")
 
     override fun getRule(request: SdUiRequest) {
         val model = Json.decodeFromJsonElement<PasswordScreenState>(
@@ -54,45 +50,46 @@ class PasswordScreen(
         parameters: Map<String, String>,
         screenId: String,
     ): Template? {
-        val screenFlowId = "${request.flow}.${screenId}"
-
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content = listOf(
+            content = {
                 TopAppBar(
                     modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
-                    title = listOf(
-                        Text(textProperty = TextProperty("Criar Senha"))
-                    )
-                ),
-                Spacer(
-                    modifier = SdUiModifier().size(20)
-                ),
+                    title = {
+                        Text(text = "Criar Senha")
+                    }
+                )
+                Spacer(modifier = SdUiModifier().size(20))
                 CreatePassword(
+                    interactionModel = CreatePasswordInteractionModel(
+                        text = passwordInputId,
+                        isPasswordValid = isPasswordValid
+                    ),
                     modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
-                    textProperty = TextProperty("", passwordInputId),
-                    validPasswordProperty = ValidPasswordProperty(false, isPasswordValid)
-                ),
+                    text = "",
+                    isPasswordValid = false
+                )
                 Column(
-                    modifier = SdUiModifier().padding(horizontal = 20).fillMaxWidth()
-                        .fillMaxHeight(),
-                    horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                        HorizontalAlignmentOption.Center
+                    modifier = SdUiModifier().padding(horizontal = 20).fillMaxWidth().fillMaxHeight(),
+                    horizontalAlignment = (
+                        HorizontalAlignmentOption.Center()
                     ),
-                    weightProperty = WeightProperty(1f),
-                    verticalArrangementProperty = VerticalArrangementProperty(
-                        VerticalArrangementOption.Bottom
+                    verticalArrangement = (
+                        VerticalArrangementOption.Bottom()
                     ),
-                    content = listOf(
+                    content = {
                         Button(
-                            modifier = SdUiModifier().fillMaxWidth(),
-                            content = listOf(
-                                Text(textProperty = TextProperty(value = "Continuar"))
+                            interactionModel = ButtonInteractionModel(
+                                enabled = isPasswordValid
                             ),
-                            enabledProperty = EnabledProperty(false, isPasswordValid),
-                            onClick = ContinueAction(
+                            modifier = SdUiModifier().fillMaxWidth(),
+                            content = {
+                                Text(text = "Continuar")
+                            },
+                            enabled = false,
+                            onClickAction = ContinueAction(
                                 flowId = request.flow,
                                 currentScreenId = screenId,
                                 nextScreenId = "Success",
@@ -101,18 +98,18 @@ class PasswordScreen(
                                     passwordInputId.id to "password"
                                 )
                             ),
-                        ),
+                        )
                         OutlinedButton(
                             modifier = SdUiModifier().fillMaxWidth(),
-                            content = listOf(
-                                Text(textProperty = TextProperty(value = "Voltar"))
-                            ),
-                            onClick = BackAction()
-                        ),
-                    )
-                ),
-                Spacer(modifier = SdUiModifier().size(20)),
-            )
+                            content = {
+                                Text(text = "Voltar")
+                            },
+                            onClickAction = BackAction()
+                        )
+                    }
+                )
+                Spacer(modifier = SdUiModifier().size(20))
+            }
         )
     }
 }

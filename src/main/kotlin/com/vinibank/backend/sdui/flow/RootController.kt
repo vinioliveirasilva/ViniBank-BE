@@ -1,11 +1,11 @@
 package com.vinibank.backend.sdui.flow
 
+import com.vini.designsystemsdui.JsonProvider
 import com.vinibank.backend.CryptographicFilter
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -30,7 +30,7 @@ class RootController(
     ): ResponseEntity<String> {
         return cryptoFilter.handleRequest(request, iv, sessionId) { output: SdUiRequest ->
             Thread.sleep(1000)
-            Json.encodeToString(routingController.getSdUiScreen(output))
+            JsonProvider.json.encodeToString(routingController.getSdUiScreen(output))
         }
     }
 
@@ -46,7 +46,7 @@ class RootController(
             sessionId
         ) { output: UpdateSdUiTemplateRequest ->
             Thread.sleep(200)
-            Json.encodeToString(routingController.getSdUiScreenUpdate(output))
+            JsonProvider.json.encodeToString(routingController.getSdUiScreenUpdate(output))
         }
     }
 }

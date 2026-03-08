@@ -12,24 +12,20 @@ import com.vini.designsystemsdui.component.LazyColumn
 import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.core.SdUiComposer
 import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.clickable
 import com.vini.designsystemsdui.modifier.fillMaxHeight
 import com.vini.designsystemsdui.modifier.fillMaxWidth
 import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
 import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.property.DrawableNameProperty
-import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
-import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
-import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.IconOption
-import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.util.PropertyIdWrapper
+import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.modifier.option.IconOption
+import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.InteractionId
+import com.vini.designsystemsdui.modifier.option.DrawableOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.newcard.NewCardScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -41,53 +37,52 @@ class NewCardIntroScreen : NewCardScreen {
 
     override val screenId: String = "Start"
 
-    private val selectedCardIndex = PropertyIdWrapper<Int>("CardsContent.SelectedCardIndex")
+    private val selectedCardIndex = InteractionId<Int>("CardsContent.SelectedCardIndex")
 
-    private fun getCard(card: CardDbModel, index: Int) = Card(
-        modifier = SdUiModifier().padding(horizontal = 30).padding(vertical = 10).fillMaxWidth()
-            .height(180),
-        content = listOf(
-            Column(
-                modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 20)
-                    .fillMaxHeight(),
-                content = listOf(
-                    Row(
-                        modifier = SdUiModifier().fillMaxWidth(),
-                        horizontalArrangementProperty = HorizontalArrangementProperty(
-                            HorizontalArrangementOption.SpaceBetween
-                        ),
-                        content = listOf(
-                            Text(textProperty = TextProperty(card.name)),
-                            Text(
-                                textProperty = TextProperty(
-                                    "final ".plus(
-                                        card.number.split(" ").last()
+    private fun SdUiComposer.cardItem(card: CardDbModel, index: Int) {
+        Card(
+            modifier = SdUiModifier().padding(horizontal = 30).padding(vertical = 10).fillMaxWidth()
+                .height(180).clickable(action = ToNumberAction(selectedCardIndex, index)),
+            content = {
+                Column(
+                    modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 20)
+                        .fillMaxHeight(),
+                    content = {
+                        Row(
+                            modifier = SdUiModifier().fillMaxWidth(),
+                            horizontalArrangement = (
+                                HorizontalArrangementOption.SpaceBetween()
+                            ),
+                            content = {
+                                Text(text = card.name)
+                                Text(
+                                    text = (
+                                        "final ".plus(card.number.split(" ").last())
                                     )
                                 )
-                            )
+                            }
                         )
-                    ),
-                    Text(textProperty = TextProperty(card.type)),
-                    Column(
-                        modifier = SdUiModifier().fillMaxHeight().fillMaxWidth(),
-                        horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                            HorizontalAlignmentOption.End
-                        ),
-                        verticalArrangementProperty = VerticalArrangementProperty(
-                            VerticalArrangementOption.Bottom
-                        ),
-                        content = listOf(
-                            Image(
-                                modifier = SdUiModifier().size(30),
-                                drawableNameProperty = DrawableNameProperty("Visa"),
-                            )
+                        Text(text = card.type)
+                        Column(
+                            modifier = SdUiModifier().fillMaxHeight().fillMaxWidth(),
+                            horizontalAlignment = (
+                                HorizontalAlignmentOption.End()
+                            ),
+                            verticalArrangement = (
+                                VerticalArrangementOption.Bottom()
+                            ),
+                            content = {
+                                Image(
+                                    modifier = SdUiModifier().size(30),
+                                    iconDrawable = DrawableOption.Visa,
+                                )
+                            }
                         )
-                    ),
+                    }
                 )
-            ),
-        ),
-        onClick = ToNumberAction(selectedCardIndex, index)
-    )
+            },
+        )
+    }
 
     override fun getScreen(
         request: SdUiRequest,
@@ -98,25 +93,24 @@ class NewCardIntroScreen : NewCardScreen {
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content = listOf(
+            content = {
                 TopAppBar(
-                    title = listOf(Text(textProperty = TextProperty("Select your card"))),
-                    navigationIcon = listOf(
+                    title = {
+                        Text(text = "Select your card")
+                    },
+                    navigationIcon = {
                         IconButton(
-                            content = listOf(
-                                Icon(
-                                    iconNameProperty = IconNameProperty(IconOption.LeftArrow),
-                                )
-                            ),
-                            onClick = CloseAction()
+                            content = {
+                                Icon(icon = IconOption.LeftArrow)
+                            },
+                            onClickAction = CloseAction()
                         )
-                    )
-                ),
+                    }
+                )
                 LazyColumn(
-                    modifier = SdUiModifier().fillMaxWidth(),
-                    weightProperty = WeightProperty(1f),
-                    content = listOf(
-                        getCard(
+                    modifier = SdUiModifier().fillMaxWidth().fillMaxHeight(),
+                    content = {
+                        cardItem(
                             card = CardDbModel(
                                 identifier = "",
                                 name = "Platinum card",
@@ -126,8 +120,8 @@ class NewCardIntroScreen : NewCardScreen {
                                 cvv = "",
                             ),
                             index = 0
-                        ),
-                        getCard(
+                        )
+                        cardItem(
                             card = CardDbModel(
                                 identifier = "",
                                 name = "Gold card",
@@ -137,8 +131,8 @@ class NewCardIntroScreen : NewCardScreen {
                                 cvv = "",
                             ),
                             index = 1
-                        ),
-                        getCard(
+                        )
+                        cardItem(
                             card = CardDbModel(
                                 identifier = "",
                                 name = "Silver Card",
@@ -148,10 +142,10 @@ class NewCardIntroScreen : NewCardScreen {
                                 cvv = "",
                             ),
                             index = 2
-                        ),
-                    )
-                ),
-            )
+                        )
+                    }
+                )
+            }
         )
     }
 }

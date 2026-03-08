@@ -12,18 +12,14 @@ import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
 import com.vini.designsystemsdui.exception.createSdUiPropertyUpdateException
 import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxHeight
 import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
 import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.property.EnabledProperty
-import com.vini.designsystemsdui.property.ErrorMessageProperty
-import com.vini.designsystemsdui.property.ErrorProperty
-import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
-import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
-import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.util.PropertyIdWrapper
+import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.InteractionId
+import com.vini.designsystemsdui.component.ButtonInteractionModel
+import com.vini.designsystemsdui.component.OutlinedTextInputInteractionModel
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vini.designsystemsdui.validator.emailValidator
 import com.vinibank.backend.db.UserDatabase
@@ -34,16 +30,16 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 import org.springframework.stereotype.Component
 
-@Component()
+@Component
 class EmailScreen(
     private val userDb: UserDatabase,
 ) : SignUpScreen {
     override val screenId: String = "Start"
 
-    private val emailInputId = PropertyIdWrapper<String>("SignUp.Email.emailInput")
-    private val isEmailValid = PropertyIdWrapper<Boolean>("SignUp.Email.isEmailValid")
-    private val isError = PropertyIdWrapper<Boolean>("SignUp.Email.emailInput.isError")
-    private val errorMessage = PropertyIdWrapper<String>("SignUp.Email.emailInput.errorMessage")
+    private val emailInputId = InteractionId<String>("SignUp.Email.emailInput")
+    private val isEmailValid = InteractionId<Boolean>("SignUp.Email.isEmailValid")
+    private val isError = InteractionId<Boolean>("SignUp.Email.emailInput.isError")
+    private val errorMessage = InteractionId<String>("SignUp.Email.emailInput.errorMessage")
 
     override fun getScreen(
         request: SdUiRequest,
@@ -64,9 +60,9 @@ class EmailScreen(
             throw createSdUiPropertyUpdateException(
                 message = "Email ja cadastrado",
                 properties = listOf(
-                    ErrorMessageProperty("Email já cadastrado", errorMessage),
-                    ErrorProperty(true, isError),
-                    EnabledProperty(false, isEmailValid),
+//                    ErrorMessageProperty("Email já cadastrado", errorMessage),TODO()
+//                    ErrorProperty(true, isError),
+//                    EnabledProperty(false, isEmailValid),
                 )
             )
         }
@@ -79,57 +75,51 @@ class EmailScreen(
         flow = request.flow,
         stage = screenId,
         version = "1",
-        content = listOf(
+        content = {
             TopAppBar(
                 modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
-                title = listOf(
-                    Text(
-                        textProperty = TextProperty("Email"),
-                    )
-                )
-            ),
+                title = {
+                    Text(text = "Email")
+                }
+            )
             LazyColumn(
-                modifier = SdUiModifier().padding(vertical = 20),
-                verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.SpaceBetween),
-                weightProperty = WeightProperty(1f),
-                content = listOf(
+                modifier = SdUiModifier().padding(vertical = 20).fillMaxHeight(),
+                verticalArrangement = VerticalArrangementOption.SpaceBetween(),
+                content = {
                     OutlinedTextInput(
+                        interactionModel = OutlinedTextInputInteractionModel(
+                            text = emailInputId,
+                            isError = isError,
+                            errorMessage = errorMessage,
+                        ),
                         modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
-                        textProperty = TextProperty(state.email, emailInputId),
-                        errorProperty = ErrorProperty(
-                            state.isError,
-                            isError
-                        ),
-                        errorMessageProperty = ErrorMessageProperty(
-                            "Email já cadastrado",
-                            idWrapper = errorMessage
-                        ),
-                        label = listOf(
-                            Text(textProperty = TextProperty(value = "Digite seu email"))
-                        ),
+                        text = state.email,
+                        isError = state.isError,
+                        errorMessage = "Email já cadastrado",
+                        label = {
+                            Text(text = "Digite seu email")
+                        },
                         validators = listOf(
                             emailValidator(
                                 idWrapper = isEmailValid,
                                 emails = listOf(emailInputId),
                             ),
                         )
-                    ),
+                    )
                     Column(
                         modifier = SdUiModifier().padding(horizontal = 20).fillMaxWidth(),
-                        horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                            HorizontalAlignmentOption.Center
-                        ),
-                        content = listOf(
+                        horizontalAlignment = HorizontalAlignmentOption.Center(),
+                        content = {
                             Button(
+                                interactionModel = ButtonInteractionModel(
+                                    enabled = isEmailValid
+                                ),
                                 modifier = SdUiModifier().fillMaxWidth(),
-                                content = listOf(
-                                    Text(textProperty = TextProperty(value = "Continuar"))
-                                ),
-                                enabledProperty = EnabledProperty(
-                                    false,
-                                    isEmailValid
-                                ),
-                                onClick = ContinueAction(
+                                content = {
+                                    Text(text = "Continuar")
+                                },
+                                enabled = false,
+                                onClickAction = ContinueAction(
                                     flowId = "SignUp",
                                     nextScreenId = "PersonalInfo",
                                     currentScreenId = screenId,
@@ -138,18 +128,18 @@ class EmailScreen(
                                     ),
                                     screenData = request.screenData,
                                 ),
-                            ),
+                            )
                             OutlinedButton(
                                 modifier = SdUiModifier().fillMaxWidth(),
-                                content = listOf(
-                                    Text(textProperty = TextProperty(value = "Fechar"))
-                                ),
-                                onClick = CloseAction()
+                                content = {
+                                    Text(text = "Fechar")
+                                },
+                                onClickAction = CloseAction()
                             )
-                        )
+                        }
                     )
-                )
+                }
             )
-        )
+        }
     )
 }

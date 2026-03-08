@@ -10,40 +10,24 @@ import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.SdUi
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.core.SdUiComposer
 import com.vini.designsystemsdui.modifier.SdUiModifier
 import com.vini.designsystemsdui.modifier.background
 import com.vini.designsystemsdui.modifier.clip
+import com.vini.designsystemsdui.modifier.fillMaxHeight
 import com.vini.designsystemsdui.modifier.fillMaxWidth
 import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.option.FontWeightOption
+import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.modifier.option.IconOption
 import com.vini.designsystemsdui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.modifier.option.VerticalAlignmentOption
+import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
 import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.modifier.size
 import com.vini.designsystemsdui.modifier.width
-import com.vini.designsystemsdui.property.ButtonColorsProperty
-import com.vini.designsystemsdui.property.CardColorsProperty
-import com.vini.designsystemsdui.property.ColorProperty
-import com.vini.designsystemsdui.property.FlowIdentifierProperty
-import com.vini.designsystemsdui.property.FontSizeProperty
-import com.vini.designsystemsdui.property.FontWeightProperty
-import com.vini.designsystemsdui.property.FromScreenIdentifierProperty
-import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.LineHeightProperty
-import com.vini.designsystemsdui.property.ShapeProperty
-import com.vini.designsystemsdui.property.StageIdentifierProperty
-import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.TintProperty
-import com.vini.designsystemsdui.property.VerticalAlignmentProperty
-import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.ButtonColorsModel
 import com.vini.designsystemsdui.property.options.CardColorsModel
-import com.vini.designsystemsdui.property.options.FontWeightOption
-import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.IconOption
-import com.vini.designsystemsdui.property.options.ShapeOptions
-import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
-import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.color.ColorOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.RoutingController
@@ -67,7 +51,7 @@ class CreditCardScreen(
         val surface = ColorOption.CustomColor(0xf202B8CEE)
         val subtitleColor = ColorOption.CustomColor(0xff94A3B8)
 
-        fun cardVisual(
+        fun SdUiComposer.cardVisual(
             name: String,
             holder: String,
             number: String,
@@ -78,138 +62,127 @@ class CreditCardScreen(
             accentTwo: ColorOption,
         ) = Card(
             modifier = SdUiModifier().fillMaxWidth(),
-            shapeProperty = ShapeProperty(ShapeOptions.Large),
-            cardColorsProperty = CardColorsProperty(
-                value = CardColorsModel(
-                    containerColor = cardColor,
-                    contentColor = textColor,
-                )
+            shape = ShapeOption.RoundedCorner(16),
+            colors = CardColorsModel(
+                containerColor = cardColor,
+                contentColor = textColor,
             ),
-            content = listOf(
+            content = {
                 Column(
-                    modifier = SdUiModifier().padding(horizontal = 16).padding(vertical = 16)
-                        .height(170),
-                    verticalArrangementProperty = VerticalArrangementProperty(
-                        VerticalArrangementOption.SpaceBetween
-                    ),
-                    content = listOf(
+                    modifier = SdUiModifier().padding(16).height(170),
+                    verticalArrangement = VerticalArrangementOption.SpaceBetween(),
+                    content = {
                         Row(
                             modifier = SdUiModifier().fillMaxWidth(),
-                            horizontalArrangementProperty = HorizontalArrangementProperty(
-                                HorizontalArrangementOption.SpaceBetween
-                            ),
-                            verticalAlignmentProperty = VerticalAlignmentProperty(
-                                VerticalAlignmentOption.Center
-                            ),
-                            content = listOf(
+                            horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
+                            verticalAlignment = VerticalAlignmentOption.Center(),
+                            content = {
                                 Icon(
                                     modifier = SdUiModifier().size(20),
-                                    iconNameProperty = IconNameProperty(IconOption.Card),
-                                    tintProperty = TintProperty(textColor),
-                                ),
+                                    icon = IconOption.Card,
+                                    tint = textColor,
+                                )
                                 Text(
-                                    textProperty = TextProperty(name),
-                                    fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
-                                    fontSizeProperty = FontSizeProperty(26f),
-                                    lineHeightProperty = LineHeightProperty(26),
-                                    colorProperty = ColorProperty(textColor),
-                                ),
-                            )
-                        ),
+                                    text = name,
+                                    fontWeight = FontWeightOption.Bold,
+                                    fontSize = 26f,
+                                    lineHeight = 26f,
+                                    color = textColor,
+                                )
+                            }
+                        )
                         Row(
-                            content = listOf(
+                            content = {
                                 Column(
                                     modifier = SdUiModifier().size(16)
                                         .clip(shape = ShapeOption.Circle())
                                         .background(accentOne),
-                                ),
-                                Spacer(modifier = SdUiModifier().width(6)),
+                                )
+                                Spacer(modifier = SdUiModifier().width(6))
                                 Column(
                                     modifier = SdUiModifier().size(16)
                                         .clip(shape = ShapeOption.Circle())
                                         .background(accentTwo),
-                                ),
-                            )
-                        ),
+                                )
+                            }
+                        )
                         Column(
-                            content = listOf(
+                            content = {
                                 Text(
-                                    textProperty = TextProperty(number),
-                                    colorProperty = ColorProperty(textColor),
-                                    fontSizeProperty = FontSizeProperty(14f),
-                                ),
-                                Spacer(modifier = SdUiModifier().size(8)),
+                                    text = number,
+                                    color = textColor,
+                                    fontSize = 14f,
+                                )
+                                Spacer(modifier = SdUiModifier().size(8))
                                 Row(
                                     modifier = SdUiModifier().fillMaxWidth(),
-                                    horizontalArrangementProperty = HorizontalArrangementProperty(
-                                        HorizontalArrangementOption.SpaceBetween
-                                    ),
-                                    content = listOf(
+                                    horizontalArrangement = (
+                                            HorizontalArrangementOption.SpaceBetween()
+                                            ),
+                                    content = {
                                         Text(
-                                            textProperty = TextProperty(holder),
-                                            colorProperty = ColorProperty(textColor),
-                                            fontSizeProperty = FontSizeProperty(14f),
-                                            fontWeightProperty = FontWeightProperty(FontWeightOption.SemiBold)
-                                        ),
-                                        Text(
-                                            textProperty = TextProperty(date),
-                                            colorProperty = ColorProperty(textColor),
-                                            fontSizeProperty = FontSizeProperty(12f),
+                                            text = holder,
+                                            color = textColor,
+                                            fontSize = 14f,
+                                            fontWeight = FontWeightOption.SemiBold
                                         )
-                                    )
+                                        Text(
+                                            text = date,
+                                            color = textColor,
+                                            fontSize = 12f,
+                                        )
+                                    }
                                 )
-                            )
+                            }
                         )
-                    )
+                    }
                 )
-            )
+            }
         )
 
-        fun benefitItem(text: String, iconColor: ColorOption) = Row(
-            verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
-            content = listOf(
+        fun SdUiComposer.benefitItem(text: String, iconColor: ColorOption) = Row(
+            verticalAlignment = VerticalAlignmentOption.Center(),
+            content = {
                 Icon(
                     modifier = SdUiModifier().size(16),
-                    iconNameProperty = IconNameProperty(IconOption.Check),
-                    tintProperty = TintProperty(iconColor),
-                ),
-                Spacer(modifier = SdUiModifier().width(10)),
-                Text(
-                    textProperty = TextProperty(text),
-                    colorProperty = ColorProperty(ColorOption.White()),
-                    fontSizeProperty = FontSizeProperty(14f),
-                    lineHeightProperty = LineHeightProperty(20)
+                    icon = IconOption.Check,
+                    tint = iconColor,
                 )
-            )
+                Spacer(modifier = SdUiModifier().width(10))
+                Text(
+                    text = text,
+                    color = ColorOption.White(),
+                    fontSize = 14f,
+                    lineHeight = 20f
+                )
+            }
         )
 
-        fun benefitsList(items: List<String>, iconColor: ColorOption) = Column(
-            verticalArrangementProperty = VerticalArrangementProperty(
-                VerticalArrangementOption.SpacedBy(
-                    10
-                )
-            ),
-            content = items.map { benefitItem(it, iconColor) }
+        fun SdUiComposer.benefitsList(items: List<String>, iconColor: ColorOption) = Column(
+            verticalArrangement = VerticalArrangementOption.SpacedBy(10),
+            content = {
+                items.forEach { benefitItem(it, iconColor) }
+            }
         )
 
-        fun infoRow(label: String, value: String) = Column(
-            content = listOf(
+        fun SdUiComposer.infoRow(label: String, value: String) = Column(
+            content = {
                 Text(
-                    textProperty = TextProperty(label),
-                    colorProperty = ColorProperty(subtitleColor),
-                    fontSizeProperty = FontSizeProperty(12f)
-                ),
-                Spacer(modifier = SdUiModifier().size(2)),
-                Text(
-                    textProperty = TextProperty(value),
-                    colorProperty = ColorProperty(ColorOption.White()),
-                    fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
-                    fontSizeProperty = FontSizeProperty(16f)
+                    text = label,
+                    color = subtitleColor,
+                    fontSize = 12f
                 )
-            )
+                Spacer(modifier = SdUiModifier().size(2))
+                Text(
+                    text = value,
+                    color = ColorOption.White(),
+                    fontWeight = FontWeightOption.Bold,
+                    fontSize = 16f
+                )
+            }
         )
 
-        fun cardPlanSection(
+        fun SdUiComposer.cardPlanSection(
             cardName: String,
             holder: String,
             number: String,
@@ -225,20 +198,16 @@ class CreditCardScreen(
             benefitIconColor: ColorOption,
         ) = Card(
             modifier = SdUiModifier().fillMaxWidth(),
-            shapeProperty = ShapeProperty(ShapeOptions.Large),
-            cardColorsProperty = CardColorsProperty(
-                value = CardColorsModel(
-                    containerColor = surface,
-                    contentColor = ColorOption.White(),
-                )
+            shape = ShapeOption.RoundedCorner(16),
+            colors = CardColorsModel(
+                containerColor = surface,
+                contentColor = ColorOption.White(),
             ),
-            content = listOf(
+            content = {
                 Column(
                     modifier = SdUiModifier().padding(horizontal = 16).padding(vertical = 16),
-                    verticalArrangementProperty = VerticalArrangementProperty(
-                        VerticalArrangementOption.SpacedBy(14)
-                    ),
-                    content = listOf(
+                    verticalArrangement = VerticalArrangementOption.SpacedBy(14),
+                    content = {
                         cardVisual(
                             name = cardName,
                             holder = holder,
@@ -248,98 +217,88 @@ class CreditCardScreen(
                             textColor = visualTextColor,
                             accentOne = badgeOne,
                             accentTwo = badgeTwo,
-                        ),
+                        )
                         Text(
-                            textProperty = TextProperty(benefitsTitle),
-                            colorProperty = ColorProperty(ColorOption.CustomColor(0xffCBD5E1)),
-                            fontWeightProperty = FontWeightProperty(FontWeightOption.SemiBold),
-                            fontSizeProperty = FontSizeProperty(14f)
-                        ),
-                        benefitsList(benefits, benefitIconColor),
+                            text = benefitsTitle,
+                            color = ColorOption.CustomColor(0xffCBD5E1),
+                            fontWeight = FontWeightOption.SemiBold,
+                            fontSize = 14f
+                        )
+                        benefitsList(benefits, benefitIconColor)
                         Card(
                             modifier = SdUiModifier().fillMaxWidth(),
-                            shapeProperty = ShapeProperty(ShapeOptions.Medium),
-                            cardColorsProperty = CardColorsProperty(
-                                value = CardColorsModel(
-                                    containerColor = ColorOption.CustomColor(0xff0F172A),
-                                    contentColor = ColorOption.White(),
-                                )
+                            shape = ShapeOption.RoundedCorner(8),
+                            colors = CardColorsModel(
+                                containerColor = ColorOption.CustomColor(0xff0F172A),
+                                contentColor = ColorOption.White(),
                             ),
-                            content = listOf(
+                            content = {
                                 Row(
                                     modifier = SdUiModifier().padding(horizontal = 14)
                                         .padding(vertical = 12).fillMaxWidth(),
-                                    horizontalArrangementProperty = HorizontalArrangementProperty(
-                                        HorizontalArrangementOption.SpaceBetween
-                                    ),
-                                    content = listOf(
-                                        infoRow("Annual Fee", fee),
-                                        infoRow("Pre-approved Limit", limit),
-                                    )
+                                    horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
+                                    content = {
+                                        infoRow("Annual Fee", fee)
+                                        infoRow("Pre-approved Limit", limit)
+                                    }
                                 )
-                            )
-                        ),
+                            }
+                        )
                         Button(
                             modifier = SdUiModifier().fillMaxWidth(),
-                            shapeProperty = ShapeProperty(ShapeOptions.Medium),
-                            buttonColorsProperty = ButtonColorsProperty(
-                                value = ButtonColorsModel(
-                                    containerColor = ColorOption.White(),
-                                    contentColor = ColorOption.CustomColor(0xff111827),
-                                )
+                            shape = ShapeOption.RoundedCorner(8),
+                            colors = ButtonColorsModel(
+                                containerColor = ColorOption.White(),
+                                contentColor = ColorOption.CustomColor(0xff111827),
                             ),
-                            content = listOf(
+                            content = {
                                 Text(
                                     modifier = SdUiModifier().padding(vertical = 6),
-                                    textProperty = TextProperty("Choose this Card"),
-                                    fontSizeProperty = FontSizeProperty(16f),
-                                    fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
+                                    text = "Choose this Card",
+                                    fontSize = 16f,
+                                    fontWeight = FontWeightOption.Bold,
                                 )
-                            )
+                            }
                         )
-                    )
+                    }
                 )
-            )
+            }
         )
 
-        val screen = DefaultTemplate(
+        return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content = listOf(
+            content = {
                 Column(
-                    modifier = SdUiModifier().fillMaxWidth().background(background),
-                    weightProperty = WeightProperty(1f),
-                    content = listOf(
+                    modifier = SdUiModifier().fillMaxWidth().background(background).fillMaxHeight(),
+                    content = {
                         LazyColumn(
                             modifier = SdUiModifier().padding(horizontal = 12, vertical = 16)
-                                .fillMaxWidth(),
-                            weightProperty = WeightProperty(1f),
-                            verticalArrangementProperty = VerticalArrangementProperty(
-                                VerticalArrangementOption.SpacedBy(14)
-                            ),
-                            content = listOf(
+                                .fillMaxWidth().fillMaxHeight(),
+                            verticalArrangement = VerticalArrangementOption.SpacedBy(14),
+                            content = {
                                 Column(
                                     modifier = SdUiModifier().padding(horizontal = 8),
-                                    content = listOf(
+                                    content = {
                                         Text(
-                                            textProperty = TextProperty("Choose your plan"),
-                                            colorProperty = ColorProperty(ColorOption.White()),
-                                            fontWeightProperty = FontWeightProperty(FontWeightOption.Bold),
-                                            fontSizeProperty = FontSizeProperty(36f),
-                                            lineHeightProperty = LineHeightProperty(42)
-                                        ),
-                                        Spacer(modifier = SdUiModifier().size(4)),
-                                        Text(
-                                            textProperty = TextProperty(
-                                                "Select the credit card that best fits your financial goals."
-                                            ),
-                                            colorProperty = ColorProperty(subtitleColor),
-                                            fontSizeProperty = FontSizeProperty(15f),
-                                            lineHeightProperty = LineHeightProperty(22)
+                                            text = "Choose your plan",
+                                            color = ColorOption.White(),
+                                            fontWeight = FontWeightOption.Bold,
+                                            fontSize = 36f,
+                                            lineHeight = 42f
                                         )
-                                    )
-                                ),
+                                        Spacer(modifier = SdUiModifier().size(4))
+                                        Text(
+                                            text = (
+                                                    "Select the credit card that best fits your financial goals."
+                                                    ),
+                                            color = subtitleColor,
+                                            fontSize = 15f,
+                                            lineHeight = 22f
+                                        )
+                                    }
+                                )
                                 cardPlanSection(
                                     cardName = "GOLD",
                                     holder = "RICARDO SILVA",
@@ -358,7 +317,7 @@ class CreditCardScreen(
                                     badgeOne = ColorOption.CustomColor(0xffEF4444),
                                     badgeTwo = ColorOption.CustomColor(0xffFBBF24),
                                     benefitIconColor = ColorOption.CustomColor(0xffFDB931),
-                                ),
+                                )
                                 cardPlanSection(
                                     cardName = "PLATINUM",
                                     holder = "RICARDO SILVA",
@@ -377,7 +336,7 @@ class CreditCardScreen(
                                     badgeOne = ColorOption.CustomColor(0xff9CA3AF),
                                     badgeTwo = ColorOption.CustomColor(0xffE5E7EB),
                                     benefitIconColor = ColorOption.CustomColor(0xffE2E8F0),
-                                ),
+                                )
                                 cardPlanSection(
                                     cardName = "INFINITE",
                                     holder = "RICARDO SILVA",
@@ -396,15 +355,13 @@ class CreditCardScreen(
                                     badgeOne = ColorOption.CustomColor(0xff71717A),
                                     badgeTwo = ColorOption.CustomColor(0xff52525B),
                                     benefitIconColor = ColorOption.CustomColor(0xff94A3B8),
-                                ),
-                            )
+                                )
+                            }
                         )
-                    )
+                    }
                 )
-            )
+            }
         )
-
-        return screen
     }
 
     fun getScreen1(
@@ -415,12 +372,12 @@ class CreditCardScreen(
         flow = request.flow,
         stage = screenId,
         version = "1",
-        content = listOf(
+        content = {
             SdUi(
                 modifier = SdUiModifier().fillMaxWidth(),
-                flowIdentifierProperty = FlowIdentifierProperty("Card"),
-                stageIdentifierProperty = StageIdentifierProperty("Start"),
-                fromScreenIdentifierProperty = FromScreenIdentifierProperty(screenId),
+                flow = "Card",
+                stage = "Start",
+                currentScreen = screenId,
                 template = routingController.getTemplate(
                     SdUiRequest(
                         flow = "Card",
@@ -429,7 +386,7 @@ class CreditCardScreen(
                         screenData = request.screenData
                     )
                 )
-            ),
-        )
+            )
+        }
     )
 }

@@ -1,5 +1,6 @@
 package com.vinibank.backend.sdui.flow.login.screen
 
+import com.vini.designsystemsdui.InteractionId
 import com.vini.designsystemsdui.Template
 import com.vini.designsystemsdui.action.CloseApplicationAction
 import com.vini.designsystemsdui.action.ContinueAction
@@ -9,10 +10,12 @@ import com.vini.designsystemsdui.action.ToModifierAction
 import com.vini.designsystemsdui.action.ToTypeAction
 import com.vini.designsystemsdui.component.BackHandler
 import com.vini.designsystemsdui.component.Button
+import com.vini.designsystemsdui.component.ButtonInteractionModel
 import com.vini.designsystemsdui.component.Column
 import com.vini.designsystemsdui.component.Icon
 import com.vini.designsystemsdui.component.IconButton
 import com.vini.designsystemsdui.component.OutlinedTextInput
+import com.vini.designsystemsdui.component.OutlinedTextInputInteractionModel
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.modifier.BaseModifier
@@ -21,37 +24,22 @@ import com.vini.designsystemsdui.modifier.background
 import com.vini.designsystemsdui.modifier.clip
 import com.vini.designsystemsdui.modifier.fillMaxWidth
 import com.vini.designsystemsdui.modifier.height
+import com.vini.designsystemsdui.modifier.option.FontWeightOption
+import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.modifier.option.IconOption
+import com.vini.designsystemsdui.modifier.option.KeyboardOptionsOption
 import com.vini.designsystemsdui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.modifier.option.VisualTransformationOption
 import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.modifier.size
+import com.vini.designsystemsdui.modifier.verticalScroll
 import com.vini.designsystemsdui.modifier.visible
 import com.vini.designsystemsdui.modifier.width
-import com.vini.designsystemsdui.property.ButtonColorsProperty
-import com.vini.designsystemsdui.property.EnabledProperty
-import com.vini.designsystemsdui.property.FontSizeProperty
-import com.vini.designsystemsdui.property.FontWeightProperty
-import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
-import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.KeyboardOptionsProperty
-import com.vini.designsystemsdui.property.OutlinedTextFieldColorsProperty
-import com.vini.designsystemsdui.property.ShapeProperty
-import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.VerticalScrollProperty
-import com.vini.designsystemsdui.property.VisualTransformationProperty
-import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.ButtonColorsModel
-import com.vini.designsystemsdui.property.options.FontWeightOption
-import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
-import com.vini.designsystemsdui.property.options.IconOption
-import com.vini.designsystemsdui.property.options.KeyboardOptionsOption
 import com.vini.designsystemsdui.property.options.OutlinedTextFieldColorsModel
-import com.vini.designsystemsdui.property.options.ShapeOptions
 import com.vini.designsystemsdui.property.options.TextSelectionColorsModel
-import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.options.VisualTransformationOption
 import com.vini.designsystemsdui.property.options.color.ColorOption
-import com.vini.designsystemsdui.property.util.PropertyIdWrapper
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vini.designsystemsdui.validator.allTrueValidator
 import com.vini.designsystemsdui.validator.emailValidator
@@ -86,300 +74,273 @@ class MainLoginScreen(
         val outlinedTextFieldLabelPadding = outlinedTextFieldsPadding + 20
         val screenFlowId = "${request.flow}.${screenId}"
 
-        val emailInputId = PropertyIdWrapper<String>("$screenFlowId.Email")
-        val isEmailValid = PropertyIdWrapper<Boolean>("$screenFlowId.Email.EmailValid")
-        val passwordInputId = PropertyIdWrapper<String>("$screenFlowId.Password")
+        val emailInputId = InteractionId<String>("$screenFlowId.Email")
+        val isEmailValid = InteractionId<Boolean>("$screenFlowId.Email.EmailValid")
+        val passwordInputId = InteractionId<String>("$screenFlowId.Password")
         val passwordVisualTransformation =
-            PropertyIdWrapper<VisualTransformationOption>("$screenFlowId.Password.VisualTransformation")
-        val isPasswordMinLength = PropertyIdWrapper<Boolean>("$screenFlowId.Email.MinLength")
+            InteractionId<VisualTransformationOption>("$screenFlowId.Password.VisualTransformation")
+        val isPasswordMinLength = InteractionId<Boolean>("$screenFlowId.Email.MinLength")
 
-        val isContinueEnabled = PropertyIdWrapper<Boolean>("$screenFlowId.LoginButton.Enabled")
-        val isPasswordVisible = PropertyIdWrapper<BaseModifier>("$screenFlowId.PasswordIsVisible")
+        val isContinueEnabled = InteractionId<Boolean>("$screenFlowId.LoginButton.Enabled")
+        val isPasswordVisible = InteractionId<BaseModifier>("$screenFlowId.PasswordIsVisible")
         val isPasswordInvisible =
-            PropertyIdWrapper<BaseModifier>("$screenFlowId.PasswordIsNotVisible")
+            InteractionId<BaseModifier>("$screenFlowId.PasswordIsNotVisible")
 
-        val loginActionId = PropertyIdWrapper<String>("$screenFlowId.LoginAction")
+        val loginActionId = InteractionId<String>("$screenFlowId.LoginAction")
 
         return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content = listOf(
-                BackHandler(onBackAction = CloseApplicationAction()),
-                Column(
-                    modifier = SdUiModifier().fillMaxWidth()
-                        .background(ColorOption.CaribbeanGreen()),
-                    verticalScrollProperty = VerticalScrollProperty(true),
-                    horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                        HorizontalAlignmentOption.Center
-                    ),
-                    weightProperty = WeightProperty(1f),
-                    content = listOf(
-                        Spacer(modifier = SdUiModifier().height(20)),
-                        Text(
-                            modifier = SdUiModifier().padding(vertical = 60),
-                            textProperty = TextProperty("Welcome"),
-                            fontSizeProperty = FontSizeProperty(30f),
-                            fontWeightProperty = FontWeightProperty(FontWeightOption.SemiBold)
-                        ),
-                        Column(
-                            modifier = SdUiModifier().fillMaxWidth()
-                                .clip(ShapeOption.RoundedCornerEdges(40, 40))
-                                .background(ColorOption.HoneyDew()),
-                            weightProperty = WeightProperty(1f),
-                            horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                                HorizontalAlignmentOption.Center
-                            ),
-                            content = listOf(
-                                Spacer(modifier = SdUiModifier().height(70)),
-                                Text(
-                                    modifier = SdUiModifier().fillMaxWidth().padding(
-                                        horizontal = outlinedTextFieldLabelPadding
-                                    ),
-                                    textProperty = TextProperty("Email"),
-                                    fontSizeProperty = FontSizeProperty(18f),
-                                ),
-                                OutlinedTextInput(
-                                    modifier = SdUiModifier().fillMaxWidth().padding(
-                                        horizontal = outlinedTextFieldsPadding
-                                    ),
-                                    outlinedTextFieldColorsProperty = OutlinedTextFieldColorsProperty(
-                                        OutlinedTextFieldColorsModel(
-                                            focusedBorderColor = ColorOption.Transparent(),
-                                            unfocusedBorderColor = ColorOption.Transparent(),
-                                            focusedContainerColor = ColorOption.LightGreen(),
-                                            unfocusedContainerColor = ColorOption.LightGreen(),
-                                            focusedPlaceholderColor = ColorOption.Black(),
-                                            unfocusedPlaceholderColor = ColorOption.Black(),
-                                            cursorColor = ColorOption.CaribbeanGreen(),
-                                            textSelectionColors = TextSelectionColorsModel(
-                                                backgroundColor = ColorOption.CaribbeanGreen(),
-                                                handleColor = ColorOption.CaribbeanGreen()
-                                            )
-                                        )
-                                    ),
-                                    shapeProperty = ShapeProperty(ShapeOptions.Circle),
-                                    textProperty = TextProperty(
-                                        idWrapper = emailInputId,
-                                        value = "vinioliveirasilva@outlook.com"
-                                    ),
-                                    prefix = listOf(
-                                        Spacer(modifier = SdUiModifier().width(10))
-                                    ),
-                                    validators = listOf(
-                                        emailValidator(
-                                            idWrapper = isEmailValid,
-                                            emails = listOf(emailInputId)
+            content = {
+                Column {
+                    BackHandler(onBackAction = CloseApplicationAction())
+                    Column(
+                        modifier = SdUiModifier().fillMaxWidth().weight(1f)
+                            .background(ColorOption.CaribbeanGreen()).verticalScroll(),
+                        horizontalAlignment = HorizontalAlignmentOption.Center(),
+                        content = {
+                            Spacer(modifier = SdUiModifier().height(20))
+                            Text(
+                                modifier = SdUiModifier().padding(vertical = 60),
+                                text = "Welcome",
+                                fontSize = 30f,
+                                fontWeight = FontWeightOption.SemiBold
+                            )
+                            Column(
+                                modifier = SdUiModifier().fillMaxWidth()
+                                    .clip(ShapeOption.RoundedCornerEdges(40, 40))
+                                    .background(ColorOption.HoneyDew()).weight(1f),
+                                horizontalAlignment = HorizontalAlignmentOption.Center(),
+                                content = {
+                                    Spacer(modifier = SdUiModifier().height(70))
+                                    Text(
+                                        modifier = SdUiModifier().fillMaxWidth().padding(
+                                            horizontal = outlinedTextFieldLabelPadding
                                         ),
-                                    ),
-                                ),
-                                Spacer(modifier = SdUiModifier().height(30)),
-                                Text(
-                                    modifier = SdUiModifier().fillMaxWidth().padding(
-                                        horizontal = outlinedTextFieldLabelPadding
-                                    ),
-                                    textProperty = TextProperty("Senha"),
-                                    fontSizeProperty = FontSizeProperty(18f),
-                                ),
-                                OutlinedTextInput(
-                                    modifier = SdUiModifier().fillMaxWidth().padding(
-                                        horizontal = outlinedTextFieldsPadding
-                                    ),
-                                    outlinedTextFieldColorsProperty = OutlinedTextFieldColorsProperty(
-                                        OutlinedTextFieldColorsModel(
-                                            focusedBorderColor = ColorOption.Transparent(),
-                                            unfocusedBorderColor = ColorOption.Transparent(),
-                                            focusedContainerColor = ColorOption.LightGreen(),
-                                            unfocusedContainerColor = ColorOption.LightGreen(),
-                                            focusedPlaceholderColor = ColorOption.Black(),
-                                            unfocusedPlaceholderColor = ColorOption.Black(),
-                                            cursorColor = ColorOption.CaribbeanGreen(),
-                                            textSelectionColors = TextSelectionColorsModel(
-                                                backgroundColor = ColorOption.CaribbeanGreen(),
-                                                handleColor = ColorOption.CaribbeanGreen()
-                                            )
-                                        )
-                                    ),
-                                    shapeProperty = ShapeProperty(ShapeOptions.Circle),
-                                    keyboardOptionsProperty = KeyboardOptionsProperty(
-                                        KeyboardOptionsOption.Password
-                                    ),
-                                    visualTransformationProperty = VisualTransformationProperty(
-                                        VisualTransformationOption.Password,
-                                        passwordVisualTransformation
-                                    ),
-                                    textProperty = TextProperty(
-                                        idWrapper = passwordInputId,
-                                        value = "Vini@123"
-                                    ),
-                                    validators = listOf(
-                                        minLengthValidator(
-                                            idWrapper = isPasswordMinLength,
-                                            idsToValidate = listOf(passwordInputId),
-                                            length = 8
-                                        ),
-                                    ),
-                                    trailingIcon = listOf(
-                                        IconButton(
-                                            modifier = SdUiModifier().visible(
-                                                true,
-                                                isPasswordVisible
-                                            ),
-                                            content = listOf(
-                                                Icon(iconNameProperty = IconNameProperty(IconOption.Visibility))
-                                            ),
-                                            onClick = MultipleActions(
-                                                listOf(
-                                                    ToTypeAction(
-                                                        passwordVisualTransformation,
-                                                        VisualTransformationOption.None
-                                                    ),
-                                                    ToModifierAction(
-                                                        newValue = SdUiModifier().visible(
-                                                            true,
-                                                            isPasswordInvisible
-                                                        )
-                                                    ),
-                                                    ToModifierAction(
-                                                        newValue = SdUiModifier().visible(
-                                                            false,
-                                                            isPasswordVisible
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        ),
-                                        IconButton(
-                                            modifier = SdUiModifier().visible(
-                                                false,
-                                                isPasswordInvisible
-                                            ),
-                                            content = listOf(
-                                                Icon(
-                                                    iconNameProperty = IconNameProperty(
-                                                        IconOption.VisibilityOff
-                                                    )
-                                                )
-                                            ),
-                                            onClick = MultipleActions(
-                                                listOf(
-                                                    ToTypeAction(
-                                                        passwordVisualTransformation,
-                                                        VisualTransformationOption.Password
-                                                    ),
-                                                    ToModifierAction(
-                                                        newValue = SdUiModifier().visible(
-                                                            false,
-                                                            isPasswordInvisible
-                                                        )
-                                                    ),
-                                                    ToModifierAction(
-                                                        newValue = SdUiModifier().visible(
-                                                            true,
-                                                            isPasswordVisible
-                                                        )
-                                                    )
-                                                )
-                                            ),
-                                        ),
-                                    ),
-                                    prefix = listOf(
-                                        Spacer(modifier = SdUiModifier().width(10))
+                                        text = "Email",
+                                        fontSize = 18f,
                                     )
-                                ),
-                                Column(
-                                    modifier = SdUiModifier().padding(horizontal = 30),
-                                    weightProperty = WeightProperty(1f),
-                                    verticalArrangementProperty = VerticalArrangementProperty(
-                                        VerticalArrangementOption.Bottom
-                                    ),
-                                    horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                                        HorizontalAlignmentOption.Center
-                                    ),
-                                    content = listOf(
-                                        Button(
-                                            modifier = SdUiModifier().padding(
-                                                horizontal = outlinedTextFieldLabelPadding
-                                            ).height(50).fillMaxWidth(),
-                                            buttonColorsProperty = ButtonColorsProperty(
-                                                ButtonColorsModel(
+                                    OutlinedTextInput(
+                                        modifier = SdUiModifier().fillMaxWidth().padding(
+                                            horizontal = outlinedTextFieldsPadding
+                                        ),
+                                        colors = OutlinedTextFieldColorsModel(
+                                                    focusedBorderColor = ColorOption.Transparent(),
+                                                    unfocusedBorderColor = ColorOption.Transparent(),
+                                                    focusedContainerColor = ColorOption.LightGreen(),
+                                                    unfocusedContainerColor = ColorOption.LightGreen(),
+                                                    focusedPlaceholderColor = ColorOption.Black(),
+                                                    unfocusedPlaceholderColor = ColorOption.Black(),
+                                                    cursorColor = ColorOption.CaribbeanGreen(),
+                                                    textSelectionColors = TextSelectionColorsModel(
+                                                        backgroundColor = ColorOption.CaribbeanGreen(),
+                                                        handleColor = ColorOption.CaribbeanGreen()
+                                                    )
+                                                ),
+                                        shape = ShapeOption.Circle(),
+                                        text = "vinioliveirasilva@outlook.com",
+                                        prefix = {
+                                            Spacer(modifier = SdUiModifier().width(10))
+                                        },
+                                        validators = listOf(
+                                            emailValidator(
+                                                idWrapper = isEmailValid,
+                                                emails = listOf(emailInputId)
+                                            ),
+                                        ),
+                                        interactionModel = OutlinedTextInputInteractionModel(
+                                            text = emailInputId
+                                        )
+                                    )
+                                    Spacer(modifier = SdUiModifier().height(30))
+                                    Text(
+                                        modifier = SdUiModifier().fillMaxWidth().padding(
+                                            horizontal = outlinedTextFieldLabelPadding
+                                        ),
+                                        text = "Senha",
+                                        fontSize = 18f,
+                                    )
+                                    OutlinedTextInput(
+                                        modifier = SdUiModifier().fillMaxWidth().padding(
+                                            horizontal = outlinedTextFieldsPadding
+                                        ),
+                                        colors = OutlinedTextFieldColorsModel(
+                                                    focusedBorderColor = ColorOption.Transparent(),
+                                                    unfocusedBorderColor = ColorOption.Transparent(),
+                                                    focusedContainerColor = ColorOption.LightGreen(),
+                                                    unfocusedContainerColor = ColorOption.LightGreen(),
+                                                    focusedPlaceholderColor = ColorOption.Black(),
+                                                    unfocusedPlaceholderColor = ColorOption.Black(),
+                                                    cursorColor = ColorOption.CaribbeanGreen(),
+                                                    textSelectionColors = TextSelectionColorsModel(
+                                                        backgroundColor = ColorOption.CaribbeanGreen(),
+                                                        handleColor = ColorOption.CaribbeanGreen()
+                                                    )
+                                                ),
+                                        shape = ShapeOption.Circle(),
+                                        keyboardOptions = KeyboardOptionsOption.Password,
+                                        interactionModel = OutlinedTextInputInteractionModel(
+                                            text = passwordInputId,
+                                            visualTransformation = passwordVisualTransformation
+                                        ),
+                                        visualTransformation = VisualTransformationOption.Password(),
+                                        text = "Vini@123",
+                                        validators = listOf(
+                                            minLengthValidator(
+                                                idWrapper = isPasswordMinLength,
+                                                idsToValidate = listOf(passwordInputId),
+                                                length = 8
+                                            ),
+                                        ),
+                                        trailingIcon = {
+                                            IconButton(
+                                                modifier = SdUiModifier().visible(
+                                                    true,
+                                                    isPasswordVisible
+                                                ),
+                                                content = {
+                                                    Icon(
+                                                        icon = IconOption.Visibility
+                                                    )
+                                                },
+                                                onClickAction = MultipleActions(
+                                                    listOf(
+//                                                        ToTypeAction(TODO()
+//                                                            passwordVisualTransformation,
+//                                                            VisualTransformationOption.None()
+//                                                        ),
+                                                        ToModifierAction(
+                                                            newValue = SdUiModifier().visible(
+                                                                true,
+                                                                isPasswordInvisible
+                                                            )
+                                                        ),
+                                                        ToModifierAction(
+                                                            newValue = SdUiModifier().visible(
+                                                                false,
+                                                                isPasswordVisible
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                            IconButton(
+                                                modifier = SdUiModifier().visible(
+                                                    false,
+                                                    isPasswordInvisible
+                                                ),
+                                                content = {
+                                                    Icon(icon = IconOption.VisibilityOff)
+                                                },
+                                                onClickAction = MultipleActions(
+                                                    listOf(
+//                                                        ToTypeAction(TODO()
+//                                                            passwordVisualTransformation,
+//                                                            VisualTransformationOption.Password()
+//                                                        ),
+                                                        ToModifierAction(
+                                                            newValue = SdUiModifier().visible(
+                                                                false,
+                                                                isPasswordInvisible
+                                                            )
+                                                        ),
+                                                        ToModifierAction(
+                                                            newValue = SdUiModifier().visible(
+                                                                true,
+                                                                isPasswordVisible
+                                                            )
+                                                        )
+                                                    )
+                                                ),
+                                            )
+                                        },
+                                        prefix = {
+                                            Spacer(modifier = SdUiModifier().width(10))
+                                        }
+                                    )
+                                    Column(
+                                        modifier = SdUiModifier().padding(horizontal = 30)
+                                            .weight(1f),
+                                        verticalArrangement = VerticalArrangementOption.Bottom(),
+                                        horizontalAlignment = HorizontalAlignmentOption.Center(),
+                                        content = {
+                                            Button(
+                                                interactionModel = ButtonInteractionModel(
+                                                    enabled = isContinueEnabled
+                                                ),
+                                                modifier = SdUiModifier().padding(
+                                                    horizontal = outlinedTextFieldLabelPadding
+                                                ).height(50).fillMaxWidth(),
+                                                colors = ButtonColorsModel(
                                                     contentColor = ColorOption.Black(),
                                                     containerColor = ColorOption.CaribbeanGreen(),
-                                                )
-                                            ),
-                                            content = listOf(
-                                                Text(
-                                                    textProperty = TextProperty("Fazer Login"),
-                                                    fontSizeProperty = FontSizeProperty(16f),
-                                                    fontWeightProperty = FontWeightProperty(
-                                                        FontWeightOption.SemiBold
-                                                    )
-                                                )
-                                            ),
-                                            enabledProperty = EnabledProperty(
-                                                false,
-                                                isContinueEnabled
-                                            ),
-                                            validators = listOf(
-                                                allTrueValidator(
-                                                    idWrapper = isContinueEnabled,
-                                                    toValidate = listOf(
-                                                        isEmailValid,
-                                                        isPasswordMinLength
-                                                    )
                                                 ),
-                                            ),
-                                            onClick = ContinueAction(
-                                                idWrapper = loginActionId,
-                                                flowId = request.flow,
-                                                nextScreenId = "Success",
-                                                currentScreenId = screenId,
-                                                screenRequestData = listOf(
-                                                    emailInputId.id to "email",
-                                                    passwordInputId.id to "password"
+                                                content = {
+                                                    Text(
+                                                        text = "Fazer Login",
+                                                        fontSize = 16f,
+                                                        fontWeight = FontWeightOption.SemiBold
+                                                    )
+                                                },
+                                                enabled = false,
+                                                validators = listOf(
+                                                    allTrueValidator(
+                                                        idWrapper = isContinueEnabled,
+                                                        toValidate = listOf(
+                                                            isEmailValid,
+                                                            isPasswordMinLength
+                                                        )
+                                                    ),
                                                 ),
-                                                screenData = request.screenData
-                                            ),
-                                        ),
-                                        Spacer(modifier = SdUiModifier().height(10)),
-                                        Button(
-                                            modifier = SdUiModifier().padding(
-                                                horizontal = outlinedTextFieldLabelPadding
-                                            ).height(50).fillMaxWidth(),
-                                            buttonColorsProperty = ButtonColorsProperty(
-                                                ButtonColorsModel(
+                                                onClickAction = ContinueAction(
+                                                    idWrapper = loginActionId,
+                                                    flowId = request.flow,
+                                                    nextScreenId = "Success",
+                                                    currentScreenId = screenId,
+                                                    screenRequestData = listOf(
+                                                        emailInputId.id to "email",
+                                                        passwordInputId.id to "password"
+                                                    ),
+                                                    screenData = request.screenData
+                                                ),
+                                            )
+                                            Spacer(modifier = SdUiModifier().height(10))
+                                            Button(
+                                                modifier = SdUiModifier().padding(
+                                                    horizontal = outlinedTextFieldLabelPadding
+                                                ).height(50).fillMaxWidth(),
+                                                colors = ButtonColorsModel(
                                                     containerColor = ColorOption.LightGreen(),
                                                     contentColor = ColorOption.Black(),
-                                                )
-                                            ),
-                                            content = listOf(
-                                                Text(
-                                                    textProperty = TextProperty("Fazer Cadastro"),
-                                                    fontSizeProperty = FontSizeProperty(16f),
-                                                    fontWeightProperty = FontWeightProperty(
-                                                        FontWeightOption.SemiBold
+                                                ),
+                                                content = {
+                                                    Text(
+                                                        text = "Fazer Cadastro",
+                                                        fontSize = 16f,
+                                                        fontWeight = FontWeightOption.SemiBold
                                                     )
-                                                )
-                                            ),
-                                            onClick = NavigateAction(
-                                                flow = "SignUp",
-                                                actionId = loginActionId,
-                                                screenData = request.screenData,
-                                                screenRequestData = listOf(
-                                                    emailInputId.id to "email",
-                                                    passwordInputId.id to "password"
-                                                )
-                                            ),
-                                        ),
-                                        Spacer(modifier = SdUiModifier().height(20))
+                                                },
+                                                onClickAction = NavigateAction(
+                                                    flow = "SignUp",
+                                                    actionId = loginActionId,
+                                                    screenData = request.screenData,
+                                                    screenRequestData = listOf(
+                                                        emailInputId.id to "email",
+                                                        passwordInputId.id to "password"
+                                                    )
+                                                ),
+                                            )
+                                            Spacer(modifier = SdUiModifier().height(20))
+                                        }
                                     )
-                                ),
-                                Spacer(modifier = SdUiModifier().size(10))
+                                    Spacer(modifier = SdUiModifier().size(10))
+                                }
                             )
-                        ),
+                        }
                     )
-                )
-            )
+                }
+            }
         )
     }
 

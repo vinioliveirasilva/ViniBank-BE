@@ -11,16 +11,14 @@ import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.core.SdUiComposer
 import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.clickable
 import com.vini.designsystemsdui.modifier.fillMaxWidth
 import com.vini.designsystemsdui.modifier.height
 import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.property.FontSizeProperty
-import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.TextAlignProperty
-import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.TextAlignOption
+import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.modifier.option.TextAlignOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -56,61 +54,64 @@ class FundsWalletScreen : InvestmentsScreen {
         )
     )
 
-    private fun cardRow(label: String, value: String) = Row(
-        modifier = SdUiModifier().fillMaxWidth(),
-        horizontalArrangementProperty = HorizontalArrangementProperty(
-            HorizontalArrangementOption.SpaceBetween
-        ),
-        content = listOf(
-            Text(
-                textProperty = TextProperty(value = label),
-                fontSizeProperty = FontSizeProperty(16f)
+    private fun SdUiComposer.cardRow(label: String, value: String) {
+        Row(
+            modifier = SdUiModifier().fillMaxWidth(),
+            horizontalArrangement = (
+                HorizontalArrangementOption.SpaceBetween()
             ),
-            Text(
-                textProperty = TextProperty(value = value),
-                fontSizeProperty = FontSizeProperty(16f)
-            ),
-        ),
-    )
-
-    private fun availableFundOption(
-        request: SdUiRequest,
-    ) = availableOptions.map {
-        Card(
-            modifier = SdUiModifier().padding(vertical = 10).padding(horizontal = 10)
-            .fillMaxWidth(),
-            onClick = ContinueAction(
-                flowId = request.flow,
-                nextScreenId = "hireFund",
-                currentScreenId = screenId,
-                screenData = buildJsonObject {
-                    put("fundId", it.id)
-                }
-            ),
-            content = listOf(
-                Column(
-                    modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 10),
-                    content = listOf(
-                        Row(
-                            modifier = SdUiModifier().fillMaxWidth(),
-                            horizontalArrangementProperty = HorizontalArrangementProperty(
-                                HorizontalArrangementOption.Center
-                            ),
-                            content = listOf(
-                                Text(
-                                    textProperty = TextProperty(value = it.name),
-                                    fontSizeProperty = FontSizeProperty(16f)
-                                ),
-                            ),
-                        ),
-                        Spacer(modifier = SdUiModifier().height(10)),
-                        cardRow("Saldo atual", it.balance),
-                        cardRow("Disponivel para resgate", it.availableToRedeem),
-                        cardRow("Rentabilidade", it.rentability),
-                    ),
+            content = {
+                Text(
+                    text = label,
+                    fontSize = 16f
                 )
-            )
+                Text(
+                    text = value,
+                    fontSize = 16f
+                )
+            }
         )
+    }
+
+    private fun SdUiComposer.availableFundOption(request: SdUiRequest) {
+        availableOptions.forEach {
+            Card(
+                modifier = SdUiModifier().padding(vertical = 10).padding(horizontal = 10)
+                    .fillMaxWidth().clickable(
+                        action = ContinueAction(
+                            flowId = request.flow,
+                            nextScreenId = "hireFund",
+                            currentScreenId = screenId,
+//                            screenData = buildJsonObject {
+//                                put("fundId", it.id)
+//                            }
+                        )
+                    ),
+                content = {
+                    Column(
+                        modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 10),
+                        content = {
+                            Row(
+                                modifier = SdUiModifier().fillMaxWidth(),
+                                horizontalArrangement = (
+                                    HorizontalArrangementOption.Center()
+                                ),
+                                content = {
+                                    Text(
+                                        text = it.name,
+                                        fontSize = 16f
+                                    )
+                                }
+                            )
+                            Spacer(modifier = SdUiModifier().height(10))
+                            cardRow("Saldo atual", it.balance)
+                            cardRow("Disponivel para resgate", it.availableToRedeem)
+                            cardRow("Rentabilidade", it.rentability)
+                        }
+                    )
+                }
+            )
+        }
     }
 
     override fun getScreen(
@@ -124,31 +125,33 @@ class FundsWalletScreen : InvestmentsScreen {
             version = "1",
             scene = SceneStrategy.DualPane(),
             cacheStrategy = CacheStrategy.NoCache(),
-            content = listOf(
+            content = {
                 LazyColumn(
-                    content = listOf(
+                    content = {
                         TopAppBar(
-                            title = listOf(
+                            title = {
                                 Text(
-                                    textProperty = TextProperty(value = "Carteira de Fundos"),
-                                    fontSizeProperty = FontSizeProperty(18f)
+                                    text = "Carteira de Fundos",
+                                    fontSize = 18f
                                 )
-                            )
-                        ),
+                            }
+                        )
                         Text(
                             modifier = SdUiModifier().padding(vertical = 10)
                                 .padding(horizontal = 10).fillMaxWidth(),
-                            textProperty = TextProperty(value = "Ativos"),
-                            fontSizeProperty = FontSizeProperty(18f),
-                            textAlignProperty = TextAlignProperty(TextAlignOption.Center)
-                        ),
+                            text = "Ativos",
+                            fontSize = 18f,
+                            textAlign = TextAlignOption.Center
+                        )
                         Column(
-                            content = availableFundOption(request)
-                        ),
-                        Spacer(modifier = SdUiModifier().height(10)),
-                    )
+                            content = {
+                                availableFundOption(request)
+                            }
+                        )
+                        Spacer(modifier = SdUiModifier().height(10))
+                    }
                 )
-            )
+            }
         )
     }
 }

@@ -16,26 +16,24 @@ import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Spacer
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.core.SdUiComposer
 import com.vini.designsystemsdui.modifier.BaseModifier
 import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.fillMaxHeight
 import com.vini.designsystemsdui.modifier.fillMaxWidth
 import com.vini.designsystemsdui.modifier.height
 import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.modifier.visible
-import com.vini.designsystemsdui.property.ConfirmedDateProperty
-import com.vini.designsystemsdui.property.EnabledProperty
-import com.vini.designsystemsdui.property.FontSizeProperty
-import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.KeyboardOptionsProperty
-import com.vini.designsystemsdui.property.ShapeProperty
-import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.KeyboardOptionsOption
-import com.vini.designsystemsdui.property.options.ShapeOptions
-import com.vini.designsystemsdui.property.options.VerticalArrangementOption
-import com.vini.designsystemsdui.property.util.PropertyIdWrapper
+import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.modifier.option.KeyboardOptionsOption
+import com.vini.designsystemsdui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.InteractionId
+import com.vini.designsystemsdui.JsonProvider
+import com.vini.designsystemsdui.component.ButtonInteractionModel
+import com.vini.designsystemsdui.component.ModalDatePickerInteractionModel
+import com.vini.designsystemsdui.component.OutlinedTextInputInteractionModel
+import com.vini.designsystemsdui.component.TextInteractionModel
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vini.designsystemsdui.validator.allTrueValidator
 import com.vini.designsystemsdui.validator.doubleComparatorValidator
@@ -46,6 +44,8 @@ import com.vinibank.backend.db.FundsDatabase
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.flow.investments.toBrl
 import com.vinibank.backend.sdui.model.SdUiRequest
+import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.springframework.stereotype.Component
 
@@ -55,43 +55,43 @@ class HireFundScreen(
 ) : InvestmentsScreen {
     override val screenId: String = "hireFund"
 
-    private fun cardRow(label: String, value: String) = Row(
-        modifier = SdUiModifier().fillMaxWidth(),
-        horizontalArrangementProperty = HorizontalArrangementProperty(
-            HorizontalArrangementOption.SpaceBetween
-        ),
-        content = listOf(
-            Text(
-                textProperty = TextProperty(value = label),
-                fontSizeProperty = FontSizeProperty(16f)
+    private fun SdUiComposer.cardRow(label: String, value: String) {
+        Row(
+            modifier = SdUiModifier().fillMaxWidth(),
+            horizontalArrangement = (
+                HorizontalArrangementOption.SpaceBetween()
             ),
-            Text(
-                textProperty = TextProperty(value = value),
-                fontSizeProperty = FontSizeProperty(16f)
-            ),
-        ),
-    )
+            content = {
+                Text(
+                    text = label,
+                    fontSize = 16f
+                )
+                Text(
+                    text = value,
+                    fontSize = 16f
+                )
+            }
+        )
+    }
 
     override fun getScreen(
         request: SdUiRequest,
         parameters: Map<String, String>,
         screenId: String,
     ): Template? {
+        val screenData = JsonProvider.json.encodeToJsonElement(request.screenData)
+        val fundId = screenData.jsonObject["fundId"]?.jsonPrimitive?.content ?: ""
+        val fundInfo = fundsDatabase.getFundInfo(fundId) ?: return null
 
-        val fundId = request.screenData?.get("fundId")?.jsonPrimitive?.content ?: ""
-        val fundInfo = fundsDatabase.getFundInfo(fundId)
-
-        if (fundInfo == null) return null
-
-        val hasMinimumToInvestId = PropertyIdWrapper<Boolean>("valueToInvest")
-        val valueToInvestId = PropertyIdWrapper<String>("HireFundMonetaryInput")
-        val dateHasBeenSelected = PropertyIdWrapper<Boolean>("dateHasBeenSelected")
+        val hasMinimumToInvestId = InteractionId<Boolean>("valueToInvest")
+        val valueToInvestId = InteractionId<String>("HireFundMonetaryInput")
+        val dateHasBeenSelected = InteractionId<Boolean>("dateHasBeenSelected")
         val dateSelectionInfoVisibilityId =
-            PropertyIdWrapper<BaseModifier>("dateSelectionInfoVisibility")
-        val selectedDateId = PropertyIdWrapper<String>("dateParsed")
-        val confirmedDateId = PropertyIdWrapper<Long>("confirmedDateId")
-        val showDatePickerId = PropertyIdWrapper<BaseModifier>("showDatePicker")
-        val allValidationConfirmed = PropertyIdWrapper<Boolean>("allValidationConfirmed")
+            InteractionId<BaseModifier>("dateSelectionInfoVisibility")
+        val selectedDateId = InteractionId<String>("dateParsed")
+        val confirmedDateId = InteractionId<Long>("confirmedDateId")
+        val showDatePickerId = InteractionId<BaseModifier>("showDatePicker")
+        val allValidationConfirmed = InteractionId<Boolean>("allValidationConfirmed")
 
         return DefaultTemplate(
             flow = request.flow,
@@ -99,88 +99,87 @@ class HireFundScreen(
             version = "1",
             cacheStrategy = CacheStrategy.NoCache(),
             scene = SceneStrategy.DualPane(id = "1"),
-            content = listOf(
+            content = {
                 LazyColumn(
-                    verticalArrangementProperty = VerticalArrangementProperty(
-                        VerticalArrangementOption.SpaceBetween
+                    modifier = SdUiModifier().fillMaxHeight(),
+                    verticalArrangement = (
+                        VerticalArrangementOption.SpaceBetween()
                     ),
-                    weightProperty = WeightProperty(1f),
-                    content = listOf(
+                    content = {
                         Column(
-                            weightProperty = WeightProperty(1f),
-                            content = listOf(
+                            modifier = SdUiModifier().fillMaxHeight(),
+                            content = {
                                 TopAppBar(
-                                    title = listOf(
+                                    title = {
                                         Text(
-                                            textProperty = TextProperty(value = "Detalhes do Fundo"),
-                                            fontSizeProperty = FontSizeProperty(18f)
-                                        ),
-                                    )
-                                ),
-                                Spacer(modifier = SdUiModifier().height(10)),
+                                            text = "Detalhes do Fundo",
+                                            fontSize = 18f
+                                        )
+                                    }
+                                )
+                                Spacer(modifier = SdUiModifier().height(10))
                                 Card(
                                     modifier = SdUiModifier().padding(horizontal = 20)
                                         .fillMaxWidth(),
-                                    content = listOf(
+                                    content = {
                                         Column(
                                             modifier = SdUiModifier().padding(horizontal = 10)
                                                 .padding(vertical = 10),
-                                            content = listOf(
+                                            content = {
                                                 Row(
                                                     modifier = SdUiModifier().fillMaxWidth(),
-                                                    horizontalArrangementProperty = HorizontalArrangementProperty(
-                                                        HorizontalArrangementOption.Center
+                                                    horizontalArrangement = (
+                                                        HorizontalArrangementOption.Center()
                                                     ),
-                                                    content = listOf(
+                                                    content = {
                                                         Text(
-                                                            textProperty = TextProperty(value = fundInfo.name),
-                                                            fontSizeProperty = FontSizeProperty(16f)
-                                                        ),
-                                                    ),
-                                                ),
-                                                Spacer(modifier = SdUiModifier().height(10)),
-                                                cardRow("Rentabilidade", fundInfo.rentability),
+                                                            text = fundInfo.name,
+                                                            fontSize = 16f
+                                                        )
+                                                    }
+                                                )
+                                                Spacer(modifier = SdUiModifier().height(10))
+                                                cardRow("Rentabilidade", fundInfo.rentability)
                                                 cardRow(
                                                     "Investimento Mínimo",
                                                     fundInfo.minimumInvestment.toBrl()
-                                                ),
+                                                )
                                                 cardRow(
                                                     "Taxa de Administração",
                                                     fundInfo.productTax
-                                                ),
-                                                cardRow("Risco", fundInfo.riskLevel),
+                                                )
+                                                cardRow("Risco", fundInfo.riskLevel)
                                                 cardRow(
                                                     "Tempo sugerido de permanencia",
                                                     fundInfo.suggestedTimeStay
-                                                ),
+                                                )
                                                 cardRow(
                                                     "Tempo limite para operação",
                                                     fundInfo.hourLimitToInvestment
-                                                ),
-                                            ),
+                                                )
+                                            }
                                         )
-                                    )
-                                ),
-                                Spacer(modifier = SdUiModifier().height(10)),
+                                    }
+                                )
+                                Spacer(modifier = SdUiModifier().height(10))
                                 OutlinedTextInput(
-                                    modifier = SdUiModifier().fillMaxWidth()
-                                        .padding(horizontal = 20),
-                                    label = listOf(
+                                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
+                                    label = {
                                         Text(
                                             modifier = SdUiModifier().fillMaxWidth()
                                                 .padding(horizontal = 20),
-                                            textProperty = TextProperty(value = "Valor da aplicação"),
+                                            text = "Valor da aplicação",
                                         )
+                                    },
+                                    interactionModel = OutlinedTextInputInteractionModel(
+                                        text = valueToInvestId
                                     ),
-                                    textProperty = TextProperty(idWrapper = valueToInvestId),
-                                    keyboardOptionsProperty = KeyboardOptionsProperty(
+                                    keyboardOptions = (
                                         KeyboardOptionsOption.Number
                                     ),
-                                    prefix = listOf(
-                                        Text(
-                                            textProperty = TextProperty(value = "R$"),
-                                        )
-                                    ),
+                                    prefix = {
+                                        Text(text = "R$")
+                                    },
                                     validators = listOf(
                                         onlyNumberValidator(idWrapper = valueToInvestId),
                                         doubleComparatorValidator(
@@ -189,45 +188,43 @@ class HireFundScreen(
                                             minValue = fundInfo.minimumInvestment,
                                         ),
                                     )
-                                ),
+                                )
                                 Spacer(
                                     modifier = SdUiModifier().height(10)
                                         .visible(false, dateSelectionInfoVisibilityId),
-                                ),
+                                )
                                 Text(
                                     modifier = SdUiModifier().padding(horizontal = 20)
                                         .visible(false, dateSelectionInfoVisibilityId),
-                                    textProperty = TextProperty("Data selecionada:"),
-                                ),
+                                    text = "Data selecionada:",
+                                )
                                 OutlinedButton(
-                                    modifier = SdUiModifier().fillMaxWidth()
-                                        .padding(horizontal = 20),
-                                    content = listOf(
+                                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
+                                    content = {
                                         Text(
-                                            textProperty = TextProperty(
-                                                value = "Seleciona a data de investimento",
-                                                idWrapper = selectedDateId
+                                            text = "Seleciona a data de investimento",
+                                            interactionModel = TextInteractionModel(
+                                                text = selectedDateId
                                             )
                                         )
-                                    ),
-                                    onClick = ToModifierAction(
+                                    },
+                                    onClickAction = ToModifierAction(
                                         SdUiModifier().visible(true, showDatePickerId)
                                     ),
-                                    shapeProperty = ShapeProperty(ShapeOptions.Small),
-                                ),
+                                    shape = ShapeOption.RoundedCorner(8),
+                                )
                                 ModalDatePicker(
+                                    interactionModel = ModalDatePickerInteractionModel(
+                                        confirmedDate = confirmedDateId
+                                    ),
                                     modifier = SdUiModifier().visible(false, showDatePickerId),
-                                    confirmedDateProperty = ConfirmedDateProperty(idWrapper = confirmedDateId),
                                     onConfirmAction = MultipleActions(
                                         listOf(
                                             ToModifierAction(
                                                 SdUiModifier().visible(false, showDatePickerId)
                                             ),
                                             ToModifierAction(
-                                                SdUiModifier().visible(
-                                                    true,
-                                                    dateSelectionInfoVisibilityId
-                                                )
+                                                SdUiModifier().visible(true, dateSelectionInfoVisibilityId)
                                             )
                                         )
                                     ),
@@ -245,24 +242,21 @@ class HireFundScreen(
                                             toValidate = listOf(confirmedDateId),
                                         )
                                     )
-                                ),
-                            )
-                        ),
+                                )
+                            }
+                        )
                         Column(
-                            content = listOf(
-                                Spacer(modifier = SdUiModifier().height(20)),
+                            content = {
+                                Spacer(modifier = SdUiModifier().height(20))
                                 Button(
-                                    modifier = SdUiModifier().fillMaxWidth()
-                                        .padding(horizontal = 20),
-                                    enabledProperty = EnabledProperty(
-                                        idWrapper = allValidationConfirmed,
-                                        value = false
+                                    interactionModel = ButtonInteractionModel(
+                                        enabled = allValidationConfirmed
                                     ),
-                                    content = listOf(
-                                        Text(
-                                            textProperty = TextProperty(value = "Continuar")
-                                        )
-                                    ),
+                                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
+                                    enabled = false,
+                                    content = {
+                                        Text(text = "Continuar")
+                                    },
                                     validators = listOf(
                                         allTrueValidator(
                                             idWrapper = allValidationConfirmed,
@@ -272,13 +266,13 @@ class HireFundScreen(
                                             )
                                         )
                                     )
-                                ),
-                                Spacer(modifier = SdUiModifier().height(20)),
-                            )
+                                )
+                                Spacer(modifier = SdUiModifier().height(20))
+                            }
                         )
-                    ),
-                ),
-            )
+                    },
+                )
+            }
         )
     }
 }

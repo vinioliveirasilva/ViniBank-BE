@@ -11,7 +11,7 @@ class RoutingController(
     fun getSdUiScreen(sdUiRequest: SdUiRequest) = getInternalScreen(sdUiRequest).build()
 
     fun getSdUiScreenUpdate(sdUiRequest: UpdateSdUiTemplateRequest) =
-        getInternalScreenUpdate(sdUiRequest).map { it.build(it.hashCode()) }
+        getInternalScreenUpdate(sdUiRequest)
 
     fun getTemplate(sdUiRequest: SdUiRequest) = getInternalScreen(sdUiRequest)
 

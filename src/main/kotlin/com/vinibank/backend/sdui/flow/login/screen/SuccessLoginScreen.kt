@@ -22,13 +22,13 @@ class SuccessLoginScreen() : LoginScreen {
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content = listOf(
+            content = {
                 Blank(
-                    onAppear = BusinessSuccessAction(
+                    onAppearAction = BusinessSuccessAction(
                         screenData = request.screenData
                     )
                 )
-            )
+            }
         )
     }
 }

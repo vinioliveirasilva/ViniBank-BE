@@ -12,22 +12,18 @@ import com.vini.designsystemsdui.component.LazyColumn
 import com.vini.designsystemsdui.component.Row
 import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.core.SdUiComposer
 import com.vini.designsystemsdui.modifier.SdUiModifier
+import com.vini.designsystemsdui.modifier.clickable
+import com.vini.designsystemsdui.modifier.fillMaxHeight
 import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.modifier.option.VerticalAlignmentOption
 import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
-import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.VerticalAlignmentProperty
-import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.WeightProperty
-import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
-import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.IconOption
-import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
-import com.vini.designsystemsdui.property.options.VerticalArrangementOption
+import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.modifier.option.IconOption
+import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.db.User
 import com.vinibank.backend.db.UserDatabase
@@ -56,109 +52,105 @@ class UserDetailScreen(
         val user =
             userDetailRepository.users["vinioliveirasilva@outlook.com"] ?: User("", "", "", "")
 
-        fun menuItem(name: String, icon: IconOption? = null) = Column(
-            modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
-            verticalArrangementProperty = VerticalArrangementProperty(VerticalArrangementOption.Center),
-            content = listOf(
+        fun SdUiComposer.menuItem(name: String, icon: IconOption? = null) = Column(
+            modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20).clickable(
+                action = ContinueAction(
+                    flowId = "TODO",
+                    currentScreenId = "UserDetail",
+                    nextScreenId = "TODO",
+                    screenData = request.screenData
+                )
+            ),
+            verticalArrangement = VerticalArrangementOption.Center(),
+            content = {
                 Row(
                     modifier = SdUiModifier().fillMaxWidth().padding(vertical = 10),
-                    horizontalArrangementProperty = HorizontalArrangementProperty(
-                        HorizontalArrangementOption.SpaceBetween
-                    ),
-                    verticalAlignmentProperty = VerticalAlignmentProperty(VerticalAlignmentOption.Center),
-                    content = listOf(
+                    horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
+                    verticalAlignment = VerticalAlignmentOption.Center(),
+                    content = {
                         Row(
-                            verticalAlignmentProperty = VerticalAlignmentProperty(
-                                VerticalAlignmentOption.Center
-                            ),
-                            content = listOfNotNull(
-                                icon?.let {
+                            verticalAlignment = VerticalAlignmentOption.Center(),
+                            content = {
+                                if (icon != null) {
                                     Icon(
                                         modifier = SdUiModifier().padding(horizontal = 10).size(48),
-                                        iconNameProperty = IconNameProperty(it),
+                                        icon = icon,
                                     )
-                                },
-                                Text(textProperty = TextProperty(name))
-                            )
-                        ),
+                                }
+                                Text(text = name)
+                            }
+                        )
                         Icon(
                             modifier = SdUiModifier().padding(horizontal = 10),
-                            iconNameProperty = IconNameProperty(IconOption.RightArrow),
-                        ),
-                    )
-                ),
-                HorizontalDivider(),
-            ),
-            onClick = ContinueAction(
-                flowId = "TODO",
-                currentScreenId = "UserDetail",
-                nextScreenId = "TODO",
-                screenData = request.screenData
-            ),
-        )
-
-        val content = LazyColumn(
-            modifier = SdUiModifier().fillMaxWidth(),
-            weightProperty = WeightProperty(1f),
-            content = listOf(
-                Card(
-                    modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 10)
-                        .fillMaxWidth(),
-                    content = listOf(
-                        Column(
-                            modifier = SdUiModifier().padding(vertical = 20).fillMaxWidth(),
-                            horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                                HorizontalAlignmentOption.Center
-                            ),
-                            content = listOf(
-                                Icon(
-                                    modifier = SdUiModifier().padding(horizontal = 20).size(96),
-                                    iconNameProperty = IconNameProperty(IconOption.User),
-                                ),
-                                Text(
-                                    modifier = SdUiModifier().padding(horizontal = 20),
-                                    textProperty = TextProperty(user.name),
-                                ),
-                                Text(
-                                    modifier = SdUiModifier().padding(horizontal = 20),
-                                    textProperty = TextProperty(user.email),
-                                ),
-                                Text(
-                                    modifier = SdUiModifier().padding(horizontal = 20),
-                                    textProperty = TextProperty(user.phone.formatPhoneNumber()),
-                                ),
-                            )
+                            icon = IconOption.RightArrow,
                         )
-                    )
-                ),
-                menuItem("Dados Pessoais", IconOption.PersonSearch),
-                menuItem("Privacidade de dados", IconOption.Lock),
-                menuItem("Tema", IconOption.Theme),
-                menuItem("Sair do App", IconOption.Logout),
-            )
+                    }
+                )
+                HorizontalDivider()
+            },
         )
 
-        val screen = DefaultTemplate(
+        fun SdUiComposer.screenContent() {
+            LazyColumn(
+                modifier = SdUiModifier().fillMaxWidth().fillMaxHeight(),
+                content = {
+                    Card(
+                        modifier = SdUiModifier().padding(20).fillMaxWidth(),
+                        content = {
+                            Column(
+                                modifier = SdUiModifier().padding(vertical = 20).fillMaxWidth(),
+                                horizontalAlignment = (
+                                    HorizontalAlignmentOption.Center()
+                                ),
+                                content = {
+                                    Icon(
+                                        modifier = SdUiModifier().padding(horizontal = 20).size(96),
+                                        icon = IconOption.User,
+                                    )
+                                    Text(
+                                        modifier = SdUiModifier().padding(horizontal = 20),
+                                        text = user.name,
+                                    )
+                                    Text(
+                                        modifier = SdUiModifier().padding(horizontal = 20),
+                                        text = user.email,
+                                    )
+                                    Text(
+                                        modifier = SdUiModifier().padding(horizontal = 20),
+                                        text = user.phone.formatPhoneNumber(),
+                                    )
+                                }
+                            )
+                        }
+                    )
+                    menuItem("Dados Pessoais", IconOption.PersonSearch)
+                    menuItem("Privacidade de dados", IconOption.Lock)
+                    menuItem("Tema", IconOption.Theme)
+                    menuItem("Sair do App", IconOption.Logout)
+                }
+            )
+        }
+
+        return DefaultTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content = listOf(
+            content = {
                 TopAppBar(
-                    title = listOf(
-                        Text(textProperty = TextProperty("User Detail"))
-                    ),
-                    navigationIcon = listOf(
+                    title = {
+                        Text(text = "User Detail")
+                    },
+                    navigationIcon = {
                         IconButton(
-                            content = listOf(
-                                Icon(iconNameProperty = IconNameProperty(IconOption.LeftArrow))
-                            ),
-                            onClick = BackAction()
+                            content = {
+                                Icon(icon = IconOption.LeftArrow)
+                            },
+                            onClickAction = BackAction()
                         )
-                    )
-                ),
-                content,
-            )
+                    }
+                )
+                screenContent()
+            }
         )
-        return screen
     }
 }

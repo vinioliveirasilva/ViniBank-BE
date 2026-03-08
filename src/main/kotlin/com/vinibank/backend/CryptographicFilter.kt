@@ -131,7 +131,7 @@ class CryptographicFilter(
     }
 
     fun startFilter(publicKey: String) : Pair<String, String> {
-        val newSessionId = (sessionDatabase.sessions.keys.lastOrNull() ?: "0").toInt().inc().toString()
+        val newSessionId = sessionDatabase.sessions.keys.lastOrNull() ?: "0".toInt().inc().toString()
         val result = keyAgreementGenerator.let {
             sessionDatabase.addSession(
                 newSessionId,

@@ -14,37 +14,25 @@ import com.vini.designsystemsdui.component.Text
 import com.vini.designsystemsdui.modifier.SdUiModifier
 import com.vini.designsystemsdui.modifier.fillMaxHeight
 import com.vini.designsystemsdui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.modifier.option.FontWeightOption
+import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.modifier.option.IconOption
+import com.vini.designsystemsdui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.modifier.option.VerticalAlignmentOption
+import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
 import com.vini.designsystemsdui.modifier.padding
 import com.vini.designsystemsdui.modifier.size
 import com.vini.designsystemsdui.modifier.width
-import com.vini.designsystemsdui.property.ButtonColorsProperty
-import com.vini.designsystemsdui.property.CardColorsProperty
-import com.vini.designsystemsdui.property.ColorProperty
-import com.vini.designsystemsdui.property.FontSizeProperty
-import com.vini.designsystemsdui.property.FontWeightProperty
-import com.vini.designsystemsdui.property.HorizontalAlignmentProperty
-import com.vini.designsystemsdui.property.HorizontalArrangementProperty
-import com.vini.designsystemsdui.property.IconNameProperty
-import com.vini.designsystemsdui.property.ShapeProperty
-import com.vini.designsystemsdui.property.TextProperty
-import com.vini.designsystemsdui.property.VerticalAlignmentProperty
-import com.vini.designsystemsdui.property.VerticalArrangementProperty
-import com.vini.designsystemsdui.property.WeightProperty
 import com.vini.designsystemsdui.property.options.ButtonColorsModel
 import com.vini.designsystemsdui.property.options.CardColorsModel
-import com.vini.designsystemsdui.property.options.FontWeightOption
-import com.vini.designsystemsdui.property.options.HorizontalAlignmentOption
-import com.vini.designsystemsdui.property.options.HorizontalArrangementOption
-import com.vini.designsystemsdui.property.options.IconOption
-import com.vini.designsystemsdui.property.options.ShapeOptions
-import com.vini.designsystemsdui.property.options.VerticalAlignmentOption
-import com.vini.designsystemsdui.property.options.VerticalArrangementOption
 import com.vini.designsystemsdui.property.options.color.ColorOption
 import com.vini.designsystemsdui.template.DefaultTemplate
 import com.vinibank.backend.sdui.flow.UpdateSdUiTemplateRequest
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.flow.home.screen.CheckingAccountScreen.Companion.checkingAccountTopSdUiRequestUpdate
 import com.vinibank.backend.sdui.model.SdUiRequest
+import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component
 import kotlin.random.Random
 
@@ -52,18 +40,18 @@ import kotlin.random.Random
 class BalanceContent : HomeScreen {
     override val screenId: String = "Balance"
 
-    override fun getScreenUpdate(request: UpdateSdUiTemplateRequest) = listOf(
-        Text(
-            fontSizeProperty = FontSizeProperty(26f),
-            fontWeightProperty = FontWeightProperty(
-                FontWeightOption.Bold
-            ),
-            id = "HomeBalance",
-            textProperty = TextProperty(
-                "R$ ${Random.nextInt(10000)},00"
-            ),
-            cacheStrategy = CacheStrategy.NoCache(),
-        ),
+    override fun getScreenUpdate(request: UpdateSdUiTemplateRequest) = listOf<JsonObject>(
+//        Text(TODO()
+//            fontSize = 26f,
+//            fontWeight = (
+//                FontWeightOption.Bold
+//            ),
+//            id = "HomeBalance",
+//            text = (
+//                "R$ ${Random.nextInt(10000)},00"
+//            ),
+//            cacheStrategy = CacheStrategy.NoCache(),
+//        ),
     )
 
     override fun getScreen(
@@ -75,146 +63,123 @@ class BalanceContent : HomeScreen {
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content = listOf(
+            content = {
                 Card(
-                    cardColorsProperty = CardColorsProperty(
-                        CardColorsModel(
-                            containerColor = ColorOption.CustomColor(hex = 0xff2B8CEE),
-                            contentColor = ColorOption.White(),
-                            disabledContainerColor = ColorOption.CustomColor(hex = 0xff2B8CEE),
-                            disabledContentColor = ColorOption.White(),
-                        )
+                    colors = CardColorsModel(
+                        containerColor = ColorOption.CustomColor(hex = 0xff2B8CEE),
+                        contentColor = ColorOption.White(),
+                        disabledContainerColor = ColorOption.CustomColor(hex = 0xff2B8CEE),
+                        disabledContentColor = ColorOption.White(),
                     ),
-                    shapeProperty = ShapeProperty(ShapeOptions.Large),
-                    content = listOf(
+                    shape = ShapeOption.RoundedCorner(16),
+                    content = {
                         Column(
-                            modifier = SdUiModifier().padding(horizontal = 24)
-                                .padding(vertical = 24).fillMaxHeight(),
-                            horizontalAlignmentProperty = HorizontalAlignmentProperty(
-                                HorizontalAlignmentOption.Center
-                            ),
-                            verticalArrangementProperty = VerticalArrangementProperty(
-                                VerticalArrangementOption.Center
-                            ),
-                            content = listOf(
+                            modifier = SdUiModifier().padding(24).fillMaxHeight(),
+                            horizontalAlignment = HorizontalAlignmentOption.Center(),
+                            verticalArrangement = VerticalArrangementOption.Center(),
+                            content = {
                                 Row(
                                     modifier = SdUiModifier().fillMaxWidth(),
-                                    verticalAlignmentProperty = VerticalAlignmentProperty(
-                                        VerticalAlignmentOption.Center
-                                    ),
-                                    content = listOf(
+                                    verticalAlignment = VerticalAlignmentOption.Center(),
+                                    content = {
                                         Column(
-                                            weightProperty = WeightProperty(10f),
-                                            content = listOf(
+                                            modifier = SdUiModifier().weight(10f),
+                                            content = {
                                                 Text(
-                                                    colorProperty = ColorProperty(ColorOption.LightGray()),
-                                                    textProperty = TextProperty("Saldo atual")
-                                                ),
+                                                    text = "Saldo atual",
+                                                    color = ColorOption.LightGray(),
+                                                )
                                                 Text(
-                                                    fontSizeProperty = FontSizeProperty(26f),
-                                                    fontWeightProperty = FontWeightProperty(
-                                                        FontWeightOption.Bold
-                                                    ),
+                                                    fontSize = 26f,
+                                                    fontWeight = FontWeightOption.Bold,
                                                     id = "HomeBalance",
-                                                    textProperty = TextProperty(
-                                                        "R$ ${Random.nextInt(10000)},00"
-                                                    ),
+                                                    text = "R$ ${Random.nextInt(10000)},00",
                                                     cacheStrategy = CacheStrategy.NoCache(),
-                                                ),
+                                                )
                                                 Text(
-                                                    colorProperty = ColorProperty(ColorOption.LightGray()),
-                                                    textProperty = TextProperty("Atualizado em: Agora")
-                                                ),
-                                            )
-                                        ),
+                                                    text = "Atualizado em: Agora",
+                                                    color = ColorOption.LightGray()
+                                                )
+                                            }
+                                        )
                                         IconButton(
-                                            weightProperty = WeightProperty(1f),
-                                            content = listOf(
+                                            modifier = SdUiModifier().weight(1f),
+                                            content = {
                                                 IconButton(
-                                                    weightProperty = WeightProperty(1f),
-                                                    content = listOf(
-                                                        Icon(
-                                                            iconNameProperty = IconNameProperty(
-                                                                IconOption.Autorenew
-                                                            )
-                                                        )
-                                                    ),
-                                                    onClick = ToBooleanAction(
+                                                    modifier = SdUiModifier().weight(1f),
+                                                    content = {
+                                                        Icon(icon = IconOption.Autorenew)
+                                                    },
+                                                    onClickAction = ToBooleanAction(
                                                         idToChange = checkingAccountTopSdUiRequestUpdate,
                                                         newValue = true
                                                     )
-                                                ),
-                                            ),
-                                        ),
-                                    )
-                                ),
-                                Spacer(modifier = SdUiModifier().size(24)),
+                                                )
+                                            },
+                                        )
+                                    }
+                                )
+                                Spacer(modifier = SdUiModifier().size(24))
                                 Row(
                                     modifier = SdUiModifier().fillMaxWidth(),
-                                    horizontalArrangementProperty = HorizontalArrangementProperty(
-                                        HorizontalArrangementOption.SpaceBetween
-                                    ),
-                                    content = listOf(
+                                    horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
+                                    content = {
                                         Button(
-                                            buttonColorsProperty = ButtonColorsProperty(
-                                                value = ButtonColorsModel(
-                                                    containerColor = ColorOption.White(),
-                                                    contentColor = ColorOption.CustomColor(
-                                                        0xff2B8CEE
-                                                    )
-                                                )
+                                            modifier = SdUiModifier().weight(1f),
+                                            colors = ButtonColorsModel(
+                                                containerColor = ColorOption.White(),
+                                                contentColor = ColorOption.CustomColor(
+                                                    0xff2B8CEE
+                                                ),
+                                                disabledContainerColor = ColorOption.White(),
+                                                disabledContentColor = ColorOption.White()
                                             ),
-                                            shapeProperty = ShapeProperty(ShapeOptions.Medium),
-                                            weightProperty = WeightProperty(1f),
-                                            content = listOf(
+                                            shape = ShapeOption.Rectangle(),
+                                            content = {
                                                 Icon(
                                                     modifier = SdUiModifier().size(16),
-                                                    iconNameProperty = IconNameProperty(IconOption.Money)
-                                                ),
-                                                Spacer(modifier = SdUiModifier().size(8)),
+                                                    icon = IconOption.Money
+                                                )
+                                                Spacer(modifier = SdUiModifier().size(8))
                                                 Text(
-                                                    textProperty = TextProperty("Transferir"),
-                                                    fontSizeProperty = FontSizeProperty(14f),
-                                                    fontWeightProperty = FontWeightProperty(
-                                                        FontWeightOption.SemiBold
-                                                    )
+                                                    text = "Transferir",
+                                                    fontSize = 14f,
+                                                    fontWeight = FontWeightOption.SemiBold
                                                 )
-                                            ),
-                                        ),
-                                        Spacer(modifier = SdUiModifier().width(12)),
-                                        Button(
-                                            buttonColorsProperty = ButtonColorsProperty(
-                                                value = ButtonColorsModel(
-                                                    containerColor = ColorOption.White(),
-                                                    contentColor = ColorOption.CustomColor(
-                                                        0xff2B8CEE
-                                                    )
-                                                )
-                                            ),
-                                            shapeProperty = ShapeProperty(ShapeOptions.Medium),
-                                            weightProperty = WeightProperty(1f),
-                                            content = listOf(
-                                                Icon(
-                                                    modifier = SdUiModifier().size(16),
-                                                    iconNameProperty = IconNameProperty(IconOption.Add)
-                                                ),
-                                                Spacer(modifier = SdUiModifier().size(8)),
-                                                Text(
-                                                    textProperty = TextProperty("Investir"),
-                                                    fontSizeProperty = FontSizeProperty(14f),
-                                                    fontWeightProperty = FontWeightProperty(
-                                                        FontWeightOption.SemiBold
-                                                    )
-                                                )
-                                            ),
+                                            }
                                         )
-                                    )
-                                ),
-                            )
-                        ),
-                    )
+                                        Spacer(modifier = SdUiModifier().width(12))
+                                        Button(
+                                            modifier = SdUiModifier().weight(1f),
+                                            colors = ButtonColorsModel(
+                                                containerColor = ColorOption.White(),
+                                                contentColor = ColorOption.CustomColor(
+                                                    0xff2B8CEE
+                                                ),
+                                                disabledContainerColor = ColorOption.White(),
+                                                disabledContentColor = ColorOption.White()
+                                            ),
+                                            shape = ShapeOption.Rectangle(),
+                                            content = {
+                                                Icon(
+                                                    modifier = SdUiModifier().size(16),
+                                                    icon = IconOption.Add
+                                                )
+                                                Spacer(modifier = SdUiModifier().size(8))
+                                                Text(
+                                                    text = "Investir",
+                                                    fontSize = 14f,
+                                                    fontWeight = FontWeightOption.SemiBold
+                                                )
+                                            }
+                                        )
+                                    }
+                                )
+                            }
+                        )
+                    }
                 )
-            )
+            }
         )
     }
 }

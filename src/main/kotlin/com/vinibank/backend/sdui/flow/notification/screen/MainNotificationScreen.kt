@@ -2,38 +2,37 @@ package com.vinibank.backend.sdui.flow.notification.screen
 
 import com.vini.designsystemsdui.CacheStrategy
 import com.vini.designsystemsdui.InteractionId
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.CloseAction
-import com.vini.designsystemsdui.action.ContinueAction
-import com.vini.designsystemsdui.action.MultipleActions
-import com.vini.designsystemsdui.action.ToModifierAction
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.Icon
-import com.vini.designsystemsdui.component.IconButton
-import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.Spacer
-import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.component.TopAppBar
-import com.vini.designsystemsdui.modifier.BaseModifier
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.background
-import com.vini.designsystemsdui.modifier.clickable
-import com.vini.designsystemsdui.modifier.clip
-import com.vini.designsystemsdui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.height
-import com.vini.designsystemsdui.modifier.option.FontWeightOption
-import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
-import com.vini.designsystemsdui.modifier.option.IconOption
-import com.vini.designsystemsdui.modifier.option.ShapeOption
-import com.vini.designsystemsdui.modifier.option.TextAlignOption
-import com.vini.designsystemsdui.modifier.option.VerticalAlignmentOption
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.modifier.visible
-import com.vini.designsystemsdui.property.options.TopAppBarColorsModel
-import com.vini.designsystemsdui.property.options.color.ColorOption
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.CloseAction
+import com.vini.designsystemsdui.ui.action.ContinueAction
+import com.vini.designsystemsdui.ui.action.MultipleActions
+import com.vini.designsystemsdui.ui.action.ToModifierAction
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.Icon
+import com.vini.designsystemsdui.ui.component.IconButton
+import com.vini.designsystemsdui.ui.component.Row
+import com.vini.designsystemsdui.ui.component.Spacer
+import com.vini.designsystemsdui.ui.component.Text
+import com.vini.designsystemsdui.ui.component.TopAppBar
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.background
+import com.vini.designsystemsdui.ui.modifier.clickable
+import com.vini.designsystemsdui.ui.modifier.clip
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.height
+import com.vini.designsystemsdui.ui.modifier.option.FontWeightOption
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.option.IconOption
+import com.vini.designsystemsdui.ui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.ui.modifier.option.TextAlignOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.visible
+import com.vini.designsystemsdui.ui.modifier.style.TopAppBarColorsModel
+import com.vini.designsystemsdui.ui.modifier.option.ColorOption
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.db.NotificationCategory
 import com.vinibank.backend.db.NotificationsDatabase
 import com.vinibank.backend.db.UserLoginDb
@@ -110,14 +109,14 @@ class MainNotificationScreen(
             else -> ColorOption.CustomColor(0x302B8CEE)
         }
 
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            //cacheStrategy = CacheStrategy.TimeCache(System.currentTimeMillis().plus(300000)),
+            cacheStrategy = CacheStrategy.TimeCache(System.currentTimeMillis().plus(300000)),
             content = {
                 Column(
-                    modifier = SdUiModifier().fillMaxWidth().fillMaxHeight().background(background),
+                    modifier = Modifier.fillMaxWidth().fillMaxHeight().background(background),
                     content = {
                         TopAppBar(
                             colors = TopAppBarColorsModel(
@@ -144,12 +143,12 @@ class MainNotificationScreen(
                             }
                         )
                         Column(
-                            modifier = SdUiModifier().fillMaxWidth().height(1)
+                            modifier = Modifier.fillMaxWidth().height(1)
                                 .background(ColorOption.CustomColor(0xff233648))
                         )
                         if (notifications.isEmpty()) {
                             Column(
-                                modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 24)
+                                modifier = Modifier.fillMaxWidth().padding(horizontal = 24)
                                     .padding(vertical = 32),
                                 content = {
                                     Text(
@@ -161,9 +160,9 @@ class MainNotificationScreen(
                         } else {
                             notifications.forEach { notification ->
                                 fun readDotId(notificationId: String) =
-                                    InteractionId<BaseModifier>(id = "notification_${notificationId}")
+                                    InteractionId<Modifier>(id = "notification_${notificationId}")
                                 Column(
-                                    modifier = SdUiModifier().clickable(
+                                    modifier = Modifier.clickable(
                                         action = MultipleActions(
                                             actions = listOf(
                                                 ContinueAction(
@@ -172,7 +171,7 @@ class MainNotificationScreen(
                                                     nextScreenId = "Detail?notificationId=${notification.id}",
                                                 ),
                                                 ToModifierAction(
-                                                    SdUiModifier().visible(
+                                                    Modifier.visible(
                                                         visible = false,
                                                         id = readDotId(notification.id)
                                                     )
@@ -182,12 +181,12 @@ class MainNotificationScreen(
                                     ),
                                     content = {
                                         Row(
-                                            modifier = SdUiModifier().padding(all = 16)
+                                            modifier = Modifier.padding(all = 16)
                                                 .fillMaxWidth(),
                                             verticalAlignment = VerticalAlignmentOption.Center(),
                                             content = {
                                                 Column(
-                                                    modifier = SdUiModifier().clip(
+                                                    modifier = Modifier.clip(
                                                         ShapeOption.RoundedCorner(8)
                                                     )
                                                         .background(
@@ -198,7 +197,7 @@ class MainNotificationScreen(
                                                         .padding(vertical = 12),
                                                     content = {
                                                         Icon(
-                                                            modifier = SdUiModifier().size(
+                                                            modifier = Modifier.size(
                                                                 20
                                                             ),
                                                             tint = getNotificationTint(
@@ -210,12 +209,12 @@ class MainNotificationScreen(
                                                         )
                                                     }
                                                 )
-                                                Spacer(modifier = SdUiModifier().size(16))
+                                                Spacer(modifier = Modifier.size(16))
                                                 Column(
-                                                    modifier = SdUiModifier().fillMaxWidth(),
+                                                    modifier = Modifier.fillMaxWidth(),
                                                     content = {
                                                         Row(
-                                                            modifier = SdUiModifier().fillMaxWidth(),
+                                                            modifier = Modifier.fillMaxWidth(),
                                                             horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
                                                             content = {
                                                                 Text(
@@ -236,7 +235,7 @@ class MainNotificationScreen(
                                                                         fontWeight = FontWeightOption.Light,
                                                                     )
                                                                     Column(
-                                                                        modifier = SdUiModifier().visible(
+                                                                        modifier = Modifier.visible(
                                                                             visible = !notification.isRead,
                                                                             id = readDotId(
                                                                                 notification.id
@@ -253,7 +252,7 @@ class MainNotificationScreen(
                                                             }
                                                         )
                                                         Spacer(
-                                                            modifier = SdUiModifier().height(4)
+                                                            modifier = Modifier.height(4)
                                                         )
                                                         Text(
                                                             color = ColorOption.LightGray(),
@@ -266,7 +265,7 @@ class MainNotificationScreen(
                                             }
                                         )
                                         Column(
-                                            modifier = SdUiModifier().fillMaxWidth()
+                                            modifier = Modifier.fillMaxWidth()
                                                 .height(1)
                                                 .background(
                                                     ColorOption.CustomColor(

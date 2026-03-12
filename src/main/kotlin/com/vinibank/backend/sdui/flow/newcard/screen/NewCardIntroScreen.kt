@@ -1,32 +1,32 @@
 package com.vinibank.backend.sdui.flow.newcard.screen
 
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.CloseAction
-import com.vini.designsystemsdui.action.ToNumberAction
-import com.vini.designsystemsdui.component.Card
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.Icon
-import com.vini.designsystemsdui.component.IconButton
-import com.vini.designsystemsdui.component.Image
-import com.vini.designsystemsdui.component.LazyColumn
-import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.CloseAction
+import com.vini.designsystemsdui.ui.action.ToNumberAction
+import com.vini.designsystemsdui.ui.component.Card
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.Icon
+import com.vini.designsystemsdui.ui.component.IconButton
+import com.vini.designsystemsdui.ui.component.Image
+import com.vini.designsystemsdui.ui.component.LazyColumn
+import com.vini.designsystemsdui.ui.component.Row
+import com.vini.designsystemsdui.ui.component.Text
+import com.vini.designsystemsdui.ui.component.TopAppBar
 import com.vini.designsystemsdui.core.SdUiComposer
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.clickable
-import com.vini.designsystemsdui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.height
-import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
-import com.vini.designsystemsdui.modifier.option.IconOption
-import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.clickable
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.height
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.option.IconOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
 import com.vini.designsystemsdui.InteractionId
-import com.vini.designsystemsdui.modifier.option.DrawableOption
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.ui.modifier.option.DrawableOption
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.sdui.flow.newcard.NewCardScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component
@@ -41,15 +41,15 @@ class NewCardIntroScreen : NewCardScreen {
 
     private fun SdUiComposer.cardItem(card: CardDbModel, index: Int) {
         Card(
-            modifier = SdUiModifier().padding(horizontal = 30).padding(vertical = 10).fillMaxWidth()
+            modifier = Modifier.padding(horizontal = 30).padding(vertical = 10).fillMaxWidth()
                 .height(180).clickable(action = ToNumberAction(selectedCardIndex, index)),
             content = {
                 Column(
-                    modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 20)
+                    modifier = Modifier.padding(horizontal = 20).padding(vertical = 20)
                         .fillMaxHeight(),
                     content = {
                         Row(
-                            modifier = SdUiModifier().fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = (
                                 HorizontalArrangementOption.SpaceBetween()
                             ),
@@ -64,7 +64,7 @@ class NewCardIntroScreen : NewCardScreen {
                         )
                         Text(text = card.type)
                         Column(
-                            modifier = SdUiModifier().fillMaxHeight().fillMaxWidth(),
+                            modifier = Modifier.fillMaxHeight().fillMaxWidth(),
                             horizontalAlignment = (
                                 HorizontalAlignmentOption.End()
                             ),
@@ -73,7 +73,7 @@ class NewCardIntroScreen : NewCardScreen {
                             ),
                             content = {
                                 Image(
-                                    modifier = SdUiModifier().size(30),
+                                    modifier = Modifier.size(30),
                                     iconDrawable = DrawableOption.Visa,
                                 )
                             }
@@ -89,7 +89,7 @@ class NewCardIntroScreen : NewCardScreen {
         parameters: Map<String, String>,
         screenId: String,
     ): Template? {
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
@@ -108,7 +108,7 @@ class NewCardIntroScreen : NewCardScreen {
                     }
                 )
                 LazyColumn(
-                    modifier = SdUiModifier().fillMaxWidth().fillMaxHeight(),
+                    modifier = Modifier.fillMaxWidth().fillMaxHeight(),
                     content = {
                         cardItem(
                             card = CardDbModel(

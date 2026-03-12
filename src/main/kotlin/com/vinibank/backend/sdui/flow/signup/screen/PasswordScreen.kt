@@ -1,26 +1,27 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.BackAction
-import com.vini.designsystemsdui.action.ContinueAction
-import com.vini.designsystemsdui.component.Button
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.CreatePassword
-import com.vini.designsystemsdui.component.OutlinedButton
-import com.vini.designsystemsdui.component.Spacer
-import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.component.TopAppBar
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.BackAction
+import com.vini.designsystemsdui.ui.action.ContinueAction
+import com.vini.designsystemsdui.ui.component.Button
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.CreatePassword
+import com.vini.designsystemsdui.ui.component.OutlinedButton
+import com.vini.designsystemsdui.ui.component.Spacer
+import com.vini.designsystemsdui.ui.component.Text
+import com.vini.designsystemsdui.ui.component.TopAppBar
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
 import com.vini.designsystemsdui.InteractionId
-import com.vini.designsystemsdui.component.ButtonInteractionModel
-import com.vini.designsystemsdui.component.CreatePasswordInteractionModel
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.ui.data.ButtonInteractionModel
+import com.vini.designsystemsdui.ui.data.CreatePasswordInteractionModel
+import com.vini.designsystemsdui.ui.modifier.fillMaxSize
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.signup.SignUpScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -50,65 +51,70 @@ class PasswordScreen(
         parameters: Map<String, String>,
         screenId: String,
     ): Template? {
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
             content = {
-                TopAppBar(
-                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
-                    title = {
-                        Text(text = "Criar Senha")
-                    }
-                )
-                Spacer(modifier = SdUiModifier().size(20))
-                CreatePassword(
-                    interactionModel = CreatePasswordInteractionModel(
-                        text = passwordInputId,
-                        isPasswordValid = isPasswordValid
-                    ),
-                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
-                    text = "",
-                    isPasswordValid = false
-                )
                 Column(
-                    modifier = SdUiModifier().padding(horizontal = 20).fillMaxWidth().fillMaxHeight(),
-                    horizontalAlignment = (
-                        HorizontalAlignmentOption.Center()
-                    ),
-                    verticalArrangement = (
-                        VerticalArrangementOption.Bottom()
-                    ),
-                    content = {
-                        Button(
-                            interactionModel = ButtonInteractionModel(
-                                enabled = isPasswordValid
-                            ),
-                            modifier = SdUiModifier().fillMaxWidth(),
-                            content = {
-                                Text(text = "Continuar")
-                            },
-                            enabled = false,
-                            onClickAction = ContinueAction(
-                                flowId = request.flow,
-                                currentScreenId = screenId,
-                                nextScreenId = "Success",
-                                screenData = request.screenData,
-                                screenRequestData = listOf(
-                                    passwordInputId.id to "password"
-                                )
-                            ),
-                        )
-                        OutlinedButton(
-                            modifier = SdUiModifier().fillMaxWidth(),
-                            content = {
-                                Text(text = "Voltar")
-                            },
-                            onClickAction = BackAction()
-                        )
-                    }
-                )
-                Spacer(modifier = SdUiModifier().size(20))
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    TopAppBar(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 20),
+                        title = {
+                            Text(text = "Criar Senha")
+                        }
+                    )
+                    Spacer(modifier = Modifier.size(20))
+                    CreatePassword(
+                        interactionModel = CreatePasswordInteractionModel(
+                            text = passwordInputId,
+                            isPasswordValid = isPasswordValid
+                        ),
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 20),
+                        text = "",
+                        isPasswordValid = false
+                    )
+                    Column(
+                        modifier = Modifier.padding(horizontal = 20).fillMaxWidth()
+                            .fillMaxHeight(),
+                        horizontalAlignment = (
+                                HorizontalAlignmentOption.Center()
+                                ),
+                        verticalArrangement = (
+                                VerticalArrangementOption.Bottom()
+                                ),
+                        content = {
+                            Button(
+                                interactionModel = ButtonInteractionModel(
+                                    enabled = isPasswordValid
+                                ),
+                                modifier = Modifier.fillMaxWidth(),
+                                content = {
+                                    Text(text = "Continuar")
+                                },
+                                enabled = false,
+                                onClickAction = ContinueAction(
+                                    flowId = request.flow,
+                                    currentScreenId = screenId,
+                                    nextScreenId = "Success",
+                                    screenData = request.screenData,
+                                    screenRequestData = listOf(
+                                        passwordInputId.id to "password"
+                                    )
+                                ),
+                            )
+                            OutlinedButton(
+                                modifier = Modifier.fillMaxWidth(),
+                                content = {
+                                    Text(text = "Voltar")
+                                },
+                                onClickAction = BackAction()
+                            )
+                        }
+                    )
+                    Spacer(modifier = Modifier.size(20))
+                }
             }
         )
     }

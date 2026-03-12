@@ -1,39 +1,40 @@
 package com.vinibank.backend.sdui.flow.home.screen
 
 import com.vini.designsystemsdui.InteractionId
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.CloseApplicationAction
-import com.vini.designsystemsdui.action.ToBooleanAction
-import com.vini.designsystemsdui.component.BackHandler
-import com.vini.designsystemsdui.component.BottomSheet
-import com.vini.designsystemsdui.component.BottomSheetInteractionModel
-import com.vini.designsystemsdui.component.Button
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.Icon
-import com.vini.designsystemsdui.component.NavigationBar
-import com.vini.designsystemsdui.component.NavigationBarInteractionModel
-import com.vini.designsystemsdui.component.NavigationBarItem
-import com.vini.designsystemsdui.component.NavigationBarItemInteractionModel
-import com.vini.designsystemsdui.component.OutlinedButton
-import com.vini.designsystemsdui.component.SdUi
-import com.vini.designsystemsdui.component.SdUiInteractionModel
-import com.vini.designsystemsdui.component.Spacer
-import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.CloseApplicationAction
+import com.vini.designsystemsdui.ui.action.ToBooleanAction
+import com.vini.designsystemsdui.ui.component.BackHandler
+import com.vini.designsystemsdui.ui.component.BottomSheet
+import com.vini.designsystemsdui.ui.data.BottomSheetInteractionModel
+import com.vini.designsystemsdui.ui.component.Button
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.Icon
+import com.vini.designsystemsdui.ui.component.NavigationBar
+import com.vini.designsystemsdui.ui.data.NavigationBarInteractionModel
+import com.vini.designsystemsdui.ui.component.NavigationBarItem
+import com.vini.designsystemsdui.ui.data.NavigationBarItemInteractionModel
+import com.vini.designsystemsdui.ui.component.OutlinedButton
+import com.vini.designsystemsdui.ui.component.SdUi
+import com.vini.designsystemsdui.ui.data.SdUiInteractionModel
+import com.vini.designsystemsdui.ui.component.Spacer
+import com.vini.designsystemsdui.ui.component.Text
 import com.vini.designsystemsdui.core.SdUiComposer
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.background
-import com.vini.designsystemsdui.modifier.fillMaxSize
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.height
-import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
-import com.vini.designsystemsdui.modifier.option.IconOption
-import com.vini.designsystemsdui.modifier.option.ShapeOption
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.property.options.NavigationBarItemColorsModel
-import com.vini.designsystemsdui.property.options.color.ColorOption
-import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.validator.intToStringValidator
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.background
+import com.vini.designsystemsdui.ui.modifier.fillMaxSize
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.height
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.option.IconOption
+import com.vini.designsystemsdui.ui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.style.NavigationBarItemColorsModel
+import com.vini.designsystemsdui.ui.modifier.option.ColorOption
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
+import com.vini.designsystemsdui.ui.validator.dynamicValidator
+import com.vini.designsystemsdui.ui.validator.intToStringValidator
 import com.vinibank.backend.sdui.flow.RoutingController
 import com.vinibank.backend.sdui.flow.home.HomeController
 import com.vinibank.backend.sdui.flow.home.HomeScreen
@@ -54,6 +55,11 @@ class MainScreen(
         screenId: String,
     ): Template? {
         val bottomNavigationId = InteractionId<Int>(id = "bottomNavigation.selectedDestination")
+
+        val currentColor = InteractionId<ColorOption>(id = "bottomNavigation.salve")
+
+        val showExitBottomSheetId = InteractionId<Boolean>("exitAppBackHandler")
+
 
         fun SdUiComposer.navigationItem(
             destinationIndex: Int,
@@ -91,7 +97,8 @@ class MainScreen(
                 contentColor = ColorOption.Blue(),
                 selectedDestination = 0,
                 interactionModel = NavigationBarInteractionModel(
-                    selectedDestination = bottomNavigationId
+                    selectedDestination = bottomNavigationId,
+                    contentColor = currentColor
                 ),
                 content = {
                     navigationItem(0, "Home", IconOption.Home, IconOption.HomeOutline)
@@ -107,15 +114,20 @@ class MainScreen(
         }
 
         val sdUiStageId = InteractionId<String>("bottomNavigation.selectedDestinationContent")
-
-        val showExitBottomSheetId = InteractionId<Boolean>("exitAppBackHandler")
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = HomeController.FLOW_ID,
             stage = screenId,
             version = "1",
             content = {
                 Column(
-                    modifier = SdUiModifier().fillMaxSize()
+                    validators = listOf(
+                        dynamicValidator(
+                            id = showExitBottomSheetId,
+                            toValidate = listOf(currentColor),
+                            toCompare = ColorOption.Blue()
+                        )
+                    ),
+                    modifier = Modifier.fillMaxSize()
                         .background(ColorOption.CustomColor(0xff101922)),
                     content = {
                         BackHandler(
@@ -129,23 +141,23 @@ class MainScreen(
                             ),
                             content = {
                                 Column(
-                                    modifier = SdUiModifier().fillMaxWidth()
+                                    modifier = Modifier.fillMaxWidth()
                                         .padding(horizontal = 10),
                                     horizontalAlignment = HorizontalAlignmentOption.Center(),
                                     content = {
                                         Text(text = "Tem certeza que deseja sair?")
-                                        Spacer(modifier = SdUiModifier().height(10))
+                                        Spacer(modifier = Modifier.height(10))
                                         Button(
-                                            modifier = SdUiModifier().fillMaxWidth(),
+                                            modifier = Modifier.fillMaxWidth(),
                                             shape = ShapeOption.Rectangle(),
                                             content = {
                                                 Text(text = "Sair do App")
                                             },
                                             onClickAction = CloseApplicationAction()
                                         )
-                                        Spacer(modifier = SdUiModifier().height(4))
+                                        Spacer(modifier = Modifier.height(4))
                                         OutlinedButton(
-                                            modifier = SdUiModifier().fillMaxWidth(),
+                                            modifier = Modifier.fillMaxWidth(),
                                             shape = ShapeOption.Rectangle(),
                                             content = {
                                                 Text(text = "Cancelar")
@@ -159,9 +171,9 @@ class MainScreen(
                                 )
                             }
                         )
-                        Spacer(modifier = SdUiModifier().size(36))
+                        Spacer(modifier = Modifier.size(36))
                         SdUi(
-                            modifier = SdUiModifier().weight(1f).fillMaxWidth(),
+                            modifier = Modifier.weight(1f).fillMaxWidth(),
                             interactionModel = SdUiInteractionModel(
                                 stage = sdUiStageId
                             ),
@@ -179,14 +191,14 @@ class MainScreen(
                                     required = listOf(bottomNavigationId)
                                 ),
                             ),
-                            template = routingController.getTemplate(
+                            content = routingController.getTemplate(
                                 request.copy(
                                     toScreen = "ContaCorrente"
                                 )
                             )
                         )
                         Column(
-                            modifier = SdUiModifier().height(2).fillMaxWidth()
+                            modifier = Modifier.height(2).fillMaxWidth()
                                 .background(ColorOption.CustomColor(0xff1E293B)),
                         )
                         bottomNavigation()

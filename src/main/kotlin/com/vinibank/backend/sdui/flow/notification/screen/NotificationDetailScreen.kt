@@ -1,39 +1,39 @@
 package com.vinibank.backend.sdui.flow.notification.screen
 
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.BackAction
-import com.vini.designsystemsdui.component.Button
-import com.vini.designsystemsdui.component.Card
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.Icon
-import com.vini.designsystemsdui.component.IconButton
-import com.vini.designsystemsdui.component.LazyColumn
-import com.vini.designsystemsdui.component.OutlinedButton
-import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.Spacer
-import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.BackAction
+import com.vini.designsystemsdui.ui.component.Button
+import com.vini.designsystemsdui.ui.component.Card
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.Icon
+import com.vini.designsystemsdui.ui.component.IconButton
+import com.vini.designsystemsdui.ui.component.LazyColumn
+import com.vini.designsystemsdui.ui.component.OutlinedButton
+import com.vini.designsystemsdui.ui.component.Row
+import com.vini.designsystemsdui.ui.component.Spacer
+import com.vini.designsystemsdui.ui.component.Text
+import com.vini.designsystemsdui.ui.component.TopAppBar
 import com.vini.designsystemsdui.core.SdUiComposer
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.background
-import com.vini.designsystemsdui.modifier.clip
-import com.vini.designsystemsdui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.modifier.fillMaxSize
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.height
-import com.vini.designsystemsdui.modifier.option.FontWeightOption
-import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
-import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
-import com.vini.designsystemsdui.modifier.option.IconOption
-import com.vini.designsystemsdui.modifier.option.ShapeOption
-import com.vini.designsystemsdui.modifier.option.TextAlignOption
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.property.options.ButtonColorsModel
-import com.vini.designsystemsdui.property.options.CardColorsModel
-import com.vini.designsystemsdui.property.options.TopAppBarColorsModel
-import com.vini.designsystemsdui.property.options.color.ColorOption
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.background
+import com.vini.designsystemsdui.ui.modifier.clip
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.ui.modifier.fillMaxSize
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.height
+import com.vini.designsystemsdui.ui.modifier.option.FontWeightOption
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.option.IconOption
+import com.vini.designsystemsdui.ui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.ui.modifier.option.TextAlignOption
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.style.ButtonColorsModel
+import com.vini.designsystemsdui.ui.modifier.style.CardColorsModel
+import com.vini.designsystemsdui.ui.modifier.style.TopAppBarColorsModel
+import com.vini.designsystemsdui.ui.modifier.option.ColorOption
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.db.NotificationCategory
 import com.vinibank.backend.db.NotificationDetail
 import com.vinibank.backend.db.NotificationDetailsDatabase
@@ -98,7 +98,7 @@ class NotificationDetailScreen(
 
     private fun SdUiComposer.detailRow(label: String, value: String) {
         Row(
-            modifier = SdUiModifier().fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
             content = {
                 Text(
@@ -125,13 +125,13 @@ class NotificationDetailScreen(
     ): Template {
         val background = ColorOption.CustomColor(0xff081523)
 
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
             content = {
                 Column(
-                    modifier = SdUiModifier().fillMaxSize().background(background),
+                    modifier = Modifier.fillMaxSize().background(background),
                     content = {
                         TopAppBar(
                             colors = TopAppBarColorsModel(
@@ -159,23 +159,23 @@ class NotificationDetailScreen(
                         )
                         LazyColumn(
                             horizontalAlignment = HorizontalAlignmentOption.Center(),
-                            modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 24),
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 24),
                             content = {
-                                Spacer(modifier = SdUiModifier().height(24))
+                                Spacer(modifier = Modifier.height(24))
                                 Column(
-                                    modifier = SdUiModifier().size(110).clip(ShapeOption.Circle())
+                                    modifier = Modifier.size(110).clip(ShapeOption.Circle())
                                         .background(getNotificationBackground(notification.categoryLabel)),
                                     content = {
                                         Icon(
-                                            modifier = SdUiModifier().padding(26).size(58),
+                                            modifier = Modifier.padding(26).size(58),
                                             icon = getNotificationIcon(notification.categoryLabel),
                                             tint = getNotificationTint(notification.categoryLabel),
                                         )
                                     }
                                 )
-                                Spacer(modifier = SdUiModifier().height(18))
+                                Spacer(modifier = Modifier.height(18))
                                 Text(
-                                    modifier = SdUiModifier().fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth(),
                                     text = notification.title,
                                     fontWeight = FontWeightOption.Bold,
                                     fontSize = 28f,
@@ -183,9 +183,9 @@ class NotificationDetailScreen(
                                     textAlign = TextAlignOption.Center,
                                     color = ColorOption.White(),
                                 )
-                                Spacer(modifier = SdUiModifier().height(8))
+                                Spacer(modifier = Modifier.height(8))
                                 Text(
-                                    modifier = SdUiModifier().fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth(),
                                     text = notification.subtitle,
                                     color = ColorOption.CustomColor(0xff8EA2BD),
                                     textAlign = TextAlignOption.Center,
@@ -193,9 +193,9 @@ class NotificationDetailScreen(
                                     lineHeight = 24f,
                                 )
                                 if (!notification.highlightedText.isNullOrBlank()) {
-                                    Spacer(modifier = SdUiModifier().height(10))
+                                    Spacer(modifier = Modifier.height(10))
                                     Text(
-                                        modifier = SdUiModifier().fillMaxWidth(),
+                                        modifier = Modifier.fillMaxWidth(),
                                         text = notification.highlightedText,
                                         color = ColorOption.LightBlue(),
                                         textAlign = TextAlignOption.Center,
@@ -204,18 +204,18 @@ class NotificationDetailScreen(
                                     )
                                 }
                                 if (!notification.dateTimeText.isNullOrBlank()) {
-                                    Spacer(modifier = SdUiModifier().height(8))
+                                    Spacer(modifier = Modifier.height(8))
                                     Text(
-                                        modifier = SdUiModifier().fillMaxWidth(),
+                                        modifier = Modifier.fillMaxWidth(),
                                         text = notification.dateTimeText,
                                         color = ColorOption.CustomColor(0xBA2B8CEE),
                                         textAlign = TextAlignOption.Center,
                                         fontSize = 14f,
                                     )
                                 }
-                                Spacer(modifier = SdUiModifier().height(22))
+                                Spacer(modifier = Modifier.height(22))
                                 Card(
-                                    modifier = SdUiModifier().fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth(),
                                     shape = ShapeOption.RoundedCorner(16),
                                     colors = CardColorsModel(
                                         containerColor = ColorOption.CustomColor(0xff0D1D30),
@@ -223,7 +223,7 @@ class NotificationDetailScreen(
                                     ),
                                     content = {
                                         Column(
-                                            modifier = SdUiModifier().padding(16),
+                                            modifier = Modifier.padding(16),
                                             content = {
                                                 if (!notification.detailMessage.isNullOrBlank()) {
                                                     Text(
@@ -234,19 +234,19 @@ class NotificationDetailScreen(
                                                     )
                                                 }
                                                 if (notification.detailItems.isNotEmpty()) {
-                                                    Spacer(modifier = SdUiModifier().height(12))
+                                                    Spacer(modifier = Modifier.height(12))
                                                     notification.detailItems.forEach { (key, value) ->
                                                         detailRow(key, value)
-                                                        Spacer(modifier = SdUiModifier().height(8))
+                                                        Spacer(modifier = Modifier.height(8))
                                                     }
                                                 }
                                             }
                                         )
                                     }
                                 )
-                                Spacer(modifier = SdUiModifier().height(26))
+                                Spacer(modifier = Modifier.height(26))
                                 Button(
-                                    modifier = SdUiModifier().fillMaxWidth()
+                                    modifier = Modifier.fillMaxWidth()
                                         .clip(ShapeOption.RoundedCorner(12)),
                                     colors = ButtonColorsModel(
                                         containerColor = ColorOption.CustomColor(0xff2B8CEE),
@@ -254,7 +254,7 @@ class NotificationDetailScreen(
                                     ),
                                     content = {
                                         Text(
-                                            modifier = SdUiModifier().padding(vertical = 6),
+                                            modifier = Modifier.padding(vertical = 6),
                                             text = notification.primaryActionLabel ?: "Continuar",
                                             fontSize = 16f,
                                             fontWeight = FontWeightOption.Bold
@@ -262,13 +262,13 @@ class NotificationDetailScreen(
                                     }
                                 )
                                 if (!notification.secondaryActionLabel.isNullOrBlank()) {
-                                    Spacer(modifier = SdUiModifier().height(10))
+                                    Spacer(modifier = Modifier.height(10))
                                     OutlinedButton(
-                                        modifier = SdUiModifier().fillMaxWidth()
+                                        modifier = Modifier.fillMaxWidth()
                                             .clip(ShapeOption.RoundedCorner(12)),
                                         content = {
                                             Text(
-                                                modifier = SdUiModifier().padding(vertical = 6),
+                                                modifier = Modifier.padding(vertical = 6),
                                                 text = notification.secondaryActionLabel,
                                                 color = ColorOption.White(),
                                                 fontWeight = FontWeightOption.Bold
@@ -277,9 +277,9 @@ class NotificationDetailScreen(
                                     )
                                 }
                                 if (!notification.footerMessage.isNullOrBlank()) {
-                                    Spacer(modifier = SdUiModifier().height(18))
+                                    Spacer(modifier = Modifier.height(18))
                                     Text(
-                                        modifier = SdUiModifier().fillMaxWidth(),
+                                        modifier = Modifier.fillMaxWidth(),
                                         text = notification.footerMessage,
                                         color = ColorOption.CustomColor(0xff7E94AF),
                                         textAlign = TextAlignOption.Center,
@@ -287,7 +287,7 @@ class NotificationDetailScreen(
                                         lineHeight = 22f,
                                     )
                                 }
-                                Spacer(modifier = SdUiModifier().height(24))
+                                Spacer(modifier = Modifier.height(24))
                             }
                         )
                     }

@@ -2,24 +2,24 @@ package com.vinibank.backend.sdui.flow.investments.screen
 
 import com.vini.designsystemsdui.CacheStrategy
 import com.vini.designsystemsdui.SceneStrategy
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.ContinueAction
-import com.vini.designsystemsdui.component.Card
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.LazyColumn
-import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.Spacer
-import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.ContinueAction
+import com.vini.designsystemsdui.ui.component.Card
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.LazyColumn
+import com.vini.designsystemsdui.ui.component.Row
+import com.vini.designsystemsdui.ui.component.Spacer
+import com.vini.designsystemsdui.ui.component.Text
+import com.vini.designsystemsdui.ui.component.TopAppBar
 import com.vini.designsystemsdui.core.SdUiComposer
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.clickable
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.height
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
-import com.vini.designsystemsdui.modifier.option.TextAlignOption
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.clickable
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.height
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.option.TextAlignOption
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.json.buildJsonObject
@@ -56,7 +56,7 @@ class CDBWalletScreen : InvestmentsScreen {
 
     private fun SdUiComposer.cardRow(label: String, value: String) {
         Row(
-            modifier = SdUiModifier().fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = (
                 HorizontalArrangementOption.SpaceBetween()
             ),
@@ -76,7 +76,7 @@ class CDBWalletScreen : InvestmentsScreen {
     private fun SdUiComposer.availableFundOption(request: SdUiRequest) {
         availableOptions.forEach {
             Card(
-                modifier = SdUiModifier().padding(vertical = 10).padding(horizontal = 10)
+                modifier = Modifier.padding(vertical = 10).padding(horizontal = 10)
                     .fillMaxWidth().clickable(
                         action = ContinueAction(
                             flowId = request.flow,
@@ -89,10 +89,10 @@ class CDBWalletScreen : InvestmentsScreen {
                     ),
                 content = {
                     Column(
-                        modifier = SdUiModifier().padding(horizontal = 20).padding(vertical = 10),
+                        modifier = Modifier.padding(horizontal = 20).padding(vertical = 10),
                         content = {
                             Row(
-                                modifier = SdUiModifier().fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth(),
                                 horizontalArrangement = (
                                     HorizontalArrangementOption.Center()
                                 ),
@@ -103,7 +103,7 @@ class CDBWalletScreen : InvestmentsScreen {
                                     )
                                 }
                             )
-                            Spacer(modifier = SdUiModifier().height(10))
+                            Spacer(modifier = Modifier.height(10))
                             cardRow("Saldo atual", it.balance)
                             cardRow("Disponivel para resgate", it.availableToRedeem)
                             cardRow("Rentabilidade", it.rentability)
@@ -119,7 +119,7 @@ class CDBWalletScreen : InvestmentsScreen {
         parameters: Map<String, String>,
         screenId: String,
     ): Template? {
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
@@ -137,7 +137,7 @@ class CDBWalletScreen : InvestmentsScreen {
                             }
                         )
                         Text(
-                            modifier = SdUiModifier().padding(vertical = 10)
+                            modifier = Modifier.padding(vertical = 10)
                                 .padding(horizontal = 10).fillMaxWidth(),
                             text = "Ativos",
                             fontSize = 18f,
@@ -148,7 +148,7 @@ class CDBWalletScreen : InvestmentsScreen {
                                 availableFundOption(request)
                             }
                         )
-                        Spacer(modifier = SdUiModifier().height(10))
+                        Spacer(modifier = Modifier.height(10))
                     }
                 )
             }

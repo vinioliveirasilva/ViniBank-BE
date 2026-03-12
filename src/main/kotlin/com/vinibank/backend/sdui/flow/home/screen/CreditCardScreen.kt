@@ -1,35 +1,35 @@
 package com.vinibank.backend.sdui.flow.home.screen
 
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.component.Button
-import com.vini.designsystemsdui.component.Card
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.Icon
-import com.vini.designsystemsdui.component.LazyColumn
-import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.SdUi
-import com.vini.designsystemsdui.component.Spacer
-import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.component.Button
+import com.vini.designsystemsdui.ui.component.Card
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.Icon
+import com.vini.designsystemsdui.ui.component.LazyColumn
+import com.vini.designsystemsdui.ui.component.Row
+import com.vini.designsystemsdui.ui.component.SdUi
+import com.vini.designsystemsdui.ui.component.Spacer
+import com.vini.designsystemsdui.ui.component.Text
 import com.vini.designsystemsdui.core.SdUiComposer
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.background
-import com.vini.designsystemsdui.modifier.clip
-import com.vini.designsystemsdui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.height
-import com.vini.designsystemsdui.modifier.option.FontWeightOption
-import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
-import com.vini.designsystemsdui.modifier.option.IconOption
-import com.vini.designsystemsdui.modifier.option.ShapeOption
-import com.vini.designsystemsdui.modifier.option.VerticalAlignmentOption
-import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.modifier.width
-import com.vini.designsystemsdui.property.options.ButtonColorsModel
-import com.vini.designsystemsdui.property.options.CardColorsModel
-import com.vini.designsystemsdui.property.options.color.ColorOption
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.background
+import com.vini.designsystemsdui.ui.modifier.clip
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.height
+import com.vini.designsystemsdui.ui.modifier.option.FontWeightOption
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.option.IconOption
+import com.vini.designsystemsdui.ui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.width
+import com.vini.designsystemsdui.ui.modifier.style.ButtonColorsModel
+import com.vini.designsystemsdui.ui.modifier.style.CardColorsModel
+import com.vini.designsystemsdui.ui.modifier.option.ColorOption
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.sdui.flow.RoutingController
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -61,7 +61,7 @@ class CreditCardScreen(
             accentOne: ColorOption,
             accentTwo: ColorOption,
         ) = Card(
-            modifier = SdUiModifier().fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             shape = ShapeOption.RoundedCorner(16),
             colors = CardColorsModel(
                 containerColor = cardColor,
@@ -69,16 +69,16 @@ class CreditCardScreen(
             ),
             content = {
                 Column(
-                    modifier = SdUiModifier().padding(16).height(170),
+                    modifier = Modifier.padding(16).height(170),
                     verticalArrangement = VerticalArrangementOption.SpaceBetween(),
                     content = {
                         Row(
-                            modifier = SdUiModifier().fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
                             verticalAlignment = VerticalAlignmentOption.Center(),
                             content = {
                                 Icon(
-                                    modifier = SdUiModifier().size(20),
+                                    modifier = Modifier.size(20),
                                     icon = IconOption.Card,
                                     tint = textColor,
                                 )
@@ -94,13 +94,13 @@ class CreditCardScreen(
                         Row(
                             content = {
                                 Column(
-                                    modifier = SdUiModifier().size(16)
+                                    modifier = Modifier.size(16)
                                         .clip(shape = ShapeOption.Circle())
                                         .background(accentOne),
                                 )
-                                Spacer(modifier = SdUiModifier().width(6))
+                                Spacer(modifier = Modifier.width(6))
                                 Column(
-                                    modifier = SdUiModifier().size(16)
+                                    modifier = Modifier.size(16)
                                         .clip(shape = ShapeOption.Circle())
                                         .background(accentTwo),
                                 )
@@ -113,9 +113,9 @@ class CreditCardScreen(
                                     color = textColor,
                                     fontSize = 14f,
                                 )
-                                Spacer(modifier = SdUiModifier().size(8))
+                                Spacer(modifier = Modifier.size(8))
                                 Row(
-                                    modifier = SdUiModifier().fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = (
                                             HorizontalArrangementOption.SpaceBetween()
                                             ),
@@ -144,11 +144,11 @@ class CreditCardScreen(
             verticalAlignment = VerticalAlignmentOption.Center(),
             content = {
                 Icon(
-                    modifier = SdUiModifier().size(16),
+                    modifier = Modifier.size(16),
                     icon = IconOption.Check,
                     tint = iconColor,
                 )
-                Spacer(modifier = SdUiModifier().width(10))
+                Spacer(modifier = Modifier.width(10))
                 Text(
                     text = text,
                     color = ColorOption.White(),
@@ -172,7 +172,7 @@ class CreditCardScreen(
                     color = subtitleColor,
                     fontSize = 12f
                 )
-                Spacer(modifier = SdUiModifier().size(2))
+                Spacer(modifier = Modifier.size(2))
                 Text(
                     text = value,
                     color = ColorOption.White(),
@@ -197,7 +197,7 @@ class CreditCardScreen(
             badgeTwo: ColorOption,
             benefitIconColor: ColorOption,
         ) = Card(
-            modifier = SdUiModifier().fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             shape = ShapeOption.RoundedCorner(16),
             colors = CardColorsModel(
                 containerColor = surface,
@@ -205,7 +205,7 @@ class CreditCardScreen(
             ),
             content = {
                 Column(
-                    modifier = SdUiModifier().padding(horizontal = 16).padding(vertical = 16),
+                    modifier = Modifier.padding(horizontal = 16).padding(vertical = 16),
                     verticalArrangement = VerticalArrangementOption.SpacedBy(14),
                     content = {
                         cardVisual(
@@ -226,7 +226,7 @@ class CreditCardScreen(
                         )
                         benefitsList(benefits, benefitIconColor)
                         Card(
-                            modifier = SdUiModifier().fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             shape = ShapeOption.RoundedCorner(8),
                             colors = CardColorsModel(
                                 containerColor = ColorOption.CustomColor(0xff0F172A),
@@ -234,7 +234,7 @@ class CreditCardScreen(
                             ),
                             content = {
                                 Row(
-                                    modifier = SdUiModifier().padding(horizontal = 14)
+                                    modifier = Modifier.padding(horizontal = 14)
                                         .padding(vertical = 12).fillMaxWidth(),
                                     horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
                                     content = {
@@ -245,7 +245,7 @@ class CreditCardScreen(
                             }
                         )
                         Button(
-                            modifier = SdUiModifier().fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             shape = ShapeOption.RoundedCorner(8),
                             colors = ButtonColorsModel(
                                 containerColor = ColorOption.White(),
@@ -253,7 +253,7 @@ class CreditCardScreen(
                             ),
                             content = {
                                 Text(
-                                    modifier = SdUiModifier().padding(vertical = 6),
+                                    modifier = Modifier.padding(vertical = 6),
                                     text = "Choose this Card",
                                     fontSize = 16f,
                                     fontWeight = FontWeightOption.Bold,
@@ -265,21 +265,21 @@ class CreditCardScreen(
             }
         )
 
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
             content = {
                 Column(
-                    modifier = SdUiModifier().fillMaxWidth().background(background).fillMaxHeight(),
+                    modifier = Modifier.fillMaxWidth().background(background).fillMaxHeight(),
                     content = {
                         LazyColumn(
-                            modifier = SdUiModifier().padding(horizontal = 12, vertical = 16)
+                            modifier = Modifier.padding(horizontal = 12, vertical = 16)
                                 .fillMaxWidth().fillMaxHeight(),
                             verticalArrangement = VerticalArrangementOption.SpacedBy(14),
                             content = {
                                 Column(
-                                    modifier = SdUiModifier().padding(horizontal = 8),
+                                    modifier = Modifier.padding(horizontal = 8),
                                     content = {
                                         Text(
                                             text = "Choose your plan",
@@ -288,7 +288,7 @@ class CreditCardScreen(
                                             fontSize = 36f,
                                             lineHeight = 42f
                                         )
-                                        Spacer(modifier = SdUiModifier().size(4))
+                                        Spacer(modifier = Modifier.size(4))
                                         Text(
                                             text = (
                                                     "Select the credit card that best fits your financial goals."
@@ -368,17 +368,17 @@ class CreditCardScreen(
         request: SdUiRequest,
         parameters: Map<String, String>,
         screenId: String,
-    ): Template? = DefaultTemplate(
+    ): Template? = ScreenTemplate(
         flow = request.flow,
         stage = screenId,
         version = "1",
         content = {
             SdUi(
-                modifier = SdUiModifier().fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 flow = "Card",
                 stage = "Start",
                 currentScreen = screenId,
-                template = routingController.getTemplate(
+                content = routingController.getTemplate(
                     SdUiRequest(
                         flow = "Card",
                         fromScreen = screenId,

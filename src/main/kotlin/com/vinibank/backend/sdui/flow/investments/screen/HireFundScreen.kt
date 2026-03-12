@@ -2,44 +2,43 @@ package com.vinibank.backend.sdui.flow.investments.screen
 
 import com.vini.designsystemsdui.CacheStrategy
 import com.vini.designsystemsdui.SceneStrategy
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.MultipleActions
-import com.vini.designsystemsdui.action.ToModifierAction
-import com.vini.designsystemsdui.component.Button
-import com.vini.designsystemsdui.component.Card
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.LazyColumn
-import com.vini.designsystemsdui.component.ModalDatePicker
-import com.vini.designsystemsdui.component.OutlinedButton
-import com.vini.designsystemsdui.component.OutlinedTextInput
-import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.Spacer
-import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.MultipleActions
+import com.vini.designsystemsdui.ui.action.ToModifierAction
+import com.vini.designsystemsdui.ui.component.Button
+import com.vini.designsystemsdui.ui.component.Card
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.LazyColumn
+import com.vini.designsystemsdui.ui.component.ModalDatePicker
+import com.vini.designsystemsdui.ui.component.OutlinedButton
+import com.vini.designsystemsdui.ui.component.OutlinedTextInput
+import com.vini.designsystemsdui.ui.component.Row
+import com.vini.designsystemsdui.ui.component.Spacer
+import com.vini.designsystemsdui.ui.component.Text
+import com.vini.designsystemsdui.ui.component.TopAppBar
 import com.vini.designsystemsdui.core.SdUiComposer
-import com.vini.designsystemsdui.modifier.BaseModifier
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.height
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.visible
-import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
-import com.vini.designsystemsdui.modifier.option.KeyboardOptionsOption
-import com.vini.designsystemsdui.modifier.option.ShapeOption
-import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.height
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.visible
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.option.KeyboardOptionsOption
+import com.vini.designsystemsdui.ui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
 import com.vini.designsystemsdui.InteractionId
 import com.vini.designsystemsdui.JsonProvider
-import com.vini.designsystemsdui.component.ButtonInteractionModel
-import com.vini.designsystemsdui.component.ModalDatePickerInteractionModel
-import com.vini.designsystemsdui.component.OutlinedTextInputInteractionModel
-import com.vini.designsystemsdui.component.TextInteractionModel
-import com.vini.designsystemsdui.template.DefaultTemplate
-import com.vini.designsystemsdui.validator.allTrueValidator
-import com.vini.designsystemsdui.validator.doubleComparatorValidator
-import com.vini.designsystemsdui.validator.millisToDateStringValidator
-import com.vini.designsystemsdui.validator.notNullValidator
-import com.vini.designsystemsdui.validator.onlyNumberValidator
+import com.vini.designsystemsdui.ui.data.ButtonInteractionModel
+import com.vini.designsystemsdui.ui.data.ModalDatePickerInteractionModel
+import com.vini.designsystemsdui.ui.data.OutlinedTextInputInteractionModel
+import com.vini.designsystemsdui.ui.data.TextInteractionModel
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
+import com.vini.designsystemsdui.ui.validator.allTrueValidator
+import com.vini.designsystemsdui.ui.validator.doubleComparatorValidator
+import com.vini.designsystemsdui.ui.validator.millisToDateStringValidator
+import com.vini.designsystemsdui.ui.validator.notNullValidator
+import com.vini.designsystemsdui.ui.validator.onlyNumberValidator
 import com.vinibank.backend.db.FundsDatabase
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.flow.investments.toBrl
@@ -57,7 +56,7 @@ class HireFundScreen(
 
     private fun SdUiComposer.cardRow(label: String, value: String) {
         Row(
-            modifier = SdUiModifier().fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = (
                 HorizontalArrangementOption.SpaceBetween()
             ),
@@ -87,13 +86,13 @@ class HireFundScreen(
         val valueToInvestId = InteractionId<String>("HireFundMonetaryInput")
         val dateHasBeenSelected = InteractionId<Boolean>("dateHasBeenSelected")
         val dateSelectionInfoVisibilityId =
-            InteractionId<BaseModifier>("dateSelectionInfoVisibility")
+            InteractionId<Modifier>("dateSelectionInfoVisibility")
         val selectedDateId = InteractionId<String>("dateParsed")
         val confirmedDateId = InteractionId<Long>("confirmedDateId")
-        val showDatePickerId = InteractionId<BaseModifier>("showDatePicker")
+        val showDatePickerId = InteractionId<Modifier>("showDatePicker")
         val allValidationConfirmed = InteractionId<Boolean>("allValidationConfirmed")
 
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
@@ -101,13 +100,13 @@ class HireFundScreen(
             scene = SceneStrategy.DualPane(id = "1"),
             content = {
                 LazyColumn(
-                    modifier = SdUiModifier().fillMaxHeight(),
+                    modifier = Modifier.fillMaxHeight(),
                     verticalArrangement = (
                         VerticalArrangementOption.SpaceBetween()
                     ),
                     content = {
                         Column(
-                            modifier = SdUiModifier().fillMaxHeight(),
+                            modifier = Modifier.fillMaxHeight(),
                             content = {
                                 TopAppBar(
                                     title = {
@@ -117,17 +116,17 @@ class HireFundScreen(
                                         )
                                     }
                                 )
-                                Spacer(modifier = SdUiModifier().height(10))
+                                Spacer(modifier = Modifier.height(10))
                                 Card(
-                                    modifier = SdUiModifier().padding(horizontal = 20)
+                                    modifier = Modifier.padding(horizontal = 20)
                                         .fillMaxWidth(),
                                     content = {
                                         Column(
-                                            modifier = SdUiModifier().padding(horizontal = 10)
+                                            modifier = Modifier.padding(horizontal = 10)
                                                 .padding(vertical = 10),
                                             content = {
                                                 Row(
-                                                    modifier = SdUiModifier().fillMaxWidth(),
+                                                    modifier = Modifier.fillMaxWidth(),
                                                     horizontalArrangement = (
                                                         HorizontalArrangementOption.Center()
                                                     ),
@@ -138,7 +137,7 @@ class HireFundScreen(
                                                         )
                                                     }
                                                 )
-                                                Spacer(modifier = SdUiModifier().height(10))
+                                                Spacer(modifier = Modifier.height(10))
                                                 cardRow("Rentabilidade", fundInfo.rentability)
                                                 cardRow(
                                                     "Investimento Mínimo",
@@ -161,12 +160,12 @@ class HireFundScreen(
                                         )
                                     }
                                 )
-                                Spacer(modifier = SdUiModifier().height(10))
+                                Spacer(modifier = Modifier.height(10))
                                 OutlinedTextInput(
-                                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
+                                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20),
                                     label = {
                                         Text(
-                                            modifier = SdUiModifier().fillMaxWidth()
+                                            modifier = Modifier.fillMaxWidth()
                                                 .padding(horizontal = 20),
                                             text = "Valor da aplicação",
                                         )
@@ -190,16 +189,16 @@ class HireFundScreen(
                                     )
                                 )
                                 Spacer(
-                                    modifier = SdUiModifier().height(10)
+                                    modifier = Modifier.height(10)
                                         .visible(false, dateSelectionInfoVisibilityId),
                                 )
                                 Text(
-                                    modifier = SdUiModifier().padding(horizontal = 20)
+                                    modifier = Modifier.padding(horizontal = 20)
                                         .visible(false, dateSelectionInfoVisibilityId),
                                     text = "Data selecionada:",
                                 )
                                 OutlinedButton(
-                                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
+                                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20),
                                     content = {
                                         Text(
                                             text = "Seleciona a data de investimento",
@@ -209,7 +208,7 @@ class HireFundScreen(
                                         )
                                     },
                                     onClickAction = ToModifierAction(
-                                        SdUiModifier().visible(true, showDatePickerId)
+                                        Modifier.visible(true, showDatePickerId)
                                     ),
                                     shape = ShapeOption.RoundedCorner(8),
                                 )
@@ -217,19 +216,19 @@ class HireFundScreen(
                                     interactionModel = ModalDatePickerInteractionModel(
                                         confirmedDate = confirmedDateId
                                     ),
-                                    modifier = SdUiModifier().visible(false, showDatePickerId),
+                                    modifier = Modifier.visible(false, showDatePickerId),
                                     onConfirmAction = MultipleActions(
                                         listOf(
                                             ToModifierAction(
-                                                SdUiModifier().visible(false, showDatePickerId)
+                                                Modifier.visible(false, showDatePickerId)
                                             ),
                                             ToModifierAction(
-                                                SdUiModifier().visible(true, dateSelectionInfoVisibilityId)
+                                                Modifier.visible(true, dateSelectionInfoVisibilityId)
                                             )
                                         )
                                     ),
                                     onCancelAction = ToModifierAction(
-                                        SdUiModifier().visible(false, showDatePickerId)
+                                        Modifier.visible(false, showDatePickerId)
                                     ),
                                     validators = listOf(
                                         millisToDateStringValidator(
@@ -247,12 +246,12 @@ class HireFundScreen(
                         )
                         Column(
                             content = {
-                                Spacer(modifier = SdUiModifier().height(20))
+                                Spacer(modifier = Modifier.height(20))
                                 Button(
                                     interactionModel = ButtonInteractionModel(
                                         enabled = allValidationConfirmed
                                     ),
-                                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
+                                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20),
                                     enabled = false,
                                     content = {
                                         Text(text = "Continuar")
@@ -267,7 +266,7 @@ class HireFundScreen(
                                         )
                                     )
                                 )
-                                Spacer(modifier = SdUiModifier().height(20))
+                                Spacer(modifier = Modifier.height(20))
                             }
                         )
                     },

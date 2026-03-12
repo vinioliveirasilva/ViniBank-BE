@@ -1,30 +1,30 @@
 package com.vinibank.backend.sdui.flow.home.screen
 
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.BackAction
-import com.vini.designsystemsdui.action.ContinueAction
-import com.vini.designsystemsdui.component.Card
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.HorizontalDivider
-import com.vini.designsystemsdui.component.Icon
-import com.vini.designsystemsdui.component.IconButton
-import com.vini.designsystemsdui.component.LazyColumn
-import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.BackAction
+import com.vini.designsystemsdui.ui.action.ContinueAction
+import com.vini.designsystemsdui.ui.component.Card
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.HorizontalDivider
+import com.vini.designsystemsdui.ui.component.Icon
+import com.vini.designsystemsdui.ui.component.IconButton
+import com.vini.designsystemsdui.ui.component.LazyColumn
+import com.vini.designsystemsdui.ui.component.Row
+import com.vini.designsystemsdui.ui.component.Text
+import com.vini.designsystemsdui.ui.component.TopAppBar
 import com.vini.designsystemsdui.core.SdUiComposer
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.clickable
-import com.vini.designsystemsdui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
-import com.vini.designsystemsdui.modifier.option.VerticalAlignmentOption
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
-import com.vini.designsystemsdui.modifier.option.IconOption
-import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.clickable
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.option.IconOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.db.User
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.sdui.flow.home.HomeScreen
@@ -53,7 +53,7 @@ class UserDetailScreen(
             userDetailRepository.users["vinioliveirasilva@outlook.com"] ?: User("", "", "", "")
 
         fun SdUiComposer.menuItem(name: String, icon: IconOption? = null) = Column(
-            modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20).clickable(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20).clickable(
                 action = ContinueAction(
                     flowId = "TODO",
                     currentScreenId = "UserDetail",
@@ -64,7 +64,7 @@ class UserDetailScreen(
             verticalArrangement = VerticalArrangementOption.Center(),
             content = {
                 Row(
-                    modifier = SdUiModifier().fillMaxWidth().padding(vertical = 10),
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 10),
                     horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
                     verticalAlignment = VerticalAlignmentOption.Center(),
                     content = {
@@ -73,7 +73,7 @@ class UserDetailScreen(
                             content = {
                                 if (icon != null) {
                                     Icon(
-                                        modifier = SdUiModifier().padding(horizontal = 10).size(48),
+                                        modifier = Modifier.padding(horizontal = 10).size(48),
                                         icon = icon,
                                     )
                                 }
@@ -81,7 +81,7 @@ class UserDetailScreen(
                             }
                         )
                         Icon(
-                            modifier = SdUiModifier().padding(horizontal = 10),
+                            modifier = Modifier.padding(horizontal = 10),
                             icon = IconOption.RightArrow,
                         )
                     }
@@ -92,31 +92,31 @@ class UserDetailScreen(
 
         fun SdUiComposer.screenContent() {
             LazyColumn(
-                modifier = SdUiModifier().fillMaxWidth().fillMaxHeight(),
+                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
                 content = {
                     Card(
-                        modifier = SdUiModifier().padding(20).fillMaxWidth(),
+                        modifier = Modifier.padding(20).fillMaxWidth(),
                         content = {
                             Column(
-                                modifier = SdUiModifier().padding(vertical = 20).fillMaxWidth(),
+                                modifier = Modifier.padding(vertical = 20).fillMaxWidth(),
                                 horizontalAlignment = (
                                     HorizontalAlignmentOption.Center()
                                 ),
                                 content = {
                                     Icon(
-                                        modifier = SdUiModifier().padding(horizontal = 20).size(96),
+                                        modifier = Modifier.padding(horizontal = 20).size(96),
                                         icon = IconOption.User,
                                     )
                                     Text(
-                                        modifier = SdUiModifier().padding(horizontal = 20),
+                                        modifier = Modifier.padding(horizontal = 20),
                                         text = user.name,
                                     )
                                     Text(
-                                        modifier = SdUiModifier().padding(horizontal = 20),
+                                        modifier = Modifier.padding(horizontal = 20),
                                         text = user.email,
                                     )
                                     Text(
-                                        modifier = SdUiModifier().padding(horizontal = 20),
+                                        modifier = Modifier.padding(horizontal = 20),
                                         text = user.phone.formatPhoneNumber(),
                                     )
                                 }
@@ -131,7 +131,7 @@ class UserDetailScreen(
             )
         }
 
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",

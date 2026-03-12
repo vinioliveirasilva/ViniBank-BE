@@ -8,7 +8,7 @@ class RoutingController(
     private val sdUiFlowControllers: List<SdUiFlowController>,
 ) {
 
-    fun getSdUiScreen(sdUiRequest: SdUiRequest) = getInternalScreen(sdUiRequest).build()
+    fun getSdUiScreen(sdUiRequest: SdUiRequest) = getInternalScreen(sdUiRequest)
 
     fun getSdUiScreenUpdate(sdUiRequest: UpdateSdUiTemplateRequest) =
         getInternalScreenUpdate(sdUiRequest)

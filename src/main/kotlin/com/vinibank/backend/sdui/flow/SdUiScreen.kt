@@ -1,6 +1,6 @@
 package com.vinibank.backend.sdui.flow
 
-import com.vini.designsystemsdui.Template
+import com.vini.designsystemsdui.core.SdUiNode.Template
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.json.JsonObject
 import org.springframework.stereotype.Component

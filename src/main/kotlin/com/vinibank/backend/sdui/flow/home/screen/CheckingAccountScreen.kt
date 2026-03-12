@@ -1,53 +1,53 @@
 package com.vinibank.backend.sdui.flow.home.screen
 
 import com.vini.designsystemsdui.InteractionId
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.BaseAction
-import com.vini.designsystemsdui.action.CloseApplicationAction
-import com.vini.designsystemsdui.action.NavigateAction
-import com.vini.designsystemsdui.action.ToBooleanAction
-import com.vini.designsystemsdui.component.BackHandler
-import com.vini.designsystemsdui.component.BottomSheet
-import com.vini.designsystemsdui.component.BottomSheetInteractionModel
-import com.vini.designsystemsdui.component.Button
-import com.vini.designsystemsdui.component.Card
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.Dialog
-import com.vini.designsystemsdui.component.DialogInteractionModel
-import com.vini.designsystemsdui.component.Icon
-import com.vini.designsystemsdui.component.IconButton
-import com.vini.designsystemsdui.component.Image
-import com.vini.designsystemsdui.component.LazyColumn
-import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.SdUi
-import com.vini.designsystemsdui.component.SdUiInteractionModel
-import com.vini.designsystemsdui.component.SnackBar
-import com.vini.designsystemsdui.component.SnackBarInteractionModel
-import com.vini.designsystemsdui.component.Spacer
-import com.vini.designsystemsdui.component.Text
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.BaseAction
+import com.vini.designsystemsdui.ui.action.CloseApplicationAction
+import com.vini.designsystemsdui.ui.action.NavigateAction
+import com.vini.designsystemsdui.ui.action.ToBooleanAction
+import com.vini.designsystemsdui.ui.component.BackHandler
+import com.vini.designsystemsdui.ui.component.BottomSheet
+import com.vini.designsystemsdui.ui.data.BottomSheetInteractionModel
+import com.vini.designsystemsdui.ui.component.Button
+import com.vini.designsystemsdui.ui.component.Card
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.Dialog
+import com.vini.designsystemsdui.ui.data.DialogInteractionModel
+import com.vini.designsystemsdui.ui.component.Icon
+import com.vini.designsystemsdui.ui.component.IconButton
+import com.vini.designsystemsdui.ui.component.Image
+import com.vini.designsystemsdui.ui.component.LazyColumn
+import com.vini.designsystemsdui.ui.component.Row
+import com.vini.designsystemsdui.ui.component.SdUi
+import com.vini.designsystemsdui.ui.data.SdUiInteractionModel
+import com.vini.designsystemsdui.ui.component.SnackBar
+import com.vini.designsystemsdui.ui.data.SnackBarInteractionModel
+import com.vini.designsystemsdui.ui.component.Spacer
+import com.vini.designsystemsdui.ui.component.Text
 import com.vini.designsystemsdui.core.SdUiComposer
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.background
-import com.vini.designsystemsdui.modifier.clickable
-import com.vini.designsystemsdui.modifier.clip
-import com.vini.designsystemsdui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.height
-import com.vini.designsystemsdui.modifier.option.FontWeightOption
-import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
-import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
-import com.vini.designsystemsdui.modifier.option.IconOption
-import com.vini.designsystemsdui.modifier.option.ShapeOption
-import com.vini.designsystemsdui.modifier.option.TextAlignOption
-import com.vini.designsystemsdui.modifier.option.VerticalAlignmentOption
-import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.modifier.width
-import com.vini.designsystemsdui.modifier.wrapContentSize
-import com.vini.designsystemsdui.property.options.CardColorsModel
-import com.vini.designsystemsdui.property.options.color.ColorOption
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.background
+import com.vini.designsystemsdui.ui.modifier.clickable
+import com.vini.designsystemsdui.ui.modifier.clip
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.height
+import com.vini.designsystemsdui.ui.modifier.option.FontWeightOption
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.option.IconOption
+import com.vini.designsystemsdui.ui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.ui.modifier.option.TextAlignOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.width
+import com.vini.designsystemsdui.ui.modifier.wrapContentSize
+import com.vini.designsystemsdui.ui.modifier.style.CardColorsModel
+import com.vini.designsystemsdui.ui.modifier.option.ColorOption
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.db.CheckingAccountDatabase
 import com.vinibank.backend.db.CheckingAccountTransaction
 import com.vinibank.backend.db.NotificationsDatabase
@@ -115,22 +115,22 @@ class CheckingAccountScreen(
             )
             if (hasUnreadNotification) {
                 Column(
-                    modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 10),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 10),
                     horizontalAlignment = HorizontalAlignmentOption.End(),
                     content = {
                         Column(
-                            modifier = SdUiModifier().height(8).width(8)
+                            modifier = Modifier.height(8).width(8)
                                 .clip(ShapeOption.Circle())
                                 .background(ColorOption.Red()),
                         )
-                        Spacer(modifier = SdUiModifier().size(10))
+                        Spacer(modifier = Modifier.size(10))
                     }
                 )
             }
         }
 
         fun SdUiComposer.transactionItem(transaction: CheckingAccountTransaction) = Card(
-            modifier = SdUiModifier().fillMaxWidth().clickable(
+            modifier = Modifier.fillMaxWidth().clickable(
                 enabled = true, action = NavigateAction(flow = "Notification")
             ),
             colors = CardColorsModel(
@@ -139,28 +139,28 @@ class CheckingAccountScreen(
             ),
             content = {
                 Row(
-                    modifier = SdUiModifier().padding(10).fillMaxWidth(),
+                    modifier = Modifier.padding(10).fillMaxWidth(),
                     verticalAlignment = VerticalAlignmentOption.Center(),
                     horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
                     content = {
                         Row(
-                            modifier = SdUiModifier().weight(5f),
+                            modifier = Modifier.weight(5f),
                             verticalAlignment = VerticalAlignmentOption.Center(),
                             content = {
                                 Card(
-                                    modifier = SdUiModifier().size(40),
+                                    modifier = Modifier.size(40),
                                     colors = CardColorsModel(
                                         containerColor = ColorOption.CustomColor(0x1A2B8CEE),
                                         contentColor = ColorOption.CustomColor(0xff2B8CEE),
                                     ),
                                     content = {
                                         Icon(
-                                            modifier = SdUiModifier().padding(10),
+                                            modifier = Modifier.padding(10),
                                             icon = getTransactionIcon(transaction),
                                         )
                                     }
                                 )
-                                Spacer(modifier = SdUiModifier().size(12))
+                                Spacer(modifier = Modifier.size(12))
                                 Column(
                                     content = {
                                         Text(
@@ -179,7 +179,7 @@ class CheckingAccountScreen(
                             },
                         )
                         Row(
-                            modifier = SdUiModifier().padding(vertical = 10).padding(start = 10).wrapContentSize(),
+                            modifier = Modifier.padding(vertical = 10).padding(start = 10).wrapContentSize(),
                             verticalAlignment = VerticalAlignmentOption.Center(),
                             content = {
                                 Text(
@@ -192,7 +192,7 @@ class CheckingAccountScreen(
                                     text = transaction.amount.toBrl(),
                                     textAlign = TextAlignOption.End,
                                 )
-                                Spacer(modifier = SdUiModifier().size(8))
+                                Spacer(modifier = Modifier.size(8))
                             }
                         )
                     }
@@ -211,7 +211,7 @@ class CheckingAccountScreen(
             horizontalAlignment = HorizontalAlignmentOption.Center(),
             content = {
                 Card(
-                    modifier = SdUiModifier().size(56).clickable(action = onClickAction),
+                    modifier = Modifier.size(56).clickable(action = onClickAction),
                     colors = CardColorsModel(
                         containerColor = ColorOption.CustomColor(0x1A2B8CEE),
                         contentColor = ColorOption.CustomColor(0xff2B8CEE),
@@ -219,16 +219,16 @@ class CheckingAccountScreen(
                     shape = ShapeOption.RoundedCorner(16),
                     content = {
                         Row(
-                            modifier = SdUiModifier().fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = HorizontalArrangementOption.Center(),
                             content = {
                                 Column(
-                                    modifier = SdUiModifier().fillMaxHeight(),
+                                    modifier = Modifier.fillMaxHeight(),
                                     verticalArrangement = VerticalArrangementOption.Center(),
                                     content = {
                                         Icon(
                                             icon = icon,
-                                            modifier = SdUiModifier().size(20),
+                                            modifier = Modifier.size(20),
                                         )
                                     }
                                 )
@@ -237,7 +237,7 @@ class CheckingAccountScreen(
                     },
                 )
                 Text(
-                    modifier = SdUiModifier().padding(vertical = 10),
+                    modifier = Modifier.padding(vertical = 10),
                     color = textColor,
                     text = name,
                     fontSize = 11f
@@ -246,7 +246,7 @@ class CheckingAccountScreen(
         )
 
         fun SdUiComposer.profileSection() = Row(
-            modifier = SdUiModifier().fillMaxWidth().padding(20),
+            modifier = Modifier.fillMaxWidth().padding(20),
             horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
             content = {
                 Row(
@@ -254,10 +254,10 @@ class CheckingAccountScreen(
                     content = {
                         Image(
                             icon = IconOption.User,
-                            modifier = SdUiModifier().size(48),
+                            modifier = Modifier.size(48),
                             tint = ColorOption.White()
                         )
-                        Spacer(modifier = SdUiModifier().width(5))
+                        Spacer(modifier = Modifier.width(5))
                         Column(
                             verticalArrangement = VerticalArrangementOption.Center(),
                             content = {
@@ -277,7 +277,7 @@ class CheckingAccountScreen(
                     }
                 )
                 Column(
-                    modifier = SdUiModifier().clip(ShapeOption.Circle())
+                    modifier = Modifier.clip(ShapeOption.Circle())
                         .background(ColorOption.CustomColor(0xff1E293B)),
                     content = {
                         IconButton(
@@ -292,19 +292,19 @@ class CheckingAccountScreen(
         )
 
         fun SdUiComposer.balanceSection() = SdUi(
-            modifier = SdUiModifier().fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             flow = "Home",
             stage = "Balance",
             currentScreen = screenId,
             interactionModel = SdUiInteractionModel(
                 requestUpdate = checkingAccountTopSdUiRequestUpdate
             ),
-            template = routingController.getTemplate(request.copy(toScreen = "Balance"))
+            content = routingController.getTemplate(request.copy(toScreen = "Balance"))
         )
 
         fun SdUiComposer.servicesSection() {
             Row(
-                modifier = SdUiModifier().fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
                 content = {
                     Text(
@@ -321,9 +321,9 @@ class CheckingAccountScreen(
                     )
                 }
             )
-            Spacer(modifier = SdUiModifier().size(16))
+            Spacer(modifier = Modifier.size(16))
             Row(
-                modifier = SdUiModifier().fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
                 content = {
                     actionIcon(
@@ -350,7 +350,7 @@ class CheckingAccountScreen(
 
         fun SdUiComposer.lastTransactionsSection() {
             Row(
-                modifier = SdUiModifier().fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
                 content = {
                     Text(
@@ -367,25 +367,25 @@ class CheckingAccountScreen(
                     transactions.forEach { transactionItem(it) }
                 }
             )
-            Spacer(modifier = SdUiModifier().size(8))
+            Spacer(modifier = Modifier.size(8))
         }
 
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = request.toScreen,
             version = "1",
             content = {
                 BackHandler(onBackAction = CloseApplicationAction())
                 Column(
-                    modifier = SdUiModifier().fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                         .background(ColorOption.CustomColor(0xff101922))
                         .fillMaxHeight(),
                     horizontalAlignment = HorizontalAlignmentOption.Center(),
                     content = {
                         profileSection()
-                        Spacer(modifier = SdUiModifier().size(10))
+                        Spacer(modifier = Modifier.size(10))
                         Column(
-                            modifier = SdUiModifier().fillMaxWidth().fillMaxHeight(),
+                            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
                             horizontalAlignment = HorizontalAlignmentOption.Center(),
                             content = {
                                 Dialog(
@@ -414,26 +414,26 @@ class CheckingAccountScreen(
                                     }
                                 )
                                 LazyColumn(
-                                    modifier = SdUiModifier().fillMaxWidth().fillMaxHeight(),
+                                    modifier = Modifier.fillMaxWidth().fillMaxHeight(),
                                     horizontalAlignment = HorizontalAlignmentOption.Center(),
                                     content = {
                                         Column(
-                                            modifier = SdUiModifier().padding(horizontal = 24),
+                                            modifier = Modifier.padding(horizontal = 24),
                                             content = {
-                                                Spacer(modifier = SdUiModifier().size(20))
+                                                Spacer(modifier = Modifier.size(20))
                                                 balanceSection()
-                                                Spacer(modifier = SdUiModifier().size(10))
+                                                Spacer(modifier = Modifier.size(10))
                                             }
                                         )
                                         Column(
-                                            modifier = SdUiModifier().padding(horizontal = 24)
+                                            modifier = Modifier.padding(horizontal = 24)
                                                 .padding(vertical = 10).fillMaxWidth(),
                                             content = {
                                                 servicesSection()
                                             }
                                         )
                                         Column(
-                                            modifier = SdUiModifier().padding(horizontal = 24)
+                                            modifier = Modifier.padding(horizontal = 24)
                                                 .fillMaxWidth(),
                                             horizontalAlignment = HorizontalAlignmentOption.Center(),
                                             verticalArrangement = VerticalArrangementOption.SpacedBy(

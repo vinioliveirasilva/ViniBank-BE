@@ -1,9 +1,8 @@
 package com.vinibank.backend.sdui.flow.login.screen
 
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.BusinessSuccessAction
-import com.vini.designsystemsdui.component.Blank
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.BusinessSuccessAction
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.sdui.flow.login.LoginScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
 import org.springframework.stereotype.Component
@@ -18,17 +17,14 @@ class SuccessLoginScreen() : LoginScreen {
         parameters: Map<String, String>,
         screenId: String,
     ): Template? {
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
-            content = {
-                Blank(
-                    onAppearAction = BusinessSuccessAction(
-                        screenData = request.screenData
-                    )
-                )
-            }
+            onAppearAction = BusinessSuccessAction(
+                screenData = request.screenData
+            ),
+            content = { }
         )
     }
 }

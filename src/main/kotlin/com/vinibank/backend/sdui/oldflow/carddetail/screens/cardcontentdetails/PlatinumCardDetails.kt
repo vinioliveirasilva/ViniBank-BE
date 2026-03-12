@@ -191,7 +191,7 @@ package com.vinibank.backend.sdui.oldflow.carddetail.screens.cardcontentdetails
 //        )
 //    )
 //
-//    override fun getScreenModel(screenData: JsonObject?): JsonObject = DefaultTemplate(
+//    override fun getScreenModel(screenData: JsonObject?): JsonObject = ScreenTemplate(
 //        "Home",
 //        "Cartoes/card1",
 //        "",

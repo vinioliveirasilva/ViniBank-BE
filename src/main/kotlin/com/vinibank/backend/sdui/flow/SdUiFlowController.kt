@@ -1,13 +1,13 @@
 package com.vinibank.backend.sdui.flow
 
-import com.vini.designsystemsdui.Template
+import com.vini.designsystemsdui.core.SdUiNode
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.json.JsonObject
 
 interface SdUiFlowController {
     val flowId: String
 
-    fun getScreen(request: SdUiRequest): Template?
+    fun getScreen(request: SdUiRequest): SdUiNode.Template?
     fun getScreenUpdate(request: UpdateSdUiTemplateRequest): List<JsonObject> = emptyList()
 }
 
@@ -17,7 +17,7 @@ open class BaseFlowController<T : SdUiScreen>(
     override val flowId: String,
 ) : SdUiFlowController {
 
-    override fun getScreen(request: SdUiRequest): Template? {
+    override fun getScreen(request: SdUiRequest): SdUiNode.Template? {
         return if (request.toScreen == "Start") {
             defaultScreen.getScreen(request = request, screenId = request.toScreen)
         } else {
@@ -37,7 +37,7 @@ open class BaseFlowController<T : SdUiScreen>(
     private fun executeRule(request: SdUiRequest) =
         screens.firstOrNull { it.screenId == request.fromScreen }?.getRule(request)
 
-    private fun executeScreen(request: SdUiRequest): Template {
+    private fun executeScreen(request: SdUiRequest): SdUiNode.Template {
         val parameters = getQueryParameters(request.toScreen)
         val parsedScreenId = request.toScreen.stripQueryParameters()
 

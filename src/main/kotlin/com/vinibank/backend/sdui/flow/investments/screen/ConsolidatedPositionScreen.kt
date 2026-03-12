@@ -2,27 +2,27 @@ package com.vinibank.backend.sdui.flow.investments.screen
 
 import com.vini.designsystemsdui.CacheStrategy
 import com.vini.designsystemsdui.SceneStrategy
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.ContinueAction
-import com.vini.designsystemsdui.component.Button
-import com.vini.designsystemsdui.component.Card
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.LazyColumn
-import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.Spacer
-import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.component.TopAppBar
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.ContinueAction
+import com.vini.designsystemsdui.ui.component.Button
+import com.vini.designsystemsdui.ui.component.Card
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.LazyColumn
+import com.vini.designsystemsdui.ui.component.Row
+import com.vini.designsystemsdui.ui.component.Spacer
+import com.vini.designsystemsdui.ui.component.Text
+import com.vini.designsystemsdui.ui.component.TopAppBar
 import com.vini.designsystemsdui.core.SdUiComposer
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.clickable
-import com.vini.designsystemsdui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
-import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.clickable
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.sdui.flow.investments.InvestmentsScreen
 import com.vinibank.backend.sdui.flow.investments.toBrl
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -43,10 +43,10 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
             content = {
                 products.forEach {
                     Card(
-                        modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20),
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 20),
                         content = {
                             Row(
-                                modifier = SdUiModifier().fillMaxWidth().clickable(
+                                modifier = Modifier.fillMaxWidth().clickable(
                                     action = ContinueAction(
                                         flowId = request.flow,
                                         nextScreenId = it.first,
@@ -58,12 +58,12 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                                 ),
                                 content = {
                                     Text(
-                                        modifier = SdUiModifier().padding(horizontal = 20)
+                                        modifier = Modifier.padding(horizontal = 20)
                                             .padding(vertical = 20),
                                         text = it.first
                                     )
                                     Text(
-                                        modifier = SdUiModifier().padding(horizontal = 20)
+                                        modifier = Modifier.padding(horizontal = 20)
                                             .padding(vertical = 20),
                                         text = it.second.toBrl()
                                     )
@@ -81,7 +81,7 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
         parameters: Map<String, String>,
         screenId: String,
     ): Template? {
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
@@ -89,7 +89,7 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
             cacheStrategy = CacheStrategy.NoCache(),
             content = {
                 LazyColumn(
-                    modifier = SdUiModifier().fillMaxHeight(),
+                    modifier = Modifier.fillMaxHeight(),
                     content = {
                         TopAppBar(
                             title = {
@@ -100,30 +100,30 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                             }
                         )
                         Column(
-                            modifier = SdUiModifier().fillMaxWidth().fillMaxHeight(),
+                            modifier = Modifier.fillMaxWidth().fillMaxHeight(),
                             horizontalAlignment = (
                                 HorizontalAlignmentOption.Center()
                             ),
                             content = {
-                                Spacer(modifier = SdUiModifier().size(10))
+                                Spacer(modifier = Modifier.size(10))
                                 Text(
-                                    modifier = SdUiModifier().padding(vertical = 10),
+                                    modifier = Modifier.padding(vertical = 10),
                                     text = "Consolidado",
                                     fontSize = 18f,
                                 )
                                 Card(
-                                    modifier = SdUiModifier().fillMaxWidth()
+                                    modifier = Modifier.fillMaxWidth()
                                         .padding(horizontal = 20),
                                     content = {
                                         Column(
-                                            modifier = SdUiModifier().padding(horizontal = 20)
+                                            modifier = Modifier.padding(horizontal = 20)
                                                 .padding(vertical = 20),
                                             horizontalAlignment = (
                                                 HorizontalAlignmentOption.Center()
                                             ),
                                             content = {
                                                 Row(
-                                                    modifier = SdUiModifier().fillMaxWidth(),
+                                                    modifier = Modifier.fillMaxWidth(),
                                                     horizontalArrangement = (
                                                         HorizontalArrangementOption.SpaceBetween()
                                                     ),
@@ -133,7 +133,7 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                                                     }
                                                 )
                                                 Row(
-                                                    modifier = SdUiModifier().fillMaxWidth(),
+                                                    modifier = Modifier.fillMaxWidth(),
                                                     horizontalArrangement = (
                                                         HorizontalArrangementOption.SpaceBetween()
                                                     ),
@@ -146,9 +146,9 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                                         )
                                     }
                                 )
-                                Spacer(modifier = SdUiModifier().size(20))
+                                Spacer(modifier = Modifier.size(20))
                                 Text(
-                                    modifier = SdUiModifier().padding(vertical = 10),
+                                    modifier = Modifier.padding(vertical = 10),
                                     text = "Consolidado por produto",
                                     fontSize = 18f
                                 )
@@ -160,7 +160,7 @@ class ConsolidatedPositionScreen : InvestmentsScreen {
                 Column(
                     content = {
                         Button(
-                            modifier = SdUiModifier().fillMaxWidth().padding(horizontal = 20)
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 20)
                                 .padding(vertical = 20),
                             content = {
                                 Text(text = "Investir")

@@ -1,33 +1,33 @@
 package com.vinibank.backend.sdui.flow.home.content
 
 import com.vini.designsystemsdui.CacheStrategy
-import com.vini.designsystemsdui.Template
-import com.vini.designsystemsdui.action.ToBooleanAction
-import com.vini.designsystemsdui.component.Button
-import com.vini.designsystemsdui.component.Card
-import com.vini.designsystemsdui.component.Column
-import com.vini.designsystemsdui.component.Icon
-import com.vini.designsystemsdui.component.IconButton
-import com.vini.designsystemsdui.component.Row
-import com.vini.designsystemsdui.component.Spacer
-import com.vini.designsystemsdui.component.Text
-import com.vini.designsystemsdui.modifier.SdUiModifier
-import com.vini.designsystemsdui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.modifier.option.FontWeightOption
-import com.vini.designsystemsdui.modifier.option.HorizontalAlignmentOption
-import com.vini.designsystemsdui.modifier.option.HorizontalArrangementOption
-import com.vini.designsystemsdui.modifier.option.IconOption
-import com.vini.designsystemsdui.modifier.option.ShapeOption
-import com.vini.designsystemsdui.modifier.option.VerticalAlignmentOption
-import com.vini.designsystemsdui.modifier.option.VerticalArrangementOption
-import com.vini.designsystemsdui.modifier.padding
-import com.vini.designsystemsdui.modifier.size
-import com.vini.designsystemsdui.modifier.width
-import com.vini.designsystemsdui.property.options.ButtonColorsModel
-import com.vini.designsystemsdui.property.options.CardColorsModel
-import com.vini.designsystemsdui.property.options.color.ColorOption
-import com.vini.designsystemsdui.template.DefaultTemplate
+import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.ui.action.ToBooleanAction
+import com.vini.designsystemsdui.ui.component.Button
+import com.vini.designsystemsdui.ui.component.Card
+import com.vini.designsystemsdui.ui.component.Column
+import com.vini.designsystemsdui.ui.component.Icon
+import com.vini.designsystemsdui.ui.component.IconButton
+import com.vini.designsystemsdui.ui.component.Row
+import com.vini.designsystemsdui.ui.component.Spacer
+import com.vini.designsystemsdui.ui.component.Text
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.option.FontWeightOption
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.option.IconOption
+import com.vini.designsystemsdui.ui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.padding
+import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.width
+import com.vini.designsystemsdui.ui.modifier.style.ButtonColorsModel
+import com.vini.designsystemsdui.ui.modifier.style.CardColorsModel
+import com.vini.designsystemsdui.ui.modifier.option.ColorOption
+import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.sdui.flow.UpdateSdUiTemplateRequest
 import com.vinibank.backend.sdui.flow.home.HomeScreen
 import com.vinibank.backend.sdui.flow.home.screen.CheckingAccountScreen.Companion.checkingAccountTopSdUiRequestUpdate
@@ -59,31 +59,31 @@ class BalanceContent : HomeScreen {
         parameters: Map<String, String>,
         screenId: String,
     ): Template? {
-        return DefaultTemplate(
+        return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
             version = "1",
             content = {
                 Card(
                     colors = CardColorsModel(
-                        containerColor = ColorOption.CustomColor(hex = 0xff2B8CEE),
+                        containerColor = ColorOption.CustomColor(hexValue = 0xff2B8CEE),
                         contentColor = ColorOption.White(),
-                        disabledContainerColor = ColorOption.CustomColor(hex = 0xff2B8CEE),
+                        disabledContainerColor = ColorOption.CustomColor(hexValue = 0xff2B8CEE),
                         disabledContentColor = ColorOption.White(),
                     ),
                     shape = ShapeOption.RoundedCorner(16),
                     content = {
                         Column(
-                            modifier = SdUiModifier().padding(24).fillMaxHeight(),
+                            modifier = Modifier.padding(24).fillMaxHeight(),
                             horizontalAlignment = HorizontalAlignmentOption.Center(),
                             verticalArrangement = VerticalArrangementOption.Center(),
                             content = {
                                 Row(
-                                    modifier = SdUiModifier().fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth(),
                                     verticalAlignment = VerticalAlignmentOption.Center(),
                                     content = {
                                         Column(
-                                            modifier = SdUiModifier().weight(10f),
+                                            modifier = Modifier.weight(10f),
                                             content = {
                                                 Text(
                                                     text = "Saldo atual",
@@ -103,10 +103,10 @@ class BalanceContent : HomeScreen {
                                             }
                                         )
                                         IconButton(
-                                            modifier = SdUiModifier().weight(1f),
+                                            modifier = Modifier.weight(1f),
                                             content = {
                                                 IconButton(
-                                                    modifier = SdUiModifier().weight(1f),
+                                                    modifier = Modifier.weight(1f),
                                                     content = {
                                                         Icon(icon = IconOption.Autorenew)
                                                     },
@@ -119,13 +119,13 @@ class BalanceContent : HomeScreen {
                                         )
                                     }
                                 )
-                                Spacer(modifier = SdUiModifier().size(24))
+                                Spacer(modifier = Modifier.size(24))
                                 Row(
-                                    modifier = SdUiModifier().fillMaxWidth(),
+                                    modifier = Modifier.fillMaxWidth(),
                                     horizontalArrangement = HorizontalArrangementOption.SpaceBetween(),
                                     content = {
                                         Button(
-                                            modifier = SdUiModifier().weight(1f),
+                                            modifier = Modifier.weight(1f),
                                             colors = ButtonColorsModel(
                                                 containerColor = ColorOption.White(),
                                                 contentColor = ColorOption.CustomColor(
@@ -137,10 +137,10 @@ class BalanceContent : HomeScreen {
                                             shape = ShapeOption.Rectangle(),
                                             content = {
                                                 Icon(
-                                                    modifier = SdUiModifier().size(16),
+                                                    modifier = Modifier.size(16),
                                                     icon = IconOption.Money
                                                 )
-                                                Spacer(modifier = SdUiModifier().size(8))
+                                                Spacer(modifier = Modifier.size(8))
                                                 Text(
                                                     text = "Transferir",
                                                     fontSize = 14f,
@@ -148,9 +148,9 @@ class BalanceContent : HomeScreen {
                                                 )
                                             }
                                         )
-                                        Spacer(modifier = SdUiModifier().width(12))
+                                        Spacer(modifier = Modifier.width(12))
                                         Button(
-                                            modifier = SdUiModifier().weight(1f),
+                                            modifier = Modifier.weight(1f),
                                             colors = ButtonColorsModel(
                                                 containerColor = ColorOption.White(),
                                                 contentColor = ColorOption.CustomColor(
@@ -162,10 +162,10 @@ class BalanceContent : HomeScreen {
                                             shape = ShapeOption.Rectangle(),
                                             content = {
                                                 Icon(
-                                                    modifier = SdUiModifier().size(16),
+                                                    modifier = Modifier.size(16),
                                                     icon = IconOption.Add
                                                 )
-                                                Spacer(modifier = SdUiModifier().size(8))
+                                                Spacer(modifier = Modifier.size(8))
                                                 Text(
                                                     text = "Investir",
                                                     fontSize = 14f,

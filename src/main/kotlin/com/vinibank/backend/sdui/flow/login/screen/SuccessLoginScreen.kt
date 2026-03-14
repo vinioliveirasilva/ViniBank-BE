@@ -1,7 +1,7 @@
 package com.vinibank.backend.sdui.flow.login.screen
 
 import com.vini.designsystemsdui.core.SdUiNode.Template
-import com.vini.designsystemsdui.ui.action.BusinessSuccessAction
+import com.vini.designsystemsdui.ui.action.NavigateAction
 import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vinibank.backend.sdui.flow.login.LoginScreen
 import com.vinibank.backend.sdui.model.SdUiRequest
@@ -21,9 +21,7 @@ class SuccessLoginScreen() : LoginScreen {
             flow = request.flow,
             stage = screenId,
             version = "1",
-            onAppearAction = BusinessSuccessAction(
-                screenData = request.screenData
-            ),
+            onAppearAction = NavigateAction(flow = "Home"),
             content = { }
         )
     }

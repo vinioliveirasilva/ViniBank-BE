@@ -133,14 +133,9 @@ class PersonalInfoScreen : SignUpScreen {
                         )
                     )
                     Column(
-                        modifier = Modifier.padding(horizontal = 20).fillMaxWidth()
-                            .fillMaxHeight(),
-                        horizontalAlignment = (
-                                HorizontalAlignmentOption.Center()
-                                ),
-                        verticalArrangement = (
-                                VerticalArrangementOption.Bottom()
-                                ),
+                        modifier = Modifier.padding(horizontal = 20).fillMaxSize(),
+                        horizontalAlignment = HorizontalAlignmentOption.Center(),
+                        verticalArrangement = VerticalArrangementOption.Bottom(),
                         content = {
                             Button(
                                 interactionModel = ButtonInteractionModel(

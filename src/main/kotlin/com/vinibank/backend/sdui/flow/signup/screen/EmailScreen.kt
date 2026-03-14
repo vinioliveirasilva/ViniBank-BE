@@ -1,6 +1,8 @@
 package com.vinibank.backend.sdui.flow.signup.screen
 
+import com.vini.designsystemsdui.InteractionId
 import com.vini.designsystemsdui.core.SdUiNode.Template
+import com.vini.designsystemsdui.exception.createSdUiPropertyUpdateException
 import com.vini.designsystemsdui.ui.action.CloseAction
 import com.vini.designsystemsdui.ui.action.ContinueAction
 import com.vini.designsystemsdui.ui.component.Button
@@ -10,18 +12,15 @@ import com.vini.designsystemsdui.ui.component.OutlinedButton
 import com.vini.designsystemsdui.ui.component.OutlinedTextInput
 import com.vini.designsystemsdui.ui.component.Text
 import com.vini.designsystemsdui.ui.component.TopAppBar
-import com.vini.designsystemsdui.exception.createSdUiPropertyUpdateException
-import com.vini.designsystemsdui.ui.modifier.Modifier
-import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
-import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
-import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
-import com.vini.designsystemsdui.ui.modifier.padding
-import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
-import com.vini.designsystemsdui.InteractionId
 import com.vini.designsystemsdui.ui.data.ButtonInteractionModel
 import com.vini.designsystemsdui.ui.data.OutlinedTextInputInteractionModel
-import com.vini.designsystemsdui.ui.component.SdUi
+import com.vini.designsystemsdui.ui.modifier.Modifier
+import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
 import com.vini.designsystemsdui.ui.modifier.fillMaxSize
+import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
+import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
+import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
+import com.vini.designsystemsdui.ui.modifier.padding
 import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vini.designsystemsdui.ui.validator.emailValidator
 import com.vinibank.backend.db.UserDatabase
@@ -125,11 +124,11 @@ class EmailScreen(
                                     },
                                     enabled = false,
                                     onClickAction = ContinueAction(
-                                        flowId = "SignUp",
+                                        flowId = request.flow,
                                         nextScreenId = "PersonalInfo",
                                         currentScreenId = screenId,
                                         screenRequestData = listOf(
-                                            "SignUp.Email.emailInput" to "email"
+                                            emailInputId.id to "email"
                                         ),
                                         screenData = request.screenData,
                                     ),

@@ -10,35 +10,35 @@ import com.vini.designsystemsdui.ui.action.ToModifierAction
 import com.vini.designsystemsdui.ui.action.toTypeAction
 import com.vini.designsystemsdui.ui.component.BackHandler
 import com.vini.designsystemsdui.ui.component.Button
-import com.vini.designsystemsdui.ui.data.ButtonInteractionModel
 import com.vini.designsystemsdui.ui.component.Column
 import com.vini.designsystemsdui.ui.component.Icon
 import com.vini.designsystemsdui.ui.component.IconButton
 import com.vini.designsystemsdui.ui.component.OutlinedTextInput
-import com.vini.designsystemsdui.ui.data.OutlinedTextInputInteractionModel
 import com.vini.designsystemsdui.ui.component.Spacer
 import com.vini.designsystemsdui.ui.component.Text
+import com.vini.designsystemsdui.ui.data.ButtonInteractionModel
+import com.vini.designsystemsdui.ui.data.OutlinedTextInputInteractionModel
 import com.vini.designsystemsdui.ui.modifier.Modifier
 import com.vini.designsystemsdui.ui.modifier.background
 import com.vini.designsystemsdui.ui.modifier.clip
 import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
 import com.vini.designsystemsdui.ui.modifier.height
+import com.vini.designsystemsdui.ui.modifier.option.ColorOption
 import com.vini.designsystemsdui.ui.modifier.option.FontWeightOption
 import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
 import com.vini.designsystemsdui.ui.modifier.option.IconOption
 import com.vini.designsystemsdui.ui.modifier.option.KeyboardOptionsOption
+import com.vini.designsystemsdui.ui.modifier.option.OutlinedTextFieldColorsModel
 import com.vini.designsystemsdui.ui.modifier.option.ShapeOption
+import com.vini.designsystemsdui.ui.modifier.option.TextSelectionColorsModel
 import com.vini.designsystemsdui.ui.modifier.option.VerticalArrangementOption
 import com.vini.designsystemsdui.ui.modifier.option.VisualTransformationOption
 import com.vini.designsystemsdui.ui.modifier.padding
 import com.vini.designsystemsdui.ui.modifier.size
+import com.vini.designsystemsdui.ui.modifier.style.ButtonColorsModel
 import com.vini.designsystemsdui.ui.modifier.verticalScroll
 import com.vini.designsystemsdui.ui.modifier.visible
 import com.vini.designsystemsdui.ui.modifier.width
-import com.vini.designsystemsdui.ui.modifier.style.ButtonColorsModel
-import com.vini.designsystemsdui.ui.modifier.option.OutlinedTextFieldColorsModel
-import com.vini.designsystemsdui.ui.modifier.option.TextSelectionColorsModel
-import com.vini.designsystemsdui.ui.modifier.option.ColorOption
 import com.vini.designsystemsdui.ui.template.ScreenTemplate
 import com.vini.designsystemsdui.ui.validator.allTrueValidator
 import com.vini.designsystemsdui.ui.validator.emailValidator
@@ -46,6 +46,7 @@ import com.vini.designsystemsdui.ui.validator.minLengthValidator
 import com.vinibank.backend.db.UserDatabase
 import com.vinibank.backend.db.UserLoginDb
 import com.vinibank.backend.sdui.flow.login.LoginScreen
+import com.vinibank.backend.sdui.flow.signup.SignUpContract
 import com.vinibank.backend.sdui.model.SdUiRequest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -125,18 +126,18 @@ class MainLoginScreen(
                                             horizontal = outlinedTextFieldsPadding
                                         ),
                                         colors = OutlinedTextFieldColorsModel(
-                                                    focusedBorderColor = ColorOption.Transparent(),
-                                                    unfocusedBorderColor = ColorOption.Transparent(),
-                                                    focusedContainerColor = ColorOption.LightGreen(),
-                                                    unfocusedContainerColor = ColorOption.LightGreen(),
-                                                    focusedPlaceholderColor = ColorOption.Black(),
-                                                    unfocusedPlaceholderColor = ColorOption.Black(),
-                                                    cursorColor = ColorOption.CaribbeanGreen(),
-                                                    textSelectionColors = TextSelectionColorsModel(
-                                                        backgroundColor = ColorOption.CaribbeanGreen(),
-                                                        handleColor = ColorOption.CaribbeanGreen()
-                                                    )
-                                                ),
+                                            focusedBorderColor = ColorOption.Transparent(),
+                                            unfocusedBorderColor = ColorOption.Transparent(),
+                                            focusedContainerColor = ColorOption.LightGreen(),
+                                            unfocusedContainerColor = ColorOption.LightGreen(),
+                                            focusedPlaceholderColor = ColorOption.Black(),
+                                            unfocusedPlaceholderColor = ColorOption.Black(),
+                                            cursorColor = ColorOption.CaribbeanGreen(),
+                                            textSelectionColors = TextSelectionColorsModel(
+                                                backgroundColor = ColorOption.CaribbeanGreen(),
+                                                handleColor = ColorOption.CaribbeanGreen()
+                                            )
+                                        ),
                                         shape = ShapeOption.Circle(),
                                         text = "vinioliveirasilva@outlook.com",
                                         prefix = {
@@ -165,18 +166,18 @@ class MainLoginScreen(
                                             horizontal = outlinedTextFieldsPadding
                                         ),
                                         colors = OutlinedTextFieldColorsModel(
-                                                    focusedBorderColor = ColorOption.Transparent(),
-                                                    unfocusedBorderColor = ColorOption.Transparent(),
-                                                    focusedContainerColor = ColorOption.LightGreen(),
-                                                    unfocusedContainerColor = ColorOption.LightGreen(),
-                                                    focusedPlaceholderColor = ColorOption.Black(),
-                                                    unfocusedPlaceholderColor = ColorOption.Black(),
-                                                    cursorColor = ColorOption.CaribbeanGreen(),
-                                                    textSelectionColors = TextSelectionColorsModel(
-                                                        backgroundColor = ColorOption.CaribbeanGreen(),
-                                                        handleColor = ColorOption.CaribbeanGreen()
-                                                    )
-                                                ),
+                                            focusedBorderColor = ColorOption.Transparent(),
+                                            unfocusedBorderColor = ColorOption.Transparent(),
+                                            focusedContainerColor = ColorOption.LightGreen(),
+                                            unfocusedContainerColor = ColorOption.LightGreen(),
+                                            focusedPlaceholderColor = ColorOption.Black(),
+                                            unfocusedPlaceholderColor = ColorOption.Black(),
+                                            cursorColor = ColorOption.CaribbeanGreen(),
+                                            textSelectionColors = TextSelectionColorsModel(
+                                                backgroundColor = ColorOption.CaribbeanGreen(),
+                                                handleColor = ColorOption.CaribbeanGreen()
+                                            )
+                                        ),
                                         shape = ShapeOption.Circle(),
                                         keyboardOptions = KeyboardOptionsOption.Password,
                                         interactionModel = OutlinedTextInputInteractionModel(
@@ -324,9 +325,9 @@ class MainLoginScreen(
                                                     flow = "SignUp",
                                                     actionId = loginActionId,
                                                     screenData = request.screenData,
-                                                    screenRequestData = listOf(
-                                                        emailInputId.id to "email",
-                                                        passwordInputId.id to "password"
+                                                    contract = SignUpContract(
+                                                        email = emailInputId,
+                                                        password = passwordInputId,
                                                     )
                                                 ),
                                             )

@@ -11,7 +11,6 @@ import com.vini.designsystemsdui.ui.component.Spacer
 import com.vini.designsystemsdui.ui.component.Text
 import com.vini.designsystemsdui.ui.component.TopAppBar
 import com.vini.designsystemsdui.ui.modifier.Modifier
-import com.vini.designsystemsdui.ui.modifier.fillMaxHeight
 import com.vini.designsystemsdui.ui.modifier.fillMaxWidth
 import com.vini.designsystemsdui.ui.modifier.option.HorizontalAlignmentOption
 import com.vini.designsystemsdui.ui.modifier.padding
@@ -36,11 +35,8 @@ class PasswordScreen(
 ) : SignUpScreen {
     override val screenId: String = "Password"
 
-    private val passwordInputId = InteractionId<String>("SignUp.${screenId}.passwordInput")
-    private val isPasswordValid = InteractionId<Boolean>("SignUp.${screenId}.isPasswordValid")
-
     override fun getRule(request: SdUiRequest) {
-        val model = Json.decodeFromJsonElement<PasswordScreenState>(
+        val model = Json.decodeFromJsonElement<SignUpState>(
             request.screenData ?: JsonObject(emptyMap())
         )
         userDb.addUser(model.name, model.email, model.password, model.phone)
@@ -51,6 +47,10 @@ class PasswordScreen(
         parameters: Map<String, String>,
         screenId: String,
     ): Template? {
+
+        val passwordInputId = InteractionId<String>("SignUp.${screenId}.passwordInput")
+        val isPasswordValid = InteractionId<Boolean>("SignUp.${screenId}.isPasswordValid")
+
         return ScreenTemplate(
             flow = request.flow,
             stage = screenId,
@@ -76,14 +76,9 @@ class PasswordScreen(
                         isPasswordValid = false
                     )
                     Column(
-                        modifier = Modifier.padding(horizontal = 20).fillMaxWidth()
-                            .fillMaxHeight(),
-                        horizontalAlignment = (
-                                HorizontalAlignmentOption.Center()
-                                ),
-                        verticalArrangement = (
-                                VerticalArrangementOption.Bottom()
-                                ),
+                        modifier = Modifier.padding(horizontal = 20).fillMaxSize(),
+                        horizontalAlignment = HorizontalAlignmentOption.Center(),
+                        verticalArrangement = VerticalArrangementOption.Bottom(),
                         content = {
                             Button(
                                 interactionModel = ButtonInteractionModel(
